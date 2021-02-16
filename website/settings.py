@@ -19,7 +19,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # load sensitive variabeles from ../.env
 # .env should contain the following:
-# 
+# DJANGO_DEBUG - FALSE enables production configuration
+# SECRET_KEY - ONLY for production
+# DATABASE_NAME - ONLY for production
+# DATABASE_USERNAME - ONLY for production
+# DATABASE_PASSWORD - ONLY for production
+# DATABASE_HOST - ONLY for production
+# DATABASE_PORT - ONLY for production
 import environ
 env = environ.Env()
 environ.Env.read_env("../.env")
