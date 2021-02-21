@@ -3,7 +3,7 @@ The task of the PSU-Server in our Plant Supply Unit project is to coordinate all
 The server software is based on django (djangoproject.com) and therefore is mainly a website with some additional tweaks to control the PSUs.
 
 # Development Installation
-For getting started you have to install python (python.org). After install python it is highly recommended to install virtualenv. You can do this by running the following command (given python is added to yourt PATH):
+For getting started you have to install python (python.org). After install python it is highly recommended to install virtualenv. You can do this by running the following command (given python is added to your PATH):
 
     python -m pip install virtualenv
 

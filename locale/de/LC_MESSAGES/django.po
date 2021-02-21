@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-16 23:51+0100\n"
+"POT-Creation-Date: 2021-02-21 13:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,10 +17,42 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\website\settings.py:127
+#: .\authentification\managers.py:20
+msgid "The Email must be set"
+msgstr "Es muss eine E-Mail-Adresse angegeben werden."
+
+#: .\authentification\managers.py:38
+msgid "Superuser must have is_staff=True."
+msgstr "Adminstratoren benötigen is_staff=True."
+
+#: .\authentification\managers.py:40
+msgid "Superuser must have is_superuser=True."
+msgstr "Adminstratoren benötigen is_superuser=True."
+
+#: .\authentification\models.py:17
+msgid "e-mail address"
+msgstr "E-Mail Adresse"
+
+#: .\authentification\models.py:20
+msgid "first name"
+msgstr "Vorname"
+
+#: .\authentification\models.py:22
+msgid "last name"
+msgstr "Nachname"
+
+#: .\authentification\models.py:37
+msgid "user"
+msgstr "Benutzer:in"
+
+#: .\authentification\models.py:38
+msgid "users"
+msgstr "Benutzer:innen"
+
+#: .\website\settings.py:131
 msgid "de"
 msgstr "Deutsch"
 
-#: .\website\settings.py:128
+#: .\website\settings.py:132
 msgid "en"
 msgstr "Englisch"
