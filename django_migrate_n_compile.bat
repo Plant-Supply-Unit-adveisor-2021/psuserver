@@ -14,4 +14,10 @@ echo  -------------------------------------
 echo.
 call django-admin makemessages -l de
 call django-admin compilemessages -l de
+echo.
+echo  -------------------------------------
+echo    Collect static files
+echo  -------------------------------------
+echo.
+call python manage.py collectstatic
 pause

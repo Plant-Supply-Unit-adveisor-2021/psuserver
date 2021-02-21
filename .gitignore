@@ -62,6 +62,8 @@ db.sqlite3
 db.sqlite3-journal
 # ignore databases
 *.db
+# ignore loaded staticfiles
+staticfiles/
 
 # Flask stuff:
 instance/

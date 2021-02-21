@@ -19,6 +19,7 @@ Next up you will need to run some initial commands to initialize the django app.
     source ./.venv/Scripts/activate
     python manage.py makemigrations
     python manage.py migrate
+    python manage.py collectstatic
     django-admin makemessages -l de
     django-admin compilemessages -l de
 
