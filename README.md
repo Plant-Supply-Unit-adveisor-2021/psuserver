@@ -25,8 +25,12 @@ Next up you will need to run some initial commands to initialize the django app.
 Now your installation should be complete.
 
 # Using the Development Server
-To get started you should be familiar with the concept of the virtual environment which is created in the section above. When using the command line to start the development server, to do migrations, etc. You have to activate the virtual enviromnent frist. On Windows use `.\.venv\Scripts\activate` to do so. On Linux/MacOS you will achieve the same by typing `soucre ./.venv/Scripts/activate`. You can always see that your environment is active via the `(.venv)` tag which is displayed above/beside the current path on the command line. To start your development server you have to use the following command:
+To get started you should be familiar with the concept of the virtual environment which is created in the section above. When using the command line to start the development server, to do migrations, etc. You have to activate the virtual enviromnent frist. On Windows use `.\.venv\Scripts\activate` to do so. On Linux/MacOS you will achieve the same by typing `soucre ./.venv/Scripts/activate`. You can always see that your environment is active via the `(.venv)` tag which is displayed above/beside the current path on the command line. To start your development server you first of all have to create a superuser via the follwoing command:
 
+    python manage.py createsuperuser
+
+Afterwards you can start your server through the runserver command:
+    
     python manage.py runserver
 
-Now you can head over to [localhost:8000](http://127.0.0.1:8000/) to take a glance at the website.
+Now you can head over to [localhost:8000](http://127.0.0.1:8000/) to take a glance at the website. The admin panel will be accessible at [localhost:8000/admin](http://127.0.0.1:8000/admin)
