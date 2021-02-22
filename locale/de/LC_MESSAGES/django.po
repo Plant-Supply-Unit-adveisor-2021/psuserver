@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-21 14:34+0100\n"
+"POT-Creation-Date: 2021-02-22 21:39+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,6 +20,10 @@ msgstr ""
 #: .\authentification\apps.py:7
 msgid "Authentification"
 msgstr "Authentifikation"
+
+#: .\authentification\forms.py:25
+msgid "Mail and password do not match or your account is not activate yet."
+msgstr "E-Mail und Passwort passen nicht zueinander oder dein Konto ist noch nicht aktiviert."
 
 #: .\authentification\managers.py:20
 msgid "The Email must be set"

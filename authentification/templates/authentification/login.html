@@ -2,4 +2,10 @@
 
 {% block body %}
     HELLO WORLD
+    <form enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        {{ login_form }}
+        <input type="submit" name="" value="Einloggen"  class="btn btn-primary">
+        <a href="" class="btn btn-warning float-right">Passwort vergessen</a>
+    </form>
 {% endblock body %}
