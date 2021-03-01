@@ -12,12 +12,16 @@
 
         <!-- master stylesheet -->
         <link rel="stylesheet" href="{% static 'style/master.css' %}">
+        <!--<link rel="stylesheet" href="{% static 'style/darkmode.css' %}">-->
         
         {% block head %}{% endblock %}
     </head>
     <body>
         <header id="mainheader">
-            {% block header %}{% trans "Welcome to Team Plant Supply Unit" %}{% endblock %}
+            {% block header %}
+                {% trans "Welcome to Team Plant Supply Unit" %}
+            {% endblock %}
+            <div id="nav-user"></div>
         </header>
         
         <div id="body-wrapper">
