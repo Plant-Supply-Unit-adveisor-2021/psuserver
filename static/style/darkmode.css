@@ -1,0 +1,51 @@
+/*
+-------------------------------------------------------------------------------------------------
+
+    Stylesheet overwriting the normal color table
+
+-------------------------------------------------------------------------------------------------
+*/
+
+/*
+-------------------------------------------------------------------------------------------------
+    Color-Definitions
+
+    background-color -> bcolor
+    font-color -> fcolor
+-------------------------------------------------------------------------------------------------
+*/
+:root {
+    --body-bcolor: #222;
+    --body-fcolor: #fff;
+    --body-wrapper-bcolor: #555;
+    --body-wrapper-fcolor: #fff;
+    --header-bcolor: #0065BD;
+    --header-fcolor: #fff;
+    --footer-bcolor: #0065BD;
+    --footer-fcolor: #fff;
+
+
+    --link-fcolor: #A2AD00;
+    --link-fcolor-action: #D1DF00;
+    --btn-bcolor: ;
+    --btn-fcolor: ;
+    --btn-bcolor-action: ;
+    --btn-fcolor-action: ;
+    --btn-primary-bcolor: #0065BD;
+    --btn-primary-fcolor: #fff;
+    --btn-primary-bcolor-action: #0073D7;
+    --btn-primary-fcolor-action: #fff;
+    --btn-secondary-bcolor: ;
+    --btn-secondary-fcolor: ;
+    --btn-secondary-bcolor-action: ;
+    --btn-secondary-fcolor-action: ;
+    --btn-warning-bcolor: ;
+    --btn-warning-fcolor: ;
+    --btn-warning-bcolor-action: ;
+    --btn-warning-fcolor-action: ;
+
+    --input-bcolor: #fff;
+    --input-fcolor: #111;
+    --input-border-color: #ccc;
+    --input-border-color-action: #0073D7;
+}
