@@ -9,19 +9,45 @@
 /*
 -------------------------------------------------------------------------------------------------
     Color-Definitions
+
+    background-color -> bcolor
+    font-color -> fcolor
 -------------------------------------------------------------------------------------------------
 */
 :root {
-    --body-bcolor: #bbb;
+    --body-bcolor: #ccc;
     --body-fcolor: #111;
-    --body-wrapper-bcolor: #eee;
+    --body-wrapper-bcolor: #fff;
     --body-wrapper-fcolor: #111;
+    --header-bcolor: #0065BD;
+    --header-fcolor: #fff;
     --footer-bcolor: #0065BD;
     --footer-fcolor: #fff;
 
 
     --link-fcolor: #A2AD00;
     --link-fcolor-action: #D1DF00;
+    --btn-bcolor: ;
+    --btn-fcolor: ;
+    --btn-bcolor-action: ;
+    --btn-fcolor-action: ;
+    --btn-primary-bcolor: #0065BD;
+    --btn-primary-fcolor: #fff;
+    --btn-primary-bcolor-action: #0073D7;
+    --btn-primary-fcolor-action: #fff;
+    --btn-secondary-bcolor: ;
+    --btn-secondary-fcolor: ;
+    --btn-secondary-bcolor-action: ;
+    --btn-secondary-fcolor-action: ;
+    --btn-warning-bcolor: ;
+    --btn-warning-fcolor: ;
+    --btn-warning-bcolor-action: ;
+    --btn-warning-fcolor-action: ;
+
+    --input-bcolor: #fff;
+    --input-fcolor: #111;
+    --input-border-color: #ccc;
+    --input-border-color-action: #0073D7;
 }
 
 /*
@@ -29,6 +55,8 @@
     General elements
 -------------------------------------------------------------------------------------------------
 */
+
+/* styling of hyerlinks */
 
 a, a:visited {
     color: var(--link-fcolor);
@@ -56,6 +84,95 @@ a.thicken::after {
 a.thicken:hover, a.thicken:focus {
     font-weight: 600;
     text-decoration: none;
+}
+
+/* styling of buttons */
+/* There are four types of buttons: standard, primary, secondary and warning */
+/* All buttons need the standard class */
+
+.btn, .btn:visited {
+    display: block;
+
+    margin: 1rem 0 1rem 0;
+    border: 0;
+    padding: .5rem 1rem;
+
+    background-color: var(--btn-bcolor);
+    color: var(--btn-fcolor);
+
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.btn:focus, .btn:hover {
+    background-color: var(--btn-bcolor-action);
+    color: var(--btn-fcolor-action);
+
+    cursor: pointer;
+}
+
+.btn.btn-primary, .btn.btn-primary:visited {
+    background-color: var(--btn-primary-bcolor);
+    color: var(--btn-primary-fcolor);
+}
+
+.btn.btn-primary:focus, .btn.btn-primary:hover {
+    background-color: var(--btn-primary-bcolor-action);
+    color: var(--btn-primary-fcolor-action);
+}
+
+.btn.btn-secondary, .btn.btn-secondary:visited {
+    background-color: var(--btn-secondary-bcolor);
+    color: var(--btn-secondary-fcolor);
+}
+
+.btn.btn-secondary:focus, .btn.btn-secondary:hover {
+    background-color: var(--btn-secondary-bcolor-action);
+    color: var(--btn-secondary-fcolor-action);
+}
+
+.btn.btn-warning, .btn.btn-warning:visited {
+    background-color: var(--btn-warning-bcolor);
+    color: var(--btn-warning-fcolor);
+}
+
+.btn.btn-warning:focus, .btn.btn-warning:hover {
+    background-color: var(--btn-warning-bcolor-action);
+    color: var(--btn-warning-fcolor-action);
+}
+
+/* styling of inputs */
+
+input {
+    text-decoration: none;
+    font-size: 1rem;
+
+    box-shadow: none;
+    text-shadow: none;
+    outline: none;
+}
+
+
+input[type="text"], input[type="email"], input[type="password"] {
+    display: block;
+
+    width: 100%;
+    max-width: 400px;
+
+    margin: .25rem 0 .5rem 0;
+    padding: .5rem 1rem;
+
+    border: 1px solid var(--input-border-color);
+    border-radius: .2rem;
+
+    background-color: var(--input-bcolor);
+    color: var(--input-fcolor);
+}
+
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus,
+input[type="text"]:hover, input[type="email"]:hover, input[type="password"]:hover {
+    border: 1px solid var(--input-border-color-action);
+    border-radius: .2rem;
 }
 
 /*
@@ -103,12 +220,21 @@ div#body-wrapper {
 
 /* Header */
 
+header#mainheader {
+    padding: 1rem 2.5rem;
+
+    background-color: var(--header-bcolor);
+    color: var(--header-fcolor);
+
+    font-size: 1.4rem;
+}
+
 /* Footer */
 footer#mainfooter {
     display: flex;
     flex-direction: row;
 
-    padding: 1.5rem;
+    padding: 1.5rem 2.5rem;
 
     background-color: var(--footer-bcolor);
     color: var(--footer-fcolor);
