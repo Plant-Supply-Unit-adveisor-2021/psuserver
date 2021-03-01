@@ -6,3 +6,126 @@
 -------------------------------------------------------------------------------------------------
 */
 
+/*
+-------------------------------------------------------------------------------------------------
+    Color-Definitions
+-------------------------------------------------------------------------------------------------
+*/
+:root {
+    --body-bcolor: #bbb;
+    --body-fcolor: #111;
+    --body-wrapper-bcolor: #eee;
+    --body-wrapper-fcolor: #111;
+    --footer-bcolor: #0065BD;
+    --footer-fcolor: #fff;
+
+
+    --link-fcolor: #A2AD00;
+    --link-fcolor-action: #D1DF00;
+}
+
+/*
+-------------------------------------------------------------------------------------------------
+    General elements
+-------------------------------------------------------------------------------------------------
+*/
+
+a, a:visited {
+    color: var(--link-fcolor);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover, a:focus {
+    color: var(--link-fcolor-action);
+    text-decoration: underline;
+}
+
+/* class thicken -> link will get bolder on hover */
+
+a.thicken::after {
+    display: block;
+    content: attr(title);
+    font-weight: 600;
+    height: 1px;
+    color: transparent;
+    overflow: hidden;
+    visibility: hidden;
+}
+
+a.thicken:hover, a.thicken:focus {
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/*
+-------------------------------------------------------------------------------------------------
+    Body/Header/Footer
+-------------------------------------------------------------------------------------------------
+*/
+body {
+    display: flex;
+    flex-direction: column;
+
+    min-height: 100vh;
+    width: 100vw;
+
+    margin: 0;
+    border: 0;
+    padding: 0;
+
+    background-color: var(--body-bcolor);
+    color: var(--body-fcolor);
+
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: left;
+}
+
+div#body-wrapper {
+    display: block;
+    flex: 1;
+
+    max-width: 1600px;
+    width: calc(100% - 10rem);
+    box-sizing: border-box;
+
+    margin: 0 auto;
+    border: 0;
+    padding: 2rem 3rem;
+
+    background-color: var(--body-wrapper-bcolor);
+    color: var(--body-wrapper-fcolor);
+
+}
+
+/* Header */
+
+/* Footer */
+footer#mainfooter {
+    display: flex;
+    flex-direction: row;
+
+    padding: 1.5rem;
+
+    background-color: var(--footer-bcolor);
+    color: var(--footer-fcolor);
+}
+
+footer#mainfooter > div {
+    padding: 0rem 1rem;
+}
+
+div#right-footer{
+    margin: 0 0 0 auto;
+}
+
+footer#mainfooter a, footer#mainfooter > a:visited {
+    color: var(--footer-fcolor);
+}
+
+footer#mainfooter a:focus, footer#mainfooter > a:hover {
+    color: var(--footer-fcolor);
+}

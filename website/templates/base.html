@@ -20,13 +20,19 @@
             {% block header %}{% endblock %}
         </header>
         
-        <div id="wrapper">
+        <div id="body-wrapper">
             {% block body %}{% endblock %}
         </div>
 
         <footer id="mainfooter">
             <div id="left-footer">&copy; 2021 Team Plant Supply Unit - TUM adveisor program</div>
-            <div id="right-footer"><a href="/admin">{% trans "administration" %}</a></div>
+            <div id="right-footer"><a href="/admin" class="thicken">{% trans "administration" %}</a></div>
         </footer>
     </body>
+    <script type="text/javascript" charset="utf-8">
+        // add to all links the title property in order to prevent repositioning on making the fond bold on hovering
+        var As = document.getElementsByTagName("a");
+        for(i=0; i < As.length; i++)
+            As[i].setAttribute("title", As[i].innerText);
+    </script>
 </html>
