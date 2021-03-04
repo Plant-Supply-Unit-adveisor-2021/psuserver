@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block title %}Login - Plant Supply Unit{% endblock title %}
 
@@ -7,6 +8,6 @@
         {% csrf_token %}
         <div class="alert"></div>
         {{ login_form }}
-        <input type="submit" name="" value="Einloggen"  class="btn btn-primary">
+        <input type="submit" name="" value="{% trans "Login" %}"  class="btn btn-primary">
     </form>
 {% endblock body %}

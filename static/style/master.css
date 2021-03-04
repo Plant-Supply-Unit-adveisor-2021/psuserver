@@ -48,6 +48,12 @@
     --input-fcolor: #111;
     --input-border-color: #ccc;
     --input-border-color-action: #0073D7;
+
+    --dropdown-bcolor: #fff;
+    --dropdown-fcolor: #111;
+    --dropdown-bcolor-active: #d9d9d9;
+    --dropdown-fcolor-active: #111;
+    --dropdown-shadow-color: #999;
 }
 
 /*
@@ -175,6 +181,43 @@ input[type="text"]:hover, input[type="email"]:hover, input[type="password"]:hove
     border-radius: .2rem;
 }
 
+/* styling of drop downs */
+
+div.drop-down {
+    display: none;
+    min-width: 125px;
+
+    background-color: var(--dropdown-bcolor);
+    box-shadow: 0 5px 15px var(--dropdown-shadow-color);
+
+    color: var(--dropdown-fcolor);
+    font-size: 1rem;
+}
+
+div.drop-down.active {
+    display: block;
+}
+
+div.drop-down .drop-down-element, div.drop-down .drop-down-element:visited {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+
+    margin: 0;
+    border: 0;
+    padding: .5rem 1rem;
+
+    color: var(--dropdown-fcolor);
+    text-decoration: none;
+    outline: none;
+}
+
+
+div.drop-down .drop-down-element:focus, div.drop-down .drop-down-element:hover {
+    background-color: var(--dropdown-bcolor-active);
+    color: var(--dropdown-fcolor-active);
+}
+
 /*
 -------------------------------------------------------------------------------------------------
     Body/Header/Footer
@@ -266,23 +309,13 @@ footer#mainfooter a:focus, footer#mainfooter > a:hover {
 div#nav-user {
     position: absolute;
     top: 13px;
-    right: 20px;
+    right: 30px;
 }
 
 div#nav-user-drop-down {
-    display: none;
-
     position: absolute;
-    top: calc(30px + 1.4rem);
-    right: 20px;
-
-    background-color: #f00;
-
-    font-size: 1rem;
-}
-
-div#nav-user-drop-down.active {
-    display: block;
+    top: calc(31px + 1.4rem);
+    right: -10px;
 }
 
 /* user menu toggle */
@@ -303,6 +336,10 @@ a#nav-user-toggle, a#nav-user-toggle:visited {
     cursor: pointer;
 }
 
+a#nav-user-toggle.logged-in {
+    background-image: url("../icons/user_logged_in.png");
+}
+
 a#nav-user-toggle:focus, a#nav-user-toggle:hover, a#nav-user-toggle.active {
     opacity: 1;
 }
@@ -316,5 +353,9 @@ a#nav-user-toggle::after {
     border-right: .3em solid transparent;
     border-bottom: 0;
     border-left: .3em solid transparent;
+}
+
+a#nav-user-toggle.logged-in::after {
+    border-top-color: #E37222;
 }
 
