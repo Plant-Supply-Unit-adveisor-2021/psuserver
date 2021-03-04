@@ -309,7 +309,7 @@ a#nav-user-toggle:focus, a#nav-user-toggle:hover, a#nav-user-toggle.active {
 
 a#nav-user-toggle::after {
     display: inline-block;
-    margin-left: 1.75em;
+    margin-left: 1.65em;
     vertical-align: .255em;
     content: "";
     border-top: .3em solid #ccc;
