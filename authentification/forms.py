@@ -17,6 +17,11 @@ class LoginForm(forms.Form):
     email = forms.EmailField(required=True)
     password = forms.CharField(widget=forms.PasswordInput, required=True)
 
+    def __init__(self, *args, **kwargs):
+        super(LoginForm, self).__init__(*args, **kwargs)
+        self.fields['email'].label = _("e-mail")
+        self.fields['password'].label = _("password")
+
     def clean(self):
         email = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password')
