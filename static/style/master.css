@@ -221,7 +221,7 @@ div#body-wrapper {
 /* Header */
 
 header#mainheader {
-    padding: 1rem 2.5rem;
+    padding: 16px 40px;
 
     background-color: var(--header-bcolor);
     color: var(--header-fcolor);
@@ -255,3 +255,66 @@ footer#mainfooter a, footer#mainfooter > a:visited {
 footer#mainfooter a:focus, footer#mainfooter > a:hover {
     color: var(--footer-fcolor);
 }
+
+/*
+-------------------------------------------------------------------------------------------------
+    main navigation
+-------------------------------------------------------------------------------------------------
+*/
+
+/* user menu */
+div#nav-user {
+    position: absolute;
+    top: 13px;
+    right: 20px;
+}
+
+div#nav-user-drop-down {
+    display: none;
+
+    position: absolute;
+    top: calc(30px + 1.4rem);
+    right: 20px;
+
+    background-color: #f00;
+
+    font-size: 1rem;
+}
+
+div#nav-user-drop-down.active {
+    display: block;
+}
+
+/* user menu toggle */
+a#nav-user-toggle, a#nav-user-toggle:visited {
+    display: block;
+
+    width: 2.5rem;
+    height: 2.5rem;
+
+    margin: auto 1rem;
+
+    background-image: url("../icons/user_logged_out.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.7;
+
+    cursor: pointer;
+}
+
+a#nav-user-toggle:focus, a#nav-user-toggle:hover, a#nav-user-toggle.active {
+    opacity: 1;
+}
+
+a#nav-user-toggle::after {
+    display: inline-block;
+    margin-left: 1.75em;
+    vertical-align: .255em;
+    content: "";
+    border-top: .3em solid #ccc;
+    border-right: .3em solid transparent;
+    border-bottom: 0;
+    border-left: .3em solid transparent;
+}
+

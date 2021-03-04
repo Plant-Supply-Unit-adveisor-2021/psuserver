@@ -5,6 +5,7 @@
 {% block body %}
     <form enctype="multipart/form-data" method="POST">
         {% csrf_token %}
+        <div class="alert"></div>
         {{ login_form }}
         <input type="submit" name="" value="Einloggen"  class="btn btn-primary">
     </form>
