@@ -18,11 +18,8 @@ from django.urls import path
 from django.conf.urls import include, url
 from django.conf.urls.i18n import i18n_patterns
 
-from authentification.views import login_view
-
-
 urlpatterns = i18n_patterns(
-    path('admin/', admin.site.urls, name="admin"),
-    path('authentification/', include('authentification.urls')),
-    path('', login_view, name="index")
+    path('admin/', admin.site.urls),
+    path('authentification/', include('authentification.urls', namespace='auth')),
+    path('', include('homepage.urls', namespace='homepage'))
 )
