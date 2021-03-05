@@ -1,5 +1,7 @@
 {% load static %}
 {% load i18n %}
+{% load extra_utils %}
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -39,7 +41,11 @@
 
         <footer id="mainfooter">
             <div id="left-footer">&copy; 2021 Team Plant Supply Unit - TUM adveisor program</div>
-            <div id="right-footer"><a href="{% url 'admin:index' %}" class="thicken">{% trans "administration" %}</a></div>
+            <div id="right-footer">
+                <a href="{% translate_url 'de' %}" class="thicken align-right">Deutsch</a>
+                &nbsp;-&nbsp;
+                <a href="{% translate_url 'en' %}" class="thicken">English</a>
+            </div>
         </footer>
 
         <script src="{% static 'javascript/master.js' %}" type="text/javascript" charset="utf-8"></script>

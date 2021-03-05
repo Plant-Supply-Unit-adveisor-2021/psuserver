@@ -62,6 +62,19 @@
 -------------------------------------------------------------------------------------------------
 */
 
+/* basic classes */
+.align-left {
+    text-align: left;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.align-right {
+    text-align: right;
+}
+
 /* styling of hyerlinks */
 
 a, a:visited {
@@ -79,6 +92,9 @@ a:hover, a:focus {
 
 a.thicken::after {
     display: block;
+    position: relative;
+    top: 0;
+    left: 0;
     content: attr(title);
     font-weight: 600;
     height: 1px;
@@ -288,6 +304,8 @@ footer#mainfooter > div {
 }
 
 div#right-footer{
+    display: flex;
+    flex-direction: row;
     margin: 0 0 0 auto;
 }
 

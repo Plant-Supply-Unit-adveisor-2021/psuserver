@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-04 19:13+0100\n"
+"POT-Creation-Date: 2021-03-05 18:51+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,6 @@ msgid "Authentification"
 msgstr "Authentifikation"
 
 #: .\authentification\forms.py:22
-#| msgid "e-mail address"
 msgid "e-mail"
 msgstr "E-Mail Adresse"
 
@@ -69,22 +68,22 @@ msgid "users"
 msgstr "Benutzer:innen"
 
 #: .\authentification\templates\authentification\login.html:11
-#: .\website\templates\base.html:30
+#: .\website\templates\base.html:32
 msgid "Login"
 msgstr "Einloggen"
 
-#: .\website\settings.py:132
+#: .\website\settings.py:135
 msgid "de"
 msgstr "Deutsch"
 
-#: .\website\settings.py:133
+#: .\website\settings.py:136
 msgid "en"
 msgstr "Englisch"
 
-#: .\website\templates\base.html:22
+#: .\website\templates\base.html:24
 msgid "Welcome to Team Plant Supply Unit"
 msgstr "Willkommen beim Team Plant Supply Unit"
 
-#: .\website\templates\base.html:28 .\website\templates\base.html:42
+#: .\website\templates\base.html:30
 msgid "administration"
 msgstr "Administration"

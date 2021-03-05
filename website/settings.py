@@ -61,6 +61,7 @@ else:
 
 INSTALLED_APPS = [
     'authentification',
+    'homepage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -94,6 +95,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries': {
+                'extra_utils': 'website.templatetags.extra_utils',
+            }
         },
     },
 ]
