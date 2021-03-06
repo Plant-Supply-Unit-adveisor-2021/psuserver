@@ -33,10 +33,17 @@ def login_view(request):
     return render(request, 'authentification/login.html', {'login_form': login_form})
 
 def logout_view(request):
+    """
+    view for logging out
+    """
     if request.user.is_authenticated:
         logout(request)
     return HttpResponseRedirect("/")
 
 @login_required
-def edit_user_view(request):
-    return render(request, "authentification/edit_user.html")
+def edit_profile_view(request):
+    """
+    view for editing all profile fields without password
+    """
+    
+    return render(request, "authentification/edit_profile.html")

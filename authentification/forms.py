@@ -19,8 +19,8 @@ class LoginForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
-        self.fields['email'].label = _("e-mail")
-        self.fields['password'].label = _("password")
+        self.fields['email'].label = _("E-Mail")
+        self.fields['password'].label = _("Password")
 
     def clean(self):
         email = self.cleaned_data.get('email')
@@ -35,3 +35,10 @@ class LoginForm(forms.Form):
         password = self.cleaned_data.get('password')
         user = authenticate(email=email, password=password)
         return user
+
+
+class EditProfileForm(forms.Form):
+    """
+    form for changing user information without the password
+    """
+    email = forms.CharField()

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-06 12:50+0100\n"
+"POT-Creation-Date: 2021-03-06 13:42+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,11 +22,11 @@ msgid "Authentification"
 msgstr "Authentifikation"
 
 #: .\authentification\forms.py:22
-msgid "e-mail"
+msgid "E-Mail"
 msgstr "E-Mail Adresse"
 
 #: .\authentification\forms.py:23
-msgid "password"
+msgid "Password"
 msgstr "Passwort"
 
 #: .\authentification\forms.py:30
@@ -72,7 +72,7 @@ msgid "Edit User"
 msgstr "Profil bearbeiten"
 
 #: .\authentification\templates\authentification\login.html:4
-#: .\authentification\templates\authentification\login.html:11
+#: .\authentification\templates\authentification\login.html:10
 #: .\website\templates\base.html:33
 msgid "Login"
 msgstr "Einloggen"

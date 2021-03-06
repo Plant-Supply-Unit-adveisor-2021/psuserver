@@ -28,6 +28,7 @@
                 <div id="nav-user-drop-down" class="drop-down">
                     {% if user.is_authenticated %}
                         <a href="{% url 'admin:index' %}" class="drop-down-element">{% trans "Administration" %}</a>
+                        <a href="{% url 'auth:edit_profile' %}" class="drop-down-element">{% trans "Edit Profile" %}</a>
                         <a href="{% url 'auth:logout' %}" class="drop-down-element">{% trans "Logout" %}</a>
                     {% else %}
                         <a href="{% url 'auth:login' %}" class="drop-down-element">{% trans "Login" %}</a>
