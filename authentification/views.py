@@ -13,14 +13,14 @@ def login_view(request):
     View for Login
     """
 
-    # redirect to request page which needs an authentification
+    # redirect to requested page which needs an authentification
     # otherwise redirect to startpage
+    if 'next' in request.GET:
+        next_page = request.GET['next']
+    else:
+        next_page = "/" 
+    
     if request.user.is_authenticated:
-        print(request.user.email)
-        if 'next' in request.GET:
-            next_page = request.GET['next']
-        else:
-            next_page = "/"
         return HttpResponseRedirect(next_page)
 
 
@@ -29,6 +29,7 @@ def login_view(request):
         user = login_form.login(request)
         if user:
             login(request, user)
+            return HttpResponseRedirect(next_page)
     return render(request, 'authentification/login.html', {'login_form': login_form})
 
 def logout_view(request):
@@ -38,4 +39,4 @@ def logout_view(request):
 
 @login_required
 def edit_user_view(request):
-    return render(request, "authentfication/edit_user")
+    return render(request, "authentification/edit_user.html")
