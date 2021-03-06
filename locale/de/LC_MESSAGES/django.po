@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-06 18:12+0100\n"
+"POT-Creation-Date: 2021-03-06 19:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,19 +21,27 @@ msgstr ""
 msgid "Authentification"
 msgstr "Authentifikation"
 
-#: .\authentification\forms.py:22
+#: .\authentification\forms.py:17 .\authentification\forms.py:42
 msgid "E-Mail"
 msgstr "E-Mail Adresse"
 
-#: .\authentification\forms.py:23
+#: .\authentification\forms.py:18
 msgid "Password"
 msgstr "Passwort"
 
-#: .\authentification\forms.py:30
+#: .\authentification\forms.py:28
 msgid "Mail and password do not match or your account is not activate yet."
 msgstr ""
 "E-Mail und Passwort passen nicht zueinander oder dein Konto ist noch nicht "
 "aktiviert."
+
+#: .\authentification\forms.py:43
+msgid "Fist Name"
+msgstr "Vorname"
+
+#: .\authentification\forms.py:44
+msgid "Last Name"
+msgstr "Nachname"
 
 #: .\authentification\managers.py:20
 msgid "The Email must be set"
@@ -71,11 +79,19 @@ msgstr "Benutzer:innen"
 msgid "Edit User"
 msgstr "Profil bearbeiten"
 
+#: .\authentification\templates\authentification\edit_profile.html:17
+msgid "Save"
+msgstr "Sichern"
+
 #: .\authentification\templates\authentification\login.html:4
 #: .\authentification\templates\authentification\login.html:10
 #: .\website\templates\base.html:34
 msgid "Login"
 msgstr "Einloggen"
+
+#: .\authentification\views.py:59
+msgid "Successfully updated your profile."
+msgstr "Dein Profil wurde erfolgreich geändert."
 
 #: .\website\settings.py:136
 msgid "de"
