@@ -15,11 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.shortcuts import redirect
 from django.conf.urls import include, url
 from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = i18n_patterns(
-    path('admin/', admin.site.urls),
-    path('authentification/', include('authentification.urls', namespace='auth')),
-    path('', include('homepage.urls', namespace='homepage'))
+    path(r'admin/logout/', lambda request: redirect('auth:logout')),
+    path(r'admin/', admin.site.urls),
+    path(r'authentification/', include('authentification.urls', namespace='auth')),
+    path(r'', include('homepage.urls', namespace='homepage'))
 )

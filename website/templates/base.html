@@ -27,7 +27,8 @@
                 <a id="nav-user-toggle" class="toggle {% if user.is_authenticated %}logged-in{% endif %}" onClick="toggleDropDown('nav-user');"></a>
                 <div id="nav-user-drop-down" class="drop-down">
                     {% if user.is_authenticated %}
-                        <a href="{% url 'admin:index' %}" class="drop-down-element"class="thicken">{% trans "administration" %}</a>
+                        <a href="{% url 'admin:index' %}" class="drop-down-element">{% trans "Administration" %}</a>
+                        <a href="{% url 'auth:logout' %}" class="drop-down-element">{% trans "Logout" %}</a>
                     {% else %}
                         <a href="{% url 'auth:login' %}" class="drop-down-element">{% trans "Login" %}</a>
                     {% endif %}
