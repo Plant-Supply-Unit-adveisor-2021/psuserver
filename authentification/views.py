@@ -1,10 +1,12 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.utils.translation import ugettext as _
 
+from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 
-from authentification.forms import LoginForm
-from django.http import HttpResponseRedirect
+from authentification.forms import LoginForm, EditProfileForm
 
 # Create your views here.
 
@@ -45,5 +47,15 @@ def edit_profile_view(request):
     """
     view for editing all profile fields without password
     """
-    
-    return render(request, "authentification/edit_profile.html")
+    user = request.user
+    editProfileForm = EditProfileForm(user, request.POST or None)
+
+    # save data if form is submitted
+    if request.method == 'POST' and editProfileForm.is_valid():
+        user.email = editProfileForm.cleaned_data['email']
+        user.first_name = editProfileForm.cleaned_data['first_name']
+        user.last_name = editProfileForm.cleaned_data['last_name']
+        user.save()
+        messages.success(request, _("Successfully updated your profile."))
+
+    return render(request, "authentification/edit_profile.html", context={ 'edit_profile_form': editProfileForm })

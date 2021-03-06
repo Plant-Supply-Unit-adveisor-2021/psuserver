@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-06 13:42+0100\n"
+"POT-Creation-Date: 2021-03-06 18:12+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,13 +67,13 @@ msgstr "Benutzer:in"
 msgid "users"
 msgstr "Benutzer:innen"
 
-#: .\authentification\templates\authentification\edit_user.html:4
+#: .\authentification\templates\authentification\edit_profile.html:4
 msgid "Edit User"
 msgstr "Profil bearbeiten"
 
 #: .\authentification\templates\authentification\login.html:4
 #: .\authentification\templates\authentification\login.html:10
-#: .\website\templates\base.html:33
+#: .\website\templates\base.html:34
 msgid "Login"
 msgstr "Einloggen"
 
@@ -94,5 +94,9 @@ msgid "Administration"
 msgstr "Administration"
 
 #: .\website\templates\base.html:31
+msgid "Edit Profile"
+msgstr "Profil bearbeiten"
+
+#: .\website\templates\base.html:32
 msgid "Logout"
 msgstr "Ausloggen"

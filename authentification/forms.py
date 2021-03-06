@@ -14,13 +14,11 @@ class LoginForm(forms.Form):
     Form to login
     """
 
-    email = forms.EmailField(required=True)
-    password = forms.CharField(widget=forms.PasswordInput, required=True)
+    email = forms.EmailField(required=True, label=_("E-Mail"))
+    password = forms.CharField(widget=forms.PasswordInput, required=True, label=_("Password"))
 
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
-        self.fields['email'].label = _("E-Mail")
-        self.fields['password'].label = _("Password")
 
     def clean(self):
         email = self.cleaned_data.get('email')
@@ -41,4 +39,12 @@ class EditProfileForm(forms.Form):
     """
     form for changing user information without the password
     """
-    email = forms.CharField()
+    email = forms.CharField(required=True, label=_("E-Mail"))
+    first_name = forms.CharField(required=True, label=_("Fist Name"))
+    last_name = forms.CharField(required=True, label=_("Last Name"))
+    
+    def __init__(self, user, *args, **kwargs):
+        super(EditProfileForm, self).__init__(*args, **kwargs)
+        self.fields['email'].initial = user.email
+        self.fields['first_name'].initial = user.first_name
+        self.fields['last_name'].initial = user.last_name
