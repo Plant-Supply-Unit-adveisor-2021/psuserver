@@ -54,6 +54,9 @@
     --dropdown-bcolor-active: #d9d9d9;
     --dropdown-fcolor-active: #111;
     --dropdown-shadow-color: #999;
+
+    --errorlist-bcolor: #f88;
+    --errorlist-fcolor: #111;
 }
 
 /*
@@ -195,6 +198,28 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 input[type="text"]:hover, input[type="email"]:hover, input[type="password"]:hover {
     border: 1px solid var(--input-border-color-action);
     border-radius: .2rem;
+}
+
+/* styling of errorlist */
+
+ul.errorlist {
+    display: block;
+
+    margin: 1rem 0;
+    border: 0;
+    padding: .25rem 1rem;
+
+    background-color: var(--errorlist-bcolor);
+    color: var(--errorlist-fcolor);
+    list-style-type: none;
+}
+
+ul.errorlist > li {
+    display: block;
+    
+    margin: 0;
+    border: 0;
+    padding: .25rem 0;
 }
 
 /* styling of drop downs */
