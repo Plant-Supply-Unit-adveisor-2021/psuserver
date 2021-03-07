@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.password_validation import validate_password, password_validators_help_text_html
 from django.contrib.auth import authenticate
 
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 
 class LoginForm(forms.Form):

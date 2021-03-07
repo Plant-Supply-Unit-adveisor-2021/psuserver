@@ -48,6 +48,11 @@
     --input-fcolor: #111;
     --input-border-color: #ccc;
     --input-border-color-action: #0073D7;
+    --input-shadow-color-focus: #0073D755;
+    --input-border-color-invaild: #c00;
+    --input-border-color-action-invalid: #f00;
+    --input-shadow-color-focus-invalid: #c005;
+    
 
     --dropdown-bcolor: #fff;
     --dropdown-fcolor: #111;
@@ -61,6 +66,7 @@
     --messages-bcolor: #ddd;
     --messages-fcolor: #111;
     --messages-success-fcolor: #0a0;
+    --messages-error-fcolor: #b00;
 }
 
 /*
@@ -201,7 +207,23 @@ input[type="text"], input[type="email"], input[type="password"] {
 input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus,
 input[type="text"]:hover, input[type="email"]:hover, input[type="password"]:hover {
     border: 1px solid var(--input-border-color-action);
-    border-radius: .2rem;
+}
+
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+    box-shadow: 0 0 0 3px var(--input-shadow-color-focus);
+}
+
+input[type="text"]:invalid, input[type="email"]:invalid, input[type="password"]:invalid {
+    border: 1px solid var(--input-border-color-invaild);
+}
+
+input[type="text"]:focus:invalid, input[type="email"]:focus:invalid, input[type="password"]:focus:invalid,
+input[type="text"]:hover:invalid, input[type="email"]:hover:invalid, input[type="password"]:hover:invalid {
+    border: 1px solid var(--input-border-color-action-invalid);
+}
+
+input[type="text"]:focus:invalid, input[type="email"]:focus:invalid, input[type="password"]:focus:invalid {
+    box-shadow: 0 0 0 3px var(--input-shadow-color-focus-invalid);
 }
 
 /* styling of errorlist */
@@ -254,11 +276,16 @@ ul.messages > li.success {
     color: var(--messages-success-fcolor);
 }
 
+ul.messages > li.error {
+    color: var(--messages-error-fcolor);
+}
+
+
 /* styling of drop downs */
 
 div.drop-down {
     display: none;
-    min-width: 125px;
+    min-width: 150px;
 
     background-color: var(--dropdown-bcolor);
     box-shadow: 0 5px 15px var(--dropdown-shadow-color);

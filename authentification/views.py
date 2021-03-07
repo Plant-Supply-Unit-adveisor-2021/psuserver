@@ -2,10 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.utils.translation import ugettext as _
 
-from django.contrib import messages
-from django.contrib.auth import login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from django.contrib import messages
+
+from django.contrib.auth import login, logout, update_session_auth_hash
+from django.db import IntegrityError
 
 from authentification.forms import LoginForm, EditProfileForm
 
@@ -52,11 +54,14 @@ def edit_profile_view(request):
 
     @csrf_protect
     def save_user(request, form):
-        request.user.email = form.cleaned_data['email']
-        request.user.first_name = form.cleaned_data['first_name']
-        request.user.last_name = form.cleaned_data['last_name']
-        request.user.save()
-        messages.success(request, _("Successfully updated your profile."))
+        try:
+            request.user.email = form.cleaned_data['email']
+            request.user.first_name = form.cleaned_data['first_name']
+            request.user.last_name = form.cleaned_data['last_name']
+            request.user.save()
+            messages.success(request, _("Successfully updated your profile."))
+        except IntegrityError:
+            messages.error(request, _("The given e-mail address is already used by another user."))
 
     user = request.user
     editProfileForm = EditProfileForm(user, request.POST or None)
