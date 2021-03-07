@@ -39,7 +39,7 @@ class EditProfileForm(forms.Form):
     """
     form for changing user information without the password
     """
-    email = forms.CharField(required=True, label=_("E-Mail"))
+    email = forms.EmailField(required=True, label=_("E-Mail"))
     first_name = forms.CharField(required=True, label=_("Fist Name"))
     last_name = forms.CharField(required=True, label=_("Last Name"))
     
