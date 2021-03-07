@@ -58,6 +58,7 @@ def edit_profile_view(request):
             request.user.email = form.cleaned_data['email']
             request.user.first_name = form.cleaned_data['first_name']
             request.user.last_name = form.cleaned_data['last_name']
+            request.user.darkmode = form.cleaned_data['darkmode']
             request.user.save()
             messages.success(request, _("Successfully updated your profile."))
         except IntegrityError:

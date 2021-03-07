@@ -42,9 +42,11 @@ class EditProfileForm(forms.Form):
     email = forms.EmailField(required=True, label=_("E-Mail"))
     first_name = forms.CharField(required=True, label=_("Fist Name"))
     last_name = forms.CharField(required=True, label=_("Last Name"))
+    darkmode = forms.BooleanField(required=False, label=_("Darkmode"))
     
     def __init__(self, user, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
         self.fields['email'].initial = user.email
         self.fields['first_name'].initial = user.first_name
         self.fields['last_name'].initial = user.last_name
+        self.fields['darkmode'].initial = user.darkmode

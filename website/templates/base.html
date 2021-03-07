@@ -14,7 +14,9 @@
 
         <!-- master stylesheet -->
         <link rel="stylesheet" href="{% static 'style/master.css' %}">
-        <!--<link rel="stylesheet" href="{% static 'style/darkmode.css' %}">-->
+        {% if user.is_authenticated and user.darkmode_active %}
+            <link rel="stylesheet" href="{% static 'style/darkmode.css' %}">
+        {% endif %}
         
         {% block head %}{% endblock %}
     </head>

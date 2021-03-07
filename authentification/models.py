@@ -18,8 +18,10 @@ class User(AbstractUser):
 
     # basic personal information
     first_name = models.CharField(_('first name'), max_length=255)
-
     last_name = models.CharField(_('last name'), max_length=255)
+
+    # addtional fields
+    darkmode = models.BooleanField(_('darkmode active'), default=False)
 
 
     USERNAME_FIELD = 'email'
@@ -32,6 +34,10 @@ class User(AbstractUser):
     # Generic string value for User
     def __str__(self):
         return '{} {} - {}'.format(self.first_name, self.last_name, self.email)
+
+    # additional functions
+    def darkmode_active(self):
+        return self.darkmode
 
     class Meta:
         verbose_name = _('user')

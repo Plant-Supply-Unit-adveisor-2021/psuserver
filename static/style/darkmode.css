@@ -17,7 +17,7 @@
 :root {
     --body-bcolor: #222;
     --body-fcolor: #fff;
-    --body-wrapper-bcolor: #555;
+    --body-wrapper-bcolor: #3a3a3a;
     --body-wrapper-fcolor: #fff;
     --header-bcolor: #0065BD;
     --header-fcolor: #fff;
@@ -44,8 +44,29 @@
     --btn-warning-bcolor-action: ;
     --btn-warning-fcolor-action: ;
 
-    --input-bcolor: #fff;
-    --input-fcolor: #111;
-    --input-border-color: #ccc;
+    --input-bcolor: #222;
+    --input-fcolor: #fff;
+    --input-border-color: #000;
     --input-border-color-action: #0073D7;
+    --input-shadow-color-focus: #0073D755;
+    --input-border-color-invaild: #c00;
+    --input-border-color-action-invalid: #f00;
+    --input-shadow-color-focus-invalid: #c005;
+
+    --label-fcolor: #fff;
+    
+
+    --dropdown-bcolor: #3a3a3a;
+    --dropdown-fcolor: #fff;
+    --dropdown-bcolor-active: #222;
+    --dropdown-fcolor-active: #fff;
+    --dropdown-shadow-color: #000;
+
+    --errorlist-bcolor: #f88;
+    --errorlist-fcolor: #111;
+
+    --messages-bcolor: #292929;
+    --messages-fcolor: #fff;
+    --messages-success-fcolor: #0a0;
+    --messages-error-fcolor: #b00;
 }
