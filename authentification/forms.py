@@ -2,9 +2,8 @@ from django import forms
 
 from django.core.exceptions import ValidationError
 
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.contrib.auth.password_validation import validate_password, password_validators_help_text_html
 from django.contrib.auth import authenticate
+from django.contrib.auth.password_validation import validate_password, password_validators_help_text_html
 
 from django.utils.translation import ugettext_lazy as _
 
@@ -21,18 +20,14 @@ class LoginForm(forms.Form):
         super(LoginForm, self).__init__(*args, **kwargs)
 
     def clean(self):
-        email = self.cleaned_data.get('email')
-        password = self.cleaned_data.get('password')
+        email = self.cleaned_data['email']
+        password = self.cleaned_data['password']
         user = authenticate(email=email, password=password)
         if not user:
             raise forms.ValidationError(_('Mail and password do not match or your account is not activate yet.'))
+        else:
+            self.cleaned_data['user'] = user
         return self.cleaned_data
-
-    def login(self, request):
-        email = self.cleaned_data.get('email')
-        password = self.cleaned_data.get('password')
-        user = authenticate(email=email, password=password)
-        return user
 
 
 class EditProfileForm(forms.Form):
@@ -50,3 +45,30 @@ class EditProfileForm(forms.Form):
         self.fields['first_name'].initial = user.first_name
         self.fields['last_name'].initial = user.last_name
         self.fields['darkmode'].initial = user.darkmode
+
+class ChangePasswordForm(forms.Form):
+    """
+    form for changing the users password
+    """
+    old_passwd = forms.CharField(required=False, label=_("Current Password"), widget=forms.PasswordInput, help_text=_("Leave clear to keep your current password."))
+    new_passwd_1 = forms.CharField(required=False, label=_("New Password"), widget=forms.PasswordInput, help_text=password_validators_help_text_html())
+    new_passwd_2 = forms.CharField(required=False, label=_("Confirm New Password"), widget=forms.PasswordInput)
+    email = forms.CharField(required=True, widget=forms.HiddenInput)
+
+    def __init__(self, user, *args, **kwargs):
+        super(ChangePasswordForm, self).__init__(*args, **kwargs)
+        self.fields['email'].initial = user.email
+
+    def clean(self):
+        # Check wether user wants to change the password
+        # Check wether new passwords do match
+        if self.cleaned_data['old_passwd'] == '':
+            return self.cleaned_data
+        if self.cleaned_data['new_passwd_1'] != self.cleaned_data['new_passwd_2']:
+            raise forms.ValidationError(_("The two given passwords do not match."))
+        validate_password(self.cleaned_data['new_passwd_1'])
+        if authenticate(email=self.cleaned_data['email'], password=self.cleaned_data['old_passwd']) is None:
+            raise forms.ValidationError(_("Please enter your current password correctly to change your password."))
+        return self.cleaned_data
+        
+        

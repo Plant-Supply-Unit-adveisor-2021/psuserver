@@ -13,7 +13,10 @@
     {% endif %}
     <form enctype="multipart/form-data" method="POST">
         {% csrf_token %}
+        <h2>{% trans "Edit Profile" %}</h2>
         {{ edit_profile_form }}
+        <h4>{% trans "Change Password" %}</h4>
+        {{ change_passwd_form }}
         <input type="submit" name="" value="{% trans "Save" %}"  class="btn btn-primary">
     </form>
 {% endblock body %}
