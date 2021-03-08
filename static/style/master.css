@@ -48,12 +48,29 @@
     --input-fcolor: #111;
     --input-border-color: #ccc;
     --input-border-color-action: #0073D7;
+    --input-shadow-color-focus: #0073D755;
+    --input-border-color-invaild: #c00;
+    --input-border-color-action-invalid: #f00;
+    --input-shadow-color-focus-invalid: #c005;
+
+    --label-fcolor: #111;
+    --helptext-bcolor: #ddd;
+    --helptext-fcolor: #111;
+    
 
     --dropdown-bcolor: #fff;
     --dropdown-fcolor: #111;
     --dropdown-bcolor-active: #d9d9d9;
     --dropdown-fcolor-active: #111;
     --dropdown-shadow-color: #999;
+
+    --errorlist-bcolor: #f88;
+    --errorlist-fcolor: #111;
+
+    --messages-bcolor: #ddd;
+    --messages-fcolor: #111;
+    --messages-success-fcolor: #0a0;
+    --messages-error-fcolor: #b00;
 }
 
 /*
@@ -63,6 +80,7 @@
 */
 
 /* basic classes */
+
 .align-left {
     text-align: left;
 }
@@ -73,6 +91,32 @@
 
 .align-right {
     text-align: right;
+}
+
+/* headlines */
+
+h1 {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+h2 {
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+h4 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+h5 {
+    font-size: 1.1rem;
 }
 
 /* styling of hyerlinks */
@@ -174,6 +218,7 @@ input {
     outline: none;
 }
 
+/* text fields */
 
 input[type="text"], input[type="email"], input[type="password"] {
     display: block;
@@ -182,7 +227,7 @@ input[type="text"], input[type="email"], input[type="password"] {
     max-width: 400px;
 
     margin: .25rem 0 .5rem 0;
-    padding: .5rem 1rem;
+    padding: .5rem .75rem;
 
     border: 1px solid var(--input-border-color);
     border-radius: .2rem;
@@ -194,14 +239,139 @@ input[type="text"], input[type="email"], input[type="password"] {
 input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus,
 input[type="text"]:hover, input[type="email"]:hover, input[type="password"]:hover {
     border: 1px solid var(--input-border-color-action);
-    border-radius: .2rem;
 }
+
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+    box-shadow: 0 0 0 3px var(--input-shadow-color-focus);
+}
+
+input[type="text"]:invalid, input[type="email"]:invalid, input[type="password"]:invalid {
+    border: 1px solid var(--input-border-color-invaild);
+}
+
+input[type="text"]:focus:invalid, input[type="email"]:focus:invalid, input[type="password"]:focus:invalid,
+input[type="text"]:hover:invalid, input[type="email"]:hover:invalid, input[type="password"]:hover:invalid {
+    border: 1px solid var(--input-border-color-action-invalid);
+}
+
+input[type="text"]:focus:invalid, input[type="email"]:focus:invalid, input[type="password"]:focus:invalid {
+    box-shadow: 0 0 0 3px var(--input-shadow-color-focus-invalid);
+}
+
+/* checkbox */
+
+input[type="checkbox"] {
+    display: inline-block;
+    -webkit-appearance: none;
+
+    width: 2.1rem;
+    height: 1.4rem;
+
+    margin: .25rem .5rem;
+    border: none;
+    padding: 0;
+
+    vertical-align: middle;
+
+    background-image: url(../icons/switch_modern_off.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+input[type="checkbox"]:checked {
+    background-image: url(../icons/switch_modern_on.png);
+}
+
+/* labels */
+
+label {
+    color: var(--label-fcolor);
+}
+
+/* styling of helptext */
+span.helptext {
+    display: table;
+
+    margin: 0 1rem .75rem 1rem;
+    border: 0 solid var(--helptext-bcolor);
+    border-radius: .2rem;
+    padding: .5rem 1rem;
+
+    background-color: var(--helptext-bcolor);
+    color: var(--helptext-fcolor);
+}
+
+span.helptext ul {
+    display: block;
+
+    margin: 0;
+    border: 0;
+    padding: 0;
+
+    list-style-type: none;
+}
+
+/* styling of errorlist */
+
+ul.errorlist {
+    display: block;
+
+    margin: 1rem 0;
+    border: 0;
+    padding: 1rem 1.5rem;
+
+    background-color: var(--errorlist-bcolor);
+    color: var(--errorlist-fcolor);
+    list-style-type: none;
+}
+
+ul.errorlist > li {
+    display: block;
+    
+    margin: 0;
+    border: 0;
+    padding: .25rem 0;
+}
+
+/* styling of messages */
+
+ul.messages {
+    display: block;
+
+    margin: 1rem 0 2rem 0;
+    border: 0;
+    padding: .25rem 1rem;
+
+    background-color: var(--messages-bcolor);
+    color: var(--messages-fcolor);
+    list-style-type: none;
+}
+
+ul.messages > li {
+    display: block;
+    
+    margin: 0;
+    border: 0;
+    padding: .25rem 0;
+
+    font-weight: 600;
+}
+
+ul.messages > li.success {
+    color: var(--messages-success-fcolor);
+}
+
+ul.messages > li.error {
+    color: var(--messages-error-fcolor);
+}
+
 
 /* styling of drop downs */
 
 div.drop-down {
     display: none;
-    min-width: 125px;
+    min-width: 150px;
 
     background-color: var(--dropdown-bcolor);
     box-shadow: 0 5px 15px var(--dropdown-shadow-color);

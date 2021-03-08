@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-06 12:50+0100\n"
+"POT-Creation-Date: 2021-03-08 21:12+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,19 +21,55 @@ msgstr ""
 msgid "Authentification"
 msgstr "Authentifikation"
 
-#: .\authentification\forms.py:22
-msgid "e-mail"
+#: .\authentification\forms.py:16 .\authentification\forms.py:37
+msgid "E-Mail"
 msgstr "E-Mail Adresse"
 
-#: .\authentification\forms.py:23
-msgid "password"
+#: .\authentification\forms.py:17
+msgid "Password"
 msgstr "Passwort"
 
-#: .\authentification\forms.py:30
+#: .\authentification\forms.py:27
 msgid "Mail and password do not match or your account is not activate yet."
 msgstr ""
 "E-Mail und Passwort passen nicht zueinander oder dein Konto ist noch nicht "
 "aktiviert."
+
+#: .\authentification\forms.py:38
+msgid "Fist Name"
+msgstr "Vorname"
+
+#: .\authentification\forms.py:39
+msgid "Last Name"
+msgstr "Nachname"
+
+#: .\authentification\forms.py:40
+msgid "Darkmode"
+msgstr "Darkmode"
+
+#: .\authentification\forms.py:53
+msgid "Current Password"
+msgstr "Aktuelles Passwort"
+
+#: .\authentification\forms.py:53
+msgid "Leave clear to keep your current password."
+msgstr "Lasse dieses Feld leer um dein Passwort nicht zu ändern."
+
+#: .\authentification\forms.py:54
+msgid "New Password"
+msgstr "Neues Passwort"
+
+#: .\authentification\forms.py:55
+msgid "Confirm New Password"
+msgstr "Neues Passwort bestätigen"
+
+#: .\authentification\forms.py:68
+msgid "The two given passwords do not match."
+msgstr "Die angegebenen Passwörter stimmen nicht überein."
+
+#: .\authentification\forms.py:71
+msgid "Please enter your current password correctly to change your password."
+msgstr "Bitte gebe dein aktuelles Passwort richtig ein um dein Passwort zu ändern."
 
 #: .\authentification\managers.py:20
 msgid "The Email must be set"
@@ -55,27 +91,57 @@ msgstr "E-Mail Adresse"
 msgid "first name"
 msgstr "Vorname"
 
-#: .\authentification\models.py:22
+#: .\authentification\models.py:21
 msgid "last name"
 msgstr "Nachname"
 
-#: .\authentification\models.py:37
+#: .\authentification\models.py:24
+msgid "darkmode active"
+msgstr "Darkmode aktiv"
+
+#: .\authentification\models.py:43
 msgid "user"
 msgstr "Benutzer:in"
 
-#: .\authentification\models.py:38
+#: .\authentification\models.py:44
 msgid "users"
 msgstr "Benutzer:innen"
 
-#: .\authentification\templates\authentification\edit_user.html:4
+#: .\authentification\templates\authentification\edit_profile.html:4
 msgid "Edit User"
 msgstr "Profil bearbeiten"
 
-#: .\authentification\templates\authentification\login.html:4
-#: .\authentification\templates\authentification\login.html:11
+#: .\authentification\templates\authentification\edit_profile.html:16
 #: .\website\templates\base.html:33
+msgid "Edit Profile"
+msgstr "Profil bearbeiten"
+
+#: .\authentification\templates\authentification\edit_profile.html:18
+msgid "Change Password"
+msgstr "Passwort ändern"
+
+#: .\authentification\templates\authentification\edit_profile.html:20
+msgid "Save"
+msgstr "Sichern"
+
+#: .\authentification\templates\authentification\login.html:4
+#: .\authentification\templates\authentification\login.html:10
+#: .\website\templates\base.html:36
 msgid "Login"
 msgstr "Einloggen"
+
+#: .\authentification\views.py:61
+msgid "Successfully updated your profile."
+msgstr "Dein Profil wurde erfolgreich geändert."
+
+#: .\authentification\views.py:63
+msgid "The given e-mail address is already used by another user."
+msgstr ""
+"Die angegebene E-Mail Adresse wird bereits von einem anderen Nutzer genutzt."
+
+#: .\authentification\views.py:71
+msgid "Successfully updated your password."
+msgstr "Dein Passwort wurde erfolgreich geändert."
 
 #: .\website\settings.py:136
 msgid "de"
@@ -85,14 +151,14 @@ msgstr "Deutsch"
 msgid "en"
 msgstr "Englisch"
 
-#: .\website\templates\base.html:24
+#: .\website\templates\base.html:26
 msgid "Welcome to Team Plant Supply Unit"
 msgstr "Willkommen beim Team Plant Supply Unit"
 
-#: .\website\templates\base.html:30
+#: .\website\templates\base.html:32
 msgid "Administration"
 msgstr "Administration"
 
-#: .\website\templates\base.html:31
+#: .\website\templates\base.html:34
 msgid "Logout"
 msgstr "Ausloggen"

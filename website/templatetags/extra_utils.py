@@ -12,3 +12,10 @@ def translate_url(context, language_code):
     request = context['request']
     new_url = request.path.replace('/'+geti18nTag(request)+'/', '/'+language_code+'/')
     return new_url
+
+@register.filter
+def cut(value, arg):
+    """
+    template filter to replace all appearences of arg through nothing
+    """
+    return value.replace(arg, '')
