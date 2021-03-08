@@ -54,6 +54,8 @@
     --input-shadow-color-focus-invalid: #c005;
 
     --label-fcolor: #111;
+    --helptext-bcolor: #ddd;
+    --helptext-fcolor: #111;
     
 
     --dropdown-bcolor: #fff;
@@ -287,6 +289,29 @@ label {
     color: var(--label-fcolor);
 }
 
+/* styling of helptext */
+span.helptext {
+    display: table;
+
+    margin: 0 1rem .75rem 1rem;
+    border: 0 solid var(--helptext-bcolor);
+    border-radius: .2rem;
+    padding: .5rem 1rem;
+
+    background-color: var(--helptext-bcolor);
+    color: var(--helptext-fcolor);
+}
+
+span.helptext ul {
+    display: block;
+
+    margin: 0;
+    border: 0;
+    padding: 0;
+
+    list-style-type: none;
+}
+
 /* styling of errorlist */
 
 ul.errorlist {
@@ -294,7 +319,7 @@ ul.errorlist {
 
     margin: 1rem 0;
     border: 0;
-    padding: .25rem 1rem;
+    padding: 1rem 1.5rem;
 
     background-color: var(--errorlist-bcolor);
     color: var(--errorlist-fcolor);
