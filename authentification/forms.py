@@ -7,6 +7,7 @@ from django.contrib.auth.password_validation import validate_password, password_
 
 from django.utils.translation import ugettext_lazy as _
 
+from authentification.models import User
 
 class LoginForm(forms.Form):
     """
@@ -66,9 +67,30 @@ class ChangePasswordForm(forms.Form):
             return self.cleaned_data
         if self.cleaned_data['new_passwd_1'] != self.cleaned_data['new_passwd_2']:
             raise forms.ValidationError(_("The two given passwords do not match."))
+        # run password validatiors sepcified in setting.py
         validate_password(self.cleaned_data['new_passwd_1'])
         if authenticate(email=self.cleaned_data['email'], password=self.cleaned_data['old_passwd']) is None:
             raise forms.ValidationError(_("Please enter your current password correctly to change your password."))
         return self.cleaned_data
         
-        
+
+class RegisterForm(forms.Form):
+    """
+    form for signing up
+    """
+    email = forms.EmailField(required=True, label=_("E-Mail"))
+    first_name = forms.CharField(required=True, label=_("Fist Name"))
+    last_name = forms.CharField(required=True, label=_("Last Name"))
+    passwd_1 = forms.CharField(required=False, label=_("Password"), widget=forms.PasswordInput, help_text=password_validators_help_text_html())
+    passwd_2 = forms.CharField(required=False, label=_("Confirm Password"), widget=forms.PasswordInput)
+
+    def clean(self):
+        # Check wether passwords do match
+        if self.cleaned_data['passwd_1'] != self.cleaned_data['passwd_2']:
+            raise forms.ValidationError(_("The two given passwords do not match."))
+        # Check wether email is unique
+        if User.objects.filter(email=self.cleaned_data['email']).count() != 0:
+            raise forms.ValidationError(_("The given e-mail address is already used by another user."))
+        # run password validatiors sepcified in setting.py
+        validate_password(self.cleaned_data['passwd_1'])
+        return self.cleaned_data

@@ -1,5 +1,4 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.utils.translation import ugettext as _
 
 from django.contrib.auth.decorators import login_required
@@ -9,7 +8,8 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from django.db import IntegrityError
 
-from authentification.forms import LoginForm, EditProfileForm, ChangePasswordForm
+from authentification.forms import LoginForm, EditProfileForm, ChangePasswordForm, RegisterForm
+from authentification.models import User
 
 # Create your views here.
 
@@ -25,14 +25,13 @@ def login_view(request):
         next_page = request.GET['next']
     
     if request.user.is_authenticated:
-        return HttpResponseRedirect(next_page)
+        return redirect(next_page)
 
 
     login_form = LoginForm(request.POST or None)
     if request.POST and login_form.is_valid():
-        # user = authenticate(email=login_form.cleaned_data['email'], password=login_form.cleaned_data['password'])
         login(request, login_form.cleaned_data['user'])
-        return HttpResponseRedirect(next_page)
+        return redirect(next_page)
     return render(request, 'authentification/login.html', {'login_form': login_form})
 
 def logout_view(request):
@@ -41,7 +40,7 @@ def logout_view(request):
     """
     if request.user.is_authenticated:
         logout(request)
-    return HttpResponseRedirect("/")
+    return redirect("/")
 
 @login_required
 @csrf_exempt
@@ -84,3 +83,25 @@ def edit_profile_view(request):
                 change_passwd(request, changePasswdForm)
 
     return render(request, "authentification/edit_profile.html", context={ 'edit_profile_form': editProfileForm, 'change_passwd_form': changePasswdForm})
+
+def register_view(request):
+    """
+    view for creating a new user
+    ALL new users are not activated and the only way to do so is via the admin panel
+    """
+    if request.user.is_authenticated:
+        return redirect("/")
+
+    form = RegisterForm(request.POST or None)
+
+    if request.method == 'POST' and form.is_valid():
+        user = User(email=form.cleaned_data['email'], first_name=form.cleaned_data['first_name'],
+                    last_name=form.cleaned_data['last_name'], is_active=False)
+        user.set_password(form.cleaned_data['passwd_1'])
+        user.save()
+        return redirect('auth:register_after')
+
+    return render(request, "authentification/register.html", context={'register_form':form})
+
+def register_after_view(request):
+    return render(request, "authentification/after_register.html")
