@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Register" %} - Plant Supply Unit{% endblock title %}
+
+{% block body %}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <form enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        <h2>{% trans "Create new profile" %}</h2>
+        {{ register_form|cut:'<br>' }}
+        <input type="submit" name="" value="{% trans "Register" %}"  class="btn btn-primary">
+    </form>
+{% endblock body %}
