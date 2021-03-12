@@ -20,7 +20,7 @@ class PSU(models.Model):
     identity_key = models.CharField(_('identity key'), max_length=128, unique=True)
 
     # ownership of the PSU
-    owner = models.ForeignKey(User, models.PROTECT, verbose_name=_('owner'), related_name='owner', null=True, blank=True)
+    owner = models.ForeignKey(User, models.PROTECT, verbose_name=_('owner'), related_name='owner')
     permitted_users = models.ManyToManyField(User, verbose_name=_('permitted users'), related_name='permitted_user', blank=True)
 
     def __str__(self):
@@ -30,6 +30,22 @@ class PSU(models.Model):
         verbose_name = _('Plant Supply Unit')
         verbose_name_plural = _('Plant Supply Units')
         ordering = ['id']
+
+
+class PendingPSU(models.Model):
+    """
+    model representing a Plant Supply Unit which is waiting to be set up
+    Create when a PSU makes first contact with the server
+    """
+    # authentification of the PSU
+    identity_key = models.CharField(_('identity key'), max_length=128, unique=True)
+    pairing_key = models.CharField(_('pairing key'), max_length=6, unique=True)
+
+    class Meta:
+        verbose_name = _('Pending Plant Supply Unit')
+        verbose_name_plural = _('Pending Plant Supply Units')
+        ordering = ['pairing_key']
+
 
 class DataMeasurement(models.Model):
     """
