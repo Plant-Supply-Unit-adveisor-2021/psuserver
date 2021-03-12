@@ -15,7 +15,7 @@ class PSUAdmin(admin.ModelAdmin):
 class PendingPSUAdmin(admin.ModelAdmin):
     model = PendingPSU
 
-    list_display = ['pairing_key', 'identity_key']
+    list_display = ['creation_time', 'pairing_key', 'identity_key']
     search_fields = ['pairing_key', 'identity_key']
 
 

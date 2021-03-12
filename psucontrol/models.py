@@ -42,10 +42,13 @@ class PendingPSU(models.Model):
     # only purpose of this key is to allow easy identification of psu in setup process
     pairing_key = models.CharField(_('pairing key'), max_length=6, unique=True)
 
+    # creation time to handle removal of old pending psus
+    creation_time = models.DateTimeField(_('creation time'), auto_now_add=True)
+
     class Meta:
         verbose_name = _('Pending Plant Supply Unit')
         verbose_name_plural = _('Pending Plant Supply Units')
-        ordering = ['pairing_key']
+        ordering = ['-creation_time']
 
 
 class DataMeasurement(models.Model):
@@ -57,7 +60,7 @@ class DataMeasurement(models.Model):
     psu = models.ForeignKey(PSU, models.CASCADE, verbose_name=_('Plant Supply Unit'))
 
     # field storing the time stamp
-    timestamp = models.DateTimeField(_('timestamp'))
+    timestamp = models.DateTimeField(_('timestamp'), auto_now_add=True)
 
     # for testing purposes only a few testing fields
     temperature = models.FloatField(_('temperature'))

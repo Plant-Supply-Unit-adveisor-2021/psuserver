@@ -19,7 +19,13 @@ from django.shortcuts import redirect
 from django.conf.urls import include, url
 from django.conf.urls.i18n import i18n_patterns
 
-urlpatterns = i18n_patterns(
+# URL Patterns without i18n tags
+urlpatterns = [
+    path(r'psucontrol/', include('psucontrol.urls', namespace='psucontrol')),
+]
+
+# URL Patterns with i18n tags
+urlpatterns += i18n_patterns(
     path(r'admin/logout/', lambda request: redirect('auth:logout')),
     path(r'admin/', admin.site.urls),
     path(r'authentification/', include('authentification.urls', namespace='auth')),
