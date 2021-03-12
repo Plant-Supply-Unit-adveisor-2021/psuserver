@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-10 17:14+0100\n"
+"POT-Creation-Date: 2021-03-12 16:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -182,6 +182,54 @@ msgstr "Dein Passwort wurde erfolgreich geändert."
 #: .\psucontrol\apps.py:7
 msgid "PSU Control"
 msgstr "PSU Steuerung"
+
+#: .\psucontrol\models.py:17
+msgid "name"
+msgstr "Name"
+
+#: .\psucontrol\models.py:20
+msgid "identity key"
+msgstr "Identitätsschlüssel"
+
+#: .\psucontrol\models.py:23
+msgid "owner"
+msgstr "Besitzer:in"
+
+#: .\psucontrol\models.py:24
+msgid "permitted users"
+msgstr "Berechtigte Benutzer:innen"
+
+#: .\psucontrol\models.py:30 .\psucontrol\models.py:40
+msgid "Plant Supply Unit"
+msgstr "Pflanzenpflegestation"
+
+#: .\psucontrol\models.py:31
+msgid "Plant Supply Units"
+msgstr "Pflanzenpflegestationen"
+
+#: .\psucontrol\models.py:43
+msgid "timestamp"
+msgstr "Zeitstempel"
+
+#: .\psucontrol\models.py:46
+msgid "temperature"
+msgstr "Temperatur"
+
+#: .\psucontrol\models.py:47
+msgid "ground humidity"
+msgstr "Bodenfeuchte"
+
+#: .\psucontrol\models.py:48
+msgid "brightness"
+msgstr "Helligkeit"
+
+#: .\psucontrol\models.py:54
+msgid "Data Measurement"
+msgstr "Datenmessung"
+
+#: .\psucontrol\models.py:55
+msgid "Data Measurements"
+msgstr "Datenmessungen"
 
 #: .\website\settings.py:137
 msgid "de"
