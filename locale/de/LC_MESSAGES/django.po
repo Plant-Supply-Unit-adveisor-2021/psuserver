@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-12 19:46+0100\n"
+"POT-Creation-Date: 2021-03-14 11:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -187,63 +187,67 @@ msgstr "PSU Steuerung"
 msgid "name"
 msgstr "Name"
 
-#: .\psucontrol\models.py:20 .\psucontrol\models.py:41
+#: .\psucontrol\models.py:20 .\psucontrol\models.py:42
 msgid "identity key"
 msgstr "Identitätsschlüssel"
 
-#: .\psucontrol\models.py:23
+#: .\psucontrol\models.py:21 .\psucontrol\models.py:44
+msgid "public rsa key"
+msgstr "Öffentlicher RSA-Schlüssel"
+
+#: .\psucontrol\models.py:24
 msgid "owner"
 msgstr "Besitzer:in"
 
-#: .\psucontrol\models.py:24
+#: .\psucontrol\models.py:25
 msgid "permitted users"
 msgstr "Berechtigte Benutzer:innen"
 
-#: .\psucontrol\models.py:30 .\psucontrol\models.py:60
+#: .\psucontrol\models.py:31 .\psucontrol\models.py:63
 msgid "Plant Supply Unit"
 msgstr "Pflanzenpflegestation"
 
-#: .\psucontrol\models.py:31
+#: .\psucontrol\models.py:32
 msgid "Plant Supply Units"
 msgstr "Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:43
+#: .\psucontrol\models.py:46
 msgid "pairing key"
 msgstr "Kopplungsschlüssel"
 
-#: .\psucontrol\models.py:46
+#: .\psucontrol\models.py:49
 msgid "creation time"
 msgstr "Erstellungszeit"
 
-#: .\psucontrol\models.py:49
+#: .\psucontrol\models.py:52
 msgid "Pending Plant Supply Unit"
 msgstr "schwebende Pflanzenpflegestation"
 
-#: .\psucontrol\models.py:50
+#: .\psucontrol\models.py:53
 msgid "Pending Plant Supply Units"
 msgstr "schwebende Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:63
+#: .\psucontrol\models.py:66
 msgid "timestamp"
 msgstr "Zeitstempel"
 
-#: .\psucontrol\models.py:66
+#: .\psucontrol\models.py:69
 msgid "temperature"
 msgstr "Temperatur"
 
-#: .\psucontrol\models.py:67
+#: .\psucontrol\models.py:70
 msgid "ground humidity"
 msgstr "Bodenfeuchte"
 
-#: .\psucontrol\models.py:68
+#: .\psucontrol\models.py:71
 msgid "brightness"
 msgstr "Helligkeit"
 
-#: .\psucontrol\models.py:74
+#: .\psucontrol\models.py:77
 msgid "Data Measurement"
 msgstr "Datenmessung"
 
-#: .\psucontrol\models.py:75
+#: .\psucontrol\models.py:78
 msgid "Data Measurements"
 msgstr "Datenmessungen"
 
