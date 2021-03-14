@@ -20,18 +20,18 @@ def remove_old_pending_psus():
             p.delete()
 
 @csrf_exempt
+@require_POST
 def register_new_psu(request):
     """
     view to handle the first contact between psu and server
     """
     remove_old_pending_psus()
-    if request.POST:
-        iKey = token_urlsafe(96)
+
+    # generate keys/tokens
+    iKey = token_urlsafe(96)
+    pKey = token_urlsafe(4)
+    # prevent pairing key with '_', '-'
+    while pKey.count('_') != 0 or pKey.count('-') != 0:
         pKey = token_urlsafe(4)
-        while pKey.count('_') != 0 or pKey.count('-') != 0:
-            print("FIRST TOKEN NOT RIGHT")
-            pKey = token_urlsafe(4)
-        PendingPSU(identity_key=iKey, pairing_key=pKey).save()
-        return JsonResponse({'status':'ok', 'identity_key':iKey, 'pairing_key':pKey})
-    else:
-        return JsonResponse({'status':'failed'})
+    PendingPSU(identity_key=iKey, pairing_key=pKey).save()
+    return JsonResponse({'status':'ok', 'identity_key':iKey, 'pairing_key':pKey})
