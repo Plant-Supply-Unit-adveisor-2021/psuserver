@@ -62,6 +62,7 @@ else:
 INSTALLED_APPS = [
     'authentification',
     'homepage',
+    'psucontrol',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
