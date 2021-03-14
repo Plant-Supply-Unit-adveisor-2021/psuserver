@@ -23,7 +23,7 @@
     <body>
         <header id="mainheader">
             {% block header %}
-                {% trans "Welcome to Team Plant Supply Unit" %}
+                <div id="nav-main">{% trans "Welcome to Team Plant Supply Unit" %}</div>
             {% endblock %}
             <div id="nav-user">
                 <a id="nav-user-toggle" class="toggle {% if user.is_authenticated %}logged-in{% endif %}" onClick="toggleDropDown('nav-user');"></a>

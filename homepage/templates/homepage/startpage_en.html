@@ -1,8 +1,40 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load static %}
 
 {% block title %}Plant Supply Unit{% endblock title %}
 
 {% block body %}
-    <p>Welcome to the homepage of Team Plant Supply Unit.</p>
+    <h2>The adveisor program</h2>
+    <p>
+        The <a href="https://www.ei.tum.de/adveisor/">adveisor</a> program is part of the educational offer of the faculty for
+        electrical engineering of the technical university of Munich. The program is targeted at students doing their bachelor's degree.
+        The focus of the program is on teaching soft skills like communication, teamwork and project management. In the last winter term, we focused on
+        the workshop part of the program. In the upcoming summer term, we are going to realize a project.
+    </p>
+    <h2>The project</h2>
+    <p>
+        This years' project is to engineer an intelligent plant care solution which is connected to the internet of things. The project is defined
+        in a given project definition. All eight groups of this years' adveisor program are going to develop a solution for the same definition.
+        Part of the project is to build five plant care units which are capable of suppling a plant with water in a fully automatic manner.
+        All the data like humidity and temperature are collected via different sensors and send to a server which is used to analyze and use the data
+        to water a plant the right way via a pump. The built units will have to undergo a technical inspection focusing on safety.
+        Part of our solution is this website which will be able to store all the collected data, present it to the user and control the units.
+        Additionally, we are willing to build these units considering user friendly operation. Part of this idea is the 'plug 'n' play' concept so
+        that the user only needs to plug the unit into the wall and do very little configuration on this website in order to have a fully functional
+        plant care system. Also, all settings are going to be controlled using this website.
+    </p>
+    <h2>The milestones of the project</h2>
+    <p>
+        Currently we are trying to finish the project in three steps. First, at the end of March we are willing to finish the theoretical plan.
+        Afterwards we want to have a working unit till the end of April. In the end all five units should start working and collecting data 
+        in the mid of May. In this period till our deadline in the end of June 2021 we are going to collect data and evaluate the success of the project.
+    </p>
+    <h2>Our group</h2>
+    <p>
+        We are 13 students doing their bachelor's degree in electrical engineering and called team PSU - Plant Supply Unit. We are highly motivated
+        to tackle this challenge and driven by the possibility of using our new gained knowledge and having fun with electronics. Additionally,
+        there is of course our will of delivering the best plant care solution of this years' adveisor project.
+    </p>
+    <img src="{% static 'images/team.png' %}" style="width: 80%; display: block; margin: 0 auto;"/>
 {% endblock body %}
