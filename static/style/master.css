@@ -447,6 +447,19 @@ div#body-wrapper {
 
 }
 
+@media (max-width: 1000px){
+    div#body-wrapper {
+        width: calc(100% - 5rem);
+    }
+}
+
+@media (max-width: 500px){
+    div#body-wrapper {
+        width: calc(100% - 2.5rem);
+        padding: 2rem;
+    }
+}
+
 /* Header */
 
 header#mainheader {
@@ -456,6 +469,16 @@ header#mainheader {
     color: var(--header-fcolor);
 
     font-size: 1.4rem;
+}
+
+header#mainheader div#nav-main {
+    max-width: calc(100% - 4.5rem - 30px);
+}
+
+@media (max-width: 1000px){
+    header#mainheader {
+        padding: 16px 20px;
+    }
 }
 
 /* Footer */

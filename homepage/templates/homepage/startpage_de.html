@@ -1,8 +1,46 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load static %}
 
 {% block title %}Plant Supply Unit{% endblock title %}
 
 {% block body %}
-    <p>Herzlich Willkommen auf der Webiste von TEAM PSU</p>
+    <h2>Das adveisor Programm</h2>
+    <p>
+        Das <a href="https://www.ei.tum.de/adveisor/">adveisor</a> Programm ist Teil des Angebots der Fakult&auml;t Elektro- und Informationstechnik der
+        Technischen Universit&auml;t München im Rahmen des gleichnamigen Bachelorstudiengangs. Dieses Softskill-Programm teilt sich in einen Workshopteil und 
+        ein Projekt auf. Im vergangenen Wintersemester besuchten wir somit Workshops zu diversen Themen wie Kommunikation, Arbeiten im Team und Projektorganisation.
+        Das nun kommende Sommersemester ist dabei der Zeitraum für die Umsetzung des Projektes.
+    </p>
+    <h2>Das Projekt</h2>
+    <p>
+        Das diesjährige Projekt ist eine intelligente an das Internet of Things angebundene Pflanzenpflegestation. Das Projekt ist ausf&uuml;hrlich in einer
+        vorgegebenen Projektdefinition definiert und wird nun von acht Gruppen in einer Art Wettbewerb umgesetzt. So müssen insgesamt mindestens fünf
+        vollfunktionsf&auml;hige Pflegestationen gebaut werden, welche alle Daten an einen Server &uuml;bermitteln, welcher sich dann um die Verarbeitung und
+        Aufbereitung der Daten k&uuml;mmert und darauf basiert die Entscheidungen über die Pflanzenpflege trifft. Au&szlig;erdem werden die Stationen
+        einer technischen Abnahme unterzogen, in der vor allen Dingen die Sicherheitsaspekte der Stationen betrachtet werden.<br>
+        Unserer L&ouml;sungsansatz sieht dabei diese Website
+        als zentrale Steuerungseinheit für die Pflegestationen vor. Zudem haben wir uns den Ma&szlig;stab gesetzt, dass unsere Pflanzenpflegestationen dem
+        'Plug 'n' Play' Konzept folgen und somit keinerlei - für solche Projekte &uuml;bliche - spezielle Konfiguration ben&ouml;tigen und ein möglicher Nutzer 
+        eine Station durch einfaches Einstecken und einen kurzen einfachen Registrierungsprozess auf dieser Website in Betrieb nehmen kann.
+        Zudem soll der Nutzer alle Einstellungen bequem durch diese Website vornehmen können und damit eine einfache Bedienung sichergestellt werden.
+        Die einzelnen Pflegestationen werden dabei über diverse Sensoren, wie einen Bodenfeuchte- und Temperatursensor, verfügen, um die entsprechende Pflanze
+        bestmöglich mit Wasser durch eine Pumpe zu versorgen.
+    </p>
+    <h2>Der Weg zum Ziel</h2>
+    <p>
+        Zur Umsetzung dieses Projektes haben wir uns drei entscheidende Meilensteine gesetzt. So soll Ende M&auml;rz die theoretische Planung an den
+        Stationen abgeschlossen werden und anschlie&szlig;end Ende April die erste Pflegestation einsatzbereit sein. Ab Mitte Mai sollen dann alle
+        fünf Stationen vollfunktionsf&auml;hig sein und somit die zur Evaluation des Projektes nötigen Daten sammeln und dabei insgesamt fünf Pflanzen
+        pflegen. Die abschließende Evaluation und Präsentation wird dann Ende Juni 2021 stattfinden.
+    </p>
+    <h2>Unsere Gruppe</h2>
+    <p>
+        Wir sind das das Team PSU - Plant Supply Unit und sind 13 hochmotivierte Bachelorstudenten in Elektro- und Informationstechnik, die sich auf diese
+        Herausforderung eingelassen haben. Dabei sind wir hier in der Lage uns in der Elektrotechnik auszutoben und unser frisch hinzugewonnenes
+        Wissen direkt an einem konkreten Projekt anzuwenden. Nebenbei treibt uns natürlich der Wettbewerb an, die beste Pflanzenpflegelösung im Vergleich zu
+        den anderen Gruppen zu entwickeln.
+    </p>
+    <img src="{% static 'images/team.png' %}" style="width: 80%; display: block; margin: 0 auto;"/>
+
 {% endblock body %}
