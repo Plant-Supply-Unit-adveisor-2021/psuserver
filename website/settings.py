@@ -32,7 +32,7 @@ environ.Env.read_env("../.env")
 
 
 # configuration considering development and production
-if env('DJANGO_DEBUG', '') == 'FALSE':
+if env('DJANGO_DEBUG') == 'FALSE':
     # apply settings needed for the production server
     DEBUG = False
 
