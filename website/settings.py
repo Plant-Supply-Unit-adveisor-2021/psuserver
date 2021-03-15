@@ -35,6 +35,7 @@ environ.Env.read_env("../.env")
 if env('DJANGO_DEBUG') == 'FALSE':
     # apply settings needed for the production server
     DEBUG = False
+    ALLOWED_HOSTS = ['*']
 
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
