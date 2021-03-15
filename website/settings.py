@@ -32,10 +32,30 @@ environ.Env.read_env("../.env")
 
 
 # configuration considering development and production
-if env('DJANGO_DEBUG') == 'FALSE':
+if env('DJANGO_DEBUG', '') == 'FALSE':
     # apply settings needed for the production server
     DEBUG = False
-    ALLOWED_HOSTS = []
+
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_SSL_REDIRECT = True
+
+    SECRET_KEY = env("SECRET_KEY")
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': env('DATABASE_NAME'),
+            'USER': env('DATABASE_USERNAME'),
+            'PASSWORD': env('DATABASE_PASSWORD'),
+            'HOST': env('DATABASE_HOST'),
+            'PORT': env('DATABASE_PORT'),
+        }
+    }
+
 
 else:
     # apply settings needed for the development process
