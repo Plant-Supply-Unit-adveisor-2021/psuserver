@@ -42,7 +42,8 @@ if env('DJANGO_DEBUG') == 'FALSE':
 
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SECURE_BROWSER_XSS_FILTER = True
-    SECURE_SSL_REDIRECT = True
+    # seems to generate a lot of trouble
+    # SECURE_SSL_REDIRECT = True
 
     SECRET_KEY = env("SECRET_KEY")
 
