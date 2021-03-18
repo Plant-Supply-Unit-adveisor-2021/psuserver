@@ -19,9 +19,12 @@ from django.shortcuts import redirect
 from django.conf.urls import include, url
 from django.conf.urls.i18n import i18n_patterns
 
+from website.utils import geti18nTagClosestToRequest
+
 # URL Patterns without i18n tags
 urlpatterns = [
     path(r'psucontrol/', include('psucontrol.urls', namespace='psucontrol')),
+    path(r'', lambda request: redirect('/'+ geti18nTagClosestToRequest(request) +'/'))
 ]
 
 # URL Patterns with i18n tags
