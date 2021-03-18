@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-14 11:34+0100\n"
+"POT-Creation-Date: 2021-03-18 18:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,7 +38,7 @@ msgstr ""
 "aktiviert."
 
 #: .\authentification\forms.py:39 .\authentification\forms.py:82
-msgid "Fist Name"
+msgid "First Name"
 msgstr "Vorname"
 
 #: .\authentification\forms.py:40 .\authentification\forms.py:83
@@ -251,11 +251,11 @@ msgstr "Datenmessung"
 msgid "Data Measurements"
 msgstr "Datenmessungen"
 
-#: .\website\settings.py:137
+#: .\website\settings.py:159
 msgid "de"
 msgstr "Deutsch"
 
-#: .\website\settings.py:138
+#: .\website\settings.py:160
 msgid "en"
 msgstr "Englisch"
 

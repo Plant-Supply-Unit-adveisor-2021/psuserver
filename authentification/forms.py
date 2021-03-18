@@ -79,7 +79,7 @@ class RegisterForm(forms.Form):
     form for signing up
     """
     email = forms.EmailField(required=True, label=_("E-Mail"))
-    first_name = forms.CharField(required=True, label=_("Fist Name"))
+    first_name = forms.CharField(required=True, label=_("First Name"))
     last_name = forms.CharField(required=True, label=_("Last Name"))
     passwd_1 = forms.CharField(required=False, label=_("Password"), widget=forms.PasswordInput, help_text=password_validators_help_text_html())
     passwd_2 = forms.CharField(required=False, label=_("Confirm Password"), widget=forms.PasswordInput)
