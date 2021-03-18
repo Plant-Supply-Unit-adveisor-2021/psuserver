@@ -85,6 +85,7 @@ INSTALLED_APPS = [
     'authentification',
     'homepage',
     'psucontrol',
+    'psufrontend',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
