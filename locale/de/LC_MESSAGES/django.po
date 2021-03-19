@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-18 19:00+0100\n"
+"POT-Creation-Date: 2021-03-19 19:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -211,7 +211,7 @@ msgstr "Pflanzenpflegestation"
 msgid "Plant Supply Units"
 msgstr "Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:46
+#: .\psucontrol\models.py:46 .\psufrontend\forms.py:12
 msgid "pairing key"
 msgstr "Kopplungsschlüssel"
 
@@ -254,6 +254,25 @@ msgstr "Datenmessungen"
 #: .\psufrontend\apps.py:7
 msgid "PSU Frontend"
 msgstr "PSU Bedienoberfläche"
+
+#: .\psufrontend\forms.py:13
+msgid "This key should be displayed on your PSU."
+msgstr "Der Kopplungsschlüssel sollte auf deiner Pflegestation angeziegt werden."
+
+#: .\psufrontend\forms.py:14
+msgid "PSU name"
+msgstr "Name der neuen Pflanzenpflegestation"
+
+#: .\psufrontend\forms.py:15
+msgid "Choose a name to identify this particular PSU."
+msgstr "Wähle einen Namen für diese neue Pflanzenpflegestation."
+
+#: .\psufrontend\forms.py:19
+msgid ""
+"Sadly we could not match the given pairing key. Please check wether the key "
+"is correct and wether your PSU has a internet connection."
+msgstr "Leider konnten wir den Kopplungsschlüssel nicht in unserer Datenbank finden. "
+"Bitte überprüfe den Schlüssel nochmal und die Internetverbindung der Pflegestation."
 
 #: .\website\settings.py:160
 msgid "de"
