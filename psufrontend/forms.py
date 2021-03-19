@@ -5,13 +5,13 @@ from django.core.exceptions import ValidationError
 
 from psucontrol.models import PendingPSU
 
-class RegisterPSU(forms.Form):
+class RegisterPSUForm(forms.Form):
     """
     form for registering a PSU and converting a PendingPSU into a PSU
     """
-    pairing_key = forms.CharField(_('pairing key'), max_length=6, min_length=6,
+    pairing_key = forms.CharField(label=_('Pairing key'), max_length=6, min_length=6,
                                   help_text=_('This key should be displayed on your PSU.'))
-    name = forms.CharField(_('PSU name'), max_length=128, min_length=6,
+    name = forms.CharField(label=_('PSU name'), max_length=128, min_length=6,
                             help_text=_('Choose a name to identify this particular PSU.'))
 
     def clean(self):
