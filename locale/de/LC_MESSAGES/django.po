@@ -255,11 +255,11 @@ msgstr "Datenmessungen"
 msgid "PSU Frontend"
 msgstr "PSU Bedienoberfläche"
 
-#: .\website\settings.py:159
+#: .\website\settings.py:160
 msgid "de"
 msgstr "Deutsch"
 
-#: .\website\settings.py:160
+#: .\website\settings.py:161
 msgid "en"
 msgstr "Englisch"
 
