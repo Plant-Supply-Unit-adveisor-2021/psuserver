@@ -8,8 +8,10 @@ from secrets import token_urlsafe, token_hex
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.exceptions import InvalidSignature
+
+from django.utils.timezone import make_aware
 from django.utils import timezone
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 from psucontrol.models import PendingPSU, PSU, DataMeasurement
 
@@ -118,7 +120,8 @@ def add_data_measurement(request):
         
         # try to create new DataMeasurement
         try:
-            DataMeasurement(psu=psu, timestamp=timezone.now(),
+            DataMeasurement(psu=psu,
+                            timestamp=make_aware(datetime.strptime(request.POST['timestamp'], '%Y-%m-%d_%H-%M-%S')),
                             temperature=float(request.POST['temperature']),
                             air_humidity=float(request.POST['air_humidity']),
                             ground_humidity=float(request.POST['ground_humidity']),
