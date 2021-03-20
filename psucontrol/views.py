@@ -3,11 +3,17 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
+import base64
 from secrets import token_urlsafe, token_hex
-from django.utils import timezone
-from datetime import timedelta
+from cryptography.hazmat.primitives.asymmetric import rsa, padding
+from cryptography.hazmat.primitives import serialization, hashes
+from cryptography.exceptions import InvalidSignature
 
-from psucontrol.models import PendingPSU, PSU
+from django.utils.timezone import make_aware
+from django.utils import timezone
+from datetime import timedelta, datetime
+
+from psucontrol.models import PendingPSU, PSU, DataMeasurement
 
 # Create your views here.
 
@@ -18,6 +24,31 @@ def remove_old_pending_psus():
     for p in PendingPSU.objects.all():
         if timedelta(hours=1) < (timezone.now() - p.creation_time):
             p.delete()
+
+def check_challenge_response(identity_key, response):
+    """
+    function to check wether challenge-response-authentifiction was successful
+    return None or the corresponding PSU
+    """
+    try:
+        psu = PSU.objects.get(identity_key=identity_key)
+    except:
+        return None
+    try:
+        public_key = serialization.load_pem_public_key(bytes(psu.public_rsa_key, 'utf-8'))
+        public_key.verify(base64.urlsafe_b64decode(response), bytes(psu.current_challenge, 'utf-8'),
+                          padding.PSS(
+                              mgf=padding.MGF1(hashes.SHA256()),
+                              salt_length=padding.PSS.MAX_LENGTH),
+                          hashes.SHA256())
+        psu.current_challenge = ""
+        psu.save()
+        return psu
+    except Exception as e:
+        psu.current_challenge = ""
+        psu.save()
+        return None
+    
 
 @csrf_exempt
 @require_POST
@@ -43,10 +74,64 @@ def register_new_psu(request):
         try:
             PendingPSU(identity_key=iKey, pairing_key=pKey, public_rsa_key=request.POST['public_rsa_key']).save()
         except:
-            print('PROBLEM')
             return JsonResponse({'status':'failed'})
 
         # successful request -> return iKey and pKey
         return JsonResponse({'status':'ok', 'identity_key':iKey, 'pairing_key':pKey})
+    else:
+        return JsonResponse({'status':'failed'})
+
+@csrf_exempt
+@require_POST
+def get_challenge(request):
+    """
+    view to handle the request of a new challenge
+    expects the identity_key of the PSU
+    """
+
+    if request.POST:
+        # generate new challenge
+        challenge = token_urlsafe(96)
+        try:
+            psu = PSU.objects.get(identity_key=request.POST['identity_key'])
+            psu.current_challenge = challenge
+            psu.save()
+        except:
+            return JsonResponse({'status':'failed'})
+        
+        return JsonResponse({'status':'ok','challenge':challenge})
+    else:
+        return JsonResponse({'status':'failed'})
+
+
+@csrf_exempt
+@require_POST
+def add_data_measurement(request):
+    """
+    view to handle the process to add a new data entry
+    """
+    if request.POST:
+        # identification and authentifiction of the PSU
+        psu = check_challenge_response(request.POST['identity_key'], request.POST['signed_challenge'])
+        
+        # check whether authentification was successful
+        if psu is None:
+            return JsonResponse({'status':'failed'})
+        
+        # try to create new DataMeasurement
+        try:
+            DataMeasurement(psu=psu,
+                            timestamp=make_aware(datetime.strptime(request.POST['timestamp'], '%Y-%m-%d_%H-%M-%S')),
+                            temperature=float(request.POST['temperature']),
+                            air_humidity=float(request.POST['air_humidity']),
+                            ground_humidity=float(request.POST['ground_humidity']),
+                            brightness=float(request.POST['brightness']),
+                            fill_level=float(request.POST['fill_level'])).save()
+        
+        except Exception as e:
+            print(e)
+            return JsonResponse({'status':'failed'})
+
+        return JsonResponse({'status':'ok'})
     else:
         return JsonResponse({'status':'failed'})
