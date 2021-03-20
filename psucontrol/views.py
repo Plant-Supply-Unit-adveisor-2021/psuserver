@@ -3,7 +3,11 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
+import base64
 from secrets import token_urlsafe, token_hex
+from cryptography.hazmat.primitives.asymmetric import rsa, padding
+from cryptography.hazmat.primitives import serialization, hashes
+from cryptography.exceptions import InvalidSignature
 from django.utils import timezone
 from datetime import timedelta
 
@@ -18,6 +22,33 @@ def remove_old_pending_psus():
     for p in PendingPSU.objects.all():
         if timedelta(hours=1) < (timezone.now() - p.creation_time):
             p.delete()
+
+def check_challenge_response(identity_key, response):
+    """
+    function to check wether challenge-response-authentifiction was successful
+    return None or the corresponding PSU
+    """
+    print(response)
+    try:
+        psu = PSU.objects.get(identity_key=identity_key)
+    except:
+        return None
+    
+    try:
+        public_key = serialization.load_pem_public_key(bytes(psu.public_rsa_key, 'utf-8'))
+        public_key.verify(base64.urlsafe_b64decode(response), psu.current_challenge,
+                          padding.PSS(
+                              mgf=padding.MGF1(hashes.SHA256()),
+                              salt_length=padding.PSS.MAX_LENGTH),
+                          hashes.SHA256())
+        psu.current_challenge = ""
+        psu.save()
+        return psu
+    except:
+        psu.current_challenge = ""
+        psu.save()
+        return None
+    
 
 @csrf_exempt
 @require_POST
