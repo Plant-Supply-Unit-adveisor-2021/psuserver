@@ -11,7 +11,7 @@ from cryptography.exceptions import InvalidSignature
 from django.utils import timezone
 from datetime import timedelta
 
-from psucontrol.models import PendingPSU, PSU
+from psucontrol.models import PendingPSU, PSU, DataMeasurement
 
 # Create your views here.
 
@@ -28,7 +28,6 @@ def check_challenge_response(identity_key, response):
     function to check wether challenge-response-authentifiction was successful
     return None or the corresponding PSU
     """
-    print(response)
     try:
         psu = PSU.objects.get(identity_key=identity_key)
     except:
@@ -110,10 +109,23 @@ def add_data_measurement(request):
     view to handle the process to add a new data entry
     """
     if request.POST:
+        # identification and authentifiction of the PSU
         psu = check_challenge_response(request.POST['identity_key'], request.POST['signed_challenge'])
+        
+        # check whether authentification was successful
         if psu is None:
             return JsonResponse({'status':'failed'})
         
+        # try to create new DataMeasurement
+        try:
+            DataMeasurement(psu=psu, timestamp=timezone.now(),
+                            temperature=float(request.POST['temperature']),
+                            ground_humidity=float(request.POST['ground_humidity']),
+                            brightness=float(request.POST['brightness'])).save()
+        except Exception as e:
+            print(e)
+            return JsonResponse({'status':'failed'})
+
         return JsonResponse({'status':'ok'})
     else:
         return JsonResponse({'status':'failed'})

@@ -64,7 +64,7 @@ class DataMeasurement(models.Model):
     psu = models.ForeignKey(PSU, models.CASCADE, verbose_name=_('Plant Supply Unit'))
 
     # field storing the time stamp
-    timestamp = models.DateTimeField(_('timestamp'), auto_now_add=True)
+    timestamp = models.DateTimeField(_('timestamp'))
 
     # for testing purposes only a few testing fields
     temperature = models.FloatField(_('temperature'))
