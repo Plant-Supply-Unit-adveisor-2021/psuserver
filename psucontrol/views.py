@@ -33,10 +33,9 @@ def check_challenge_response(identity_key, response):
         psu = PSU.objects.get(identity_key=identity_key)
     except:
         return None
-    
     try:
         public_key = serialization.load_pem_public_key(bytes(psu.public_rsa_key, 'utf-8'))
-        public_key.verify(base64.urlsafe_b64decode(response), psu.current_challenge,
+        public_key.verify(base64.urlsafe_b64decode(response), bytes(psu.current_challenge, 'utf-8'),
                           padding.PSS(
                               mgf=padding.MGF1(hashes.SHA256()),
                               salt_length=padding.PSS.MAX_LENGTH),
@@ -44,7 +43,7 @@ def check_challenge_response(identity_key, response):
         psu.current_challenge = ""
         psu.save()
         return psu
-    except:
+    except Exception as e:
         psu.current_challenge = ""
         psu.save()
         return None
@@ -100,5 +99,21 @@ def get_challenge(request):
             return JsonResponse({'status':'failed'})
         
         return JsonResponse({'status':'ok','challenge':challenge})
+    else:
+        return JsonResponse({'status':'failed'})
+
+
+@csrf_exempt
+@require_POST
+def add_data_measurement(request):
+    """
+    view to handle the process to add a new data entry
+    """
+    if request.POST:
+        psu = check_challenge_response(request.POST['identity_key'].replace('1','i'), request.POST['signed_challenge'])
+        if psu is None:
+            return JsonResponse({'status':'failed'})
+        
+        return JsonResponse({'status':'ok'})
     else:
         return JsonResponse({'status':'failed'})
