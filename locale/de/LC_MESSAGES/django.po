@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-19 21:11+0100\n"
+"POT-Creation-Date: 2021-03-20 17:33+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -188,67 +188,79 @@ msgstr "PSU Steuerung"
 msgid "name"
 msgstr "Name"
 
-#: .\psucontrol\models.py:20 .\psucontrol\models.py:42
+#: .\psucontrol\models.py:20 .\psucontrol\models.py:43
 msgid "identity key"
 msgstr "Identitätsschlüssel"
 
-#: .\psucontrol\models.py:21 .\psucontrol\models.py:44
+#: .\psucontrol\models.py:21 .\psucontrol\models.py:45
 msgid "public rsa key"
 msgstr "Öffentlicher RSA-Schlüssel"
 
-#: .\psucontrol\models.py:24
+#: .\psucontrol\models.py:22
+msgid "current challenge token"
+msgstr "Aktueller Challenge Token"
+
+#: .\psucontrol\models.py:25
 msgid "owner"
 msgstr "Besitzer:in"
 
-#: .\psucontrol\models.py:25
+#: .\psucontrol\models.py:26
 msgid "permitted users"
 msgstr "Berechtigte Benutzer:innen"
 
-#: .\psucontrol\models.py:31 .\psucontrol\models.py:63
+#: .\psucontrol\models.py:32 .\psucontrol\models.py:64
 msgid "Plant Supply Unit"
 msgstr "Pflanzenpflegestation"
 
-#: .\psucontrol\models.py:32
+#: .\psucontrol\models.py:33
 msgid "Plant Supply Units"
 msgstr "Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:46
+#: .\psucontrol\models.py:47
 msgid "pairing key"
 msgstr "Kopplungsschlüssel"
 
-#: .\psucontrol\models.py:49
+#: .\psucontrol\models.py:50
 msgid "creation time"
 msgstr "Erstellungszeit"
 
-#: .\psucontrol\models.py:52
+#: .\psucontrol\models.py:53
 msgid "Pending Plant Supply Unit"
 msgstr "schwebende Pflanzenpflegestation"
 
-#: .\psucontrol\models.py:53
+#: .\psucontrol\models.py:54
 msgid "Pending Plant Supply Units"
 msgstr "schwebende Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:66
+#: .\psucontrol\models.py:67
 msgid "timestamp"
 msgstr "Zeitstempel"
 
-#: .\psucontrol\models.py:69
+#: .\psucontrol\models.py:70
 msgid "temperature"
 msgstr "Temperatur"
 
-#: .\psucontrol\models.py:70
+#: .\psucontrol\models.py:71
+msgid "air humidity"
+msgstr "Luftfeuchte"
+
+#: .\psucontrol\models.py:72
 msgid "ground humidity"
 msgstr "Bodenfeuchte"
 
-#: .\psucontrol\models.py:71
+#: .\psucontrol\models.py:73
 msgid "brightness"
 msgstr "Helligkeit"
 
-#: .\psucontrol\models.py:77
+#: .\psucontrol\models.py:74
+msgid "fill level"
+msgstr "Füllstand"
+
+#: .\psucontrol\models.py:80
 msgid "Data Measurement"
 msgstr "Datenmessung"
 
-#: .\psucontrol\models.py:78
+#: .\psucontrol\models.py:81
 msgid "Data Measurements"
 msgstr "Datenmessungen"
 
@@ -290,7 +302,7 @@ msgstr "PSU Registrieren"
 msgid "Register Plant Supply Unit"
 msgstr "Registrierung einer neuen Pflanzenpflegestation"
 
-#: .\psufrontend\views.py:26
+#: .\psufrontend\views.py:29
 msgid "Successfully registered your new Plant Supply Unit."
 msgstr "Deine neue Pflanzenpflegestation wurde erfolgreich hinzugefügt."
 

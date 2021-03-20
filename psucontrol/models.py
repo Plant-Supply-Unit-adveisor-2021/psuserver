@@ -26,7 +26,7 @@ class PSU(models.Model):
     permitted_users = models.ManyToManyField(User, verbose_name=_('permitted users'), related_name='permitted_user', blank=True)
 
     def __str__(self):
-        return '{:02d} - {}'.format(self.id, self.name)
+        return '{:02d} - {}  --  {}'.format(self.id, self.name, self.owner)
 
     class Meta:
         verbose_name = _('Plant Supply Unit')
@@ -68,8 +68,10 @@ class DataMeasurement(models.Model):
 
     # for testing purposes only a few testing fields
     temperature = models.FloatField(_('temperature'))
+    air_humidity = models.FloatField(_('air humidity'))
     ground_humidity = models.FloatField(_('ground humidity'))
     brightness = models.FloatField(_('brightness'))
+    fill_level = models.FloatField(_('fill level'))
 
     def __str__(self):
         return '{} - {:02}.{:02}.{:04} {:02}:{:02}'.format(self.psu, self.timestamp.day, self.timestamp.month, self.timestamp.year, self.timestamp.hour, self.timestamp.minute)

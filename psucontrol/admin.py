@@ -23,5 +23,6 @@ class PendingPSUAdmin(admin.ModelAdmin):
 class DataMeasurementAdmin(admin.ModelAdmin):
     model = DataMeasurement
 
-    list_display = ['psu', 'timestamp', 'temperature', 'ground_humidity', 'brightness']
-    search_fields = ['psu', 'temperature', 'ground_humidity', 'brightness']
+    list_display = ['psu', 'timestamp', 'temperature', 'air_humidity', 'ground_humidity', 'brightness', 'fill_level']
+    list_filter = ['psu']
+    search_fields = ['psu__id', 'psu__name', 'psu__owner__email', 'psu__owner__last_name', 'psu__owner__first_name']

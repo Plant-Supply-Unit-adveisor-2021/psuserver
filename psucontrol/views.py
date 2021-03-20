@@ -120,8 +120,11 @@ def add_data_measurement(request):
         try:
             DataMeasurement(psu=psu, timestamp=timezone.now(),
                             temperature=float(request.POST['temperature']),
+                            air_humidity=float(request.POST['air_humidity']),
                             ground_humidity=float(request.POST['ground_humidity']),
-                            brightness=float(request.POST['brightness'])).save()
+                            brightness=float(request.POST['brightness']),
+                            fill_level=float(request.POST['fill_level'])).save()
+        
         except Exception as e:
             print(e)
             return JsonResponse({'status':'failed'})
