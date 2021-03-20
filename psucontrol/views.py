@@ -110,7 +110,7 @@ def add_data_measurement(request):
     view to handle the process to add a new data entry
     """
     if request.POST:
-        psu = check_challenge_response(request.POST['identity_key'].replace('1','i'), request.POST['signed_challenge'])
+        psu = check_challenge_response(request.POST['identity_key'], request.POST['signed_challenge'])
         if psu is None:
             return JsonResponse({'status':'failed'})
         
