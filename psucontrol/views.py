@@ -62,12 +62,10 @@ def get_challenge(request):
         # generate new challenge
         challenge = token_urlsafe(96)
         try:
-            # try storing current challenge to database
             psu = PSU.objects.get(identity_key=request.POST['identity_key'])
             psu.current_challenge = challenge
             psu.save()
         except:
-            print("TEST")
             return JsonResponse({'status':'failed'})
         
         return JsonResponse({'status':'ok','challenge':challenge})

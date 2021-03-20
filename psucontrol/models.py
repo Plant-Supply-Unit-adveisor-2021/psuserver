@@ -19,7 +19,7 @@ class PSU(models.Model):
     # authentification of the PSU
     identity_key = models.CharField(_('identity key'), max_length=128, unique=True)
     public_rsa_key = models.CharField(_('public rsa key'), max_length=451, unique=True)
-    current_challenge = models.CharField(_('current challenge token'), max_length=128)
+    current_challenge = models.CharField(_('current challenge token'), max_length=128, blank=True)
 
     # ownership of the PSU
     owner = models.ForeignKey(User, models.PROTECT, verbose_name=_('owner'), related_name='owner')
