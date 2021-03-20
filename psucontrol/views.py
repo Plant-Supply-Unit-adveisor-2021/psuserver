@@ -43,10 +43,33 @@ def register_new_psu(request):
         try:
             PendingPSU(identity_key=iKey, pairing_key=pKey, public_rsa_key=request.POST['public_rsa_key']).save()
         except:
-            print('PROBLEM')
             return JsonResponse({'status':'failed'})
 
         # successful request -> return iKey and pKey
         return JsonResponse({'status':'ok', 'identity_key':iKey, 'pairing_key':pKey})
+    else:
+        return JsonResponse({'status':'failed'})
+
+@csrf_exempt
+@require_POST
+def get_challenge(request):
+    """
+    view to handle the request of a new challenge
+    expects the identity_key of the PSU
+    """
+
+    if request.POST:
+        # generate new challenge
+        challenge = token_urlsafe(96)
+        try:
+            # try storing current challenge to database
+            psu = PSU.objects.get(identity_key=request.POST['identity_key'])
+            psu.current_challenge = challenge
+            psu.save()
+        except:
+            print("TEST")
+            return JsonResponse({'status':'failed'})
+        
+        return JsonResponse({'status':'ok','challenge':challenge})
     else:
         return JsonResponse({'status':'failed'})
