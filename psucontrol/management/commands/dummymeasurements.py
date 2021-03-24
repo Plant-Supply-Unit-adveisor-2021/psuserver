@@ -21,6 +21,9 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('-p', '--PSU', type=int, help='ID of the PSU for which the data should be created.')
         parser.add_argument('-c', '--create', action='store_true', help='Create a new PSU. Overwrites -p/--PSU.')
+        parser.add_argument('-d', '--days', type=int, default=2, help='Number of days in the past for which dummy data should be created. Defaults to 2.')
+        parser.add_argument('-u', '--upcoming', type=int, default=3, help='Number of upcoming hours for which dummy data should already be created. Defaults to 3.')
+        parser.add_argument('-s', '--step', type=int, default=15, help='Number of minutes between measurements. Defaults to 15.')
 
     @transaction.atomic
     def handle(self, *args, **options):
@@ -42,11 +45,11 @@ class Command(BaseCommand):
             return
 
         self.stdout.write('Started creating dummy data for PSU \'%s\'. This might take a while ...' % str(self.psu))
-        self.create_data(2)
+        self.create_data(options['days'], options['upcoming'], options['step'])
         self.stdout.write('Finished creating dummy data for PSU \'%s\'.' % str(self.psu))
 
 
-    def create_data(self, days, *, step=15):
+    def create_data(self, days, upcoming_hours, step):
         """
         function to create the data
         """
@@ -66,7 +69,7 @@ class Command(BaseCommand):
         cBright = 0
         counter = 0
         
-        while (timezone.now() - cTime) > timedelta():
+        while (timezone.now() - cTime) > timedelta(hours=-upcoming_hours):
             
             # logic for the tempreature
             if cTime.hour == 3 and cTime + timedelta(minutes=step) == 4:
