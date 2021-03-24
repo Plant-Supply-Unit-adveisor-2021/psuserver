@@ -5,7 +5,7 @@ from django.utils import timezone
 from secrets import token_urlsafe
 from datetime import timedelta
 
-from math import exp, log
+from math import log
 from random import random, randint
 
 from psucontrol.models import PSU, DataMeasurement
@@ -49,6 +49,7 @@ class Command(BaseCommand):
         self.stdout.write('Finished creating dummy data for PSU \'%s\'.' % str(self.psu))
 
 
+    @transaction.atomic
     def create_data(self, days, upcoming_hours, step):
         """
         function to create the data
