@@ -41,9 +41,9 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR('Error: You have to use either the -c option to create a new PSU or the -p option to specify one.'))
             return
 
-        #self.stdout.write('Started creating dummy data for PSU \'%s\'. This might take a while ...' % str(self.psu))
+        self.stdout.write('Started creating dummy data for PSU \'%s\'. This might take a while ...' % str(self.psu))
         self.create_data(2)
-        #self.stdout.write('Finished creating dummy data for PSU \'%s\'.' % str(self.psu))
+        self.stdout.write('Finished creating dummy data for PSU \'%s\'.' % str(self.psu))
 
 
     def create_data(self, days, *, step=15):
@@ -51,7 +51,7 @@ class Command(BaseCommand):
         function to create the data
         """
         cTime = timezone.now().replace(hour=0, minute=randint(0,5), second=randint(0,59), microsecond=randint(0,999999)) - timedelta(days=days)
-        #self.stdout.write('START TIME: %s' % str(cTime))
+        self.stdout.write('START TIME: %s' % str(cTime))
 
         # starting with temperature between 5 and 20 degrees
         cTemp = random() * 15 + 5
@@ -113,13 +113,15 @@ class Command(BaseCommand):
                 cGHum = random() * 0.1 + 0.8
 
             # write CSV-formated list for testing
-            self.stdout.write(  '{};{:.6f};{:.6f};{:.6f};{:.6f};{:.6f}'
-                                .format(cTime.strftime("%d.%m.%y %H:%M:%S"), 
-                                addFail(cTemp, -10, 40, 1), addFail(cAHum*100, 0, 100, 2), addFail(cGHum*100, 0, 100, 3), addFail(cFLevel*100, 0, 100, 1.5), addFail(cBright*100, 0, 100, 3))
-                                .replace('.',',').replace(',', '.', 2))
+            #self.stdout.write(  '{};{:.6f};{:.6f};{:.6f};{:.6f};{:.6f}'
+            #                    .format(cTime.strftime("%d.%m.%y %H:%M:%S"), 
+            #                    addFail(cTemp, -10, 40, 1), addFail(cAHum*100, 0, 100, 2), addFail(cGHum*100, 0, 100, 3), addFail(cFLevel*100, 0, 100, 1.5), addFail(cBright*100, 0, 100, 3))
+            #                    .replace('.',',').replace(',', '.', 2))
             
             # create new DataMeasurement
-            #DataMeasurement.objects.create(psu=self.psu, timestamp=cTime)
+            DataMeasurement.objects.create( psu=self.psu, timestamp=cTime, temperature=addFail(cTemp, -10, 40, 1),
+                                            air_humidity=addFail(cAHum*100, 0, 100, 2), ground_humidity=addFail(cGHum*100, 0, 100, 3),
+                                            fill_level=addFail(cFLevel*100, 0, 100, 1.5), brightness=addFail(cBright*100, 0, 100, 3))
 
 
             counter += step
