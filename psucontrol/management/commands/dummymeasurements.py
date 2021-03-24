@@ -5,7 +5,7 @@ from django.utils import timezone
 from secrets import token_urlsafe
 from datetime import timedelta
 
-from math import exp
+from math import exp, log
 from random import random, randint
 
 from psucontrol.models import PSU, DataMeasurement
@@ -42,11 +42,11 @@ class Command(BaseCommand):
             return
 
         #self.stdout.write('Started creating dummy data for PSU \'%s\'. This might take a while ...' % str(self.psu))
-        self.create_data(1)
+        self.create_data(2)
         #self.stdout.write('Finished creating dummy data for PSU \'%s\'.' % str(self.psu))
 
 
-    def create_data(self, days, *, steps=15):
+    def create_data(self, days, *, step=15):
         """
         function to create the data
         """
@@ -55,21 +55,49 @@ class Command(BaseCommand):
 
         # starting with temperature between -5 and 20 degrees
         cTemp = random() * 25 - 5
+        tempTrend = random() * 0.2 - 0.1
         # setting ari humidity static for now
         cAHum = 10
         # starting with ground humidity between 0 and 100
-        cGHum = random() * 100
+        cGHum = random()
         # starting with 70 to 100 fill level
         cFLevel = random() * 30 + 70
         # starting with brightness betwenn 0 and 30 (midnight)
         cBright = random() * 30
-        mins = 0
+        counter = 0
         
         while (timezone.now() - cTime) > timedelta():
+            
+            # logic for the tempreature
+            if cTime.hour == 3 and cTime + timedelta(minutes=step) == 4:
+                tempTrend = random() * 0.2 - 0.1
+            if cTime.hour < 4 or cTime.hour > 19:
+                # let temperatures sink
+                cTemp += (-random() * 4 + 0.5 + tempTrend) * step / 60
+            elif (cTime.hour >= 4 and cTime.hour < 6) or (cTime.hour > 17 and cTime.hour <= 19):
+                # let temperatures sink just a little
+                cTemp += (-random() * 2 + 0.25 + tempTrend) * step / 60
+            elif (cTime.hour >= 6 and cTime.hour < 8) or (cTime.hour > 15 and cTime.hour <= 17):
+                # let temerature raise just a little
+                cTemp += (random() * 2 - 0.25 + tempTrend) * step / 60
+            else:
+                # let temerature raise
+                cTemp += (random() * 4 - 0.5 + tempTrend) * step / 60
+
+            # logic for ground humidity and the watering of the plant
+            cGHum = calcExpStep(cGHum, 720, step)
 
             # write CSV-formated list for testing
-            self.stdout.write('{};{:.6f};{:.6f};{:.6f};{:.6f};{:.6f}'.format(cTime.strftime("%d.%m.%y %H:%M:%S"), cTemp, cAHum, cGHum, cFLevel, cBright).replace('.',',').replace(',', '.', 2))
+            self.stdout.write('{};{:.6f};{:.6f};{:.6f};{:.6f};{:.6f}'.format(cTime.strftime("%d.%m.%y %H:%M:%S"), cTemp, cAHum, cGHum * 100, cFLevel, cBright).replace('.',',').replace(',', '.', 2))
             
-            mins += steps
-            cTime = cTime + timedelta(minutes=steps, seconds=randint(0, 29), microseconds=randint(0,999999))
+            counter += step
+            cTime = cTime + timedelta(minutes=step, seconds=randint(0, 29), microseconds=randint(0,999999))
 
+
+def calcExpStep(cValue, parm, step):
+    """
+    calculates the current x (negative) though cValue and the parm
+    returns exp( (x-step)/parm )
+    """
+    x = log(cValue) * parm
+    return exp((x-step) / parm)
