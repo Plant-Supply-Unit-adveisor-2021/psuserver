@@ -42,7 +42,7 @@ class Command(BaseCommand):
             return
 
         #self.stdout.write('Started creating dummy data for PSU \'%s\'. This might take a while ...' % str(self.psu))
-        self.create_data(4)
+        self.create_data(2)
         #self.stdout.write('Finished creating dummy data for PSU \'%s\'.' % str(self.psu))
 
 
@@ -56,14 +56,14 @@ class Command(BaseCommand):
         # starting with temperature between 5 and 20 degrees
         cTemp = random() * 15 + 5
         tempTrend = random() * 0.2 - 0.1
-        # setting ari humidity static for now
-        cAHum = 10
+        # setting air humidity between 0.25 and 0.75
+        cAHum = random()*0.5 + 0.25
         # starting with ground humidity between 0 and 100
         cGHum = random()
         # starting with 70 to 100 fill level
         cFLevel = random() * 0.3 + 0.7
-        # starting with brightness betwenn 0 and 30 (midnight)
-        cBright = random() * 30
+        # starting with brightness 0 (midnight)
+        cBright = 0
         counter = 0
         
         while (timezone.now() - cTime) > timedelta():
@@ -84,6 +84,23 @@ class Command(BaseCommand):
                 # let temerature raise
                 cTemp += (random() * 4 - 0.5 + tempTrend) * step / 60
 
+            # logic for the air humidity
+            cAHum = max(min(cAHum + (cTemp-15)*0.002 * step / 60,1), 0)
+
+            # logic for the brightness
+            if cTime.hour < 6 or cTime.hour > 20:
+                # set the brightness to 0 quickly
+                cBright = max(cBright - random() * 0.3 * step / 60, 0)
+            elif cTime.hour >= 6 and cTime.hour < 9:
+                # let brightness raise
+                cBright = min(cBright + random() * 0.6 * step / 60, 1)
+            elif cTime.hour >= 18 and cTime.hour < 21:
+                # let brightness fall
+                cBright = max(cBright - random() * 0.65 * step / 60, 0)
+            else:
+                # hover brightness around 1 but max 1
+                cBright = min(cBright + (random() * 0.25 - 0.125) * step / 60, 1)
+
             # logic for ground humidity and the watering of the plant
             if cTemp <= 10:
                 parm = 900
@@ -92,11 +109,11 @@ class Command(BaseCommand):
             cGHum = 3.5 ** ((log(cGHum, 3.5) * parm -step) / parm)
             if random() < (cGHum + 1) ** -20:
                 # watering of the plant
-                cFLevel -= (1 - cGHum)/8
+                cFLevel = max(cFLevel - (1 - cGHum)/8, 0)
                 cGHum = random() * 0.1 + 0.8
 
             # write CSV-formated list for testing
-            self.stdout.write('{};{:.6f};{:.6f};{:.6f};{:.6f};{:.6f}'.format(cTime.strftime("%d.%m.%y %H:%M:%S"), cTemp, cAHum, cGHum * 100, cFLevel * 100, cBright).replace('.',',').replace(',', '.', 2))
+            self.stdout.write('{};{:.6f};{:.6f};{:.6f};{:.6f};{:.6f}'.format(cTime.strftime("%d.%m.%y %H:%M:%S"), cTemp, cAHum*100, cGHum * 100, cFLevel * 100, cBright*100).replace('.',',').replace(',', '.', 2))
             
             counter += step
             cTime = cTime + timedelta(minutes=step, seconds=randint(0, 29), microseconds=randint(0,999999))
