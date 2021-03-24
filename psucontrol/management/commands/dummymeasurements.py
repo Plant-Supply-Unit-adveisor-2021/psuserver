@@ -113,7 +113,18 @@ class Command(BaseCommand):
                 cGHum = random() * 0.1 + 0.8
 
             # write CSV-formated list for testing
-            self.stdout.write('{};{:.6f};{:.6f};{:.6f};{:.6f};{:.6f}'.format(cTime.strftime("%d.%m.%y %H:%M:%S"), cTemp, cAHum*100, cGHum * 100, cFLevel * 100, cBright*100).replace('.',',').replace(',', '.', 2))
+            self.stdout.write(  '{};{:.6f};{:.6f};{:.6f};{:.6f};{:.6f}'
+                                .format(cTime.strftime("%d.%m.%y %H:%M:%S"), 
+                                addFail(cTemp, -10, 40, 1), addFail(cAHum*100, 0, 100, 2), addFail(cGHum*100, 0, 100, 3), addFail(cFLevel*100, 0, 100, 1.5), addFail(cBright*100, 0, 100, 3))
+                                .replace('.',',').replace(',', '.', 2))
             
+            # create new DataMeasurement
+            #DataMeasurement.objects.create(psu=self.psu, timestamp=cTime)
+
+
             counter += step
             cTime = cTime + timedelta(minutes=step, seconds=randint(0, 29), microseconds=randint(0,999999))
+
+
+def addFail(value, _min, _max, failure):
+    return min(_max, max(_min, value + random() * failure - failure/2))
