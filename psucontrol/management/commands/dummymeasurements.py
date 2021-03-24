@@ -53,15 +53,15 @@ class Command(BaseCommand):
         cTime = timezone.now().replace(hour=0, minute=randint(0,5), second=randint(0,59), microsecond=randint(0,999999)) - timedelta(days=days)
         #self.stdout.write('START TIME: %s' % str(cTime))
 
-        # starting with temperature between -5 and 20 degrees
-        cTemp = random() * 25 - 5
+        # starting with temperature between 5 and 20 degrees
+        cTemp = random() * 15 + 5
         tempTrend = random() * 0.2 - 0.1
         # setting ari humidity static for now
         cAHum = 10
         # starting with ground humidity between 0 and 100
         cGHum = random()
         # starting with 70 to 100 fill level
-        cFLevel = random() * 30 + 70
+        cFLevel = random() * 0.3 + 0.7
         # starting with brightness betwenn 0 and 30 (midnight)
         cBright = random() * 30
         counter = 0
@@ -85,19 +85,18 @@ class Command(BaseCommand):
                 cTemp += (random() * 4 - 0.5 + tempTrend) * step / 60
 
             # logic for ground humidity and the watering of the plant
-            cGHum = calcExpStep(cGHum, 720, step)
+            if cTemp <= 10:
+                parm = 900
+            else:
+                parm = 1020 - 6*abs(cTemp) ** 1.3
+            cGHum = exp((log(cGHum) * parm -step) / parm)
+            if random() < (cGHum + 1) ** -20:
+                # watering of the plant
+                cFLevel -= (1 - cGHum)/8
+                cGHum = random() * 0.1 + 0.8
 
             # write CSV-formated list for testing
-            self.stdout.write('{};{:.6f};{:.6f};{:.6f};{:.6f};{:.6f}'.format(cTime.strftime("%d.%m.%y %H:%M:%S"), cTemp, cAHum, cGHum * 100, cFLevel, cBright).replace('.',',').replace(',', '.', 2))
+            self.stdout.write('{};{:.6f};{:.6f};{:.6f};{:.6f};{:.6f}'.format(cTime.strftime("%d.%m.%y %H:%M:%S"), cTemp, cAHum, cGHum * 100, cFLevel * 100, cBright).replace('.',',').replace(',', '.', 2))
             
             counter += step
             cTime = cTime + timedelta(minutes=step, seconds=randint(0, 29), microseconds=randint(0,999999))
-
-
-def calcExpStep(cValue, parm, step):
-    """
-    calculates the current x (negative) though cValue and the parm
-    returns exp( (x-step)/parm )
-    """
-    x = log(cValue) * parm
-    return exp((x-step) / parm)
