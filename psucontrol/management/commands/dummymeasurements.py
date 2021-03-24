@@ -42,7 +42,7 @@ class Command(BaseCommand):
             return
 
         #self.stdout.write('Started creating dummy data for PSU \'%s\'. This might take a while ...' % str(self.psu))
-        self.create_data(2)
+        self.create_data(4)
         #self.stdout.write('Finished creating dummy data for PSU \'%s\'.' % str(self.psu))
 
 
@@ -89,7 +89,7 @@ class Command(BaseCommand):
                 parm = 900
             else:
                 parm = 1020 - 6*abs(cTemp) ** 1.3
-            cGHum = exp((log(cGHum) * parm -step) / parm)
+            cGHum = 3.5 ** ((log(cGHum, 3.5) * parm -step) / parm)
             if random() < (cGHum + 1) ** -20:
                 # watering of the plant
                 cFLevel -= (1 - cGHum)/8
