@@ -6,4 +6,5 @@ app_name = 'homepage'
 
 urlpatterns = [
     path('', v.startpage, name='index'),
+    path('table/', v.table, name ='index'),
 ]
