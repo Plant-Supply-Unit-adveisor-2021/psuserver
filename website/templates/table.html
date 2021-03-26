@@ -1,33 +1,54 @@
 {% extends 'base.html' %}
 
+
 {% block body %}
-<table class="table">
+<!--
+<br>
+<div class = "row">
+    <div class = "col-md">
+      <div class = "card card-body">
+        <h5>PSU Unit 1</h5>
+      </div>
+      <div class = "card card-body">
+        <table class = "table">
+          <tr>
+            <th>Timestamp</th>
+            <th>Temperature</th>
+            <th>Air Humidity</th>
+            <th>Ground Humidity</th>
+            <th>Brightness</th>
+            <th>Fill Level</th>
+          </tr>
+
+        </table>
+      </div>
+    </div>
+
+</div>
+-->
+<table class="table table-hover">
   <thead>
     <tr>
-      <th scope="col">time</th>
-      <th scope="col">water in tank (in cm)</th>
-      <th scope="col">humidity in %</th>
+      <th scope="col">Timestamp</th>
       <th scope="col">Temperature</th>
+      <th scope="col">Air Humidity</th>
+      <th scope="col">Ground Humidity</th>
+      <th scope="col">Brightness</th>
+      <th scope="col">Fill Level</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th scope="row">1</th>
-      <td>psu1</td>
-      <td>17:30 24.3.2021</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>psu1</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>@twitter</td>
+      {% for i in DataMeasurement %}
+        <tr>
+          <td>{{i.temperature</td>
+        </tr>
+      {% endfor %}
     </tr>
   </tbody>
 </table>
+
+
+ 
 {% endblock %}
