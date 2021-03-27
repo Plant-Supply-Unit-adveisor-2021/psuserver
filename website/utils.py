@@ -1,4 +1,4 @@
-from authentification.models import User
+from authentication.models import User
 
 # declare utility functions here
 

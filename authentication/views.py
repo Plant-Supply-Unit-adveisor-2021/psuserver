@@ -8,8 +8,8 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from django.db import IntegrityError
 
-from authentification.forms import LoginForm, EditProfileForm, ChangePasswordForm, RegisterForm
-from authentification.models import User
+from authentication.forms import LoginForm, EditProfileForm, ChangePasswordForm, RegisterForm
+from authentication.models import User
 
 # Create your views here.
 
@@ -18,7 +18,7 @@ def login_view(request):
     View for Login
     """
 
-    # redirect to requested page which needs an authentification
+    # redirect to requested page which needs an authentication
     # otherwise redirect to startpage
     next_page = "/" 
     if 'next' in request.GET:
@@ -32,7 +32,7 @@ def login_view(request):
     if request.POST and login_form.is_valid():
         login(request, login_form.cleaned_data['user'])
         return redirect(next_page)
-    return render(request, 'authentification/login.html', {'login_form': login_form})
+    return render(request, 'authentication/login.html', {'login_form': login_form})
 
 def logout_view(request):
     """
@@ -82,7 +82,7 @@ def edit_profile_view(request):
             if changePasswdForm.cleaned_data['old_passwd'] != '':
                 change_passwd(request, changePasswdForm)
 
-    return render(request, "authentification/edit_profile.html", context={ 'edit_profile_form': editProfileForm, 'change_passwd_form': changePasswdForm})
+    return render(request, "authentication/edit_profile.html", context={ 'edit_profile_form': editProfileForm, 'change_passwd_form': changePasswdForm})
 
 def register_view(request):
     """
@@ -101,7 +101,7 @@ def register_view(request):
         user.save()
         return redirect('auth:register_after')
 
-    return render(request, "authentification/register.html", context={'register_form':form})
+    return render(request, "authentication/register.html", context={'register_form':form})
 
 def register_after_view(request):
-    return render(request, "authentification/after_register.html")
+    return render(request, "authentication/after_register.html")
