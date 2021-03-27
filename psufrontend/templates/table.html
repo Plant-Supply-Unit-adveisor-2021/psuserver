@@ -39,11 +39,8 @@
   </thead>
   <tbody>
     <tr>
-      <th scope="row">1</th>
-      {% for i in DataMeasurement %}
-        <tr>
-          <td>{{i.temperature</td>
-        </tr>
+      <th scope="row">{% for i in DataMeasurement %}</th>
+          <td>{{i.temperature}}</td>
       {% endfor %}
     </tr>
   </tbody>

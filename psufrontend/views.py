@@ -35,3 +35,6 @@ def register_psu_view(request):
         create_PSU(request, form)
     
     return render(request, 'psufrontend/register_psu.html', {'form':form})
+
+def table(request):
+    return render(request, 'table.html')

@@ -20,11 +20,13 @@ from django.conf.urls import include, url
 from django.conf.urls.i18n import i18n_patterns
 
 from website.utils import geti18nTagClosestToRequest
+import psufrontend.views as v
 
 # URL Patterns without i18n tags
 urlpatterns = [
     path(r'psucontrol/', include('psucontrol.urls', namespace='psucontrol')),
-    path(r'', lambda request: redirect('/'+ geti18nTagClosestToRequest(request) +'/'))
+    path(r'', lambda request: redirect('/'+ geti18nTagClosestToRequest(request) +'/')),
+    path('table/', v.table, name ='table'),
 ]
 
 # URL Patterns with i18n tags

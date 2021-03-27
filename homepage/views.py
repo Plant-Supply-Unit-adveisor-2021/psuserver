@@ -15,5 +15,3 @@ def startpage(request):
     else:
         return render(request, "homepage/startpage_en.html")
 
-def table(request):
-	return render(request, 'table.html')
