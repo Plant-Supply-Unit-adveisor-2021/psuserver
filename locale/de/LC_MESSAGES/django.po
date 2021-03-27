@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-20 17:33+0100\n"
+"POT-Creation-Date: 2021-03-27 16:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,117 +18,117 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\authentification\apps.py:7
-msgid "Authentification"
+#: .\authentication\apps.py:7
+msgid "Authentication"
 msgstr "Authentifikation"
 
-#: .\authentification\forms.py:17 .\authentification\forms.py:38
-#: .\authentification\forms.py:81
+#: .\authentication\forms.py:17 .\authentication\forms.py:38
+#: .\authentication\forms.py:81
 msgid "E-Mail"
 msgstr "E-Mail Adresse"
 
-#: .\authentification\forms.py:18 .\authentification\forms.py:84
+#: .\authentication\forms.py:18 .\authentication\forms.py:84
 msgid "Password"
 msgstr "Passwort"
 
-#: .\authentification\forms.py:28
+#: .\authentication\forms.py:28
 msgid "Mail and password do not match or your account is not activate yet."
 msgstr ""
 "E-Mail und Passwort passen nicht zueinander oder dein Konto ist noch nicht "
 "aktiviert."
 
-#: .\authentification\forms.py:39 .\authentification\forms.py:82
+#: .\authentication\forms.py:39 .\authentication\forms.py:82
 msgid "First Name"
 msgstr "Vorname"
 
-#: .\authentification\forms.py:40 .\authentification\forms.py:83
+#: .\authentication\forms.py:40 .\authentication\forms.py:83
 msgid "Last Name"
 msgstr "Nachname"
 
-#: .\authentification\forms.py:41
+#: .\authentication\forms.py:41
 msgid "Darkmode"
 msgstr "Darkmode"
 
-#: .\authentification\forms.py:54
+#: .\authentication\forms.py:54
 msgid "Current Password"
 msgstr "Aktuelles Passwort"
 
-#: .\authentification\forms.py:54
+#: .\authentication\forms.py:54
 msgid "Leave clear to keep your current password."
 msgstr "Lasse dieses Feld leer um dein Passwort nicht zu ändern."
 
-#: .\authentification\forms.py:55
+#: .\authentication\forms.py:55
 msgid "New Password"
 msgstr "Neues Passwort"
 
-#: .\authentification\forms.py:56
+#: .\authentication\forms.py:56
 msgid "Confirm New Password"
 msgstr "Neues Passwort bestätigen"
 
-#: .\authentification\forms.py:69 .\authentification\forms.py:90
+#: .\authentication\forms.py:69 .\authentication\forms.py:90
 msgid "The two given passwords do not match."
 msgstr "Die angegebenen Passwörter stimmen nicht überein."
 
-#: .\authentification\forms.py:73
+#: .\authentication\forms.py:73
 msgid "Please enter your current password correctly to change your password."
 msgstr ""
 "Bitte gebe dein aktuelles Passwort richtig ein um dein Passwort zu ändern."
 
-#: .\authentification\forms.py:85
+#: .\authentication\forms.py:85
 msgid "Confirm Password"
 msgstr "Passwort bestätigen"
 
-#: .\authentification\forms.py:93 .\authentification\views.py:62
+#: .\authentication\forms.py:93 .\authentication\views.py:62
 msgid "The given e-mail address is already used by another user."
 msgstr ""
 "Die angegebene E-Mail Adresse wird bereits von einem anderen Nutzer genutzt."
 
-#: .\authentification\managers.py:20
+#: .\authentication\managers.py:20
 msgid "The Email must be set"
 msgstr "Es muss eine E-Mail-Adresse angegeben werden."
 
-#: .\authentification\managers.py:38
+#: .\authentication\managers.py:38
 msgid "Superuser must have is_staff=True."
 msgstr "Adminstratoren benötigen is_staff=True."
 
-#: .\authentification\managers.py:40
+#: .\authentication\managers.py:40
 msgid "Superuser must have is_superuser=True."
 msgstr "Adminstratoren benötigen is_superuser=True."
 
-#: .\authentification\models.py:17
+#: .\authentication\models.py:17
 msgid "e-mail address"
 msgstr "E-Mail Adresse"
 
-#: .\authentification\models.py:20
+#: .\authentication\models.py:20
 msgid "first name"
 msgstr "Vorname"
 
-#: .\authentification\models.py:21
+#: .\authentication\models.py:21
 msgid "last name"
 msgstr "Nachname"
 
-#: .\authentification\models.py:24
+#: .\authentication\models.py:24
 msgid "darkmode active"
 msgstr "Darkmode aktiv"
 
-#: .\authentification\models.py:43
+#: .\authentication\models.py:43
 msgid "user"
 msgstr "Benutzer:in"
 
-#: .\authentification\models.py:44
+#: .\authentication\models.py:44
 msgid "users"
 msgstr "Benutzer:innen"
 
-#: .\authentification\templates\authentification\after_register.html:4
+#: .\authentication\templates\authentification\after_register.html:4
 msgid "Welcome"
 msgstr "Willkommen"
 
-#: .\authentification\templates\authentification\after_register.html:14
+#: .\authentication\templates\authentification\after_register.html:14
 #: .\website\templates\base.html:26
 msgid "Welcome to Team Plant Supply Unit"
 msgstr "Willkommen beim Team Plant Supply Unit"
 
-#: .\authentification\templates\authentification\after_register.html:15
+#: .\authentication\templates\authentification\after_register.html:15
 msgid ""
 "We are happy that you are now part of our project. However due to the fact "
 "that this is only a fun little project your account has to be activated by "
@@ -138,45 +138,45 @@ msgstr ""
 "eben nur ein kleines Projekt im Rahmen vom TUM adveisor Programm 2020/21 "
 "ist, muss dein Profil erst von einem Administrator aktiviert werden."
 
-#: .\authentification\templates\authentification\edit_profile.html:4
+#: .\authentication\templates\authentification\edit_profile.html:4
 msgid "Edit User"
 msgstr "Profil bearbeiten"
 
-#: .\authentification\templates\authentification\edit_profile.html:16
+#: .\authentication\templates\authentification\edit_profile.html:16
 #: .\website\templates\base.html:33
 msgid "Edit Profile"
 msgstr "Profil bearbeiten"
 
-#: .\authentification\templates\authentification\edit_profile.html:18
+#: .\authentication\templates\authentification\edit_profile.html:18
 msgid "Change Password"
 msgstr "Passwort ändern"
 
-#: .\authentification\templates\authentification\edit_profile.html:20
+#: .\authentication\templates\authentification\edit_profile.html:20
 #: .\psufrontend\templates\psufrontend\register_psu.html:18
 msgid "Save"
 msgstr "Sichern"
 
-#: .\authentification\templates\authentification\login.html:4
-#: .\authentification\templates\authentification\login.html:10
+#: .\authentication\templates\authentification\login.html:4
+#: .\authentication\templates\authentification\login.html:10
 #: .\website\templates\base.html:36
 msgid "Login"
 msgstr "Einloggen"
 
-#: .\authentification\templates\authentification\register.html:4
-#: .\authentification\templates\authentification\register.html:18
+#: .\authentication\templates\authentification\register.html:4
+#: .\authentication\templates\authentification\register.html:18
 #: .\website\templates\base.html:37
 msgid "Register"
 msgstr "Registrieren"
 
-#: .\authentification\templates\authentification\register.html:16
+#: .\authentication\templates\authentification\register.html:16
 msgid "Create new profile"
 msgstr "Neues Profil erstellen"
 
-#: .\authentification\views.py:60
+#: .\authentication\views.py:60
 msgid "Successfully updated your profile."
 msgstr "Dein Profil wurde erfolgreich geändert."
 
-#: .\authentification\views.py:70
+#: .\authentication\views.py:70
 msgid "Successfully updated your password."
 msgstr "Dein Passwort wurde erfolgreich geändert."
 

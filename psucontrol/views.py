@@ -17,6 +17,17 @@ from psucontrol.models import PendingPSU, PSU, DataMeasurement
 
 # Create your views here.
 
+ERROR_CODES = {
+    # A - Authentication
+    '0xA1' : 'Failed to identify PSU',
+    '0xA2' : 'Failed to authenticate PSU',
+    # B - Bad request
+    '0xB1' : 'Bad request',
+    # D - Database
+    '0xD1' : 'Failed to create new PSU',
+    '0xD2' : 'Failed to create new data measurement'
+}
+
 def remove_old_pending_psus():
     """
     will remove PendingPSUs which are older than one hour
@@ -25,30 +36,49 @@ def remove_old_pending_psus():
         if timedelta(hours=1) < (timezone.now() - p.creation_time):
             p.delete()
 
-def check_challenge_response(identity_key, response):
+def identify_psu(identity_key):
     """
-    function to check wether challenge-response-authentifiction was successful
-    return None or the corresponding PSU
+    function to identify a PSU
+    returns: corresponding PSU or None
     """
     try:
-        psu = PSU.objects.get(identity_key=identity_key)
-    except:
+        return PSU.objects.get(identity_key=identity_key)
+    except PSU.DoesNotExist:
         return None
+
+def authenticate_psu(psu, message):
+    """
+    function to authenticate a psu
+    returns: bool about access
+    """
     try:
+        # verify message
         public_key = serialization.load_pem_public_key(bytes(psu.public_rsa_key, 'utf-8'))
-        public_key.verify(base64.urlsafe_b64decode(response), bytes(psu.current_challenge, 'utf-8'),
+        public_key.verify(base64.urlsafe_b64decode(message), bytes(psu.current_challenge, 'utf-8'),
                           padding.PSS(
                               mgf=padding.MGF1(hashes.SHA256()),
                               salt_length=padding.PSS.MAX_LENGTH),
                           hashes.SHA256())
+        # remove challenge
         psu.current_challenge = ""
         psu.save()
-        return psu
-    except Exception as e:
+        return True
+    except InvalidSignature:
+        # remove challenge
         psu.current_challenge = ""
         psu.save()
-        return None
-    
+        return False
+
+def jsonErrorResponse(error_code):
+    """
+    queries ERROR_CODES to get error message
+    returns: JsonRepsonse with status failed and error information
+    """
+    try:
+        message = ERROR_CODES[error_code]
+    except:
+        message = 'Error Code ' + error_code
+    return JsonResponse({'status':'failed', 'error_code':error_code, 'error_message':message})
 
 @csrf_exempt
 @require_POST
@@ -74,12 +104,14 @@ def register_new_psu(request):
         try:
             PendingPSU(identity_key=iKey, pairing_key=pKey, public_rsa_key=request.POST['public_rsa_key']).save()
         except:
-            return JsonResponse({'status':'failed'})
+            # return creation error
+            return jsonErrorResponse('0xD1')
 
         # successful request -> return iKey and pKey
         return JsonResponse({'status':'ok', 'identity_key':iKey, 'pairing_key':pKey})
     else:
-        return JsonResponse({'status':'failed'})
+        # return bad request error
+        return jsonErrorResponse('0xB1')
 
 @csrf_exempt
 @require_POST
@@ -90,18 +122,23 @@ def get_challenge(request):
     """
 
     if request.POST:
-        # generate new challenge
+
+        # identification of the PSU
+        psu = identify_psu(request.POST['identity_key'])
+
+        if psu is None:
+            # return identification error
+            return jsonErrorResponse('0xA1')
+
+        # generate new challenge and store it
         challenge = token_urlsafe(96)
-        try:
-            psu = PSU.objects.get(identity_key=request.POST['identity_key'])
-            psu.current_challenge = challenge
-            psu.save()
-        except:
-            return JsonResponse({'status':'failed'})
+        psu.current_challenge = challenge
+        psu.save()
         
         return JsonResponse({'status':'ok','challenge':challenge})
     else:
-        return JsonResponse({'status':'failed'})
+        # return bad request type
+        return jsonErrorResponse('0xB1')
 
 
 @csrf_exempt
@@ -111,12 +148,18 @@ def add_data_measurement(request):
     view to handle the process to add a new data entry
     """
     if request.POST:
-        # identification and authentifiction of the PSU
-        psu = check_challenge_response(request.POST['identity_key'], request.POST['signed_challenge'])
-        
-        # check whether authentification was successful
+
+        # identification of the PSU
+        psu = identify_psu(request.POST['identity_key'])
+    
         if psu is None:
-            return JsonResponse({'status':'failed'})
+            # return identification error
+            return jsonErrorResponse('0xA1')
+
+        # authenticate PSU
+        if not authenticate_psu(psu, request.POST['signed_challenge']):
+            # return authentication error
+            return jsonErrorResponse('0xA2')
         
         # try to create new DataMeasurement
         try:
@@ -129,9 +172,10 @@ def add_data_measurement(request):
                             fill_level=float(request.POST['fill_level'])).save()
         
         except Exception as e:
-            print(e)
-            return JsonResponse({'status':'failed'})
+            # return creation error
+            return jsonErrorResponse('0xD2')
 
         return JsonResponse({'status':'ok'})
     else:
-        return JsonResponse({'status':'failed'})
+        # return bad request type
+        return jsonErrorResponse('0xB1')
