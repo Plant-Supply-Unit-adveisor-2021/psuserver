@@ -33,7 +33,7 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     path(r'admin/logout/', lambda request: redirect('auth:logout')),
     path(r'admin/', admin.site.urls),
-    path(r'authentification/', include('authentification.urls', namespace='auth')),
+    path(r'authentication/', include('authentication.urls', namespace='auth')),
     path(r'psufrontend/', include('psufrontend.urls', namespace='psufrontend')),
     path(r'', include('homepage.urls', namespace='homepage'))
 )

@@ -7,7 +7,7 @@ from django.contrib.auth.password_validation import validate_password, password_
 
 from django.utils.translation import ugettext_lazy as _
 
-from authentification.models import User
+from authentication.models import User
 
 class LoginForm(forms.Form):
     """

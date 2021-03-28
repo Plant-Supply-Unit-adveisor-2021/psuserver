@@ -82,7 +82,7 @@ else:
 # Application definition
 
 INSTALLED_APPS = [
-    'authentification',
+    'authentication',
     'homepage',
     'psucontrol',
     'psufrontend',
@@ -129,8 +129,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'website.wsgi.application'
 
 
-# Authentification settings
-AUTH_USER_MODEL = 'authentification.User'
+# authentication settings
+AUTH_USER_MODEL = 'authentication.User'
 LOGIN_URL = 'auth:login'
 
 # Password validation
