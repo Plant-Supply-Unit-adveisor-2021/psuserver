@@ -38,11 +38,18 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">{% for i in list %}</th>
-          <td>{{i.temperature}}</td>
-      {% endfor %}
-    </tr>
+    
+    {% for i in list %}
+      <tr>
+          <td>{{ i.timestamp }}</td>
+          <td>{{ i.temperature }}</td>
+          <td>{{ i.air_humidity }}</td>
+          <td>{{ i.ground_humidity }}</td>
+          <td>{{ i.brightness }}</td>
+          <td>{{ i.fill_level }}</td>
+      </tr>
+    {% endfor %}
+    
   </tbody>
 </table>
 
