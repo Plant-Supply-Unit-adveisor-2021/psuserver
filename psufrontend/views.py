@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib import messages
 
 from psufrontend.forms import RegisterPSUForm
-from psucontrol.models import PSU, PendingPSU
+from psucontrol.models import PSU, PendingPSU, DataMeasurement
 
 # Create your views here.
 
@@ -37,4 +37,5 @@ def register_psu_view(request):
     return render(request, 'psufrontend/register_psu.html', {'form':form})
 
 def table(request):
-    return render(request, 'table.html')
+    tables = DataMeasurement.objects.all()
+    return render(request, 'table.html', {'list': tables})
