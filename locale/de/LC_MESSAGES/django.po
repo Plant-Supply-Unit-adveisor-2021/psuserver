@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-27 16:03+0100\n"
+"POT-Creation-Date: 2021-03-29 11:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,63 +22,68 @@ msgstr ""
 msgid "Authentication"
 msgstr "Authentifikation"
 
-#: .\authentication\forms.py:17 .\authentication\forms.py:38
-#: .\authentication\forms.py:81
+#: .\authentication\forms.py:18 .\authentication\forms.py:39
+#: .\authentication\forms.py:93
 msgid "E-Mail"
 msgstr "E-Mail Adresse"
 
-#: .\authentication\forms.py:18 .\authentication\forms.py:84
+#: .\authentication\forms.py:19 .\authentication\forms.py:96
 msgid "Password"
 msgstr "Passwort"
 
-#: .\authentication\forms.py:28
+#: .\authentication\forms.py:29
 msgid "Mail and password do not match or your account is not activate yet."
 msgstr ""
 "E-Mail und Passwort passen nicht zueinander oder dein Konto ist noch nicht "
 "aktiviert."
 
-#: .\authentication\forms.py:39 .\authentication\forms.py:82
+#: .\authentication\forms.py:41 .\authentication\forms.py:94
 msgid "First Name"
 msgstr "Vorname"
 
-#: .\authentication\forms.py:40 .\authentication\forms.py:83
+#: .\authentication\forms.py:42 .\authentication\forms.py:95
 msgid "Last Name"
 msgstr "Nachname"
 
-#: .\authentication\forms.py:41
+#: .\authentication\forms.py:43
 msgid "Darkmode"
 msgstr "Darkmode"
 
-#: .\authentication\forms.py:54
+#: .\authentication\forms.py:55
+msgid "The given e-mail address is already in use by another user."
+msgstr ""
+"Die angegebene E-Mail Adresse wird bereits von einem anderen Nutzer genutzt."
+
+#: .\authentication\forms.py:64
 msgid "Current Password"
 msgstr "Aktuelles Passwort"
 
-#: .\authentication\forms.py:54
+#: .\authentication\forms.py:65
 msgid "Leave clear to keep your current password."
 msgstr "Lasse dieses Feld leer um dein Passwort nicht zu ändern."
 
-#: .\authentication\forms.py:55
+#: .\authentication\forms.py:66
 msgid "New Password"
 msgstr "Neues Passwort"
 
-#: .\authentication\forms.py:56
+#: .\authentication\forms.py:68
 msgid "Confirm New Password"
 msgstr "Neues Passwort bestätigen"
 
-#: .\authentication\forms.py:69 .\authentication\forms.py:90
+#: .\authentication\forms.py:81 .\authentication\forms.py:103
 msgid "The two given passwords do not match."
 msgstr "Die angegebenen Passwörter stimmen nicht überein."
 
-#: .\authentication\forms.py:73
+#: .\authentication\forms.py:85
 msgid "Please enter your current password correctly to change your password."
 msgstr ""
 "Bitte gebe dein aktuelles Passwort richtig ein um dein Passwort zu ändern."
 
-#: .\authentication\forms.py:85
+#: .\authentication\forms.py:98
 msgid "Confirm Password"
 msgstr "Passwort bestätigen"
 
-#: .\authentication\forms.py:93 .\authentication\views.py:62
+#: .\authentication\forms.py:106
 msgid "The given e-mail address is already used by another user."
 msgstr ""
 "Die angegebene E-Mail Adresse wird bereits von einem anderen Nutzer genutzt."
@@ -119,18 +124,18 @@ msgstr "Benutzer:in"
 msgid "users"
 msgstr "Benutzer:innen"
 
-#: .\authentication\templates\authentification\after_register.html:4
+#: .\authentication\templates\authentication\after_register.html:4
 msgid "Welcome"
 msgstr "Willkommen"
 
-#: .\authentication\templates\authentification\after_register.html:14
+#: .\authentication\templates\authentication\after_register.html:7
 #: .\website\templates\base.html:26
 msgid "Welcome to Team Plant Supply Unit"
 msgstr "Willkommen beim Team Plant Supply Unit"
 
-#: .\authentication\templates\authentification\after_register.html:15
+#: .\authentication\templates\authentication\after_register.html:8
 msgid ""
-"We are happy that you are now part of our project. However due to the fact "
+"We are happy that you are now part of our project. However, due to the fact "
 "that this is only a fun little project your account has to be activated by "
 "an admin."
 msgstr ""
@@ -138,41 +143,45 @@ msgstr ""
 "eben nur ein kleines Projekt im Rahmen vom TUM adveisor Programm 2020/21 "
 "ist, muss dein Profil erst von einem Administrator aktiviert werden."
 
-#: .\authentication\templates\authentification\edit_profile.html:4
+#: .\authentication\templates\authentication\edit_profile.html:4
 msgid "Edit User"
 msgstr "Profil bearbeiten"
 
-#: .\authentication\templates\authentification\edit_profile.html:16
+#: .\authentication\templates\authentication\edit_profile.html:9
 #: .\website\templates\base.html:33
 msgid "Edit Profile"
 msgstr "Profil bearbeiten"
 
-#: .\authentication\templates\authentification\edit_profile.html:18
+#: .\authentication\templates\authentication\edit_profile.html:11
 msgid "Change Password"
 msgstr "Passwort ändern"
 
-#: .\authentication\templates\authentification\edit_profile.html:20
-#: .\psufrontend\templates\psufrontend\register_psu.html:18
+#: .\authentication\templates\authentication\edit_profile.html:13
+#: .\psufrontend\templates\psufrontend\register_psu.html:11
 msgid "Save"
 msgstr "Sichern"
 
-#: .\authentication\templates\authentification\login.html:4
-#: .\authentication\templates\authentification\login.html:10
+#: .\authentication\templates\authentication\login.html:4
+#: .\authentication\templates\authentication\login.html:10
 #: .\website\templates\base.html:36
 msgid "Login"
 msgstr "Einloggen"
 
-#: .\authentication\templates\authentification\register.html:4
-#: .\authentication\templates\authentification\register.html:18
+#: .\authentication\templates\authentication\register.html:4
+#: .\authentication\templates\authentication\register.html:11
 #: .\website\templates\base.html:37
 msgid "Register"
 msgstr "Registrieren"
 
-#: .\authentication\templates\authentification\register.html:16
+#: .\authentication\templates\authentication\register.html:9
 msgid "Create new profile"
 msgstr "Neues Profil erstellen"
 
-#: .\authentication\views.py:60
+#: .\authentication\views.py:44
+msgid "Your now logged out."
+msgstr "Du bist jetzt ausgeloggt."
+
+#: .\authentication\views.py:62
 msgid "Successfully updated your profile."
 msgstr "Dein Profil wurde erfolgreich geändert."
 
@@ -298,7 +307,7 @@ msgstr ""
 msgid "Register PSU"
 msgstr "PSU Registrieren"
 
-#: .\psufrontend\templates\psufrontend\register_psu.html:16
+#: .\psufrontend\templates\psufrontend\register_psu.html:9
 msgid "Register Plant Supply Unit"
 msgstr "Registrierung einer neuen Pflanzenpflegestation"
 

@@ -18,20 +18,20 @@ def register_psu_view(request):
     """
     
     @csrf_protect
-    def create_PSU(request, form):
+    def create_psu(request, form):
         # get the corressponding PendingPSU
-        pPSU = PendingPSU.objects.get(pairing_key=form.cleaned_data['pairing_key'])
+        p_psu = PendingPSU.objects.get(pairing_key=form.cleaned_data['pairing_key'])
         # create new PSU
-        PSU(name=form.cleaned_data['name'], identity_key=pPSU.identity_key,
-            public_rsa_key=pPSU.public_rsa_key, owner=request.user).save()
+        PSU(name=form.cleaned_data['name'], identity_key=p_psu.identity_key,
+            public_rsa_key=p_psu.public_rsa_key, owner=request.user).save()
         # delete PendingPSU
-        pPSU.delete()
+        p_psu.delete()
         messages.success(request, _('Successfully registered your new Plant Supply Unit.'))
 
     form = RegisterPSUForm(request.POST or None)
 
     # check wether form was submitted correctly
     if request.POST and form.is_valid():
-        create_PSU(request, form)
+        create_psu(request, form)
     
     return render(request, 'psufrontend/register_psu.html', {'form':form})
