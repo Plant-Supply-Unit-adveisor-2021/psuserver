@@ -84,3 +84,4 @@ class DataMeasurement(models.Model):
         verbose_name = _('Data Measurement')
         verbose_name_plural = _('Data Measurements')
         ordering = ['-timestamp', 'psu']
+        unique_together = ['psu', 'timestamp']

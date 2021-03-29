@@ -1,10 +1,12 @@
 import base64
 from datetime import timedelta, datetime
+from pytz.exceptions import NonExistentTimeError
 from secrets import token_urlsafe, token_hex
 
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.hazmat.primitives.asymmetric import padding
+from django.db.utils import IntegrityError
 from django.http import JsonResponse
 from django.utils import timezone
 from django.utils.timezone import make_aware
@@ -23,7 +25,9 @@ ERROR_CODES = {
     '0xB1': 'Bad request',
     # D - Database
     '0xD1': 'Failed to create new PSU',
-    '0xD2': 'Failed to create new data measurement'
+    '0xD2': 'Failed to create new data measurement',
+    '0xD3': 'Problems with making timestamp timezone aware.',
+    '0xD4': 'The timestamp already exists for this PSU.',
 }
 
 
@@ -92,22 +96,27 @@ def register_new_psu(request):
     remove_old_pending_psus()
 
     if request.POST:
-        # generate keys/tokens
-        identity_key = token_urlsafe(96)
-        pairing_key = token_hex(3).upper()
-
-        # prevent non unique pairing Key
-        while PendingPSU.objects.filter(pairing_key=pairing_key).count() != 0:
-            pairing_key = token_hex(3).upper
-        # prevent non unique identity key
-        while PendingPSU.objects.filter(identity_key=identity_key).count() != 0 or PSU.objects.filter(
-                identity_key=identity_key).count() != 0:
-            identity_key = token_urlsafe(96)
-
-        # try adding PendingPSU
         try:
+            # generate keys/tokens
+            identity_key = token_urlsafe(96)
+            pairing_key = token_hex(3).upper()
+
+            # prevent non unique pairing Key
+            while PendingPSU.objects.filter(pairing_key=pairing_key).count() != 0:
+                pairing_key = token_hex(3).upper
+            # prevent non unique identity key
+            while PendingPSU.objects.filter(identity_key=identity_key).count() != 0 or PSU.objects.filter(
+                    identity_key=identity_key).count() != 0:
+                identity_key = token_urlsafe(96)
+
+            # try adding PendingPSU
             PendingPSU(identity_key=identity_key, pairing_key=pairing_key,
                        public_rsa_key=request.POST['public_rsa_key']).save()
+        
+        except KeyError:
+            # return bad request
+            return json_error_response('0xB1')
+
         except:
             # return creation error
             return json_error_response('0xD1')
@@ -128,20 +137,26 @@ def get_challenge(request):
     """
 
     if request.POST:
+        
+        try:
+            # identification of the PSU
+            psu = identify_psu(request.POST['identity_key'])
 
-        # identification of the PSU
-        psu = identify_psu(request.POST['identity_key'])
+            if psu is None:
+                # return identification error
+                return json_error_response('0xA1')
 
-        if psu is None:
-            # return identification error
-            return json_error_response('0xA1')
+            # generate new challenge and store it
+            challenge = token_urlsafe(96)
+            psu.current_challenge = challenge
+            psu.save()
 
-        # generate new challenge and store it
-        challenge = token_urlsafe(96)
-        psu.current_challenge = challenge
-        psu.save()
+            return JsonResponse({'status': 'ok', 'challenge': challenge})
 
-        return JsonResponse({'status': 'ok', 'challenge': challenge})
+        except KeyError:
+            # return bad request
+            return json_error_response('0xB1')
+
     else:
         # return bad request type
         return json_error_response('0xB1')
@@ -154,21 +169,20 @@ def add_data_measurement(request):
     view to handle the process to add a new data entry
     """
     if request.POST:
-
-        # identification of the PSU
-        psu = identify_psu(request.POST['identity_key'])
-
-        if psu is None:
-            # return identification error
-            return json_error_response('0xA1')
-
-        # authenticate PSU
-        if not authenticate_psu(psu, request.POST['signed_challenge']):
-            # return authentication error
-            return json_error_response('0xA2')
-
-        # try to create new DataMeasurement
         try:
+            # identification of the PSU
+            psu = identify_psu(request.POST['identity_key'])
+
+            if psu is None:
+                # return identification error
+                return json_error_response('0xA1')
+
+            # authenticate PSU
+            if not authenticate_psu(psu, request.POST['signed_challenge']):
+                # return authentication error
+                return json_error_response('0xA2')
+
+            # try to create new DataMeasurement
             DataMeasurement(psu=psu,
                             timestamp=make_aware(datetime.strptime(request.POST['timestamp'], '%Y-%m-%d_%H-%M-%S')),
                             temperature=float(request.POST['temperature']),
@@ -177,7 +191,16 @@ def add_data_measurement(request):
                             brightness=float(request.POST['brightness']),
                             fill_level=float(request.POST['fill_level'])).save()
 
-        except Exception:
+        except NonExistentTimeError:
+            # return timezone error
+            return json_error_response('0xD3')
+        except IntegrityError:
+            # return already exists error
+            return json_error_response('0xD4')
+        except KeyError:
+            # return bad request
+            return json_error_response('0xB1')
+        except:
             # return creation error
             return json_error_response('0xD2')
 
