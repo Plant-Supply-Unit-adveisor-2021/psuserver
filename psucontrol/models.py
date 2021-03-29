@@ -62,7 +62,7 @@ class DataMeasurement(models.Model):
 
     # field for storing the source psu of the data
     psu = models.ForeignKey(PSU, models.CASCADE, verbose_name=_('Plant Supply Unit'))
-
+    
     # field storing the time stamp
     timestamp = models.DateTimeField(_('timestamp'))
 
