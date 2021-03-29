@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from psucontrol.models import PSU, PendingPSU, DataMeasurement
 
+
 # Register your models here.
 @admin.register(PSU)
 class PSUAdmin(admin.ModelAdmin):

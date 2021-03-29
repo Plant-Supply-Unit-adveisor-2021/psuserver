@@ -13,18 +13,18 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path
-from django.shortcuts import redirect
-from django.conf.urls import include, url
+from django.conf.urls import include
 from django.conf.urls.i18n import i18n_patterns
+from django.contrib import admin
+from django.shortcuts import redirect
+from django.urls import path
 
-from website.utils import geti18nTagClosestToRequest
+from website.utils import get_i18n_tag_closest_to_request
 
 # URL Patterns without i18n tags
 urlpatterns = [
     path(r'psucontrol/', include('psucontrol.urls', namespace='psucontrol')),
-    path(r'', lambda request: redirect('/'+ geti18nTagClosestToRequest(request) +'/'))
+    path(r'', lambda request: redirect('/' + get_i18n_tag_closest_to_request(request) + '/'))
 ]
 
 # URL Patterns with i18n tags

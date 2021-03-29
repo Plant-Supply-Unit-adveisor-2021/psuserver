@@ -4,13 +4,6 @@
 {% block title %}{% trans "Register PSU" %} - Plant Supply Unit{% endblock title %}
 
 {% block body %}
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
     <form enctype="multipart/form-data" method="POST">
         {% csrf_token %}
         <h2>{% trans "Register Plant Supply Unit" %}</h2>

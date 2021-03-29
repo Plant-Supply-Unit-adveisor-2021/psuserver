@@ -17,7 +17,7 @@ from django.utils.translation import ugettext_lazy as _
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# load sensitive variabeles from ../.env
+# load sensitive variables from ../.env
 # .env should contain the following:
 # DJANGO_DEBUG - FALSE enables production configuration
 # SECRET_KEY - ONLY for production
@@ -27,9 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # DATABASE_HOST - ONLY for production
 # DATABASE_PORT - ONLY for production
 import environ
+
 env = environ.Env()
 environ.Env.read_env("../.env")
-
 
 # configuration considering development and production
 if env('DJANGO_DEBUG') == 'FALSE':
@@ -65,19 +65,17 @@ else:
     # Quick-start development settings - unsuitable for production
     # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
     DEBUG = True
-    
+
     # SECURITY WARNING: keep the secret key used in production secret!
     SECRET_KEY = 'ard4+6zo@23rdb%hq@tlcdmtc&p5j4w+p7isknx3p0fojx0k%='
 
     # to keep the installation simple we are not using PostgreSQL for development
     DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'database.db',
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'database.db',
+        }
     }
-}
-
-
 
 # Application definition
 
@@ -128,7 +126,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'website.wsgi.application'
 
-
 # authentication settings
 AUTH_USER_MODEL = 'authentication.User'
 LOGIN_URL = 'auth:login'
@@ -150,7 +147,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -174,7 +170,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

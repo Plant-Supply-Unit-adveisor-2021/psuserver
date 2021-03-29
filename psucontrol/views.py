@@ -1,17 +1,15 @@
-from django.shortcuts import render
+import base64
+from datetime import timedelta, datetime
+from secrets import token_urlsafe, token_hex
+
+from cryptography.exceptions import InvalidSignature
+from cryptography.hazmat.primitives import serialization, hashes
+from cryptography.hazmat.primitives.asymmetric import padding
 from django.http import JsonResponse
+from django.utils import timezone
+from django.utils.timezone import make_aware
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-
-import base64
-from secrets import token_urlsafe, token_hex
-from cryptography.hazmat.primitives.asymmetric import rsa, padding
-from cryptography.hazmat.primitives import serialization, hashes
-from cryptography.exceptions import InvalidSignature
-
-from django.utils.timezone import make_aware
-from django.utils import timezone
-from datetime import timedelta, datetime
 
 from psucontrol.models import PendingPSU, PSU, DataMeasurement
 
@@ -19,14 +17,15 @@ from psucontrol.models import PendingPSU, PSU, DataMeasurement
 
 ERROR_CODES = {
     # A - Authentication
-    '0xA1' : 'Failed to identify PSU',
-    '0xA2' : 'Failed to authenticate PSU',
+    '0xA1': 'Failed to identify PSU',
+    '0xA2': 'Failed to authenticate PSU',
     # B - Bad request
-    '0xB1' : 'Bad request',
+    '0xB1': 'Bad request',
     # D - Database
-    '0xD1' : 'Failed to create new PSU',
-    '0xD2' : 'Failed to create new data measurement'
+    '0xD1': 'Failed to create new PSU',
+    '0xD2': 'Failed to create new data measurement'
 }
+
 
 def remove_old_pending_psus():
     """
@@ -35,6 +34,7 @@ def remove_old_pending_psus():
     for p in PendingPSU.objects.all():
         if timedelta(hours=1) < (timezone.now() - p.creation_time):
             p.delete()
+
 
 def identify_psu(identity_key):
     """
@@ -45,6 +45,7 @@ def identify_psu(identity_key):
         return PSU.objects.get(identity_key=identity_key)
     except PSU.DoesNotExist:
         return None
+
 
 def authenticate_psu(psu, message):
     """
@@ -69,16 +70,18 @@ def authenticate_psu(psu, message):
         psu.save()
         return False
 
-def jsonErrorResponse(error_code):
+
+def json_error_response(error_code):
     """
     queries ERROR_CODES to get error message
-    returns: JsonRepsonse with status failed and error information
+    returns: JsonResponse with status failed and error information
     """
     try:
         message = ERROR_CODES[error_code]
     except:
         message = 'Error Code ' + error_code
-    return JsonResponse({'status':'failed', 'error_code':error_code, 'error_message':message})
+    return JsonResponse({'status': 'failed', 'error_code': error_code, 'error_message': message})
+
 
 @csrf_exempt
 @require_POST
@@ -90,28 +93,31 @@ def register_new_psu(request):
 
     if request.POST:
         # generate keys/tokens
-        iKey = token_urlsafe(96)
-        pKey = token_hex(3).upper()
+        identity_key = token_urlsafe(96)
+        pairing_key = token_hex(3).upper()
 
         # prevent non unique pairing Key
-        while PendingPSU.objects.filter(pairing_key=pKey).count() != 0:
-            pKey = token_hex(3).upper
+        while PendingPSU.objects.filter(pairing_key=pairing_key).count() != 0:
+            pairing_key = token_hex(3).upper
         # prevent non unique identity key
-        while PendingPSU.objects.filter(identity_key=iKey).count() != 0 or PSU.objects.filter(identity_key=iKey).count() != 0:
-            iKey = token_urlsafe(96)
+        while PendingPSU.objects.filter(identity_key=identity_key).count() != 0 or PSU.objects.filter(
+                identity_key=identity_key).count() != 0:
+            identity_key = token_urlsafe(96)
 
         # try adding PendingPSU
         try:
-            PendingPSU(identity_key=iKey, pairing_key=pKey, public_rsa_key=request.POST['public_rsa_key']).save()
+            PendingPSU(identity_key=identity_key, pairing_key=pairing_key,
+                       public_rsa_key=request.POST['public_rsa_key']).save()
         except:
             # return creation error
-            return jsonErrorResponse('0xD1')
+            return json_error_response('0xD1')
 
-        # successful request -> return iKey and pKey
-        return JsonResponse({'status':'ok', 'identity_key':iKey, 'pairing_key':pKey})
+        # successful request -> return identity_key and pairing_key
+        return JsonResponse({'status': 'ok', 'identity_key': identity_key, 'pairing_key': pairing_key})
     else:
         # return bad request error
-        return jsonErrorResponse('0xB1')
+        return json_error_response('0xB1')
+
 
 @csrf_exempt
 @require_POST
@@ -128,17 +134,17 @@ def get_challenge(request):
 
         if psu is None:
             # return identification error
-            return jsonErrorResponse('0xA1')
+            return json_error_response('0xA1')
 
         # generate new challenge and store it
         challenge = token_urlsafe(96)
         psu.current_challenge = challenge
         psu.save()
-        
-        return JsonResponse({'status':'ok','challenge':challenge})
+
+        return JsonResponse({'status': 'ok', 'challenge': challenge})
     else:
         # return bad request type
-        return jsonErrorResponse('0xB1')
+        return json_error_response('0xB1')
 
 
 @csrf_exempt
@@ -151,16 +157,16 @@ def add_data_measurement(request):
 
         # identification of the PSU
         psu = identify_psu(request.POST['identity_key'])
-    
+
         if psu is None:
             # return identification error
-            return jsonErrorResponse('0xA1')
+            return json_error_response('0xA1')
 
         # authenticate PSU
         if not authenticate_psu(psu, request.POST['signed_challenge']):
             # return authentication error
-            return jsonErrorResponse('0xA2')
-        
+            return json_error_response('0xA2')
+
         # try to create new DataMeasurement
         try:
             DataMeasurement(psu=psu,
@@ -170,12 +176,12 @@ def add_data_measurement(request):
                             ground_humidity=float(request.POST['ground_humidity']),
                             brightness=float(request.POST['brightness']),
                             fill_level=float(request.POST['fill_level'])).save()
-        
-        except Exception as e:
-            # return creation error
-            return jsonErrorResponse('0xD2')
 
-        return JsonResponse({'status':'ok'})
+        except Exception:
+            # return creation error
+            return json_error_response('0xD2')
+
+        return JsonResponse({'status': 'ok'})
     else:
         # return bad request type
-        return jsonErrorResponse('0xB1')
+        return json_error_response('0xB1')

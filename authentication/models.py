@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from authentication.managers import UserManager
 
+
 # Create your models here.
 class User(AbstractUser):
     """
@@ -20,9 +21,8 @@ class User(AbstractUser):
     first_name = models.CharField(_('first name'), max_length=255)
     last_name = models.CharField(_('last name'), max_length=255)
 
-    # addtional fields
+    # additional fields
     darkmode = models.BooleanField(_('darkmode active'), default=False)
-
 
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
