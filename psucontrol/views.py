@@ -1,17 +1,15 @@
-from django.shortcuts import render
+import base64
+from datetime import timedelta, datetime
+from secrets import token_urlsafe, token_hex
+
+from cryptography.exceptions import InvalidSignature
+from cryptography.hazmat.primitives import serialization, hashes
+from cryptography.hazmat.primitives.asymmetric import padding
 from django.http import JsonResponse
+from django.utils import timezone
+from django.utils.timezone import make_aware
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-
-import base64
-from secrets import token_urlsafe, token_hex
-from cryptography.hazmat.primitives.asymmetric import rsa, padding
-from cryptography.hazmat.primitives import serialization, hashes
-from cryptography.exceptions import InvalidSignature
-
-from django.utils.timezone import make_aware
-from django.utils import timezone
-from datetime import timedelta, datetime
 
 from psucontrol.models import PendingPSU, PSU, DataMeasurement
 
@@ -76,7 +74,7 @@ def authenticate_psu(psu, message):
 def json_error_response(error_code):
     """
     queries ERROR_CODES to get error message
-    returns: JsonRepsonse with status failed and error information
+    returns: JsonResponse with status failed and error information
     """
     try:
         message = ERROR_CODES[error_code]
@@ -108,7 +106,8 @@ def register_new_psu(request):
 
         # try adding PendingPSU
         try:
-            PendingPSU(identity_key=identity_key, pairing_key=pairing_key, public_rsa_key=request.POST['public_rsa_key']).save()
+            PendingPSU(identity_key=identity_key, pairing_key=pairing_key,
+                       public_rsa_key=request.POST['public_rsa_key']).save()
         except:
             # return creation error
             return json_error_response('0xD1')

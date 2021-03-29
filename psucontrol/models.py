@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from authentication.models import User
 
+
 # Create your models here.
 
 class PSU(models.Model):
@@ -13,7 +14,7 @@ class PSU(models.Model):
     # id of the PSUs
     id = models.AutoField(primary_key=True)
 
-    # name decribing the PSU
+    # name describing the PSU
     name = models.CharField(_('name'), max_length=128)
 
     # authentication of the PSU
@@ -23,7 +24,8 @@ class PSU(models.Model):
 
     # ownership of the PSU
     owner = models.ForeignKey(User, models.PROTECT, verbose_name=_('owner'), related_name='owner')
-    permitted_users = models.ManyToManyField(User, verbose_name=_('permitted users'), related_name='permitted_user', blank=True)
+    permitted_users = models.ManyToManyField(User, verbose_name=_('permitted users'), related_name='permitted_user',
+                                             blank=True)
 
     def __str__(self):
         return '{:02d} - {}  --  {}'.format(self.id, self.name, self.owner)
@@ -74,7 +76,9 @@ class DataMeasurement(models.Model):
     fill_level = models.FloatField(_('fill level'))
 
     def __str__(self):
-        return '{} - {:02}.{:02}.{:04} {:02}:{:02}'.format(self.psu, self.timestamp.day, self.timestamp.month, self.timestamp.year, self.timestamp.hour, self.timestamp.minute)
+        return '{} - {:02}.{:02}.{:04} {:02}:{:02}'.format(self.psu, self.timestamp.day, self.timestamp.month,
+                                                           self.timestamp.year, self.timestamp.hour,
+                                                           self.timestamp.minute)
 
     class Meta:
         verbose_name = _('Data Measurement')

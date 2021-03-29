@@ -49,7 +49,7 @@
     --input-border-color: #ccc;
     --input-border-color-action: #0073D7;
     --input-shadow-color-focus: #0073D755;
-    --input-border-color-invaild: #c00;
+    --input-border-color-invalid: #c00;
     --input-border-color-action-invalid: #f00;
     --input-shadow-color-focus-invalid: #c005;
 
@@ -119,7 +119,7 @@ h5 {
     font-size: 1.1rem;
 }
 
-/* styling of hyerlinks */
+/* styling of hyperlinks */
 
 a, a:visited {
     color: var(--link-fcolor);
@@ -246,7 +246,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 }
 
 input[type="text"]:invalid, input[type="email"]:invalid, input[type="password"]:invalid {
-    border: 1px solid var(--input-border-color-invaild);
+    border: 1px solid var(--input-border-color-invalid);
 }
 
 input[type="text"]:focus:invalid, input[type="email"]:focus:invalid, input[type="password"]:focus:invalid,

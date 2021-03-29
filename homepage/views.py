@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 from website.utils import get_i18n_tag
 
+
 # Create your views here.
 
 def startpage(request):

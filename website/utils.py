@@ -5,7 +5,7 @@ from authentication.models import User
 
 def get_i18n_tag(request):
     """
-    function to extract the i18n tag from a reqeust
+    function to extract the i18n tag from a request
     This function will only be working if the request holds the tag directly after the domain
     """
     return request.path.split('/')[1]
