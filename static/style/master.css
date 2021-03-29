@@ -69,8 +69,8 @@
 
     --messages-bcolor: #ddd;
     --messages-fcolor: #111;
-    --messages-success-fcolor: #0a0;
-    --messages-error-fcolor: #b00;
+    --messages-success-bcolor: #a5ff71;
+    --messages-error-bcolor: #ff5c5c;
 }
 
 /*
@@ -334,38 +334,6 @@ ul.errorlist > li {
     padding: .25rem 0;
 }
 
-/* styling of messages */
-
-ul.messages {
-    display: block;
-
-    margin: 1rem 0 2rem 0;
-    border: 0;
-    padding: .25rem 1rem;
-
-    background-color: var(--messages-bcolor);
-    color: var(--messages-fcolor);
-    list-style-type: none;
-}
-
-ul.messages > li {
-    display: block;
-    
-    margin: 0;
-    border: 0;
-    padding: .25rem 0;
-
-    font-weight: 600;
-}
-
-ul.messages > li.success {
-    color: var(--messages-success-fcolor);
-}
-
-ul.messages > li.error {
-    color: var(--messages-error-fcolor);
-}
-
 
 /* styling of drop downs */
 
@@ -570,3 +538,42 @@ a#nav-user-toggle.logged-in::after {
     border-top-color: #E37222;
 }
 
+/*
+-------------------------------------------------------------------------------------------------
+    messages implementation
+-------------------------------------------------------------------------------------------------
+*/
+
+ul.messages {
+    display: block;
+
+    position: relative;
+    /* move to the very top of the body wrapper */
+    top: -2rem;
+
+    margin: 0 0 1rem 0;
+    border: 0;
+    padding: 0;
+
+    background-color: var(--messages-bcolor);
+    color: var(--messages-fcolor);
+    list-style-type: none;
+}
+
+ul.messages > li {
+    display: block;
+    
+    margin: 0;
+    border: 0;
+    padding: .5rem 1rem;
+
+    font-weight: 600;
+}
+
+ul.messages > li.success {
+    background-color: var(--messages-success-bcolor);
+}
+
+ul.messages > li.error {
+    background-color: var(--messages-error-bcolor);
+}
