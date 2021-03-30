@@ -38,4 +38,8 @@ def register_psu_view(request):
 
 def table(request):
     tables = DataMeasurement.objects.all()
-    return render(request, 'table.html', {'list': tables})
+    psu1 = tables.filter(psu = '01')
+    context = { 'list': tables, '1': psu1
+                    }
+
+    return render(request, 'table.html', context)
