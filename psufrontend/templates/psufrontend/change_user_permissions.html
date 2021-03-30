@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Change User Permissions" %} - Plant Supply Unit{% endblock title %}
+
+{% block body %}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <form enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        <h2>{% trans "Change user permissions" %}</h2>
+        {{ form|cut:'<br>' }}
+        <input type="submit" name="" value="{% trans "Save" %}"  class="btn btn-primary">
+    </form>
+{% endblock body %}

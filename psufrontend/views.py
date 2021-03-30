@@ -5,8 +5,11 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib import messages
 
-from psufrontend.forms import RegisterPSUForm
+from psufrontend.forms import RegisterPSUForm, ChangeUserPermissionsForm
 from psucontrol.models import PSU, PendingPSU
+
+from django.http import HttpResponse
+
 
 # Create your views here.
 
@@ -16,7 +19,7 @@ def register_psu_view(request):
     """
     view for setting up a new psu and converting a PendingPSU in a PSU
     """
-    
+
     @csrf_protect
     def create_PSU(request, form):
         # get the corressponding PendingPSU
@@ -33,5 +36,48 @@ def register_psu_view(request):
     # check wether form was submitted correctly
     if request.POST and form.is_valid():
         create_PSU(request, form)
-    
-    return render(request, 'psufrontend/register_psu.html', {'form':form})
+
+    return render(request, 'psufrontend/register_psu.html', {'form': form})
+
+
+@csrf_exempt
+@login_required
+def change_user_permissions(request):
+    """
+    view for changing user permissions for selected PSU
+    """
+
+    @csrf_exempt
+    def select_PSU(request, form):
+        psu = PSU.objects.get
+
+    form = ChangeUserPermissionsForm(request.POST or None)
+
+    # check wether form was submitted correctly
+    if request.POST and form.is_valid():
+        select_PSU(request, form)
+
+    return render(request, 'psufrontend/change_user_permissions.html', {'form': form})
+
+
+
+"""
+    @csrf_protect
+    def create_PSU(request, form):
+        # get the corressponding PendingPSU
+        pPSU = PendingPSU.objects.get(pairing_key=form.cleaned_data['pairing_key'])
+        # create new PSU
+        PSU(name=form.cleaned_data['name'], identity_key=pPSU.identity_key,
+            public_rsa_key=pPSU.public_rsa_key, owner=request.user).save()
+        # delete PendingPSU
+        pPSU.delete()
+        messages.success(request, _('Successfully registered your new Plant Supply Unit.'))
+
+    form = RegisterPSUForm(request.POST or None)
+
+    # check wether form was submitted correctly
+    if request.POST and form.is_valid():
+        create_PSU(request, form)
+
+    return render(request, 'psufrontend/register_psu.html', {'form': form})
+"""
