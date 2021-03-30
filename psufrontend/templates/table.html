@@ -26,16 +26,8 @@
 
 </div>
 -->
-<div class="dropdown">
-    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">My PSU Unit
-    <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <input class="form-control" id="myInput" type="text" placeholder="Search..">
-      {% for i in list %}
-      <li><a href="#">{{ i.psu }}</a></li>
-      {% endfor %}
-    </ul>
-</div>
+
+
     <table class="table table-striped table-hover">
       <thead>
         <tr>
@@ -46,11 +38,36 @@
           <th scope="col">Ground Humidity</th>
           <th scope="col">Brightness</th>
           <th scope="col">Fill Level</th>
-          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         </tr>
 
       </thead>
       <tbody>
+
+      <div class="dropdown">
+      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">My PSU Unit
+      <span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <input class="form-control" id="myInput" type="text" placeholder="Search..">
+        {% for i in list %}
+        <li><a href="#">{{ i.psu }}</a></li>
+        {% endfor %}
+      </ul>
+      </div>
+
+      <script>
+      $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+          var value = $(this).val().toLowerCase();
+          $(".dropdown-menu li").filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          });
+        });
+      });
+      </script>
         
         {% for i in list %}
           <tr>
