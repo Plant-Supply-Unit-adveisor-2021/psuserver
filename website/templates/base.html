@@ -29,7 +29,7 @@
                                 <a href="{% url 'homepage:index' %}">{% trans "Welcome" %}</a>
                                 <a href="{% url 'psufrontend:register_psu' %}">{% trans "Choice" %}</a>
                                 <span id="nav-test">
-                                    <a id="nav-test-toggle" class="toggle" onClick="toggleDropDown('nav-test');">PSU</a>
+                                    <div id="test"><a id="nav-test-toggle" class="toggle" onClick="toggleDropDown('nav-test');">PSU</a></div>
                                     <div id="nav-test-drop-down" class="drop-down">
                                         {% if user.is_staff %}<a href="{% url 'psufrontend:register_psu' %}" class="drop-down-element">{% trans "New PSU" %}</a>{% endif %}
                                         <a href="{% url 'auth:edit_profile' %}" class="drop-down-element">{% trans "Status PSU" %}</a>
