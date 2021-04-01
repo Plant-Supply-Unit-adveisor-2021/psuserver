@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-29 11:03+0200\n"
+"POT-Creation-Date: 2021-03-29 16:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,36 +37,36 @@ msgstr ""
 "E-Mail und Passwort passen nicht zueinander oder dein Konto ist noch nicht "
 "aktiviert."
 
-#: .\authentication\forms.py:41 .\authentication\forms.py:94
+#: .\authentication\forms.py:40 .\authentication\forms.py:94
 msgid "First Name"
 msgstr "Vorname"
 
-#: .\authentication\forms.py:42 .\authentication\forms.py:95
+#: .\authentication\forms.py:41 .\authentication\forms.py:95
 msgid "Last Name"
 msgstr "Nachname"
 
-#: .\authentication\forms.py:43
+#: .\authentication\forms.py:42
 msgid "Darkmode"
 msgstr "Darkmode"
 
-#: .\authentication\forms.py:55
+#: .\authentication\forms.py:56
 msgid "The given e-mail address is already in use by another user."
 msgstr ""
 "Die angegebene E-Mail Adresse wird bereits von einem anderen Nutzer genutzt."
 
-#: .\authentication\forms.py:64
+#: .\authentication\forms.py:65
 msgid "Current Password"
 msgstr "Aktuelles Passwort"
 
-#: .\authentication\forms.py:65
+#: .\authentication\forms.py:66
 msgid "Leave clear to keep your current password."
 msgstr "Lasse dieses Feld leer um dein Passwort nicht zu ändern."
 
-#: .\authentication\forms.py:66
+#: .\authentication\forms.py:67
 msgid "New Password"
 msgstr "Neues Passwort"
 
-#: .\authentication\forms.py:68
+#: .\authentication\forms.py:69
 msgid "Confirm New Password"
 msgstr "Neues Passwort bestätigen"
 
@@ -100,19 +100,19 @@ msgstr "Adminstratoren benötigen is_staff=True."
 msgid "Superuser must have is_superuser=True."
 msgstr "Adminstratoren benötigen is_superuser=True."
 
-#: .\authentication\models.py:17
+#: .\authentication\models.py:18
 msgid "e-mail address"
 msgstr "E-Mail Adresse"
 
-#: .\authentication\models.py:20
+#: .\authentication\models.py:21
 msgid "first name"
 msgstr "Vorname"
 
-#: .\authentication\models.py:21
+#: .\authentication\models.py:22
 msgid "last name"
 msgstr "Nachname"
 
-#: .\authentication\models.py:24
+#: .\authentication\models.py:25
 msgid "darkmode active"
 msgstr "Darkmode aktiv"
 
@@ -177,15 +177,15 @@ msgstr "Registrieren"
 msgid "Create new profile"
 msgstr "Neues Profil erstellen"
 
-#: .\authentication\views.py:44
+#: .\authentication\views.py:41
 msgid "Your now logged out."
 msgstr "Du bist jetzt ausgeloggt."
 
-#: .\authentication\views.py:62
+#: .\authentication\views.py:59
 msgid "Successfully updated your profile."
 msgstr "Dein Profil wurde erfolgreich geändert."
 
-#: .\authentication\views.py:70
+#: .\authentication\views.py:67
 msgid "Successfully updated your password."
 msgstr "Dein Passwort wurde erfolgreich geändert."
 
@@ -193,83 +193,83 @@ msgstr "Dein Passwort wurde erfolgreich geändert."
 msgid "PSU Control"
 msgstr "PSU Steuerung"
 
-#: .\psucontrol\models.py:17
+#: .\psucontrol\models.py:18
 msgid "name"
 msgstr "Name"
 
-#: .\psucontrol\models.py:20 .\psucontrol\models.py:43
+#: .\psucontrol\models.py:21 .\psucontrol\models.py:45
 msgid "identity key"
 msgstr "Identitätsschlüssel"
 
-#: .\psucontrol\models.py:21 .\psucontrol\models.py:45
+#: .\psucontrol\models.py:22 .\psucontrol\models.py:47
 msgid "public rsa key"
 msgstr "Öffentlicher RSA-Schlüssel"
 
-#: .\psucontrol\models.py:22
+#: .\psucontrol\models.py:23
 msgid "current challenge token"
 msgstr "Aktueller Challenge Token"
 
-#: .\psucontrol\models.py:25
+#: .\psucontrol\models.py:26
 msgid "owner"
 msgstr "Besitzer:in"
 
-#: .\psucontrol\models.py:26
+#: .\psucontrol\models.py:27
 msgid "permitted users"
 msgstr "Berechtigte Benutzer:innen"
 
-#: .\psucontrol\models.py:32 .\psucontrol\models.py:64
+#: .\psucontrol\models.py:34 .\psucontrol\models.py:66
 msgid "Plant Supply Unit"
 msgstr "Pflanzenpflegestation"
 
-#: .\psucontrol\models.py:33
+#: .\psucontrol\models.py:35
 msgid "Plant Supply Units"
 msgstr "Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:47
+#: .\psucontrol\models.py:49
 msgid "pairing key"
 msgstr "Kopplungsschlüssel"
 
-#: .\psucontrol\models.py:50
+#: .\psucontrol\models.py:52
 msgid "creation time"
 msgstr "Erstellungszeit"
 
-#: .\psucontrol\models.py:53
+#: .\psucontrol\models.py:55
 msgid "Pending Plant Supply Unit"
 msgstr "schwebende Pflanzenpflegestation"
 
-#: .\psucontrol\models.py:54
+#: .\psucontrol\models.py:56
 msgid "Pending Plant Supply Units"
 msgstr "schwebende Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:67
+#: .\psucontrol\models.py:69
 msgid "timestamp"
 msgstr "Zeitstempel"
 
-#: .\psucontrol\models.py:70
+#: .\psucontrol\models.py:72
 msgid "temperature"
 msgstr "Temperatur"
 
-#: .\psucontrol\models.py:71
+#: .\psucontrol\models.py:73
 msgid "air humidity"
 msgstr "Luftfeuchte"
 
-#: .\psucontrol\models.py:72
+#: .\psucontrol\models.py:74
 msgid "ground humidity"
 msgstr "Bodenfeuchte"
 
-#: .\psucontrol\models.py:73
+#: .\psucontrol\models.py:75
 msgid "brightness"
 msgstr "Helligkeit"
 
-#: .\psucontrol\models.py:74
+#: .\psucontrol\models.py:76
 msgid "fill level"
 msgstr "Füllstand"
 
-#: .\psucontrol\models.py:80
+#: .\psucontrol\models.py:84
 msgid "Data Measurement"
 msgstr "Datenmessung"
 
-#: .\psucontrol\models.py:81
+#: .\psucontrol\models.py:85
 msgid "Data Measurements"
 msgstr "Datenmessungen"
 
@@ -277,27 +277,27 @@ msgstr "Datenmessungen"
 msgid "PSU Frontend"
 msgstr "PSU Bedienoberfläche"
 
-#: .\psufrontend\forms.py:12
+#: .\psufrontend\forms.py:13
 msgid "Pairing key"
 msgstr "Kopplungsschlüssel"
 
-#: .\psufrontend\forms.py:13
+#: .\psufrontend\forms.py:14
 msgid "This key should be displayed on your PSU."
 msgstr ""
 "Der Kopplungsschlüssel sollte auf deiner Pflegestation angeziegt werden."
 
-#: .\psufrontend\forms.py:14
+#: .\psufrontend\forms.py:15
 msgid "PSU name"
 msgstr "Name der neuen Pflanzenpflegestation"
 
-#: .\psufrontend\forms.py:15
+#: .\psufrontend\forms.py:16
 msgid "Choose a name to identify this particular PSU."
 msgstr "Wähle einen Namen für diese neue Pflanzenpflegestation."
 
-#: .\psufrontend\forms.py:19
+#: .\psufrontend\forms.py:20
 msgid ""
-"Sadly we could not match the given pairing key. Please check wether the key "
-"is correct and wether your PSU has a internet connection."
+"Sadly we could not match the given pairing key. Please check whether the key "
+"is correct and whether your PSU has a internet connection."
 msgstr ""
 "Leider konnten wir den Kopplungsschlüssel nicht in unserer Datenbank finden. "
 "Bitte überprüfe den Schlüssel und die Internetverbindung der Pflegestation "
@@ -311,15 +311,15 @@ msgstr "PSU Registrieren"
 msgid "Register Plant Supply Unit"
 msgstr "Registrierung einer neuen Pflanzenpflegestation"
 
-#: .\psufrontend\views.py:29
+#: .\psufrontend\views.py:30
 msgid "Successfully registered your new Plant Supply Unit."
 msgstr "Deine neue Pflanzenpflegestation wurde erfolgreich hinzugefügt."
 
-#: .\website\settings.py:160
+#: .\website\settings.py:156
 msgid "de"
 msgstr "Deutsch"
 
-#: .\website\settings.py:161
+#: .\website\settings.py:157
 msgid "en"
 msgstr "Englisch"
 
