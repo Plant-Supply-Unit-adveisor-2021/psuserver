@@ -431,7 +431,7 @@ div#body-wrapper {
 /* Header */
 
 header#mainheader {
-    padding: 16px 40px;
+    padding: 0 40px;
 
     background-color: var(--header-bcolor);
     color: var(--header-fcolor);
@@ -503,19 +503,16 @@ div#navi-bar a:hover, a:focus {
     text-decoration: none;
 }
 
-div#test a, {
+div#test a, div#test a:visited{
+    padding: 16px 16px;
+
     color: var(--header-fcolor);
     text-decoration: none;
     font-weight: 500;
-    margin 8px 16px;
-    
-}
-div#test a:visited{
-    color: var(--header-fcolor);
-    text-decoration: none;
+    margin: 8px 16px;
 }
 
-div#test a:hover, a:focus {
+div#test a:hover, div#test a:focus {
     color: var(--header-fcolor);
     text-decoration: none;
     background-color: #A2AD00;
