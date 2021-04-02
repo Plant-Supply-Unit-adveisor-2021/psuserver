@@ -85,3 +85,50 @@ class DataMeasurement(models.Model):
         verbose_name_plural = _('Data Measurements')
         ordering = ['-timestamp', 'psu']
         unique_together = ['psu', 'timestamp']
+
+
+class CommunicationLogEntry(models.Model):
+    """
+    model to log the communication between the server and the PSUs
+    """
+
+    class Level(models.IntegerChoices):
+        # used to sort entries and to set a lease time
+        # >= 100 forever
+        # >= 10 one week
+        # otherwise one day
+
+        # errors
+        MAJOR_ERROR = 200
+        ERROR = 20
+        MINOR_ERROR = 2
+
+        # successful requests
+        MAJOR_INFO = 100
+        INFO = 10
+        MINOR_INFO = 1
+
+    # field to classify the log level
+    level = models.IntegerField(_('classification'), choices=Level.choices)
+
+    # field for storing the concerning PSU
+    psu = models.ForeignKey(PSU, models.CASCADE, verbose_name=_('Plant Supply Unit'))
+
+    # timestamp of the action
+    timestamp = models.DateTimeField(_('timestamp'), auto_now_add=True)
+
+    # field for storing a string reprensentation of the request
+    request = models.TextField(_('request'))
+
+    # field for storing the response given by the server
+    response = models.TextField(_('repsonse'))
+
+    def __str__(self):
+        return '{} {} - {:02}.{:02}.{:04} {:02}:{:02}'.format(self.level, self.psu, self.timestamp.day, self.timestamp.month,
+                                                              self.timestamp.year, self.timestamp.hour,
+                                                              self.timestamp.minute)
+
+    class Meta:
+        verbose_name = _('communication log entry')
+        verbose_name_plural = _('communication log entries')
+        ordering = ['-timestamp', '-level']

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-02 18:32+0200\n"
+"POT-Creation-Date: 2021-04-02 20:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -218,6 +218,7 @@ msgid "permitted users"
 msgstr "Berechtigte Benutzer:innen"
 
 #: .\psucontrol\models.py:34 .\psucontrol\models.py:66
+#: .\psucontrol\models.py:115
 msgid "Plant Supply Unit"
 msgstr "Pflanzenpflegestation"
 
@@ -241,7 +242,7 @@ msgstr "schwebende Pflanzenpflegestation"
 msgid "Pending Plant Supply Units"
 msgstr "schwebende Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:69
+#: .\psucontrol\models.py:69 .\psucontrol\models.py:118
 msgid "timestamp"
 msgstr "Zeitstempel"
 
@@ -272,6 +273,26 @@ msgstr "Datenmessung"
 #: .\psucontrol\models.py:85
 msgid "Data Measurements"
 msgstr "Datenmessungen"
+
+#: .\psucontrol\models.py:112
+msgid "classification"
+msgstr "Einstufung"
+
+#: .\psucontrol\models.py:121
+msgid "request"
+msgstr "Anfrage"
+
+#: .\psucontrol\models.py:124
+msgid "repsonse"
+msgstr "Antwort"
+
+#: .\psucontrol\models.py:132
+msgid "communication log entry"
+msgstr "Kommunikationslogeintrag"
+
+#: .\psucontrol\models.py:133
+msgid "communication log entries"
+msgstr "Kommunikationslogeinträge"
 
 #: .\psucontrol\views.py:24
 msgid "Failed to identify PSU"
