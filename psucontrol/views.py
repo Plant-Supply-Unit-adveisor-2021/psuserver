@@ -10,7 +10,7 @@ from django.db.utils import IntegrityError
 from django.conf import settings
 from django.http import JsonResponse
 from django.utils import timezone, translation
-from django.utils.translation import gettext as _, gettext_noop as _noop
+from django.utils.translation import gettext as _, gettext_noop
 from django.utils.timezone import make_aware
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -21,15 +21,15 @@ from psucontrol.models import PendingPSU, PSU, DataMeasurement
 
 ERROR_CODES = {
     # A - Authentication
-    '0xA1': _noop('Failed to identify PSU'),
-    '0xA2': _noop('Failed to authenticate PSU'),
+    '0xA1': gettext_noop('Failed to identify PSU'),
+    '0xA2': gettext_noop('Failed to authenticate PSU'),
     # B - Bad request
-    '0xB1': _noop('Bad request'),
+    '0xB1': gettext_noop('Bad request'),
     # D - Database
-    '0xD1': _noop('Failed to create new PSU'),
-    '0xD2': _noop('Failed to create new data measurement'),
-    '0xD3': _noop('Problems with making timestamp timezone aware.'),
-    '0xD4': _noop('The timestamp already exists for this PSU.'),
+    '0xD1': gettext_noop('Failed to create new PSU'),
+    '0xD2': gettext_noop('Failed to create new data measurement'),
+    '0xD3': gettext_noop('Problems with making timestamp timezone aware.'),
+    '0xD4': gettext_noop('The timestamp already exists for this PSU.'),
 }
 
 
@@ -84,7 +84,7 @@ def json_error_response(error_code):
     """
     try:
         message = ERROR_CODES[error_code]
-    except:
+    except KeyError:
         message = 'Error Code ' + error_code
 
     context = {'status': 'failed', 'error_code': error_code, 'error_message': message}
@@ -93,7 +93,7 @@ def json_error_response(error_code):
     for l in settings.LANGUAGES:
         print(l)
 
-    return JsonResponse({'status': 'failed', 'error_code': error_code, 'error_message': message})
+    return JsonResponse(context)
 
 
 @csrf_exempt

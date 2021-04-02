@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-29 16:23+0200\n"
+"POT-Creation-Date: 2021-04-02 18:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -273,6 +273,34 @@ msgstr "Datenmessung"
 msgid "Data Measurements"
 msgstr "Datenmessungen"
 
+#: .\psucontrol\views.py:24
+msgid "Failed to identify PSU"
+msgstr "Fehler beim Identifizieren der PSU"
+
+#: .\psucontrol\views.py:25
+msgid "Failed to authenticate PSU"
+msgstr "Fehler beim Authentifizieren der PSU"
+
+#: .\psucontrol\views.py:27
+msgid "Bad request"
+msgstr "Anfrage nicht verwertbar"
+
+#: .\psucontrol\views.py:29
+msgid "Failed to create new PSU"
+msgstr "Fehler beim Erstellen einer neuen PSU"
+
+#: .\psucontrol\views.py:30
+msgid "Failed to create new data measurement"
+msgstr "Fehler beim Erstellen einer Messung"
+
+#: .\psucontrol\views.py:31
+msgid "Problems with making timestamp timezone aware."
+msgstr "Probleme mit dem Zeitstempel der Messung bzgl. Zeitzonen"
+
+#: .\psucontrol\views.py:32
+msgid "The timestamp already exists for this PSU."
+msgstr "Es gibt bereits eine Messung mit diesem Zeitstempel."
+
 #: .\psufrontend\apps.py:7
 msgid "PSU Frontend"
 msgstr "PSU Bedienoberfläche"
@@ -316,11 +344,11 @@ msgid "Successfully registered your new Plant Supply Unit."
 msgstr "Deine neue Pflanzenpflegestation wurde erfolgreich hinzugefügt."
 
 #: .\website\settings.py:156
-msgid "de"
+msgid "German"
 msgstr "Deutsch"
 
 #: .\website\settings.py:157
-msgid "en"
+msgid "English"
 msgstr "Englisch"
 
 #: .\website\templates\base.html:32
