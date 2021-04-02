@@ -91,7 +91,9 @@ def json_error_response(error_code):
 
     # translate messages
     for l in settings.LANGUAGES:
-        print(l)
+        translation.activate(l[0])
+        context[ 'error_message_' + l[0] ] = _(context['error_message'])
+        translation.deactivate()
 
     return JsonResponse(context)
 
