@@ -112,7 +112,7 @@ class CommunicationLogEntry(models.Model):
     level = models.IntegerField(_('classification'), choices=Level.choices)
 
     # field for storing the concerning PSU
-    psu = models.ForeignKey(PSU, models.CASCADE, verbose_name=_('Plant Supply Unit'))
+    psu = models.ForeignKey(PSU, models.CASCADE, verbose_name=_('Plant Supply Unit'), blank=True)
 
     # timestamp of the action
     timestamp = models.DateTimeField(_('timestamp'), auto_now_add=True)

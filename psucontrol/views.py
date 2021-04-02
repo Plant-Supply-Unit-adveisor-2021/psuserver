@@ -15,7 +15,7 @@ from django.utils.timezone import make_aware
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-from psucontrol.models import PendingPSU, PSU, DataMeasurement
+from psucontrol.models import PendingPSU, PSU, DataMeasurement, CommunicationLogEntry
 
 # Create your views here.
 
@@ -77,6 +77,15 @@ def authenticate_psu(psu, message):
         return False
 
 
+def respond_n_log(request, response, level, *, psu=None):
+    """
+    Adds a log entry and return JsonRepsonse
+    returns: JsonResponse with the dict of response
+    """
+    CommunicationLogEntry(psu=psu, request=str(request.POST), response=str(response), level=level, request_url=request.path).save()
+    return JsonResponse(response)
+
+
 def json_error_response(error_code):
     """
     queries ERROR_CODES to get error message
@@ -95,7 +104,7 @@ def json_error_response(error_code):
         context[ 'error_message_' + l[0] ] = _(context['error_message'])
         translation.deactivate()
 
-    return JsonResponse(context)
+    return context
 
 
 @csrf_exempt
@@ -126,17 +135,17 @@ def register_new_psu(request):
         
         except KeyError:
             # return bad request
-            return json_error_response('0xB1')
+            return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MAJOR_ERROR)
 
         except:
             # return creation error
-            return json_error_response('0xD1')
+            return respond_n_log(request, json_error_response('0xD1'), CommunicationLogEntry.Level.ERROR)
 
         # successful request -> return identity_key and pairing_key
-        return JsonResponse({'status': 'ok', 'identity_key': identity_key, 'pairing_key': pairing_key})
+        return respond_n_log(request, {'status': 'ok', 'identity_key': identity_key, 'pairing_key': pairing_key}, CommunicationLogEntry.Level.MAJOR_INFO)
     else:
         # return bad request error
-        return json_error_response('0xB1')
+        return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MINOR_ERROR)
 
 
 @csrf_exempt
@@ -155,22 +164,22 @@ def get_challenge(request):
 
             if psu is None:
                 # return identification error
-                return json_error_response('0xA1')
+                return respond_n_log(request, json_error_response('0xA1'), CommunicationLogEntry.Level.ERROR)
 
             # generate new challenge and store it
             challenge = token_urlsafe(96)
             psu.current_challenge = challenge
             psu.save()
 
-            return JsonResponse({'status': 'ok', 'challenge': challenge})
+            return respond_n_log(request, {'status': 'ok', 'challenge': challenge}, CommunicationLogEntry.Level.MINOR_INFO)
 
         except KeyError:
             # return bad request
-            return json_error_response('0xB1')
+            return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MAJOR_ERROR)
 
     else:
         # return bad request type
-        return json_error_response('0xB1')
+        return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MINOR_ERROR)
 
 
 @csrf_exempt
@@ -186,12 +195,12 @@ def add_data_measurement(request):
 
             if psu is None:
                 # return identification error
-                return json_error_response('0xA1')
+                return respond_n_log(request, json_error_response('0xA1'), CommunicationLogEntry.Level.ERROR)
 
             # authenticate PSU
             if not authenticate_psu(psu, request.POST['signed_challenge']):
                 # return authentication error
-                return json_error_response('0xA2')
+                return respond_n_log(request, json_error_response('0xA2'), CommunicationLogEntry.Level.ERROR)
 
             # try to create new DataMeasurement
             DataMeasurement(psu=psu,
@@ -204,18 +213,18 @@ def add_data_measurement(request):
 
         except NonExistentTimeError:
             # return timezone error
-            return json_error_response('0xD3')
+            return respond_n_log(request, json_error_response('0xD3'), CommunicationLogEntry.Level.MAJOR_ERROR)
         except IntegrityError:
             # return already exists error
-            return json_error_response('0xD4')
+            return respond_n_log(request, json_error_response('0xD4'), CommunicationLogEntry.Level.MINOR_ERROR)
         except KeyError:
             # return bad request
-            return json_error_response('0xB1')
+            return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MAJOR_ERROR)
         except:
             # return creation error
-            return json_error_response('0xD2')
+            return respond_n_log(request, json_error_response('0xD2'), CommunicationLogEntry.Level.ERROR)
 
-        return JsonResponse({'status': 'ok'})
+        return respond_n_log(request, {'status': 'ok'}, CommunicationLogEntry.Level.MINOR_INFO)
     else:
         # return bad request type
-        return json_error_response('0xB1')
+        return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MINOR_ERROR)
