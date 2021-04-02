@@ -117,6 +117,9 @@ class CommunicationLogEntry(models.Model):
     # timestamp of the action
     timestamp = models.DateTimeField(_('timestamp'), auto_now_add=True)
 
+    # field for storing the URL
+    request_url = models.CharField(_('request url'), max_length=200)
+
     # field for storing a string reprensentation of the request
     request = models.TextField(_('request'))
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-02 20:13+0200\n"
+"POT-Creation-Date: 2021-04-02 21:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -279,18 +279,22 @@ msgid "classification"
 msgstr "Einstufung"
 
 #: .\psucontrol\models.py:121
+msgid "request url"
+msgstr "Anfrage URL"
+
+#: .\psucontrol\models.py:124
 msgid "request"
 msgstr "Anfrage"
 
-#: .\psucontrol\models.py:124
+#: .\psucontrol\models.py:127
 msgid "repsonse"
 msgstr "Antwort"
 
-#: .\psucontrol\models.py:132
+#: .\psucontrol\models.py:135
 msgid "communication log entry"
 msgstr "Kommunikationslogeintrag"
 
-#: .\psucontrol\models.py:133
+#: .\psucontrol\models.py:136
 msgid "communication log entries"
 msgstr "Kommunikationslogeinträge"
 
