@@ -82,7 +82,7 @@ def respond_n_log(request, response, level, *, psu=None):
     Adds a log entry and return JsonRepsonse
     returns: JsonResponse with the dict of response
     """
-    CommunicationLogEntry(psu=psu, request=str(request.POST), response=str(response), level=level, request_url=request.path).save()
+    #CommunicationLogEntry(psu=psu, request=str(request.POST), response=str(response), level=level, request_url=request.path).save()
     return JsonResponse(response)
 
 
