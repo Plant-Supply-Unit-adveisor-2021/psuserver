@@ -41,5 +41,6 @@ def table(request):
     psu1 = tables.filter(psu = '01')
     context = { 'list': tables, '1': psu1
                     }
-
     return render(request, 'table.html', context)
+
+
