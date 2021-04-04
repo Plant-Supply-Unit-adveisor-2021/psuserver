@@ -10,5 +10,5 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path('table/', v.table, name='table'),
+    path('table/', v.table_view, name='table'),
     ]
