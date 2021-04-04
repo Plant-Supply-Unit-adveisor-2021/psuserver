@@ -23,6 +23,7 @@ ERROR_CODES = {
     # A - Authentication
     '0xA1': gettext_noop('Failed to identify PSU'),
     '0xA2': gettext_noop('Failed to authenticate PSU'),
+    '0xA3': gettext_noop('Failed to deserialize public key'),
     # B - Bad request
     '0xB1': gettext_noop('Bad request'),
     # D - Database
@@ -129,6 +130,13 @@ def register_new_psu(request):
                     identity_key=identity_key).count() != 0:
                 identity_key = token_urlsafe(96)
 
+            # prevent that another PSU has the same public_rsa_key
+            if PSU.objects.filter(public_rsa_key=request.POST['public_rsa_key']).count() != 0:
+                raise IntegrityError()
+
+            # try to deserialize public key
+            serialization.load_pem_public_key(bytes(request.POST['public_rsa_key'], 'utf-8'))
+                
             # try adding PendingPSU
             PendingPSU(identity_key=identity_key, pairing_key=pairing_key,
                        public_rsa_key=request.POST['public_rsa_key']).save()
@@ -137,7 +145,11 @@ def register_new_psu(request):
             # return bad request
             return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MAJOR_ERROR)
 
-        except:
+        except ValueError:
+            # return 0xA3 as sign of wrong key format
+            return respond_n_log(request, json_error_response('0xA3'), CommunicationLogEntry.Level.MAJOR_ERROR)
+
+        except Exception as e:
             # return creation error
             return respond_n_log(request, json_error_response('0xD1'), CommunicationLogEntry.Level.ERROR)
 
@@ -220,7 +232,7 @@ def add_data_measurement(request):
         except KeyError:
             # return bad request
             return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MAJOR_ERROR)
-        except:
+        except Exception:
             # return creation error
             return respond_n_log(request, json_error_response('0xD2'), CommunicationLogEntry.Level.ERROR)
 

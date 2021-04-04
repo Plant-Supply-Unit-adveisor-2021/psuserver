@@ -2,6 +2,9 @@ from django.test import TestCase, Client
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.primitives import serialization, hashes
 
+from website.utils import get_test_user
+from psucontrol.models import PSU, PendingPSU, CommunicationLogEntry
+
 # Create your tests here.
 
 
@@ -16,6 +19,8 @@ class PSUCommunicationTestCase(TestCase):
         """
         # create new private rsa key
         self.rsa_pk = rsa.generate_private_key(public_exponent=65537, key_size=2048)
+        pub_rsa_str = str(self.rsa_pk.public_key().public_bytes(serialization.Encoding.PEM, serialization.PublicFormat.SubjectPublicKeyInfo), 'utf-8')
+        self.psu = PSU.objects.create(name='TEST-PSU', identity_key='test-key', public_rsa_key=pub_rsa_str, owner=get_test_user())
     
 
     def gen_fmsg(self, uri, data, res, wanted_str):
@@ -82,16 +87,16 @@ class PSUCommunicationTestCase(TestCase):
         self.check_error_code(uri, '0xB1', data={'test':'test'}, client=c)
 
         # Test wrong public_rsa_key format
-        # self.check_error_code(uri, '0xA3', data={'public_rsa_key': 'TESTING KEY'}, client=c)
+        self.check_error_code(uri, '0xA3', data={'public_rsa_key': 'TESTING KEY'}, client=c)
 
         # Test registration of PSU with non unique public_rsa_key
         pub_rsa_str = str(self.rsa_pk.public_key().public_bytes(serialization.Encoding.PEM, serialization.PublicFormat.SubjectPublicKeyInfo), 'utf-8')
         data = {'public_rsa_key': pub_rsa_str}
-        # self.check_error_code(uri, '0xD1', data=data, client=c)
+        self.check_error_code(uri, '0xD1', data=data, client=c)
 
         # Test registration process
         pub_rsa_str = str(rsa.generate_private_key(public_exponent=65537, key_size=2048).public_key().public_bytes(serialization.Encoding.PEM, serialization.PublicFormat.SubjectPublicKeyInfo), 'utf-8')
-        data ={'public_rsa_key': pub_rsa_str}
+        data = {'public_rsa_key': pub_rsa_str}
         res = self.check_status(uri, True, data=data, client=c)
 
         # check returned keys
@@ -102,7 +107,13 @@ class PSUCommunicationTestCase(TestCase):
                 self.fail(self.gen_fmsg(uri, data, res, '6 char pairing_key'))
             self.iKey = res['identity_key']
         except KeyError:
-            self.fail(self.gen_fmsg(uri, data, res, 'identity_key and pairing_key (KeyError).'))
+            self.fail(self.gen_fmsg(uri, data, res, 'identity_key and pairing_key (KeyError)'))
+
+        # check wether PendingPSU was created
+        try:
+            PendingPSU.objects.get(identity_key=self.iKey)
+        except PendingPSU.DoesNotExist:
+            self.fail(self.gen_fmsg(uri, data, res, 'server to create PendingPSU'))
 
         # Test registration of PSU with non unique public_rsa_key (PendingPSU)
         self.check_error_code(uri, '0xD1', data=data, client=c)
