@@ -33,6 +33,6 @@ class DataMeasurementAdmin(admin.ModelAdmin):
 class CommunicationLogEntryAdmin(admin.ModelAdmin):
     model = CommunicationLogEntry
 
-    list_display = ['timestamp', 'level', 'psu', 'request_url']
-    list_filter = ['level', 'psu', 'request_url']
-    search_fields = ['psu__id', 'psu__name', 'psu__owner__email', 'psu__owner__last_name', 'psu__owner__first_name', 'level', 'request_url']
+    list_display = ['timestamp', 'level', 'psu_identity_key', 'request_uri']
+    list_filter = ['level', 'psu', 'request_uri', 'psu_identity_key']
+    search_fields = ['psu__id', 'psu__name', 'psu__owner__email', 'psu__owner__last_name', 'psu__owner__first_name', 'level', 'request_uri']

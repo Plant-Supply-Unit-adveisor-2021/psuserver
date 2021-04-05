@@ -1,4 +1,5 @@
-from django.test import TestCase, Client
+from django.test import TestCase, Client, TransactionTestCase
+from django.db import transaction
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.primitives import serialization, hashes
 
@@ -8,7 +9,7 @@ from psucontrol.models import PSU, PendingPSU, CommunicationLogEntry
 # Create your tests here.
 
 
-class PSUCommunicationTestCase(TestCase):
+class PSUCommunicationTestCase(TransactionTestCase):
     """
     TestCase to test the whole communication between a psu and django
     """
@@ -46,6 +47,7 @@ class PSUCommunicationTestCase(TestCase):
     def check_status(self, uri, ok, *, data=None, client=None):
         """
         make post request and test whether the correct status was reported
+        addtionally test wehter the log entry was added correctly
         returns the JSON of the response
         """
         if client is None:
@@ -53,7 +55,21 @@ class PSUCommunicationTestCase(TestCase):
         if data is None:
             data = dict()
 
+        # make post request
         res = client.post(uri, data=data).json()
+
+        # check log entry
+        entry = CommunicationLogEntry.objects.all().first()
+        # test existance
+        if entry is None:
+            self.fail('No log entry was added for request {} and response {}'.format(str(data), str(res)))
+        else:
+            # test three major values
+            self.failUnlessEqual(entry.request, str(data), 'last log entry holds request {} but {} was requested'.format(entry.request, str(data)))
+            self.failUnlessEqual(entry.request_uri, uri, 'last log entry holds request_uri {} but {} was requested'.format(entry.request_uri, uri))
+            self.failUnlessEqual(entry.response, str(res), 'last log entry holds response {} but {} was received'.format(entry.response, str(res)))
+
+        # check status
         if ok:
             self.check_dict_value(uri, data, res, 'status', 'ok')
         else:
@@ -117,3 +133,7 @@ class PSUCommunicationTestCase(TestCase):
 
         # Test registration of PSU with non unique public_rsa_key (PendingPSU)
         self.check_error_code(uri, '0xD1', data=data, client=c)
+
+        print()
+        for l in CommunicationLogEntry.objects.all():
+            print(l)

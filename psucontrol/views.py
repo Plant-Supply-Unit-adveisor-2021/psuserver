@@ -83,7 +83,11 @@ def respond_n_log(request, response, level, *, psu=None):
     Adds a log entry and return JsonRepsonse
     returns: JsonResponse with the dict of response
     """
-    #CommunicationLogEntry(psu=psu, request=str(request.POST), response=str(response), level=level, request_url=request.path).save()
+    if psu is None:
+        CommunicationLogEntry.objects.create(psu_identity_key='NONE', request=str(request.POST.dict()), response=str(response), level=level, request_uri=request.path)
+    else:
+        CommunicationLogEntry.objects.create(psu=psu, psu_identity_key=psu.identity_key, request=str(request.POST.dict()), response=str(response), level=level, request_uri=request.path)
+
     return JsonResponse(response)
 
 
@@ -149,7 +153,7 @@ def register_new_psu(request):
             # return 0xA3 as sign of wrong key format
             return respond_n_log(request, json_error_response('0xA3'), CommunicationLogEntry.Level.MAJOR_ERROR)
 
-        except Exception as e:
+        except Exception:
             # return creation error
             return respond_n_log(request, json_error_response('0xD1'), CommunicationLogEntry.Level.ERROR)
 

@@ -112,13 +112,15 @@ class CommunicationLogEntry(models.Model):
     level = models.IntegerField(_('classification'), choices=Level.choices)
 
     # field for storing the concerning PSU
-    psu = models.ForeignKey(PSU, models.CASCADE, verbose_name=_('Plant Supply Unit'), blank=True)
+    psu = models.ForeignKey(PSU, models.SET_NULL, verbose_name=_('Plant Supply Unit'), null=True)
+    # field to keep the identity key even if the psu is deleted
+    psu_identity_key = models.CharField(_('psu identity key'), max_length=128)
 
     # timestamp of the action
     timestamp = models.DateTimeField(_('timestamp'), auto_now_add=True)
 
     # field for storing the URL
-    request_url = models.CharField(_('request url'), max_length=200)
+    request_uri = models.CharField(_('request uri'), max_length=200)
 
     # field for storing a string reprensentation of the request
     request = models.TextField(_('request'))
@@ -127,9 +129,9 @@ class CommunicationLogEntry(models.Model):
     response = models.TextField(_('repsonse'))
 
     def __str__(self):
-        return '{} {} - {:02}.{:02}.{:04} {:02}:{:02}'.format(self.level, self.psu, self.timestamp.day, self.timestamp.month,
-                                                              self.timestamp.year, self.timestamp.hour,
-                                                              self.timestamp.minute)
+        return 'L{} {} {} - {} ? {}'.format(self.level, self.psu_identity_key,
+                                            self.timestamp.strftime('%d.%m.%Y %H:%M:%S'),
+                                            self.request_uri, self.request)
 
     class Meta:
         verbose_name = _('communication log entry')
