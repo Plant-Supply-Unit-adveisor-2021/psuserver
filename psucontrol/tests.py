@@ -117,10 +117,8 @@ class PSUCommunicationTestCase(TransactionTestCase):
 
         # check returned keys
         try:
-            if len(res['identity_key']) != 128:
-                self.fail(self.gen_fmsg(uri, data, res, '128 char identity_key'))
-            if len(res['pairing_key']) != 6:
-                self.fail(self.gen_fmsg(uri, data, res, '6 char pairing_key'))
+            self.failUnlessEqual(len(res['identity_key']), 128, self.gen_fmsg(uri, data, res, '128 char identity_key'))
+            self.failUnlessEqual(len(res['pairing_key']), 6, self.gen_fmsg(uri, data, res, '6 char pairing_key'))
             self.iKey = res['identity_key']
         except KeyError:
             self.fail(self.gen_fmsg(uri, data, res, 'identity_key and pairing_key (KeyError)'))
@@ -134,6 +132,34 @@ class PSUCommunicationTestCase(TransactionTestCase):
         # Test registration of PSU with non unique public_rsa_key (PendingPSU)
         self.check_error_code(uri, '0xD1', data=data, client=c)
 
-        print()
-        for l in CommunicationLogEntry.objects.all():
-            print(l)
+
+    def test_get_challenge(self):
+        """
+        test process of getting a challenge from the server
+        """
+        uri = '/psucontrol/get_challenge'
+        data = {'identity_key': self.psu.identity_key}
+
+        c = Client()
+
+        # first test the get_callenge part
+
+        # Test error 0xB1 if no post data is given
+        self.check_error_code(uri, '0xB1', client=c)
+
+        # Test error 0xB1 if wrong post data is given
+        self.check_error_code(uri, '0xB1', data={'test':'test'}, client=c)
+
+        # Test error 0xA1 if wrong identity_key is given
+        self.check_error_code(uri, '0xA1', data={'identity_key':'somekey'}, client=c)
+
+        # Test to really get a challenge
+        res = self.check_status(uri, True, data=data, client=c)
+        # test returned challenge
+        try:
+            self.failUnlessEqual(len(res['challenge']), 128, self.gen_fmsg(uri, data, res, '128 char challenge'))
+        except KeyError:
+            self.fail(self.gen_fmsg(uri, data, res, 'challenge (KeyError)'))
+        # test if challenge was stored
+        self.psu.refresh_from_db()
+        self.failUnlessEqual(self.psu.current_challenge, res['challenge'], 'psu holds current challenge {} but {} was responeded'.format(self.psu.current_challenge, res['challenge']))
