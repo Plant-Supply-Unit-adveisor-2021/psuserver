@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-02 23:30+0200\n"
+"POT-Creation-Date: 2021-04-05 18:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -218,7 +218,7 @@ msgid "permitted users"
 msgstr "Berechtigte Benutzer:innen"
 
 #: .\psucontrol\models.py:34 .\psucontrol\models.py:66
-#: .\psucontrol\models.py:115
+#: .\psucontrol\models.py:113
 msgid "Plant Supply Unit"
 msgstr "Pflanzenpflegestation"
 
@@ -266,21 +266,25 @@ msgstr "Helligkeit"
 msgid "fill level"
 msgstr "Füllstand"
 
-#: .\psucontrol\models.py:84
+#: .\psucontrol\models.py:82
 msgid "Data Measurement"
 msgstr "Datenmessung"
 
-#: .\psucontrol\models.py:85
+#: .\psucontrol\models.py:83
 msgid "Data Measurements"
 msgstr "Datenmessungen"
 
-#: .\psucontrol\models.py:112
+#: .\psucontrol\models.py:110
 msgid "classification"
 msgstr "Einstufung"
 
+#: .\psucontrol\models.py:115
+msgid "psu identity key"
+msgstr "PSU Identitätsschlüssel"
+
 #: .\psucontrol\models.py:121
-msgid "request url"
-msgstr "Anfrage URL"
+msgid "request uri"
+msgstr "Anfrage URI"
 
 #: .\psucontrol\models.py:124
 msgid "request"
@@ -306,23 +310,27 @@ msgstr "Fehler beim Identifizieren der PSU"
 msgid "Failed to authenticate PSU"
 msgstr "Fehler beim Authentifizieren der PSU"
 
-#: .\psucontrol\views.py:27
+#: .\psucontrol\views.py:26
+msgid "Failed to deserialize public key"
+msgstr "Fehler beim einlesen des öffentlichen RSA Schlüssels"
+
+#: .\psucontrol\views.py:28
 msgid "Bad request"
 msgstr "Anfrage nicht verwertbar"
 
-#: .\psucontrol\views.py:29
+#: .\psucontrol\views.py:30
 msgid "Failed to create new PSU"
 msgstr "Fehler beim Erstellen einer neuen PSU"
 
-#: .\psucontrol\views.py:30
+#: .\psucontrol\views.py:31
 msgid "Failed to create new data measurement"
 msgstr "Fehler beim Erstellen einer Messung"
 
-#: .\psucontrol\views.py:31
-msgid "Problems with making timestamp timezone aware."
-msgstr "Probleme mit dem Zeitstempel der Messung bzgl. Zeitzonen"
-
 #: .\psucontrol\views.py:32
+msgid "Problems with timestamp or making timestamp timezone aware."
+msgstr "Probleme mit dem Zeitstempel der Messung evtl. bzgl. Zeitzonen"
+
+#: .\psucontrol\views.py:33
 msgid "The timestamp already exists for this PSU."
 msgstr "Es gibt bereits eine Messung mit diesem Zeitstempel."
 
