@@ -76,9 +76,7 @@ class DataMeasurement(models.Model):
     fill_level = models.FloatField(_('fill level'))
 
     def __str__(self):
-        return '{} - {:02}.{:02}.{:04} {:02}:{:02}'.format(self.psu, self.timestamp.day, self.timestamp.month,
-                                                           self.timestamp.year, self.timestamp.hour,
-                                                           self.timestamp.minute)
+        return '{} - {}'.format(self.psu, self.timestamp.strftime('%d.%m.%Y %H:%M:%S'))
 
     class Meta:
         verbose_name = _('Data Measurement')

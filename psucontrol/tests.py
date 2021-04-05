@@ -2,9 +2,10 @@ from django.test import TestCase, Client, TransactionTestCase
 from django.db import transaction
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.primitives import serialization, hashes
+import base64
 
 from website.utils import get_test_user
-from psucontrol.models import PSU, PendingPSU, CommunicationLogEntry
+from psucontrol.models import PSU, PendingPSU, DataMeasurement, CommunicationLogEntry
 
 # Create your tests here.
 
@@ -24,6 +25,31 @@ class PSUCommunicationTestCase(TransactionTestCase):
         self.psu = PSU.objects.create(name='TEST-PSU', identity_key='test-key', public_rsa_key=pub_rsa_str, owner=get_test_user())
     
 
+    def get_signed_msg(self,* ,client=None):
+        """
+        function to request a chellenge and sign it with the key of self.psu
+        """
+        if client is None:
+            client = Client()
+
+        uri = '/psucontrol/get_challenge'
+        data = {'identity_key': self.psu.identity_key}
+        res = self.check_status(uri, True, data=data, client=client)
+        # test returned challenge
+        try:
+            self.failUnlessEqual(len(res['challenge']), 128, self.gen_fmsg(uri, data, res, '128 char challenge'))
+        except KeyError:
+            self.fail(self.gen_fmsg(uri, data, res, 'challenge (KeyError)'))
+        
+        signed = self.rsa_pk.sign(bytes(res['challenge'], 'utf-8'),
+                                  padding.PSS(
+                                      mgf=padding.MGF1(hashes.SHA256()),
+                                      salt_length=padding.PSS.MAX_LENGTH),
+                                  hashes.SHA256())
+        # return url safe string
+        return str(base64.urlsafe_b64encode(signed), 'utf-8')
+    
+    
     def gen_fmsg(self, uri, data, res, wanted_str):
         """
         shortcut to create error message
@@ -59,7 +85,7 @@ class PSUCommunicationTestCase(TransactionTestCase):
         res = client.post(uri, data=data).json()
 
         # check log entry
-        entry = CommunicationLogEntry.objects.all().first()
+        entry = CommunicationLogEntry.objects.first()
         # test existance
         if entry is None:
             self.fail('No log entry was added for request {} and response {}'.format(str(data), str(res)))
@@ -142,8 +168,6 @@ class PSUCommunicationTestCase(TransactionTestCase):
 
         c = Client()
 
-        # first test the get_callenge part
-
         # Test error 0xB1 if no post data is given
         self.check_error_code(uri, '0xB1', client=c)
 
@@ -163,3 +187,81 @@ class PSUCommunicationTestCase(TransactionTestCase):
         # test if challenge was stored
         self.psu.refresh_from_db()
         self.failUnlessEqual(self.psu.current_challenge, res['challenge'], 'psu holds current challenge {} but {} was responeded'.format(self.psu.current_challenge, res['challenge']))
+
+
+    def test_add_data_measurement(self):
+        """
+        test process of adding a data measurement
+        """
+        uri = '/psucontrol/add_data_measurement'
+
+        c = Client()
+
+        # Test error 0xB1 if no post data is given
+        self.check_error_code(uri, '0xB1', client=c)
+
+        # Test error 0xB1 if wrong post data is given
+        self.check_error_code(uri, '0xB1', data={'test':'test'}, client=c)
+
+        # Test error 0xA1 if wrong identity_key is given
+        self.check_error_code(uri, '0xA1', data={'identity_key':'somekey'}, client=c)
+
+        # Test error 0xA2 if wrong signed challenge is given
+        data = {'identity_key':self.psu.identity_key, 'signed_challenge': 'some weird challenge'}
+        self.check_error_code(uri, '0xA2', data=data, client=c)
+
+        # Test error 0xB1 if wrong post data except auth stuff is given
+        data['signed_challenge'] = self.get_signed_msg()
+        self.check_error_code(uri, '0xB1', data=data, client=c)
+        
+        data['temperature'] = '20.0'
+        data['air_humidity'] = '98.9'
+        data['ground_humidity'] = '45.65'
+        data['brightness'] = '100.0'
+        data['fill_level'] = '75.6'
+
+        # Test error 0xD3 if there is a timestamp parsing problem
+        data['signed_challenge'] = self.get_signed_msg()
+        data['timestamp'] = '2021-03-28_02:30:25'
+        self.check_error_code(uri, '0xD3', data=data, client=c)
+
+        # Test error 0xD3 if there is a timezone problem
+        data['signed_challenge'] = self.get_signed_msg()
+        data['timestamp'] = '2021-03-28_02-30-25'
+        self.check_error_code(uri, '0xD3', data=data, client=c)
+
+        # Test creating a DataMeasurement
+        data['signed_challenge'] = self.get_signed_msg()
+        data['timestamp'] = '2021-03-28_03-30-25'
+        res = self.check_status(uri, True, data=data, client=c)
+        
+        # Test whether correct DataMeasurement was created
+        dm = DataMeasurement.objects.first()
+        if dm is None:
+            self.fail('No DataMeasurement was added for request {} and response {}'.format(str(data), str(res)))
+        else:
+            # test every attribute
+            self.psu.refresh_from_db()
+            self.failUnlessEqual(dm.psu, self.psu, 'DataMeasurement holds psu {} but {} was requested'.format(str(dm.psu), str(self.psu)))
+            self.failUnlessEqual(dm.timestamp.strftime('%Y-%m-%d_%H-%M-%S'), '2021-03-28_01-30-25', 'DataMeasurement holds psu {} but {} was requested'.format(dm.timestamp.strftime('%Y-%m-%d_%H-%M-%S'), '2021-03-28_01-30-25'))
+            self.failUnlessEqual(dm.temperature, 20.0, 'DataMeasurement holds temperature {} but {} was requested'.format(str(dm.temperature), str(20.0)))
+            self.failUnlessEqual(dm.air_humidity, 98.9, 'DataMeasurement holds air_humidity {} but {} was requested'.format(str(dm.air_humidity), str(98.8)))
+            self.failUnlessEqual(dm.ground_humidity, 45.65, 'DataMeasurement holds ground_humidity {} but {} was requested'.format(str(dm.ground_humidity), str(46.65)))
+            self.failUnlessEqual(dm.brightness, 100.0, 'DataMeasurement holds brightness {} but {} was requested'.format(str(dm.brightness), str(100.0)))
+            self.failUnlessEqual(dm.fill_level, 75.6, 'DataMeasurement holds fill_level {} but {} was requested'.format(str(dm.fill_level), str(75.6)))
+
+        # Test error 0xA2 after direct resend without new signed_challenge
+        self.check_error_code(uri, '0xA2', data=data, client=c)
+
+        # Test error 0xA2 when using no message as message
+        signed = self.rsa_pk.sign(bytes('', 'utf-8'),
+                                  padding.PSS(
+                                      mgf=padding.MGF1(hashes.SHA256()),
+                                      salt_length=padding.PSS.MAX_LENGTH),
+                                  hashes.SHA256())
+        data['signed_challenge'] = str(base64.urlsafe_b64encode(signed), 'utf-8')
+        self.check_error_code(uri, '0xA2', data=data, client=c)
+
+        # Test 0xD4 if measurement already exists
+        data['signed_challenge'] = self.get_signed_msg()
+        self.check_error_code(uri, '0xD4', data=data, client=c)

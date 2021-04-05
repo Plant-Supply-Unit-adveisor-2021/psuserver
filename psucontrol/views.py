@@ -29,7 +29,7 @@ ERROR_CODES = {
     # D - Database
     '0xD1': gettext_noop('Failed to create new PSU'),
     '0xD2': gettext_noop('Failed to create new data measurement'),
-    '0xD3': gettext_noop('Problems with making timestamp timezone aware.'),
+    '0xD3': gettext_noop('Problems with timestamp or making timestamp timezone aware.'),
     '0xD4': gettext_noop('The timestamp already exists for this PSU.'),
 }
 
@@ -59,6 +59,11 @@ def authenticate_psu(psu, message):
     function to authenticate a psu
     returns: bool about access
     """
+
+    if psu.current_challenge == '':
+        # no current challenge available
+        return False
+
     try:
         # verify message
         public_key = serialization.load_pem_public_key(bytes(psu.public_rsa_key, 'utf-8'))
@@ -71,7 +76,7 @@ def authenticate_psu(psu, message):
         psu.current_challenge = ""
         psu.save()
         return True
-    except InvalidSignature:
+    except Exception:
         # remove challenge
         psu.current_challenge = ""
         psu.save()
@@ -227,7 +232,7 @@ def add_data_measurement(request):
                             brightness=float(request.POST['brightness']),
                             fill_level=float(request.POST['fill_level'])).save()
 
-        except NonExistentTimeError:
+        except (NonExistentTimeError, ValueError):
             # return timezone error
             return respond_n_log(request, json_error_response('0xD3'), CommunicationLogEntry.Level.MAJOR_ERROR)
         except IntegrityError:
