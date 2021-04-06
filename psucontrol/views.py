@@ -2,6 +2,7 @@ import base64
 from datetime import timedelta, datetime
 from pytz.exceptions import NonExistentTimeError
 from secrets import token_urlsafe, token_hex
+import imghdr
 
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives import serialization, hashes
@@ -15,7 +16,8 @@ from django.utils.timezone import make_aware
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-from psucontrol.models import PendingPSU, PSU, DataMeasurement, CommunicationLogEntry
+from psucontrol.models import PendingPSU, PSU, DataMeasurement, PSUImage, CommunicationLogEntry
+
 
 # Create your views here.
 
@@ -30,7 +32,8 @@ ERROR_CODES = {
     '0xD1': gettext_noop('Failed to create new PSU'),
     '0xD2': gettext_noop('Failed to create new data measurement'),
     '0xD3': gettext_noop('Problems with timestamp or making timestamp timezone aware.'),
-    '0xD4': gettext_noop('The timestamp already exists for this PSU.'),
+    '0xD4': gettext_noop('The timestamp already exists for this PSU'),
+    '0xD5': gettext_noop('Failed to upload new image.'),
 }
 
 
@@ -192,7 +195,7 @@ def get_challenge(request):
             psu.current_challenge = challenge
             psu.save()
 
-            return respond_n_log(request, {'status': 'ok', 'challenge': challenge}, CommunicationLogEntry.Level.MINOR_INFO)
+            return respond_n_log(request, {'status': 'ok', 'challenge': challenge}, CommunicationLogEntry.Level.MINOR_INFO, psu=psu)
 
         except KeyError:
             # return bad request
@@ -221,7 +224,7 @@ def add_data_measurement(request):
             # authenticate PSU
             if not authenticate_psu(psu, request.POST['signed_challenge']):
                 # return authentication error
-                return respond_n_log(request, json_error_response('0xA2'), CommunicationLogEntry.Level.ERROR)
+                return respond_n_log(request, json_error_response('0xA2'), CommunicationLogEntry.Level.ERROR, psu=psu)
 
             # try to create new DataMeasurement
             DataMeasurement(psu=psu,
@@ -234,18 +237,67 @@ def add_data_measurement(request):
 
         except (NonExistentTimeError, ValueError):
             # return timezone error
-            return respond_n_log(request, json_error_response('0xD3'), CommunicationLogEntry.Level.MAJOR_ERROR)
+            return respond_n_log(request, json_error_response('0xD3'), CommunicationLogEntry.Level.MAJOR_ERROR, psu=psu)
         except IntegrityError:
             # return already exists error
-            return respond_n_log(request, json_error_response('0xD4'), CommunicationLogEntry.Level.MINOR_ERROR)
+            return respond_n_log(request, json_error_response('0xD4'), CommunicationLogEntry.Level.MINOR_ERROR, psu=psu)
         except KeyError:
             # return bad request
             return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MAJOR_ERROR)
         except Exception:
             # return creation error
-            return respond_n_log(request, json_error_response('0xD2'), CommunicationLogEntry.Level.ERROR)
+            return respond_n_log(request, json_error_response('0xD2'), CommunicationLogEntry.Level.ERROR, psu=psu)
 
-        return respond_n_log(request, {'status': 'ok'}, CommunicationLogEntry.Level.MINOR_INFO)
+        return respond_n_log(request, {'status': 'ok'}, CommunicationLogEntry.Level.MINOR_INFO, psu=psu)
+    else:
+        # return bad request type
+        return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MINOR_ERROR)
+
+
+@csrf_exempt
+@require_POST
+def add_image(request):
+    """
+    view to handle the process to a new PSUImage
+    """
+    if request.POST and request.FILES:
+        try:
+
+            # identification of the PSU
+            psu = identify_psu(request.POST['identity_key'])
+
+            if psu is None:
+                # return identification error
+                return respond_n_log(request, json_error_response('0xA1'), CommunicationLogEntry.Level.ERROR)
+
+            # authenticate PSU
+            if not authenticate_psu(psu, request.POST['signed_challenge']):
+                # return authentication error
+                return respond_n_log(request, json_error_response('0xA2'), CommunicationLogEntry.Level.ERROR, psu=psu)
+
+            # test if file is image
+            if imghdr.what(request.FILES['image']) is None:
+                # return creation error
+                return respond_n_log(request, json_error_response('0xD5'), CommunicationLogEntry.Level.ERROR, psu=psu)
+
+            img = PSUImage(psu=psu, image=request.FILES['image'],
+                           timestamp=make_aware(datetime.strptime(request.POST['timestamp'], '%Y-%m-%d_%H-%M-%S')))
+            img.save()
+
+        except (NonExistentTimeError, ValueError):
+            # return timezone error
+            return respond_n_log(request, json_error_response('0xD3'), CommunicationLogEntry.Level.MAJOR_ERROR, psu=psu)
+        except IntegrityError:
+            # return already exists error
+            return respond_n_log(request, json_error_response('0xD4'), CommunicationLogEntry.Level.MINOR_ERROR, psu=psu)
+        except KeyError:
+            # return bad request
+            return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MAJOR_ERROR)
+        except Exception:
+            # return creation error
+            return respond_n_log(request, json_error_response('0xD5'), CommunicationLogEntry.Level.ERROR, psu=psu)
+
+        return respond_n_log(request, {'status': 'ok'}, CommunicationLogEntry.Level.MINOR_INFO, psu=psu)
     else:
         # return bad request type
         return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MINOR_ERROR)

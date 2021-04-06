@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-05 18:58+0200\n"
+"POT-Creation-Date: 2021-04-06 23:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -193,146 +193,163 @@ msgstr "Dein Passwort wurde erfolgreich geändert."
 msgid "PSU Control"
 msgstr "PSU Steuerung"
 
-#: .\psucontrol\models.py:18
+#: .\psucontrol\models.py:21
 msgid "name"
 msgstr "Name"
 
-#: .\psucontrol\models.py:21 .\psucontrol\models.py:45
+#: .\psucontrol\models.py:24 .\psucontrol\models.py:48
 msgid "identity key"
 msgstr "Identitätsschlüssel"
 
-#: .\psucontrol\models.py:22 .\psucontrol\models.py:47
+#: .\psucontrol\models.py:25 .\psucontrol\models.py:50
 msgid "public rsa key"
 msgstr "Öffentlicher RSA-Schlüssel"
 
-#: .\psucontrol\models.py:23
+#: .\psucontrol\models.py:26
 msgid "current challenge token"
 msgstr "Aktueller Challenge Token"
 
-#: .\psucontrol\models.py:26
+#: .\psucontrol\models.py:29
 msgid "owner"
 msgstr "Besitzer:in"
 
-#: .\psucontrol\models.py:27
+#: .\psucontrol\models.py:30
 msgid "permitted users"
 msgstr "Berechtigte Benutzer:innen"
 
-#: .\psucontrol\models.py:34 .\psucontrol\models.py:66
-#: .\psucontrol\models.py:113
+#: .\psucontrol\models.py:37 .\psucontrol\models.py:69
+#: .\psucontrol\models.py:100 .\psucontrol\models.py:172
 msgid "Plant Supply Unit"
 msgstr "Pflanzenpflegestation"
 
-#: .\psucontrol\models.py:35
+#: .\psucontrol\models.py:38
 msgid "Plant Supply Units"
 msgstr "Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:49
+#: .\psucontrol\models.py:52
 msgid "pairing key"
 msgstr "Kopplungsschlüssel"
 
-#: .\psucontrol\models.py:52
+#: .\psucontrol\models.py:55
 msgid "creation time"
 msgstr "Erstellungszeit"
 
-#: .\psucontrol\models.py:55
+#: .\psucontrol\models.py:58
 msgid "Pending Plant Supply Unit"
 msgstr "schwebende Pflanzenpflegestation"
 
-#: .\psucontrol\models.py:56
+#: .\psucontrol\models.py:59
 msgid "Pending Plant Supply Units"
 msgstr "schwebende Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:69 .\psucontrol\models.py:118
+#: .\psucontrol\models.py:72 .\psucontrol\models.py:103
+#: .\psucontrol\models.py:177
 msgid "timestamp"
 msgstr "Zeitstempel"
 
-#: .\psucontrol\models.py:72
+#: .\psucontrol\models.py:75
 msgid "temperature"
 msgstr "Temperatur"
 
-#: .\psucontrol\models.py:73
+#: .\psucontrol\models.py:76
 msgid "air humidity"
 msgstr "Luftfeuchte"
 
-#: .\psucontrol\models.py:74
+#: .\psucontrol\models.py:77
 msgid "ground humidity"
 msgstr "Bodenfeuchte"
 
-#: .\psucontrol\models.py:75
+#: .\psucontrol\models.py:78
 msgid "brightness"
 msgstr "Helligkeit"
 
-#: .\psucontrol\models.py:76
+#: .\psucontrol\models.py:79
 msgid "fill level"
 msgstr "Füllstand"
 
-#: .\psucontrol\models.py:82
+#: .\psucontrol\models.py:85
 msgid "Data Measurement"
 msgstr "Datenmessung"
 
-#: .\psucontrol\models.py:83
+#: .\psucontrol\models.py:86
 msgid "Data Measurements"
 msgstr "Datenmessungen"
 
-#: .\psucontrol\models.py:110
+#: .\psucontrol\models.py:106
+msgid "image"
+msgstr "Bild"
+
+#: .\psucontrol\models.py:112
+msgid "PSU Image"
+msgstr "Bild von einer Pflanzenpflegestation"
+
+#: .\psucontrol\models.py:113
+msgid "PSU Images"
+msgstr "Bilder von Pflanzenpflegestationen"
+
+#: .\psucontrol\models.py:169
 msgid "classification"
 msgstr "Einstufung"
 
-#: .\psucontrol\models.py:115
+#: .\psucontrol\models.py:174
 msgid "psu identity key"
 msgstr "PSU Identitätsschlüssel"
 
-#: .\psucontrol\models.py:121
+#: .\psucontrol\models.py:180
 msgid "request uri"
 msgstr "Anfrage URI"
 
-#: .\psucontrol\models.py:124
+#: .\psucontrol\models.py:183
 msgid "request"
 msgstr "Anfrage"
 
-#: .\psucontrol\models.py:127
+#: .\psucontrol\models.py:186
 msgid "repsonse"
 msgstr "Antwort"
 
-#: .\psucontrol\models.py:135
-msgid "communication log entry"
-msgstr "Kommunikationslogeintrag"
+#: .\psucontrol\models.py:194
+msgid "Log Entry"
+msgstr "Logeintrag"
 
-#: .\psucontrol\models.py:136
-msgid "communication log entries"
-msgstr "Kommunikationslogeinträge"
+#: .\psucontrol\models.py:195
+msgid "Log Entries"
+msgstr "Logeinträge"
 
-#: .\psucontrol\views.py:24
+#: .\psucontrol\views.py:26
 msgid "Failed to identify PSU"
 msgstr "Fehler beim Identifizieren der PSU"
 
-#: .\psucontrol\views.py:25
+#: .\psucontrol\views.py:27
 msgid "Failed to authenticate PSU"
 msgstr "Fehler beim Authentifizieren der PSU"
 
-#: .\psucontrol\views.py:26
+#: .\psucontrol\views.py:28
 msgid "Failed to deserialize public key"
 msgstr "Fehler beim einlesen des öffentlichen RSA Schlüssels"
 
-#: .\psucontrol\views.py:28
+#: .\psucontrol\views.py:30
 msgid "Bad request"
 msgstr "Anfrage nicht verwertbar"
 
-#: .\psucontrol\views.py:30
+#: .\psucontrol\views.py:32
 msgid "Failed to create new PSU"
 msgstr "Fehler beim Erstellen einer neuen PSU"
 
-#: .\psucontrol\views.py:31
+#: .\psucontrol\views.py:33
 msgid "Failed to create new data measurement"
 msgstr "Fehler beim Erstellen einer Messung"
 
-#: .\psucontrol\views.py:32
+#: .\psucontrol\views.py:34
 msgid "Problems with timestamp or making timestamp timezone aware."
 msgstr "Probleme mit dem Zeitstempel der Messung evtl. bzgl. Zeitzonen"
 
-#: .\psucontrol\views.py:33
-msgid "The timestamp already exists for this PSU."
+#: .\psucontrol\views.py:35
+msgid "The timestamp already exists for this PSU"
 msgstr "Es gibt bereits eine Messung mit diesem Zeitstempel."
+
+#: .\psucontrol\views.py:36
+msgid "Failed to upload new image."
+msgstr "Fehler beim Hochladen des Kamerabildes"
 
 #: .\psufrontend\apps.py:7
 msgid "PSU Frontend"

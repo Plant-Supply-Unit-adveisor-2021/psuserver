@@ -130,6 +130,9 @@ WSGI_APPLICATION = 'website.wsgi.application'
 AUTH_USER_MODEL = 'authentication.User'
 LOGIN_URL = 'auth:login'
 
+# model/database settings
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -178,3 +181,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [STATIC_DIR]
+
+# store media files outside the repository
+MEDIA_ROOT = os.path.join(BASE_DIR.parent, 'media')
+MEDIA_URL = '/media/'
