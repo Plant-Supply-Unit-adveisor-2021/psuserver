@@ -2,6 +2,7 @@ import base64
 from datetime import timedelta, datetime
 from pytz.exceptions import NonExistentTimeError
 from secrets import token_urlsafe, token_hex
+from PIL import Image
 
 from cryptography.exceptions import InvalidSignature
 from cryptography.hazmat.primitives import serialization, hashes
@@ -274,8 +275,12 @@ def add_image(request):
                 # return authentication error
                 return respond_n_log(request, json_error_response('0xA2'), CommunicationLogEntry.Level.ERROR, psu=psu)
 
-            PSUImage(psu=psu, image=request.FILES['image'],
-                    timestamp=make_aware(datetime.strptime(request.POST['timestamp'], '%Y-%m-%d_%H-%M-%S'))).save()
+            # try to load image with Pillow to prove that the file is an image
+            Image.open(request.FILES['image'])
+
+            img = PSUImage(psu=psu, image=request.FILES['image'],
+                           timestamp=make_aware(datetime.strptime(request.POST['timestamp'], '%Y-%m-%d_%H-%M-%S')))
+            img.save()
 
         except (NonExistentTimeError, ValueError):
             # return timezone error

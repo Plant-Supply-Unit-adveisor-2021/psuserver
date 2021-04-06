@@ -5,7 +5,7 @@ from cryptography.hazmat.primitives import serialization, hashes
 import base64
 
 from website.utils import get_test_user
-from psucontrol.models import PSU, PendingPSU, DataMeasurement, CommunicationLogEntry
+from psucontrol.models import PSU, PendingPSU, DataMeasurement, PSUImage, CommunicationLogEntry
 
 # Create your tests here.
 
@@ -84,6 +84,16 @@ class PSUCommunicationTestCase(TransactionTestCase):
         # make post request
         res = client.post(uri, data=data).json()
 
+        # clear file fields because they are not in request.POST
+        try:
+            del data['images']
+        except KeyError:
+            pass
+        try:
+            del data['image']
+        except KeyError:
+            pass
+        
         # check log entry
         entry = CommunicationLogEntry.objects.first()
         # test existance
@@ -264,4 +274,94 @@ class PSUCommunicationTestCase(TransactionTestCase):
 
         # Test 0xD4 if measurement already exists
         data['signed_challenge'] = self.get_signed_msg()
+        self.check_error_code(uri, '0xD4', data=data, client=c)
+
+    
+    def test_add_image(self):
+        """
+        test process of uploading an image for a psu
+        """
+        uri = '/psucontrol/add_image'
+        data = dict()
+
+        txt_file = 'static/tests/test.txt'
+        png_file = 'static/tests/test.png'
+
+        c = Client()
+
+        # Test error 0xB1 if no post and files data is given
+        self.check_error_code(uri, '0xB1', client=c)
+
+        # Test error 0xB1 if wrong post data is given
+        data['test'] = 'test'
+        data['images'] = open(txt_file, 'rb')
+        self.check_error_code(uri, '0xB1', data=data, client=c)
+        del data['test']
+
+        # Test error 0xA1 if wrong identity_key is given
+        data['identity_key'] = 'somekey'
+        data['images'] = open(txt_file, 'rb')
+        self.check_error_code(uri, '0xA1', data=data, client=c)
+
+        # Test error 0xA2 if wrong signed challenge is given
+        data['identity_key'] = self.psu.identity_key
+        data['signed_challenge'] = 'some weird challenge'
+        data['images'] = open(txt_file, 'rb')
+        self.check_error_code(uri, '0xA2', data=data, client=c)
+
+        # Test error 0xB1 if wrong post data except auth stuff is given
+        data['signed_challenge'] = self.get_signed_msg()
+        data['images'] = open(txt_file, 'rb')
+        self.check_error_code(uri, '0xB1', data=data, client=c)
+
+        # Test error 0xD5 if there is a wrong file type
+        data['signed_challenge'] = self.get_signed_msg()
+        data['image'] = open(txt_file, 'rb')
+        self.check_error_code(uri, '0xD5', data=data, client=c)
+
+        # Test error 0xD3 if there is a timestamp parsing problem
+        data['signed_challenge'] = self.get_signed_msg()
+        data['image'] = open(png_file, 'rb')
+        data['timestamp'] = '2021-03-28_02:30:25'
+        self.check_error_code(uri, '0xD3', data=data, client=c)
+
+        # Test error 0xD3 if there is a timezone problem
+        data['signed_challenge'] = self.get_signed_msg()
+        data['image'] = open(png_file, 'rb')
+        data['timestamp'] = '2021-03-28_02-30-25'
+        self.check_error_code(uri, '0xD3', data=data, client=c)
+
+        # Test creating a PSUImage
+        data['signed_challenge'] = self.get_signed_msg()
+        data['image'] = open(png_file, 'rb')
+        data['timestamp'] = '2021-03-28_05-30-25'
+        res = self.check_status(uri, True, data=data, client=c)
+        
+        # Test whether correct DataMeasurement was created
+        pi = PSUImage.objects.first()
+        if pi is None:
+            self.fail('No PSUImage was added for request {} and response {}'.format(str(data), str(res)))
+        else:
+            # test every attribute except image
+            self.psu.refresh_from_db()
+            self.failUnlessEqual(pi.psu, self.psu, 'PSUImage holds psu {} but {} was requested'.format(str(pi.psu), str(self.psu)))
+            self.failUnlessEqual(pi.timestamp.strftime('%Y-%m-%d_%H-%M-%S'), '2021-03-28_03-30-25', 'PSUImage holds psu {} but {} was requested'.format(pi.timestamp.strftime('%Y-%m-%d_%H-%M-%S'), '2021-03-28_01-30-25'))
+
+        # Test error 0xA2 after direct resend without new signed_challenge
+        data['image'] = open(png_file, 'rb')
+        self.check_error_code(uri, '0xA2', data=data, client=c)
+
+        # Test error 0xA2 when using no message as message
+        signed = self.rsa_pk.sign(bytes('', 'utf-8'),
+                                  padding.PSS(
+                                      mgf=padding.MGF1(hashes.SHA256()),
+                                      salt_length=padding.PSS.MAX_LENGTH),
+                                  hashes.SHA256())
+        data['signed_challenge'] = str(base64.urlsafe_b64encode(signed), 'utf-8')
+        data['image'] = open(png_file, 'rb')
+        self.check_error_code(uri, '0xA2', data=data, client=c)
+
+        # Test 0xD4 if image already exists
+        data['signed_challenge'] = self.get_signed_msg()
+        data['image'] = open(png_file, 'rb')
         self.check_error_code(uri, '0xD4', data=data, client=c)

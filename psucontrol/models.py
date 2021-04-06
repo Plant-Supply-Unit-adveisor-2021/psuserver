@@ -106,7 +106,7 @@ class PSUImage(models.Model):
     image = models.ImageField(upload_to=upload_image_path, verbose_name=_('image'))
 
     def __str__(self):
-        return 'IM {} - {}'.format(self.psu, self.timestamp.strftime('%d.%m.%Y %H:%M:%S'))
+        return 'IMG {} - {}'.format(self.psu, self.timestamp.strftime('%d.%m.%Y %H:%M:%S'))
 
     class Meta:
         verbose_name = _('PSU Image')
