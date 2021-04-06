@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-06 12:44+0200\n"
+"POT-Creation-Date: 2021-04-06 13:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -218,7 +218,7 @@ msgid "permitted users"
 msgstr "Berechtigte Benutzer:innen"
 
 #: .\psucontrol\models.py:34 .\psucontrol\models.py:66
-#: .\psucontrol\models.py:113
+#: .\psucontrol\models.py:97 .\psucontrol\models.py:137
 msgid "Plant Supply Unit"
 msgstr "Pflanzenpflegestation"
 
@@ -242,7 +242,8 @@ msgstr "schwebende Pflanzenpflegestation"
 msgid "Pending Plant Supply Units"
 msgstr "schwebende Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:69 .\psucontrol\models.py:118
+#: .\psucontrol\models.py:69 .\psucontrol\models.py:100
+#: .\psucontrol\models.py:142
 msgid "timestamp"
 msgstr "Zeitstempel"
 
@@ -274,31 +275,43 @@ msgstr "Datenmessung"
 msgid "Data Measurements"
 msgstr "Datenmessungen"
 
-#: .\psucontrol\models.py:110
+#: .\psucontrol\models.py:103
+msgid "image"
+msgstr "Bild"
+
+#: .\psucontrol\models.py:106
+msgid "PSU Image"
+msgstr "Bild von einer Pflanzenpflegestation"
+
+#: .\psucontrol\models.py:107
+msgid "PSU Images"
+msgstr "Bilder von Pflanzenpflegestationen"
+
+#: .\psucontrol\models.py:134
 msgid "classification"
 msgstr "Einstufung"
 
-#: .\psucontrol\models.py:115
+#: .\psucontrol\models.py:139
 msgid "psu identity key"
 msgstr "PSU Identitätsschlüssel"
 
-#: .\psucontrol\models.py:121
+#: .\psucontrol\models.py:145
 msgid "request uri"
 msgstr "Anfrage URI"
 
-#: .\psucontrol\models.py:124
+#: .\psucontrol\models.py:148
 msgid "request"
 msgstr "Anfrage"
 
-#: .\psucontrol\models.py:127
+#: .\psucontrol\models.py:151
 msgid "repsonse"
 msgstr "Antwort"
 
-#: .\psucontrol\models.py:135
+#: .\psucontrol\models.py:159
 msgid "Log Entry"
 msgstr "Logeintrag"
 
-#: .\psucontrol\models.py:136
+#: .\psucontrol\models.py:160
 msgid "Log Entries"
 msgstr "Logeinträge"
 

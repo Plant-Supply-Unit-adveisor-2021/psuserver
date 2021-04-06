@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from psucontrol.models import PSU, PendingPSU, DataMeasurement, CommunicationLogEntry
+from psucontrol.models import PSU, PendingPSU, DataMeasurement, PSUImage, CommunicationLogEntry
 
 
 # Register your models here.
@@ -25,6 +25,15 @@ class DataMeasurementAdmin(admin.ModelAdmin):
     model = DataMeasurement
 
     list_display = ['psu', 'timestamp', 'temperature', 'air_humidity', 'ground_humidity', 'brightness', 'fill_level']
+    list_filter = ['psu']
+    search_fields = ['psu__id', 'psu__name', 'psu__owner__email', 'psu__owner__last_name', 'psu__owner__first_name']
+
+
+@admin.register(PSUImage)
+class DataMeasurementAdmin(admin.ModelAdmin):
+    model = PSUImage
+
+    list_display = ['psu', 'timestamp', 'image']
     list_filter = ['psu']
     search_fields = ['psu__id', 'psu__name', 'psu__owner__email', 'psu__owner__last_name', 'psu__owner__first_name']
 

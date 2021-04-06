@@ -178,3 +178,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [STATIC_DIR]
+
+# store media files outside the repository
+MEDIA_ROOT = os.path.join(BASE_DIR.parent, 'media')
+MEDIA_URL = '/media/'
