@@ -15,7 +15,7 @@ class PSU(models.Model):
     This model holds the authentication data, user permissions and the name of the unit.
     """
     # id of the PSUs
-    id = models.AutoField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
 
     # name describing the PSU
     name = models.CharField(_('name'), max_length=128)

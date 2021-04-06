@@ -130,6 +130,9 @@ WSGI_APPLICATION = 'website.wsgi.application'
 AUTH_USER_MODEL = 'authentication.User'
 LOGIN_URL = 'auth:login'
 
+# model/database settings
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
