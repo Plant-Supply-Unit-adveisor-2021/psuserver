@@ -89,7 +89,7 @@ class DataMeasurement(models.Model):
 
 
 def upload_image_path(instance, filename):
-    return 'psufeed/{}/{}_{}'.format(instance.psu.id, instance.timestamp.strftime('%Y-%m-%d_%H-%M'), filename)
+    return 'psufeed/{}/{}{}'.format(instance.psu.id, instance.timestamp.strftime('%Y-%m-%d_%H-%M-%S'), os.path.splitext(filename)[1])
 
 
 class PSUImage(models.Model):
