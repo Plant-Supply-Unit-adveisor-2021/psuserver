@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-05 18:58+0200\n"
+"POT-Creation-Date: 2021-04-06 12:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -295,12 +295,12 @@ msgid "repsonse"
 msgstr "Antwort"
 
 #: .\psucontrol\models.py:135
-msgid "communication log entry"
-msgstr "Kommunikationslogeintrag"
+msgid "Log Entry"
+msgstr "Logeintrag"
 
 #: .\psucontrol\models.py:136
-msgid "communication log entries"
-msgstr "Kommunikationslogeinträge"
+msgid "Log Entries"
+msgstr "Logeinträge"
 
 #: .\psucontrol\views.py:24
 msgid "Failed to identify PSU"

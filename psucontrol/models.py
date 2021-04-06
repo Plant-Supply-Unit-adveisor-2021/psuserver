@@ -132,6 +132,6 @@ class CommunicationLogEntry(models.Model):
                                             self.request_uri, self.request)
 
     class Meta:
-        verbose_name = _('communication log entry')
-        verbose_name_plural = _('communication log entries')
+        verbose_name = _('Log Entry')
+        verbose_name_plural = _('Log Entries')
         ordering = ['-timestamp', '-level']
