@@ -91,10 +91,10 @@ class CommunicationLogEntry(models.Model):
     """
 
     class Level(models.IntegerChoices):
-        # used to sort entries and to set a lease time
-        # >= 100 forever
-        # >= 10 one week
-        # otherwise one day
+        # used to sort entries and to set a lease time in command cleanlog
+        # >= 100 long
+        # >= 10 middle
+        # otherwise short
 
         # errors
         MAJOR_ERROR = 200
