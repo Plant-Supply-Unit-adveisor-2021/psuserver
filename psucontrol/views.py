@@ -192,11 +192,11 @@ def get_challenge(request):
             psu.current_challenge = challenge
             psu.save()
 
-            return respond_n_log(request, {'status': 'ok', 'challenge': challenge}, CommunicationLogEntry.Level.MINOR_INFO)
+            return respond_n_log(request, {'status': 'ok', 'challenge': challenge}, CommunicationLogEntry.Level.MINOR_INFO, psu=psu)
 
         except KeyError:
             # return bad request
-            return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MAJOR_ERROR)
+            return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MAJOR_ERROR, psu=psu)
 
     else:
         # return bad request type
@@ -221,7 +221,7 @@ def add_data_measurement(request):
             # authenticate PSU
             if not authenticate_psu(psu, request.POST['signed_challenge']):
                 # return authentication error
-                return respond_n_log(request, json_error_response('0xA2'), CommunicationLogEntry.Level.ERROR)
+                return respond_n_log(request, json_error_response('0xA2'), CommunicationLogEntry.Level.ERROR, psu=psu)
 
             # try to create new DataMeasurement
             DataMeasurement(psu=psu,
@@ -234,18 +234,18 @@ def add_data_measurement(request):
 
         except (NonExistentTimeError, ValueError):
             # return timezone error
-            return respond_n_log(request, json_error_response('0xD3'), CommunicationLogEntry.Level.MAJOR_ERROR)
+            return respond_n_log(request, json_error_response('0xD3'), CommunicationLogEntry.Level.MAJOR_ERROR, psu=psu)
         except IntegrityError:
             # return already exists error
-            return respond_n_log(request, json_error_response('0xD4'), CommunicationLogEntry.Level.MINOR_ERROR)
+            return respond_n_log(request, json_error_response('0xD4'), CommunicationLogEntry.Level.MINOR_ERROR, psu=psu)
         except KeyError:
             # return bad request
-            return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MAJOR_ERROR)
+            return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MAJOR_ERROR, psu=psu)
         except Exception:
             # return creation error
-            return respond_n_log(request, json_error_response('0xD2'), CommunicationLogEntry.Level.ERROR)
+            return respond_n_log(request, json_error_response('0xD2'), CommunicationLogEntry.Level.ERROR, psu=psu)
 
-        return respond_n_log(request, {'status': 'ok'}, CommunicationLogEntry.Level.MINOR_INFO)
+        return respond_n_log(request, {'status': 'ok'}, CommunicationLogEntry.Level.MINOR_INFO, psu=psu)
     else:
         # return bad request type
         return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MINOR_ERROR)
