@@ -103,7 +103,7 @@ class PSUImage(models.Model):
     timestamp = models.DateTimeField(_('timestamp'))
 
     # field for storing the image
-    image = models.FileField(upload_to=upload_image_path, verbose_name=_('image'))
+    image = models.ImageField(upload_to=upload_image_path, verbose_name=_('image'))
 
     def __str__(self):
         return 'IM {} - {}'.format(self.psu, self.timestamp.strftime('%d.%m.%Y %H:%M:%S'))
