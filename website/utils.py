@@ -11,15 +11,6 @@ def get_i18n_tag(request):
     return request.path.split('/')[1]
 
 
-def get_i18n_tag_closest_to_request(request):
-    try:
-        if request.META['HTTP_ACCEPT_LANGUAGE'].split(',')[0] == 'de':
-            return 'de'
-    except:
-        pass
-    return 'en'
-
-
 def get_test_user():
     """
     returns the test user which is used when a user is needed for testing purposes

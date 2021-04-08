@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponse, Http404
 from django.shortcuts import redirect
 from django.urls import path
 
@@ -21,7 +22,7 @@ def psufeed_handler(request, path):
         psu = PSUImage.objects.get(image='psufeed/' + path).psu
     except PSUImage.DoesNotExist:
         # no such image found
-        return HttpResponseNotFound()
+        raise Http404('PSUImageNotFound')
     
     if check_permissions(psu, request.user) > 0:
         # grant access to owner and permitted users
@@ -37,7 +38,7 @@ def psufeed_handler(request, path):
             res['X-Accel-Redirect'] = '/protectedmedia/psufeed/' + path
             return res
     else:
-        return HttpResponseForbidden()
+        raise PermissionDenied('PSUImagePermissionDenied')
 
 
 # urls for securemedia

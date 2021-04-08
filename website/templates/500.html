@@ -1,0 +1,33 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Error - Plant Supply Unit</title>
+        <link rel="shortcut icon" type="image/png" href="{% static 'serveronly/favicon.png' %}"/>
+
+        <!-- master stylesheet -->
+        <link rel="stylesheet" href="{% static 'style/master.css' %}">
+    </head>
+    <body>
+        <header id="mainheader">
+            <div id="nav-main">Welcome to Team Plant Supply Unit</div>
+        </header>
+        
+        <div id="body-wrapper">
+            <h2>Sorry. Our server did his best but an error occurred.</h2>
+            <p>This should normally not happen. Probably our server is getting some fresh new updates right now which are not working out that well. Please contact an admin and/or try later again.</p>
+        </div>
+
+        <footer id="mainfooter">
+            <div id="left-footer">&copy; 2021 Team Plant Supply Unit - TUM adveisor program</div>
+        </footer>
+
+        <script src="{% static 'javascript/master.js' %}" type="text/javascript" charset="utf-8"></script>
+
+    </body>
+</html>
