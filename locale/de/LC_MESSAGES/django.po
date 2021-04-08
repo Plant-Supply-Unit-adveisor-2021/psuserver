@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-06 23:05+0200\n"
+"POT-Creation-Date: 2021-04-08 23:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -193,125 +193,125 @@ msgstr "Dein Passwort wurde erfolgreich geändert."
 msgid "PSU Control"
 msgstr "PSU Steuerung"
 
-#: .\psucontrol\models.py:21
+#: .\psucontrol\models.py:22
 msgid "name"
 msgstr "Name"
 
-#: .\psucontrol\models.py:24 .\psucontrol\models.py:48
+#: .\psucontrol\models.py:25 .\psucontrol\models.py:49
 msgid "identity key"
 msgstr "Identitätsschlüssel"
 
-#: .\psucontrol\models.py:25 .\psucontrol\models.py:50
+#: .\psucontrol\models.py:26 .\psucontrol\models.py:51
 msgid "public rsa key"
 msgstr "Öffentlicher RSA-Schlüssel"
 
-#: .\psucontrol\models.py:26
+#: .\psucontrol\models.py:27
 msgid "current challenge token"
 msgstr "Aktueller Challenge Token"
 
-#: .\psucontrol\models.py:29
+#: .\psucontrol\models.py:30
 msgid "owner"
 msgstr "Besitzer:in"
 
-#: .\psucontrol\models.py:30
+#: .\psucontrol\models.py:31
 msgid "permitted users"
 msgstr "Berechtigte Benutzer:innen"
 
-#: .\psucontrol\models.py:37 .\psucontrol\models.py:69
-#: .\psucontrol\models.py:100 .\psucontrol\models.py:172
+#: .\psucontrol\models.py:38 .\psucontrol\models.py:70
+#: .\psucontrol\models.py:101 .\psucontrol\models.py:173
 msgid "Plant Supply Unit"
 msgstr "Pflanzenpflegestation"
 
-#: .\psucontrol\models.py:38
+#: .\psucontrol\models.py:39
 msgid "Plant Supply Units"
 msgstr "Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:52
+#: .\psucontrol\models.py:53
 msgid "pairing key"
 msgstr "Kopplungsschlüssel"
 
-#: .\psucontrol\models.py:55
+#: .\psucontrol\models.py:56
 msgid "creation time"
 msgstr "Erstellungszeit"
 
-#: .\psucontrol\models.py:58
+#: .\psucontrol\models.py:59
 msgid "Pending Plant Supply Unit"
 msgstr "schwebende Pflanzenpflegestation"
 
-#: .\psucontrol\models.py:59
+#: .\psucontrol\models.py:60
 msgid "Pending Plant Supply Units"
 msgstr "schwebende Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:72 .\psucontrol\models.py:103
-#: .\psucontrol\models.py:177
+#: .\psucontrol\models.py:73 .\psucontrol\models.py:104
+#: .\psucontrol\models.py:178
 msgid "timestamp"
 msgstr "Zeitstempel"
 
-#: .\psucontrol\models.py:75
+#: .\psucontrol\models.py:76
 msgid "temperature"
 msgstr "Temperatur"
 
-#: .\psucontrol\models.py:76
+#: .\psucontrol\models.py:77
 msgid "air humidity"
 msgstr "Luftfeuchte"
 
-#: .\psucontrol\models.py:77
+#: .\psucontrol\models.py:78
 msgid "ground humidity"
 msgstr "Bodenfeuchte"
 
-#: .\psucontrol\models.py:78
+#: .\psucontrol\models.py:79
 msgid "brightness"
 msgstr "Helligkeit"
 
-#: .\psucontrol\models.py:79
+#: .\psucontrol\models.py:80
 msgid "fill level"
 msgstr "Füllstand"
 
-#: .\psucontrol\models.py:85
+#: .\psucontrol\models.py:86
 msgid "Data Measurement"
 msgstr "Datenmessung"
 
-#: .\psucontrol\models.py:86
+#: .\psucontrol\models.py:87
 msgid "Data Measurements"
 msgstr "Datenmessungen"
 
-#: .\psucontrol\models.py:106
+#: .\psucontrol\models.py:107
 msgid "image"
 msgstr "Bild"
 
-#: .\psucontrol\models.py:112
+#: .\psucontrol\models.py:113
 msgid "PSU Image"
 msgstr "Bild von einer Pflanzenpflegestation"
 
-#: .\psucontrol\models.py:113
+#: .\psucontrol\models.py:114
 msgid "PSU Images"
 msgstr "Bilder von Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:169
+#: .\psucontrol\models.py:170
 msgid "classification"
 msgstr "Einstufung"
 
-#: .\psucontrol\models.py:174
+#: .\psucontrol\models.py:175
 msgid "psu identity key"
 msgstr "PSU Identitätsschlüssel"
 
-#: .\psucontrol\models.py:180
+#: .\psucontrol\models.py:181
 msgid "request uri"
 msgstr "Anfrage URI"
 
-#: .\psucontrol\models.py:183
+#: .\psucontrol\models.py:184
 msgid "request"
 msgstr "Anfrage"
 
-#: .\psucontrol\models.py:186
+#: .\psucontrol\models.py:187
 msgid "repsonse"
 msgstr "Antwort"
 
-#: .\psucontrol\models.py:194
+#: .\psucontrol\models.py:195
 msgid "Log Entry"
 msgstr "Logeintrag"
 
-#: .\psucontrol\models.py:195
+#: .\psucontrol\models.py:196
 msgid "Log Entries"
 msgstr "Logeinträge"
 
@@ -393,13 +393,56 @@ msgstr "Registrierung einer neuen Pflanzenpflegestation"
 msgid "Successfully registered your new Plant Supply Unit."
 msgstr "Deine neue Pflanzenpflegestation wurde erfolgreich hinzugefügt."
 
-#: .\website\settings.py:156
+#: .\website\settings.py:211
 msgid "German"
 msgstr "Deutsch"
 
-#: .\website\settings.py:157
+#: .\website\settings.py:212
 msgid "English"
 msgstr "Englisch"
+
+#: .\website\templates\403.html:4
+msgid "Permission denied"
+msgstr "Zugriff verweigert"
+
+#: .\website\templates\403.html:7
+msgid ""
+"Sorry. Our server thinks you are not permitted to view this piece of content."
+msgstr ""
+"Entschuldigung, unser Server ist der Meinung, dass du keinen Zugriff auf "
+"diesen Inhalt hast."
+
+#: .\website\templates\403.html:8
+msgid ""
+"This should normally not happen, if you are only using links which we "
+"presented to you. However, there might be the possibility we just made a "
+"mistake. If you think you should be able to access this content, please "
+"contact an admin."
+msgstr ""
+"Dies sollte in der Regel nicht passieren, wenn du nur auf Links, die wir dir "
+"geschickt/angezeigt, klickst. Trotzdem kann es auch sein, dass wir einen "
+"Fehler gemacht haben. Wenn du der Meinung bist, du solltest diesen Inhalt "
+"sehen können, dann kontaktiere bitte einen Admin."
+
+#: .\website\templates\403.html:9 .\website\templates\404.html:9
+msgid "The following error message was generated:"
+msgstr "Die folgende Fehlermeldung wurde generiert:"
+
+#: .\website\templates\404.html:4
+msgid "Page Not Found"
+msgstr "Seite nicht gefunden"
+
+#: .\website\templates\404.html:7
+msgid "Sorry. We could not find the page you were looking for."
+msgstr "Entschuldigung, wir konnten die Seite, die du suchst, nicht finden."
+
+#: .\website\templates\404.html:8
+msgid ""
+"Probably you are using a deprecated link. If you think this page should "
+"exist, please contact an admin."
+msgstr ""
+"Eventuell nutzt du einen veralteten Link. Wenn du der Überzeugung bist, dass "
+"diese Seite existieren sollte, kontaktiere bitte einen Admin."
 
 #: .\website\templates\base.html:32
 msgid "Administration"
