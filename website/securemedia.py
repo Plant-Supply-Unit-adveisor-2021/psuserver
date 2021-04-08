@@ -1,28 +1,32 @@
 from django.conf import settings
-from django.http import HttpResponse, HttpResponseForbidden
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound
 from django.shortcuts import redirect
 from django.urls import path
 
 from psucontrol.models import PSUImage
+from psucontrol.utils import check_permissions
 
 
 app_name = 'securemedia'
 
+@login_required
 def psufeed_handler(request, path):
     """
     view to handle the request of a psufeed image
     """
+
+    # try matching path to PSUImage in database and getting the corresponding psu
+    try:
+        psu = PSUImage.objects.get(image='psufeed/' + path).psu
+    except PSUImage.DoesNotExist:
+        # no such image found
+        return HttpResponseNotFound()
     
-    access_granted = False
+    if check_permissions(psu, request.user) > 0:
+        # grant access to owner and permitted users
+        # staff/superusers treated as owners
 
-    user = request.user
-    if user.is_authenticated:
-        
-        # superusers always have access
-        if user.is_superuser:
-            access_granted = True
-
-    if access_granted:
         if settings.DEBUG:
             # redirect when DEBUG = True (no X-Accel-Redirect support)
             return redirect('/protectedmedia/psufeed/' + path)
