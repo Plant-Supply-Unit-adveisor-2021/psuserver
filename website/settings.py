@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+import environ
 from django.utils.translation import gettext_lazy as _
+from django.core.files.storage import FileSystemStorage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +28,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # DATABASE_PASSWORD - ONLY for production
 # DATABASE_HOST - ONLY for production
 # DATABASE_PORT - ONLY for production
-import environ
+# STATIC_ROOT - ONLY for production
+# MEDIA_ROOT - ONLY for production
+# SECURE_MEDIA_ROOT - ONLY for production
 
 env = environ.Env()
 environ.Env.read_env("../.env")
@@ -58,17 +62,10 @@ if env('DJANGO_DEBUG') == 'FALSE':
         }
     }
 
-    # Static files (CSS, JavaScript, Images)
-    # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
+    # paths for STATIC, MEDIA and SECURE_MEDIA
     STATIC_ROOT = env('STATIC_ROOT')
-    STATIC_URL = '/static/'
-    STATIC_DIR = os.path.join(BASE_DIR, 'static')
-    STATICFILES_DIRS = [STATIC_DIR]
-
-    # store media files outside the repository
     MEDIA_ROOT = env('MEDIA_ROOT')
-    MEDIA_URL = '/media/'
+    SECURE_MEDIA_ROOT = env('SECURE_MEDIA_ROOT')
 
 
 else:
@@ -89,17 +86,19 @@ else:
         }
     }
 
-    # Static files (CSS, JavaScript, Images)
-    # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
+    # paths for STATIC, MEDIA and SECURE_MEDIA
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    STATIC_URL = '/static/'
-    STATIC_DIR = os.path.join(BASE_DIR, 'static')
-    STATICFILES_DIRS = [STATIC_DIR]
-
-    # store media files outside the repository
     MEDIA_ROOT = os.path.join(BASE_DIR.parent, 'media')
-    MEDIA_URL = '/media/'
+    SECURE_MEDIA_ROOT = os.path.join(BASE_DIR.parent, 'securemedia')
+
+
+# settings for STATIC, MEDIA and SECURE_MEDIA
+STATIC_URL = '/static/'
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [STATIC_DIR]
+MEDIA_URL = '/media/'
+SECURE_MEDIA_URL = '/securemedia/'
+SECURE_MEDIA_STORAGE = FileSystemStorage(location=SECURE_MEDIA_ROOT, base_url=SECURE_MEDIA_URL)
 
 # Application definition
 
