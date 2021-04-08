@@ -68,6 +68,34 @@ if env('DJANGO_DEBUG') == 'FALSE':
     SECURE_MEDIA_ROOT = env('SECURE_MEDIA_ROOT')
 
 
+elif env('DJANGO_DEBUG') == 'FALSE_HTTP':
+    # apply settings needed for the testing server
+    DEBUG = False
+    ALLOWED_HOSTS = ['*']
+
+    CSRF_COOKIE_SECURE = False
+    SESSION_COOKIE_SECURE = False
+
+    SECURE_CONTENT_TYPE_NOSNIFF = False
+    SECURE_BROWSER_XSS_FILTER = False
+
+    # SECURITY WARNING: keep the secret key used in production secret!
+    SECRET_KEY = 'ard4+6zo@23rdb%hq@tlcdmtc&p5j4w+p7isknx3p0fojx0k%='
+
+    # to keep the installation simple we are not using PostgreSQL for development
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'database.db',
+        }
+    }
+
+    # paths for STATIC, MEDIA and SECURE_MEDIA
+    STATIC_ROOT = env('STATIC_ROOT')
+    MEDIA_ROOT = env('MEDIA_ROOT')
+    SECURE_MEDIA_ROOT = env('SECURE_MEDIA_ROOT')
+
+
 else:
     # apply settings needed for the development process
 
