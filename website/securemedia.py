@@ -33,8 +33,8 @@ def psufeed_handler(request, path):
         else:
             # create response with X-Accel-Redirect
             res = HttpResponse()
-            del res['Content-Type']
-            res['X-Accel-Redirect'] = 'protectedmedia/psufeed/' + path
+            res['Content-Type'] = ""
+            res['X-Accel-Redirect'] = '/protectedmedia/psufeed/' + path
             return res
     else:
         return HttpResponseForbidden()
