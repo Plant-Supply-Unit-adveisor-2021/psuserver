@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}Error - Plant Supply Unit{% endblock title %}
+
+{% block body %}
+<h2>{% trans 'Sorry. Our server is giving his best but an error occured.' %}</h2>
+<p>{% trans 'This should normally not happen. Probably our server is getting some fresh new updates right now which are not working out like we would wish. Please contact an admin.' %}</p>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}Error - Plant Supply Unit{% endblock title %}
+
+{% block body %}
+<h2>{% trans 'Sorry. Our server thinks you are not permitted to view this piece of content.' %}</h2>
+<p>{% trans 'This should normally not happen if you are only using links we presented to you. However, there might be the possibility we just made a mistake. If you think you should be able to access this content, please contact an admin.' %}</p>
+<p>{% trans 'The following error message was generated:' %} {{ exception }}</p>
+{% endblock %}
