@@ -29,6 +29,13 @@ urlpatterns = [
     path(r'securemedia/', include('website.securemedia', namespace='securemedia'))
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static('protectedmedia', document_root=settings.SECURE_MEDIA_ROOT)
 
+# DEBUG -> add urls for serving static files
+if settings.DEBUG:
+    # media files
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # protected files via securemedia
+    urlpatterns += static('protectedmedia', document_root=settings.SECURE_MEDIA_ROOT)
+
 # URL Patterns with i18n tags
 urlpatterns += i18n_patterns(
     path(r'admin/logout/', lambda request: redirect('auth:logout')),
