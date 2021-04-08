@@ -27,7 +27,7 @@ from website.utils import get_i18n_tag_closest_to_request
 urlpatterns = [
     path(r'psucontrol/', include('psucontrol.urls', namespace='psucontrol')),
     path(r'', lambda request: redirect('/' + get_i18n_tag_closest_to_request(request) + '/'))
-]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.SECURE_MEDIA_URL, document_root=settings.SECURE_MEDIA_ROOT)
 
 # URL Patterns with i18n tags
 urlpatterns += i18n_patterns(
