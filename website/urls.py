@@ -21,14 +21,12 @@ from django.contrib import admin
 from django.shortcuts import redirect
 from django.urls import path
 
-from website.utils import get_i18n_tag_closest_to_request
 from website.securemedia import psufeed_handler
 
 # URL Patterns without i18n tags
 urlpatterns = [
     path(r'psucontrol/', include('psucontrol.urls', namespace='psucontrol')),
-    path(r'securemedia/', include('website.securemedia', namespace='securemedia')),
-    path(r'', lambda request: redirect('/' + get_i18n_tag_closest_to_request(request) + '/'))
+    path(r'securemedia/', include('website.securemedia', namespace='securemedia'))
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static('protectedmedia', document_root=settings.SECURE_MEDIA_ROOT)
 
 # URL Patterns with i18n tags
