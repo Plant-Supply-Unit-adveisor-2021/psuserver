@@ -26,7 +26,8 @@ from website.securemedia import psufeed_handler
 # URL Patterns without i18n tags
 urlpatterns = [
     path(r'psucontrol/', include('psucontrol.urls', namespace='psucontrol')),
-    path(r'securemedia/', include('website.securemedia', namespace='securemedia'))
+    path(r'securemedia/', include('website.securemedia', namespace='securemedia')),
+    path(r'error/', include('website.errorviews', namespace='error'))
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static('protectedmedia', document_root=settings.SECURE_MEDIA_ROOT)
 
 # DEBUG -> add urls for serving static files
