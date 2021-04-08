@@ -97,6 +97,7 @@ STATIC_URL = '/static/'
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [STATIC_DIR]
 MEDIA_URL = '/media/'
+# url to be called -> django handles user authentication
 SECURE_MEDIA_URL = '/securemedia/'
 SECURE_MEDIA_STORAGE = FileSystemStorage(location=SECURE_MEDIA_ROOT, base_url=SECURE_MEDIA_URL)
 
