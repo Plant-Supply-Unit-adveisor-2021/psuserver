@@ -1,6 +1,7 @@
 import os
 
 from django.db import models
+from django.conf import settings
 from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 
@@ -103,7 +104,7 @@ class PSUImage(models.Model):
     timestamp = models.DateTimeField(_('timestamp'))
 
     # field for storing the image
-    image = models.ImageField(upload_to=upload_image_path, verbose_name=_('image'))
+    image = models.ImageField(upload_to=upload_image_path, storage=settings.SECURE_MEDIA_STORAGE,verbose_name=_('image'))
 
     def __str__(self):
         return 'IMG {} - {}'.format(self.psu, self.timestamp.strftime('%d.%m.%Y %H:%M:%S'))
