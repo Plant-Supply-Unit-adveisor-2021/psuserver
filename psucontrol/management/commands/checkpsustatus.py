@@ -1,4 +1,6 @@
+from django.core.mail import send_mail
 from django.core.management.base import BaseCommand
+from django.conf import settings
 from django.utils import timezone
 
 from psucontrol.models import DataMeasurement
@@ -23,3 +25,6 @@ class Command(BaseCommand):
 
         # print lease times to screen
         self.stdout.write('Allowed offline time: {}'.format(str(delta)))
+        self.stdout.write('Mail used to send out mails:: {}'.format(settings.DEFAULT_FROM_EMAIL))
+
+        send_mail('TEST SUBJECT', 'HELLO WORLD', from_email=None, recipient_list=['psu@trash-mail.com'])

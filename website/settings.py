@@ -21,18 +21,29 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # load sensitive variables from ../.env
 # .env should contain the following:
-# DJANGO_DEBUG - FALSE enables production configuration
+# DJANGO_DEBUG - FALSE enables production configuration; FALSE_HTTP enables test server configuration
 # SECRET_KEY - ONLY for production
+#
 # DATABASE_NAME - ONLY for production
 # DATABASE_USERNAME - ONLY for production
 # DATABASE_PASSWORD - ONLY for production
 # DATABASE_HOST - ONLY for production
 # DATABASE_PORT - ONLY for production
+#
 # STATIC_ROOT - ONLY for production
 # MEDIA_ROOT - ONLY for production
 # SECURE_MEDIA_ROOT - ONLY for production
+#
+# EMAIL_ENABLED - TRUE enables mail backend
+# other email settings only needed if EMAIL_ENABLED is TRUE
+# EMAIL_ADDRESS
+# EMAIL_HOST - server of the mail provider (SMTP)
+# EMAIL_HOST_USER - user to authenticate at mail provider
+# EMAIL_HOST_PASSWORD - password to authenticate at mail provider
+# EMAIL_HOST_PORT - port for your provieder's mail service (SMTP)
 
-env = environ.Env()
+
+env = environ.Env(EMAIL_ENABLED=(str, 'FALSE'))
 environ.Env.read_env("../.env")
 
 # configuration considering development and production
@@ -188,6 +199,19 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # e-mail settings
 EMAIL_BACKEND = "mailer.backend.DbBackend"
+MAILER_EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+if env('EMAIL_ENABLED') == 'TRUE':
+    DEFAULT_FROM_EMAIL = env("EMAIL_ADDRESS")
+    SERVER_EMAIL = env("EMAIL_ADDRESS")
+    EMAIL_HOST = env("EMAIL_HOST")
+    EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+    EMAIL_USE_TLS = True
+    EMAIL_PORT = int(env("EMAIL_HOST_PORT"))
+    
+else:
+    # set something for dev purposes
+    DEFAULT_FROM_EMAIL = 'psu@dev.org'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
