@@ -136,6 +136,7 @@ INSTALLED_APPS = [
     'homepage',
     'psucontrol',
     'psufrontend',
+    'mailer',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -184,6 +185,9 @@ LOGIN_URL = 'auth:login'
 
 # model/database settings
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# e-mail settings
+EMAIL_BACKEND = "mailer.backend.DbBackend"
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

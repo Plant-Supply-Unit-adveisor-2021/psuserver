@@ -2,33 +2,15 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 from django.utils import timezone
 
-from datetime import timedelta
-import re
-
 from psucontrol.models import CommunicationLogEntry
-
-def get_timedelta(string):
-    """
-    convert a string in the format [num days]d[num hours]h[num minutes]m[num seconds]s
-    if not possible return None
-    """
-    regex = re.compile(r'((?P<days>\d+?)d)?((?P<hours>\d+?)h)?((?P<minutes>\d+?)m)?((?P<seconds>\d+?)s)?')
-    parms = regex.match(string)
-    
-    args = dict()
-    for (name, parm) in parms.groupdict().items():
-        if parm:
-            args[name] = int(parm)
-    if len(args) < 1:
-        return None
-    return timedelta(**args)
+from website.utils import get_timedelta
 
 
 class Command(BaseCommand):
     """
     command to clean log entries according to given lease times
     """
-    help = 'Create more or less realistic dummy DataMeasurements'
+    help = 'Clean the psu communication log from old entries'
 
     def add_arguments(self, parser):
         parser.add_argument('-m', '--minor', type=str, default='NONE',
