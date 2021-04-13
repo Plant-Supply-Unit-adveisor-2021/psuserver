@@ -446,7 +446,7 @@ header#mainheader div#nav-main {
 
 @media (max-width: 1000px){
     header#mainheader {
-        padding: 16px 20px;
+        padding: 10px 20px;
     }
 }
 
@@ -493,7 +493,7 @@ div#nav-bar{
 }
 
 div#nav-bar a, div#nav-bar a:visited{
-    padding: 16px 15px;
+    padding: 16px 16px;
 
     color: var(--header-fcolor);
     text-decoration: none;
