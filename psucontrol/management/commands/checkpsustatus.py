@@ -15,20 +15,33 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('-a', '--admin', action='store_true', help='Notify admins')
+        parser.add_argument('-p', '--psus', type=str, default='-1', help='Comma seperated list of psu ids to check. Defaults to all psus.')
         parser.add_argument('-t', '--time', type=str, default='4h',
                             help='Allowed offline time in format [num days]d[num hours]h[num minutes]m[num seconds]s for major level. Defaults to 4h')
 
     def handle(self, *args, **options):
 
-        # get lease times
+        # get lease time
         max_delta = get_timedelta(options['time'])
+        psu_ids = options['psus'].split(',')
+
+        # get psus
+        psus = []
+        if psu_ids[0] == '-1':
+            psus = PSU.objects.all()
+        else:
+            for id in psu_ids:
+                try:
+                    psus.append(PSU.objects.get(id=id))
+                except PSU.DoesNotExist:
+                    self.stdout.write('There is no psu with id {} registered.'.format(str(id)))
 
         # print lease time and mail to screen
         self.stdout.write('Allowed offline time: {}'.format(str(max_delta)))
         self.stdout.write('Mail used to send out mails: {}'.format(settings.DEFAULT_FROM_EMAIL))
 
         # check psus for last entry
-        for psu in PSU.objects.all():
+        for psu in psus:
             last_entry = DataMeasurement.objects.filter(psu=psu).order_by('-timestamp').first()
             if last_entry is None:
                 # message for no entry
