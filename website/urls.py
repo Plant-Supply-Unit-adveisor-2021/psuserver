@@ -26,7 +26,7 @@ import psufrontend.views as v
 urlpatterns = [
     path(r'psucontrol/', include('psucontrol.urls', namespace='psucontrol')),
     path(r'', lambda request: redirect('/'+ geti18nTagClosestToRequest(request) +'/')),
-    path('table/', v.table, name ='table'),
+    path('table/', v.table_view, name ='table_view'),
 ]
 
 # URL Patterns with i18n tags

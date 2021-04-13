@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from django.utils.translation import ugettext as _
 
 from django.contrib.auth.decorators import login_required
@@ -36,11 +37,16 @@ def register_psu_view(request):
     
     return render(request, 'psufrontend/register_psu.html', {'form':form})
 
-def table_view(request, page_id):
+def table_view(request):
     table_data = DataMeasurement.objects.all()
     psu1 = table_data.filter(psu = '01')
-    context = { 'list': tables, '1': psu1
+    context = { 'list': table_data, '1': psu1
                     }
     return render(request, 'table.html', context)
+
+def pages(request, psu_id):
+    return HttpResponse("" % psu_id)
+
+
 
 
