@@ -9,7 +9,7 @@ from math import log
 from random import random, randint
 
 from psucontrol.models import PSU, DataMeasurement
-from website.utils import getTestUser
+from website.utils import get_test_user
 
 
 class Command(BaseCommand):
@@ -21,116 +21,121 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('-p', '--PSU', type=int, help='ID of the PSU for which the data should be created.')
         parser.add_argument('-c', '--create', action='store_true', help='Create a new PSU. Overwrites -p/--PSU.')
-        parser.add_argument('-d', '--days', type=int, default=2, help='Number of days in the past for which dummy data should be created. Defaults to 2.')
-        parser.add_argument('-u', '--upcoming', type=int, default=3, help='Number of upcoming hours for which dummy data should already be created. Defaults to 3.')
-        parser.add_argument('-s', '--step', type=int, default=15, help='Number of minutes between measurements. Defaults to 15.')
+        parser.add_argument('-d', '--days', type=int, default=2,
+                            help='Number of days in the past for which dummy data should be created. Defaults to 2.')
+        parser.add_argument('-u', '--upcoming', type=int, default=3,
+                            help='Number of upcoming hours for which dummy data should already be created. Defaults to 3.')
+        parser.add_argument('-s', '--step', type=int, default=15,
+                            help='Number of minutes between measurements. Defaults to 15.')
 
     @transaction.atomic
     def handle(self, *args, **options):
-        
+
         # create a new PSU if create option was given
         if options['create']:
-            self.psu = PSU.objects.create(name='TEST PSU', identity_key=token_urlsafe(96), public_rsa_key=token_urlsafe(96), owner=getTestUser())
+            self.psu = PSU.objects.create(name='TEST PSU', identity_key=token_urlsafe(96),
+                                          public_rsa_key=token_urlsafe(96), owner=get_test_user())
 
         # try to get the PSU specified through -p / --PSU
         elif options['PSU']:
             try:
                 self.psu = PSU.objects.get(id=options['PSU'])
-            except PSU.DoesNotExist as e:
-                self.stdout.write(self.style.ERROR('Error: There is no PSU with the ID %s in the current database.' % options['PSU']))
+            except PSU.DoesNotExist:
+                self.stdout.write(
+                    self.style.ERROR('Error: There is no PSU with the ID %s in the current database.' % options['PSU']))
                 return
 
         else:
-            self.stdout.write(self.style.ERROR('Error: You have to use either the -c option to create a new PSU or the -p option to specify one.'))
+            self.stdout.write(self.style.ERROR(
+                'Error: You have to use either the -c option to create a new PSU or the -p option to specify one.'))
             return
 
         self.stdout.write('Started creating dummy data for PSU \'%s\'. This might take a while ...' % str(self.psu))
         self.create_data(options['days'], options['upcoming'], options['step'])
         self.stdout.write('Finished creating dummy data for PSU \'%s\'.' % str(self.psu))
 
-
     @transaction.atomic
     def create_data(self, days, upcoming_hours, step):
         """
         function to create the data
         """
-        cTime = timezone.now().replace(hour=0, minute=randint(0,5), second=randint(0,59), microsecond=randint(0,999999)) - timedelta(days=days)
-        self.stdout.write('START TIME: %s' % str(cTime))
+        time = timezone.now().replace(hour=0, minute=randint(0, 5), second=randint(0, 59),
+                                      microsecond=randint(0, 999999)) - timedelta(days=days)
+        self.stdout.write('START TIME: %s' % str(time))
 
         # starting with temperature between 5 and 20 degrees
-        cTemp = random() * 15 + 5
-        tempTrend = random() * 0.2 - 0.1
+        temp = random() * 15 + 5
+        temp_trend = random() * 0.2 - 0.1
         # setting air humidity between 0.25 and 0.75
-        cAHum = random()*0.5 + 0.25
+        air_hum = random() * 0.5 + 0.25
         # starting with ground humidity between 0 and 100
-        cGHum = random()
+        ground_hum = random()
         # starting with 70 to 100 fill level
-        cFLevel = random() * 0.3 + 0.7
+        fill_level = random() * 0.3 + 0.7
         # starting with brightness 0 (midnight)
-        cBright = 0
-        counter = 0
-        
-        while (timezone.now() - cTime) > timedelta(hours=-upcoming_hours):
-            
-            # logic for the tempreature
-            if cTime.hour == 3 and cTime + timedelta(minutes=step) == 4:
-                tempTrend = random() * 0.2 - 0.1
-            if cTime.hour < 4 or cTime.hour > 19:
-                # let temperatures sink
-                cTemp += (-random() * 4 + 0.5 + tempTrend) * step / 60
-            elif (cTime.hour >= 4 and cTime.hour < 6) or (cTime.hour > 17 and cTime.hour <= 19):
-                # let temperatures sink just a little
-                cTemp += (-random() * 2 + 0.25 + tempTrend) * step / 60
-            elif (cTime.hour >= 6 and cTime.hour < 8) or (cTime.hour > 15 and cTime.hour <= 17):
-                # let temerature raise just a little
-                cTemp += (random() * 2 - 0.25 + tempTrend) * step / 60
+        bright = 0
+
+        while (timezone.now() - time) > timedelta(hours=-upcoming_hours):
+
+            # logic for the temperature
+            if time.hour == 3 and time + timedelta(minutes=step) == 4:
+                temp_trend = random() * 0.2 - 0.1
+            if time.hour < 4 or time.hour > 19:
+                # let temperature sink
+                temp += (-random() * 4 + 0.5 + temp_trend) * step / 60
+            elif (4 <= time.hour < 6) or (17 < time.hour <= 19):
+                # let temperature sink just a little
+                temp += (-random() * 2 + 0.25 + temp_trend) * step / 60
+            elif (6 <= time.hour < 8) or (15 < time.hour <= 17):
+                # let temperature raise just a little
+                temp += (random() * 2 - 0.25 + temp_trend) * step / 60
             else:
-                # let temerature raise
-                cTemp += (random() * 4 - 0.5 + tempTrend) * step / 60
+                # let temperature raise
+                temp += (random() * 4 - 0.5 + temp_trend) * step / 60
 
             # logic for the air humidity
-            cAHum = max(min(cAHum + (cTemp-15)*0.002 * step / 60,1), 0)
+            air_hum = max(min(air_hum + (temp - 15) * 0.002 * step / 60, 1), 0)
 
             # logic for the brightness
-            if cTime.hour < 6 or cTime.hour > 20:
+            if time.hour < 6 or time.hour > 20:
                 # set the brightness to 0 quickly
-                cBright = max(cBright - random() * 0.3 * step / 60, 0)
-            elif cTime.hour >= 6 and cTime.hour < 9:
+                bright = max(bright - random() * 0.3 * step / 60, 0)
+            elif 6 <= time.hour < 9:
                 # let brightness raise
-                cBright = min(cBright + random() * 0.6 * step / 60, 1)
-            elif cTime.hour >= 18 and cTime.hour < 21:
+                bright = min(bright + random() * 0.6 * step / 60, 1)
+            elif 18 <= time.hour < 21:
                 # let brightness fall
-                cBright = max(cBright - random() * 0.65 * step / 60, 0)
+                bright = max(bright - random() * 0.65 * step / 60, 0)
             else:
                 # hover brightness around 1 but max 1
-                cBright = min(cBright + (random() * 0.25 - 0.125) * step / 60, 1)
+                bright = min(bright + (random() * 0.25 - 0.125) * step / 60, 1)
 
             # logic for ground humidity and the watering of the plant
-            if cTemp <= 10:
+            if temp <= 10:
                 parm = 900
             else:
-                parm = 1020 - 6*abs(cTemp) ** 1.3
-            cGHum = 3.5 ** ((log(cGHum, 3.5) * parm -step) / parm)
-            if random() < (cGHum + 1) ** -20:
+                parm = 1020 - 6 * abs(temp) ** 1.3
+            ground_hum = 3.5 ** ((log(ground_hum, 3.5) * parm - step) / parm)
+            if random() < (ground_hum + 1) ** -20:
                 # watering of the plant
-                cFLevel = max(cFLevel - (1 - cGHum)/8, 0)
-                cGHum = random() * 0.1 + 0.8
+                fill_level = max(fill_level - (1 - ground_hum) / 8, 0)
+                ground_hum = random() * 0.1 + 0.8
 
-            # write CSV-formated list for testing
-            #self.stdout.write(  '{};{:.6f};{:.6f};{:.6f};{:.6f};{:.6f}'
-            #                    .format(cTime.strftime("%d.%m.%y %H:%M:%S"), 
-            #                    addFail(cTemp, -10, 40, 1), addFail(cAHum*100, 0, 100, 2), addFail(cGHum*100, 0, 100, 3), addFail(cFLevel*100, 0, 100, 1.5), addFail(cBright*100, 0, 100, 3))
+            # write CSV-formatted list for testing
+            # self.stdout.write(  '{};{:.6f};{:.6f};{:.6f};{:.6f};{:.6f}'
+            #                    .format(time.strftime("%d.%m.%y %H:%M:%S"),
+            #                    addFail(temp, -10, 40, 1), addFail(air_hum*100, 0, 100, 2), addFail(ground_hum*100, 0, 100, 3), addFail(fill_level*100, 0, 100, 1.5), addFail(bright*100, 0, 100, 3))
             #                    .replace('.',',').replace(',', '.', 2))
-            
+
             # create new DataMeasurement
-            DataMeasurement.objects.create( psu=self.psu, timestamp=cTime, temperature=addFail(cTemp, -10, 40, 1),
-                                            air_humidity=addFail(cAHum*100, 0, 100, 2), ground_humidity=addFail(cGHum*100, 0, 100, 3),
-                                            fill_level=addFail(cFLevel*100, 0, 100, 1.5), brightness=addFail(cBright*100, 0, 100, 3))
+            DataMeasurement.objects.create(psu=self.psu, timestamp=time, temperature=add_fail(temp, -10, 40, 1),
+                                           air_humidity=add_fail(air_hum * 100, 0, 100, 2),
+                                           ground_humidity=add_fail(ground_hum * 100, 0, 100, 3),
+                                           fill_level=add_fail(fill_level * 100, 0, 100, 1.5),
+                                           brightness=add_fail(bright * 100, 0, 100, 3))
+
+            time = time + timedelta(minutes=step, seconds=randint(0, 29), microseconds=randint(0, 999999))
 
 
-            counter += step
-            cTime = cTime + timedelta(minutes=step, seconds=randint(0, 29), microseconds=randint(0,999999))
-
-
-def addFail(value, _min, _max, failure):
-    return min(_max, max(_min, value + random() * failure - failure/2))
+def add_fail(value, _min, _max, failure):
+    return min(_max, max(_min, value + random() * failure - failure / 2))

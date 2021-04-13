@@ -3,7 +3,7 @@
 {% load extra_utils %}
 
 <!DOCTYPE html>
-<html>
+<html lang="{% i18n_code %}" xml:lang="{% i18n_code %}">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -41,6 +41,14 @@
         </header>
         
         <div id="body-wrapper">
+            <!-- display messages here -->
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
             {% block body %}{% endblock %}
         </div>
 

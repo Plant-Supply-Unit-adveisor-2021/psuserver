@@ -11,5 +11,5 @@ echo  -------------------------------------
 echo    Install required packages
 echo  -------------------------------------
 call .\.venv\Scripts\activate
-call python -m pip install -r requirements.txt
+call python -m pip install --no-cache-dir -r requirements.txt
 pause

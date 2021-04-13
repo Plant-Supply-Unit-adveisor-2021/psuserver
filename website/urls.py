@@ -13,21 +13,36 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path
-from django.shortcuts import redirect
-from django.conf.urls import include, url
+from django.conf import settings
+from django.conf.urls import include
 from django.conf.urls.i18n import i18n_patterns
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.shortcuts import redirect
+from django.urls import path
+
 
 from website.utils import geti18nTagClosestToRequest
 import psufrontend.views as v
+
+from website.securemedia import psufeed_handler
+
 
 # URL Patterns without i18n tags
 urlpatterns = [
     path(r'psucontrol/', include('psucontrol.urls', namespace='psucontrol')),
     path(r'', lambda request: redirect('/'+ geti18nTagClosestToRequest(request) +'/')),
     path('table/', v.table_view, name ='table_view'),
-]
+    path(r'securemedia/', include('website.securemedia', namespace='securemedia')),
+    path(r'error/', include('website.errorviews', namespace='error'))
+]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static('protectedmedia', document_root=settings.SECURE_MEDIA_ROOT)
+
+# DEBUG -> add urls for serving static files
+if settings.DEBUG:
+    # media files
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # protected files via securemedia
+    urlpatterns += static('protectedmedia', document_root=settings.SECURE_MEDIA_ROOT)
 
 # URL Patterns with i18n tags
 urlpatterns += i18n_patterns(
