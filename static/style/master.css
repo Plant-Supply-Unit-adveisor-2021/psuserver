@@ -485,61 +485,42 @@ footer#mainfooter a:focus, footer#mainfooter > a:hover {
 */
 /* navigation bar */
 
-div#navi-bar{
+div#nav-bar{
     background-color: var(--header-bcolor);                
     padding: 4px 0px;                     
     margin: 0;                        
 }
+/*
 div#navi-bar a, a:visited {
-    color:var(--header-fcolor); 
-    word-spacing: 1em;                  
+    padding: 16px 15px;
+    color:var(--header-fcolor);                  
     text-decoration: none;        
-    padding: 4px 8px;
-    margin-right: 20px;              
+    /*padding: 4px 8px;
+    font-weight: 500;              
 }
 
 div#navi-bar a:hover,div#navi-bar a:focus {
     color: var(--header-fcolor);
     text-decoration: none;
-}
+    background-color: #A2AD00;
+}*/
 
-div#test a, div#test a:visited{
+div#nav-bar a, div#nav-bar a:visited{
     padding: 16px 15px;
 
     color: var(--header-fcolor);
     text-decoration: none;
     font-weight: 500;
     
+    
 }
 
-div#test a:hover, div#test a:focus {
+div#nav-bar a:hover, div#nav-bar a:focus {
     color: var(--header-fcolor);
     text-decoration: none;
     background-color: #A2AD00;
 }
-/*drop-down*/
-div#nav-psu {
-    color: var(--helptext-fcolor);
-    background-color: var(var(--body-bcolor));
-}
-div#nav-psu-dropdown {
-    position: absolute;
 
-}
-a#nav-psu-toggle, a#nav-psu-toggle:visited{
-    
-
-    color: var(--input-fcolor);
-    text-decoration: none;
-    
-    
-}
-
-a#nav-psu-toggle:hover, a#nav-psu-toggle:focus {
-    color: var(--input-fcolor);
-    text-decoration: none;
-    background-color: #ccc;
-}
 
 /* user menu */
 div#nav-user {

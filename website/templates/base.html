@@ -26,7 +26,7 @@
                     {% block nav %}
                         {% if user.is_authenticated %}   
                             <div id="nav-bar">
-                                <div id="test">
+                                
                                     <a href="{% url 'homepage:index' %}">{% trans "Welcome" %}</a>
                                     <a href="{% url 'psufrontend:register_psu' %}">{% trans "Choice" %}</a>
                                     <span id="nav-psu">
@@ -36,7 +36,7 @@
                                             <a href="{% url 'auth:edit_profile' %}" class="drop-down-element">{% trans "Status PSU" %}</a>
                                         </div>
                                     </span>
-                                </div>
+                                
                             </div>
                         {% else %}
                             <div id="nav-main-logged-out">{% trans "Welcome to Team Plant Supply Unit" %}</div>
