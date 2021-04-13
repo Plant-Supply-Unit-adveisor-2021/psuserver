@@ -35,7 +35,7 @@ def register_psu_view(request):
 
     # check whether form was submitted correctly
     if request.POST and form.is_valid():
-        
+
         create_PSU(request, form)
     
     return render(request, 'psufrontend/register_psu.html', {'form':form})
@@ -47,5 +47,5 @@ def table_view(request):
                     }
     return render(request, 'table.html', context)
 
-def pages(request, psu_id):
+def table_id(request, psu_id):
     return HttpResponse("" % psu_id)

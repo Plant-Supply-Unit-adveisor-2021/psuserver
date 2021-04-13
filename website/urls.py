@@ -21,14 +21,11 @@ from django.contrib import admin
 from django.shortcuts import redirect
 from django.urls import path
 
-import psufrontend.views as v
-
 from website.securemedia import psufeed_handler
 
 
 # URL Patterns without i18n tags
 urlpatterns = [
-    path('table/', v.table_view, name ='table_view'),
     path(r'psucontrol/', include('psucontrol.urls', namespace='psucontrol')),
     path(r'securemedia/', include('website.securemedia', namespace='securemedia')),
     path(r'error/', include('website.errorviews', namespace='error'))
