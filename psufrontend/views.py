@@ -14,6 +14,22 @@ from psucontrol.models import PSU, PendingPSU, DataMeasurement
 
 ITEMS_PER_PAGE = 35
 
+class DataSet():
+    """
+    class holding pretty data for displaying it
+    """
+    def __init__(self, dm):
+        """
+        takes a DataMeasurement instance to generate pretty data
+        """
+        self.timestamp = dm.timestamp.strftime('%d.%m.%Y %H:%M:%S')
+        self.temperature = '{:.1f} °C'.format(dm.temperature)
+        self.air_humidity = '{:.0f} %'.format(dm.air_humidity)
+        self.ground_humidity = '{:.0f} %'.format(dm.ground_humidity)
+        self.brightness = '{:.0f} %'.format(dm.brightness)
+        self.fill_level = '{:.0f} %'.format(dm.fill_level)
+
+
 @csrf_exempt
 @login_required
 def register_psu_view(request):
@@ -53,7 +69,11 @@ def table_view(request, *, page=0):
     max_page = int(data_count / ITEMS_PER_PAGE - 0.5)
     page = max(0, min(max_page, int(page)))
     # slice data according to page
-    data = data_all[ (page*ITEMS_PER_PAGE) : min(data_count, (page + 1)*ITEMS_PER_PAGE) ]
+    data_raw = data_all[ (page*ITEMS_PER_PAGE) : min(data_count, (page + 1)*ITEMS_PER_PAGE) ]
+
+    data = []
+    for d in data_raw:
+        data.append(DataSet(d))
 
     context = {
         'data': data,

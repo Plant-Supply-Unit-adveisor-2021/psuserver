@@ -2,26 +2,26 @@
 
 
 {% block body %}
-  <table class="table table-hover">
+  <table class="table-striped">
     <thead>
       <tr>
-        <th scope="col">Timestamp</th>
-        <th scope="col">Temperature</th>
-        <th scope="col">Air Humidity</th>
-        <th scope="col">Ground Humidity</th>
-        <th scope="col">Brightness</th>
-        <th scope="col">Fill Level</th>
+        <th class="align-center" style="flex: 1.5;">Timestamp</th>
+        <th class="align-center">Temperature</th>
+        <th class="align-center">Air Humidity</th>
+        <th class="align-center">Ground Humidity</th>
+        <th class="align-center">Brightness</th>
+        <th class="align-center">Fill Level</th>
       </tr>
     </thead>
     <tbody>
         {% for d in data %}
           <tr>
-            <td>{{ d.timestamp }}</td>
-            <td>{{ d.temperature }}</td>
-            <td>{{ d.air_humidity }}</td>
-            <td>{{ d.ground_humidity }}</td>
-            <td>{{ d.brightness }}</td>
-            <td>{{ d.fill_level }}</td>
+            <td class="align-center" style="flex: 1.5;">{{ d.timestamp }}</td>
+            <td class="align-center">{{ d.temperature }}</td>
+            <td class="align-center">{{ d.air_humidity }}</td>
+            <td class="align-center">{{ d.ground_humidity }}</td>
+            <td class="align-center">{{ d.brightness }}</td>
+            <td class="align-center">{{ d.fill_level }}</td>
           </tr>
         {% endfor %}
     </tbody>
