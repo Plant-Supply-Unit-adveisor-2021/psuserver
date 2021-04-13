@@ -1,5 +1,4 @@
 from django.shortcuts import render
-
 from django.http import HttpResponse
 from django.utils.translation import ugettext as _
 
@@ -35,17 +34,23 @@ def register_psu_view(request):
 
     # check whether form was submitted correctly
     if request.POST and form.is_valid():
-
         create_PSU(request, form)
     
     return render(request, 'psufrontend/register_psu.html', {'form':form})
 
+@login_required
 def table_view(request):
+    """
+    view to handle the tabular-style presentation of measurements
+    this view is used to be refered to in links, etc.
     table_data = DataMeasurement.objects.all()
     psu1 = table_data.filter(psu = '01')
     context = { 'list': table_data, '1': psu1
                     }
     return render(request, 'table.html', context)
+    """
+    return table_page_view(request, 0)
 
-def table_id(request, num=1):
-    return HttpResponse("" % psu_id)
+@login_required
+def table_page_view(request, page):
+    return HttpResponse('You are currently on page {}.'.format(str(page)))
