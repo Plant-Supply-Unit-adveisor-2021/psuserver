@@ -12,7 +12,7 @@ from psucontrol.models import PSU, PendingPSU, DataMeasurement
 
 # Create your views here.
 
-ITEMS_PER_PAGE = 30
+ITEMS_PER_PAGE = 35
 
 @csrf_exempt
 @login_required
@@ -55,4 +55,8 @@ def table_view(request, *, page=0):
     # slice data according to page
     data = data_all[ (page*ITEMS_PER_PAGE) : min(data_count, (page + 1)*ITEMS_PER_PAGE) ]
 
-    return HttpResponse('Current data length {}.'.format(len(data)))
+    context = {
+        'data': data,
+    }
+
+    return render(request, 'psufrontend/table.html', context=context)

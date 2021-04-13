@@ -2,50 +2,28 @@
 
 
 {% block body %}
-<!--
-<br>
-<div class = "row">
-    <div class = "col-md">
-      <div class = "card card-body">
-        <h5>PSU Unit 1</h5>
-      </div>
-      <div class = "card card-body">
-        <table class = "table">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Timestamp</th>
+        <th scope="col">Temperature</th>
+        <th scope="col">Air Humidity</th>
+        <th scope="col">Ground Humidity</th>
+        <th scope="col">Brightness</th>
+        <th scope="col">Fill Level</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for d in data %}
           <tr>
-            <th>Timestamp</th>
-            <th>Temperature</th>
-            <th>Air Humidity</th>
-            <th>Ground Humidity</th>
-            <th>Brightness</th>
-            <th>Fill Level</th>
+            <td>{{ d.timestamp }}</td>
+            <td>{{ d.temperature }}</td>
+            <td>{{ d.air_humidity }}</td>
+            <td>{{ d.ground_humidity }}</td>
+            <td>{{ d.brightness }}</td>
+            <td>{{ d.fill_level }}</td>
           </tr>
-
-        </table>
-      </div>
-    </div>
-
-</div>
--->
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">Timestamp</th>
-      <th scope="col">Temperature</th>
-      <th scope="col">Air Humidity</th>
-      <th scope="col">Ground Humidity</th>
-      <th scope="col">Brightness</th>
-      <th scope="col">Fill Level</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">{% for i in DataMeasurement %}</th>
-          <td>{{i.temperature}}</td>
-      {% endfor %}
-    </tr>
-  </tbody>
-</table>
-
-
- 
+        {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}
