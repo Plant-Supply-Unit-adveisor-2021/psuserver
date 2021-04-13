@@ -26,15 +26,17 @@
                     {% block nav %}
                         {% if user.is_authenticated %}   
                             <div id="nav-bar">
-                                <a href="{% url 'homepage:index' %}">{% trans "Welcome" %}</a>
-                                <a href="{% url 'psufrontend:register_psu' %}">{% trans "Choice" %}</a>
-                                <span id="nav-test">
-                                    <div id="test"><a id="nav-test-toggle" class="toggle" onClick="toggleDropDown('nav-test');">PSU</a></div>
-                                    <div id="nav-test-drop-down" class="drop-down">
-                                        {% if user.is_staff %}<a href="{% url 'psufrontend:register_psu' %}" class="drop-down-element">{% trans "New PSU" %}</a>{% endif %}
-                                        <a href="{% url 'auth:edit_profile' %}" class="drop-down-element">{% trans "Status PSU" %}</a>
-                                    </div>
-                                </span>
+                                <div id="test">
+                                    <a href="{% url 'homepage:index' %}">{% trans "Welcome" %}</a>
+                                    <a href="{% url 'psufrontend:register_psu' %}">{% trans "Choice" %}</a>
+                                    <span id="nav-test">
+                                        <a id="nav-test-toggle" class="toggle" onClick="toggleDropDown('nav-test');">PSU</a>
+                                        <div id="nav-test-drop-down" class="drop-down">
+                                            {% if user.is_staff %}<a href="{% url 'psufrontend:register_psu' %}" class="drop-down-element">{% trans "New PSU" %}</a>{% endif %}
+                                            <a href="{% url 'auth:edit_profile' %}" class="drop-down-element">{% trans "Status PSU" %}</a>
+                                        </div>
+                                    </span>
+                                </div>
                             </div>
                         {% else %}
                             <div id="nav-main-logged-out">{% trans "Welcome to Team Plant Supply Unit" %}</div>
