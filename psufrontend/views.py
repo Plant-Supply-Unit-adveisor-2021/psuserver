@@ -39,18 +39,13 @@ def register_psu_view(request):
     return render(request, 'psufrontend/register_psu.html', {'form':form})
 
 @login_required
-def table_view(request):
+def table_view(request, *, page=0):
     """
     view to handle the tabular-style presentation of measurements
-    this view is used to be refered to in links, etc.
     table_data = DataMeasurement.objects.all()
     psu1 = table_data.filter(psu = '01')
     context = { 'list': table_data, '1': psu1
                     }
     return render(request, 'table.html', context)
     """
-    return table_page_view(request, 0)
-
-@login_required
-def table_page_view(request, page):
     return HttpResponse('You are currently on page {}.'.format(str(page)))
