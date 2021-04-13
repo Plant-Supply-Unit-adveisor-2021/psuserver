@@ -12,6 +12,8 @@ from psucontrol.models import PSU, PendingPSU, DataMeasurement
 
 # Create your views here.
 
+ITEMS_PER_PAGE = 30
+
 @csrf_exempt
 @login_required
 def register_psu_view(request):
@@ -42,10 +44,15 @@ def register_psu_view(request):
 def table_view(request, *, page=0):
     """
     view to handle the tabular-style presentation of measurements
-    table_data = DataMeasurement.objects.all()
-    psu1 = table_data.filter(psu = '01')
-    context = { 'list': table_data, '1': psu1
-                    }
-    return render(request, 'table.html', context)
     """
-    return HttpResponse('You are currently on page {}.'.format(str(page)))
+    # for now just taking data from all PSUs
+    data_all = DataMeasurement.objects.all()
+    data_count = len(data_all)
+    
+    # sorting out paging stuff
+    max_page = int(data_count / ITEMS_PER_PAGE - 0.5)
+    page = max(0, min(max_page, int(page)))
+    # slice data according to page
+    data = data_all[ (page*ITEMS_PER_PAGE) : min(data_count, (page + 1)*ITEMS_PER_PAGE) ]
+
+    return HttpResponse('Current data length {}.'.format(len(data)))
