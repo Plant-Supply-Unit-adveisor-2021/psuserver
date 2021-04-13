@@ -47,5 +47,5 @@ def table_view(request):
                     }
     return render(request, 'table.html', context)
 
-def table_id(request, psu_id):
+def table_id(request, num=1):
     return HttpResponse("" % psu_id)
