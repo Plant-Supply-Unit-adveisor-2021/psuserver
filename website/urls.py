@@ -23,7 +23,6 @@ from django.urls import path
 
 from website.securemedia import psufeed_handler
 
-
 # URL Patterns without i18n tags
 urlpatterns = [
     path(r'psucontrol/', include('psucontrol.urls', namespace='psucontrol')),
