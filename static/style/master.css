@@ -504,7 +504,7 @@ div#navi-bar a:hover,div#navi-bar a:focus {
 }
 
 div#test a, div#test a:visited{
-    padding: 5px 15px;
+    padding: 16px 15px;
 
     color: var(--header-fcolor);
     text-decoration: none;
@@ -517,7 +517,29 @@ div#test a:hover, div#test a:focus {
     text-decoration: none;
     background-color: #A2AD00;
 }
+/*drop-down*/
+div#nav-psu {
+    color: var(--helptext-fcolor);
+    background-color: var(var(--body-bcolor));
+}
+div#nav-psu-dropdown {
+    position: absolute;
 
+}
+a#nav-psu-toggle, a#nav-psu-toggle:visited{
+    
+
+    color: var(--input-fcolor);
+    text-decoration: none;
+    
+    
+}
+
+a#nav-psu-toggle:hover, a#nav-psu-toggle:focus {
+    color: var(--input-fcolor);
+    text-decoration: none;
+    background-color: #ccc;
+}
 
 /* user menu */
 div#nav-user {
