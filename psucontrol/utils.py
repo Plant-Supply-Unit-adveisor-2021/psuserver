@@ -1,3 +1,5 @@
+from psucontrol.models import PSU
+
 def check_permissions(psu, user):
     """
     function to check the access level of a user
@@ -23,3 +25,13 @@ def check_permissions(psu, user):
         # no access
         return 0
 
+
+def get_psus_with_permission(user):
+    """
+    returns all PSUs to which a given user has access
+    """
+    psus = []
+    for p in PSU.objects.all():
+        if check_permissions(p, user) > 0:
+            psus.append(p)
+    return psus

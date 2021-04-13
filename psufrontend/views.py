@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 from django.utils.translation import ugettext as _
 
 from django.contrib.auth.decorators import login_required
@@ -8,6 +7,7 @@ from django.contrib import messages
 
 from psufrontend.forms import RegisterPSUForm
 from psucontrol.models import PSU, PendingPSU, DataMeasurement
+from psucontrol.utils import get_psus_with_permission
 
 
 # Create your views here.
@@ -22,7 +22,7 @@ class DataSet():
         """
         takes a DataMeasurement instance to generate pretty data
         """
-        self.timestamp = dm.timestamp.strftime('%d.%m.%Y %H:%M:%S')
+        self.timestamp = dm.timestamp
         self.temperature = '{:.1f} °C'.format(dm.temperature)
         self.air_humidity = '{:.0f} %'.format(dm.air_humidity)
         self.ground_humidity = '{:.0f} %'.format(dm.ground_humidity)
@@ -57,12 +57,27 @@ def register_psu_view(request):
     return render(request, 'psufrontend/register_psu.html', {'form':form})
 
 @login_required
-def table_view(request, *, page=0):
+def table_view(request, *, page=0, psu=0):
     """
     view to handle the tabular-style presentation of measurements
     """
-    # for now just taking data from all PSUs
-    data_all = DataMeasurement.objects.all()
+    # checking for which PSU the data should be displayed
+    psus = get_psus_with_permission(request.user)
+    if len(psus) == 0:
+        # display view later
+        return None
+
+    sel_psu = None
+    for p in psus:
+        if p.id == psu:
+            sel_psu = p
+            break
+    if sel_psu is None:
+        # id not found -> take first psu in list
+        sel_psu = psus[0]
+
+    # gather data for sel_psu
+    data_all = DataMeasurement.objects.filter(psu=sel_psu)
     data_count = len(data_all)
     
     # sorting out paging stuff
