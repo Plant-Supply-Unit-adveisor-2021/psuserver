@@ -43,8 +43,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # EMAIL_HOST_PORT - port for your provieder's mail service (SMTP)
 
 
-env = environ.Env(EMAIL_ENABLED=(str, 'FALSE'))
-environ.Env.read_env("../.env")
+# standard values and type definitions
+env = environ.Env(
+    EMAIL_ENABLED=(bool, False),
+    DJANGO_DEBUG=(bool, True),
+    EMAIL_HOST_PORT=int
+)
+if Path('../.env').exists():
+    # read .env only if it exists
+    environ.Env.read_env("../.env")
 
 # configuration considering development and production
 if env('DJANGO_DEBUG') == 'FALSE':
@@ -200,15 +207,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # e-mail settings
 EMAIL_BACKEND = "mailer.backend.DbBackend"
 MAILER_EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-if env('EMAIL_ENABLED') == 'TRUE':
+if env('EMAIL_ENABLED'):
     DEFAULT_FROM_EMAIL = env("EMAIL_ADDRESS")
     SERVER_EMAIL = env("EMAIL_ADDRESS")
     EMAIL_HOST = env("EMAIL_HOST")
     EMAIL_HOST_USER = env("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
     EMAIL_USE_TLS = True
-    EMAIL_PORT = int(env("EMAIL_HOST_PORT"))
-    
+    EMAIL_PORT = env("EMAIL_HOST_PORT")
 else:
     # set something for dev purposes
     DEFAULT_FROM_EMAIL = 'psu@dev.org'
