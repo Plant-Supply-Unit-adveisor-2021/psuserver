@@ -62,7 +62,7 @@ def table_view(request, *, page=0, psu=0):
     view to handle the tabular-style presentation of measurements
     """
     # checking for which PSU the data should be displayed
-    psus = get_psus_with_permission(request.user)
+    psus = get_psus_with_permission(request.user, 1)
     if len(psus) == 0:
         # display view later
         return None

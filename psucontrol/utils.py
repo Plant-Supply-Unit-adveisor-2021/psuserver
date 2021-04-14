@@ -26,12 +26,12 @@ def check_permissions(psu, user):
         return 0
 
 
-def get_psus_with_permission(user):
+def get_psus_with_permission(user, min_level):
     """
     returns all PSUs to which a given user has access
     """
     psus = []
     for p in PSU.objects.all():
-        if check_permissions(p, user) > 0:
+        if check_permissions(p, user) > min_level:
             psus.append(p)
     return psus
