@@ -3,7 +3,7 @@
 
 /*
 -------------------------------------------------------------------------------------------------
-    calling of neccesary function after DOM Content is loaded
+    calling of necessary function after DOM Content is loaded
 -------------------------------------------------------------------------------------------------
 */
 document.addEventListener("DOMContentLoaded", function(){
@@ -30,8 +30,8 @@ function toggleDropDown(id){
             <div class="drop-down [active]"></div>
         </div>
 
-        toggles appearence of class active
-            -> css handles appeareance, etc.
+        toggles appearance of class active
+            -> css handles appearance, etc.
     */
     try {
         ele = document.getElementById(id);

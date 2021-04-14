@@ -1,24 +1,17 @@
-from authentification.models import User
+from authentication.models import User
+
 
 # declare utility functions here
 
-def geti18nTag(request):
+def get_i18n_tag(request):
     """
-    function to extract the i18n tag from a reqeust
+    function to extract the i18n tag from a request
     This function will only be working if the request holds the tag directly after the domain
     """
     return request.path.split('/')[1]
 
 
-def geti18nTagClosestToRequest(request):
-    try:
-        if request.META['HTTP_ACCEPT_LANGUAGE'].split(',')[0] == 'de':
-            return 'de'
-    except:
-        pass
-    return 'en'
-
-def getTestUser():
+def get_test_user():
     """
     returns the test user which is used when a user is needed for testing purposes
     creates the test user if it does not exit

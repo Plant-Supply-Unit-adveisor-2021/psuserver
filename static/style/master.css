@@ -49,7 +49,7 @@
     --input-border-color: #ccc;
     --input-border-color-action: #0073D7;
     --input-shadow-color-focus: #0073D755;
-    --input-border-color-invaild: #c00;
+    --input-border-color-invalid: #c00;
     --input-border-color-action-invalid: #f00;
     --input-shadow-color-focus-invalid: #c005;
 
@@ -69,15 +69,27 @@
 
     --messages-bcolor: #ddd;
     --messages-fcolor: #111;
-    --messages-success-fcolor: #0a0;
-    --messages-error-fcolor: #b00;
+    --messages-success-bcolor: #87d25c;
+    --messages-error-bcolor: #f06b6b;
+
+    --table-header-bcolor: #D1DF00;
+    --table-odd-bcolor: #eee;
+    --table-even-bcolor: #fff;
 }
 
 /*
 -------------------------------------------------------------------------------------------------
+    
     General elements
+
 -------------------------------------------------------------------------------------------------
 */
+
+/*
+-------------------------------------------------------------------------------------------------
+    basic stuff
+-------------------------------------------------------------------------------------------------
+*/ 
 
 /* basic classes */
 
@@ -119,7 +131,11 @@ h5 {
     font-size: 1.1rem;
 }
 
-/* styling of hyerlinks */
+/*
+-------------------------------------------------------------------------------------------------
+    Hyperlinks
+-------------------------------------------------------------------------------------------------
+*/ 
 
 a, a:visited {
     color: var(--link-fcolor);
@@ -152,7 +168,11 @@ a.thicken:hover, a.thicken:focus {
     text-decoration: none;
 }
 
-/* styling of buttons */
+/*
+-------------------------------------------------------------------------------------------------
+    Buttons
+-------------------------------------------------------------------------------------------------
+*/ 
 /* There are four types of buttons: standard, primary, secondary and warning */
 /* All buttons need the standard class */
 
@@ -207,7 +227,11 @@ a.thicken:hover, a.thicken:focus {
     color: var(--btn-warning-fcolor-action);
 }
 
-/* styling of inputs */
+/*
+-------------------------------------------------------------------------------------------------
+    Forms and co
+-------------------------------------------------------------------------------------------------
+*/ 
 
 input {
     text-decoration: none;
@@ -246,7 +270,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 }
 
 input[type="text"]:invalid, input[type="email"]:invalid, input[type="password"]:invalid {
-    border: 1px solid var(--input-border-color-invaild);
+    border: 1px solid var(--input-border-color-invalid);
 }
 
 input[type="text"]:focus:invalid, input[type="email"]:focus:invalid, input[type="password"]:focus:invalid,
@@ -334,40 +358,11 @@ ul.errorlist > li {
     padding: .25rem 0;
 }
 
-/* styling of messages */
-
-ul.messages {
-    display: block;
-
-    margin: 1rem 0 2rem 0;
-    border: 0;
-    padding: .25rem 1rem;
-
-    background-color: var(--messages-bcolor);
-    color: var(--messages-fcolor);
-    list-style-type: none;
-}
-
-ul.messages > li {
-    display: block;
-    
-    margin: 0;
-    border: 0;
-    padding: .25rem 0;
-
-    font-weight: 600;
-}
-
-ul.messages > li.success {
-    color: var(--messages-success-fcolor);
-}
-
-ul.messages > li.error {
-    color: var(--messages-error-fcolor);
-}
-
-
-/* styling of drop downs */
+/*
+-------------------------------------------------------------------------------------------------
+    Styling of Drop-Downs
+-------------------------------------------------------------------------------------------------
+*/ 
 
 div.drop-down {
     display: none;
@@ -403,6 +398,62 @@ div.drop-down .drop-down-element:focus, div.drop-down .drop-down-element:hover {
     background-color: var(--dropdown-bcolor-active);
     color: var(--dropdown-fcolor-active);
 }
+
+/*
+-------------------------------------------------------------------------------------------------
+    Tables
+-------------------------------------------------------------------------------------------------
+*/
+
+/* general stuff */
+
+table {
+    display: block;
+    width: 100%;
+
+    padding: 0;
+    border: 0;
+    margin: 0;
+}
+
+thead, tbody {
+    display: block;
+    width: 100%;
+
+    padding: 0;
+    border: 0;
+    margin: 0;
+}
+
+tr {
+    display: flex;
+}
+
+td, th {
+    flex: 1;
+    padding: .4rem 1rem;
+}
+
+/* striped table */
+table.table-striped th{
+    background-color: var(--table-header-bcolor);
+}
+
+table.table-striped tr{
+    background-color: var(--table-odd-bcolor);
+}
+
+table.table-striped tr:nth-of-type(2n){
+    background-color: var(--table-even-bcolor);
+}
+
+/*
+-------------------------------------------------------------------------------------------------
+    
+    Static parts of the website
+
+-------------------------------------------------------------------------------------------------
+*/ 
 
 /*
 -------------------------------------------------------------------------------------------------
@@ -570,3 +621,38 @@ a#nav-user-toggle.logged-in::after {
     border-top-color: #E37222;
 }
 
+/*
+-------------------------------------------------------------------------------------------------
+    messages implementation
+-------------------------------------------------------------------------------------------------
+*/
+
+ul.messages {
+    display: block;
+
+    margin: 0 0 1rem 0;
+    border: 0;
+    padding: 0;
+
+    background-color: var(--messages-bcolor);
+    color: var(--messages-fcolor);
+    list-style-type: none;
+}
+
+ul.messages > li {
+    display: block;
+    
+    margin: 0;
+    border: 0;
+    padding: .5rem 1rem;
+
+    font-weight: 600;
+}
+
+ul.messages > li.success {
+    background-color: var(--messages-success-bcolor);
+}
+
+ul.messages > li.error {
+    background-color: var(--messages-error-bcolor);
+}

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-20 17:33+0100\n"
+"POT-Creation-Date: 2021-04-09 14:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,119 +18,124 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\authentification\apps.py:7
-msgid "Authentification"
+#: .\authentication\apps.py:7
+msgid "Authentication"
 msgstr "Authentifikation"
 
-#: .\authentification\forms.py:17 .\authentification\forms.py:38
-#: .\authentification\forms.py:81
+#: .\authentication\forms.py:18 .\authentication\forms.py:39
+#: .\authentication\forms.py:93
 msgid "E-Mail"
 msgstr "E-Mail Adresse"
 
-#: .\authentification\forms.py:18 .\authentification\forms.py:84
+#: .\authentication\forms.py:19 .\authentication\forms.py:96
 msgid "Password"
 msgstr "Passwort"
 
-#: .\authentification\forms.py:28
+#: .\authentication\forms.py:29
 msgid "Mail and password do not match or your account is not activate yet."
 msgstr ""
 "E-Mail und Passwort passen nicht zueinander oder dein Konto ist noch nicht "
 "aktiviert."
 
-#: .\authentification\forms.py:39 .\authentification\forms.py:82
+#: .\authentication\forms.py:40 .\authentication\forms.py:94
 msgid "First Name"
 msgstr "Vorname"
 
-#: .\authentification\forms.py:40 .\authentification\forms.py:83
+#: .\authentication\forms.py:41 .\authentication\forms.py:95
 msgid "Last Name"
 msgstr "Nachname"
 
-#: .\authentification\forms.py:41
+#: .\authentication\forms.py:42
 msgid "Darkmode"
 msgstr "Darkmode"
 
-#: .\authentification\forms.py:54
+#: .\authentication\forms.py:56
+msgid "The given e-mail address is already in use by another user."
+msgstr ""
+"Die angegebene E-Mail Adresse wird bereits von einem anderen Nutzer genutzt."
+
+#: .\authentication\forms.py:65
 msgid "Current Password"
 msgstr "Aktuelles Passwort"
 
-#: .\authentification\forms.py:54
+#: .\authentication\forms.py:66
 msgid "Leave clear to keep your current password."
 msgstr "Lasse dieses Feld leer um dein Passwort nicht zu ändern."
 
-#: .\authentification\forms.py:55
+#: .\authentication\forms.py:67
 msgid "New Password"
 msgstr "Neues Passwort"
 
-#: .\authentification\forms.py:56
+#: .\authentication\forms.py:69
 msgid "Confirm New Password"
 msgstr "Neues Passwort bestätigen"
 
-#: .\authentification\forms.py:69 .\authentification\forms.py:90
+#: .\authentication\forms.py:81 .\authentication\forms.py:103
 msgid "The two given passwords do not match."
 msgstr "Die angegebenen Passwörter stimmen nicht überein."
 
-#: .\authentification\forms.py:73
+#: .\authentication\forms.py:85
 msgid "Please enter your current password correctly to change your password."
 msgstr ""
 "Bitte gebe dein aktuelles Passwort richtig ein um dein Passwort zu ändern."
 
-#: .\authentification\forms.py:85
+#: .\authentication\forms.py:98
 msgid "Confirm Password"
 msgstr "Passwort bestätigen"
 
-#: .\authentification\forms.py:93 .\authentification\views.py:62
+#: .\authentication\forms.py:106
 msgid "The given e-mail address is already used by another user."
 msgstr ""
 "Die angegebene E-Mail Adresse wird bereits von einem anderen Nutzer genutzt."
 
-#: .\authentification\managers.py:20
+#: .\authentication\managers.py:20
 msgid "The Email must be set"
 msgstr "Es muss eine E-Mail-Adresse angegeben werden."
 
-#: .\authentification\managers.py:38
+#: .\authentication\managers.py:38
 msgid "Superuser must have is_staff=True."
 msgstr "Adminstratoren benötigen is_staff=True."
 
-#: .\authentification\managers.py:40
+#: .\authentication\managers.py:40
 msgid "Superuser must have is_superuser=True."
 msgstr "Adminstratoren benötigen is_superuser=True."
 
-#: .\authentification\models.py:17
+#: .\authentication\models.py:18
 msgid "e-mail address"
 msgstr "E-Mail Adresse"
 
-#: .\authentification\models.py:20
+#: .\authentication\models.py:21
 msgid "first name"
 msgstr "Vorname"
 
-#: .\authentification\models.py:21
+#: .\authentication\models.py:22
 msgid "last name"
 msgstr "Nachname"
 
-#: .\authentification\models.py:24
+#: .\authentication\models.py:25
 msgid "darkmode active"
 msgstr "Darkmode aktiv"
 
-#: .\authentification\models.py:43
+#: .\authentication\models.py:43
 msgid "user"
 msgstr "Benutzer:in"
 
-#: .\authentification\models.py:44
+#: .\authentication\models.py:44
 msgid "users"
 msgstr "Benutzer:innen"
 
-#: .\authentification\templates\authentification\after_register.html:4
+#: .\authentication\templates\authentication\after_register.html:4
 msgid "Welcome"
 msgstr "Willkommen"
 
-#: .\authentification\templates\authentification\after_register.html:14
+#: .\authentication\templates\authentication\after_register.html:7
 #: .\website\templates\base.html:26
 msgid "Welcome to Team Plant Supply Unit"
 msgstr "Willkommen beim Team Plant Supply Unit"
 
-#: .\authentification\templates\authentification\after_register.html:15
+#: .\authentication\templates\authentication\after_register.html:8
 msgid ""
-"We are happy that you are now part of our project. However due to the fact "
+"We are happy that you are now part of our project. However, due to the fact "
 "that this is only a fun little project your account has to be activated by "
 "an admin."
 msgstr ""
@@ -138,45 +143,49 @@ msgstr ""
 "eben nur ein kleines Projekt im Rahmen vom TUM adveisor Programm 2020/21 "
 "ist, muss dein Profil erst von einem Administrator aktiviert werden."
 
-#: .\authentification\templates\authentification\edit_profile.html:4
+#: .\authentication\templates\authentication\edit_profile.html:4
 msgid "Edit User"
 msgstr "Profil bearbeiten"
 
-#: .\authentification\templates\authentification\edit_profile.html:16
+#: .\authentication\templates\authentication\edit_profile.html:9
 #: .\website\templates\base.html:33
 msgid "Edit Profile"
 msgstr "Profil bearbeiten"
 
-#: .\authentification\templates\authentification\edit_profile.html:18
+#: .\authentication\templates\authentication\edit_profile.html:11
 msgid "Change Password"
 msgstr "Passwort ändern"
 
-#: .\authentification\templates\authentification\edit_profile.html:20
-#: .\psufrontend\templates\psufrontend\register_psu.html:18
+#: .\authentication\templates\authentication\edit_profile.html:13
+#: .\psufrontend\templates\psufrontend\register_psu.html:11
 msgid "Save"
 msgstr "Sichern"
 
-#: .\authentification\templates\authentification\login.html:4
-#: .\authentification\templates\authentification\login.html:10
+#: .\authentication\templates\authentication\login.html:4
+#: .\authentication\templates\authentication\login.html:10
 #: .\website\templates\base.html:36
 msgid "Login"
 msgstr "Einloggen"
 
-#: .\authentification\templates\authentification\register.html:4
-#: .\authentification\templates\authentification\register.html:18
+#: .\authentication\templates\authentication\register.html:4
+#: .\authentication\templates\authentication\register.html:11
 #: .\website\templates\base.html:37
 msgid "Register"
 msgstr "Registrieren"
 
-#: .\authentification\templates\authentification\register.html:16
+#: .\authentication\templates\authentication\register.html:9
 msgid "Create new profile"
 msgstr "Neues Profil erstellen"
 
-#: .\authentification\views.py:60
+#: .\authentication\views.py:41
+msgid "Your now logged out."
+msgstr "Du bist jetzt ausgeloggt."
+
+#: .\authentication\views.py:59
 msgid "Successfully updated your profile."
 msgstr "Dein Profil wurde erfolgreich geändert."
 
-#: .\authentification\views.py:70
+#: .\authentication\views.py:67
 msgid "Successfully updated your password."
 msgstr "Dein Passwort wurde erfolgreich geändert."
 
@@ -184,111 +193,189 @@ msgstr "Dein Passwort wurde erfolgreich geändert."
 msgid "PSU Control"
 msgstr "PSU Steuerung"
 
-#: .\psucontrol\models.py:17
+#: .\psucontrol\models.py:22
 msgid "name"
 msgstr "Name"
 
-#: .\psucontrol\models.py:20 .\psucontrol\models.py:43
+#: .\psucontrol\models.py:25 .\psucontrol\models.py:49
 msgid "identity key"
 msgstr "Identitätsschlüssel"
 
-#: .\psucontrol\models.py:21 .\psucontrol\models.py:45
+#: .\psucontrol\models.py:26 .\psucontrol\models.py:51
 msgid "public rsa key"
 msgstr "Öffentlicher RSA-Schlüssel"
 
-#: .\psucontrol\models.py:22
+#: .\psucontrol\models.py:27
 msgid "current challenge token"
 msgstr "Aktueller Challenge Token"
 
-#: .\psucontrol\models.py:25
+#: .\psucontrol\models.py:30
 msgid "owner"
 msgstr "Besitzer:in"
 
-#: .\psucontrol\models.py:26
+#: .\psucontrol\models.py:31
 msgid "permitted users"
 msgstr "Berechtigte Benutzer:innen"
 
-#: .\psucontrol\models.py:32 .\psucontrol\models.py:64
+#: .\psucontrol\models.py:38 .\psucontrol\models.py:70
+#: .\psucontrol\models.py:101 .\psucontrol\models.py:173
 msgid "Plant Supply Unit"
 msgstr "Pflanzenpflegestation"
 
-#: .\psucontrol\models.py:33
+#: .\psucontrol\models.py:39
 msgid "Plant Supply Units"
 msgstr "Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:47
+#: .\psucontrol\models.py:53
 msgid "pairing key"
 msgstr "Kopplungsschlüssel"
 
-#: .\psucontrol\models.py:50
+#: .\psucontrol\models.py:56
 msgid "creation time"
 msgstr "Erstellungszeit"
 
-#: .\psucontrol\models.py:53
+#: .\psucontrol\models.py:59
 msgid "Pending Plant Supply Unit"
 msgstr "schwebende Pflanzenpflegestation"
 
-#: .\psucontrol\models.py:54
+#: .\psucontrol\models.py:60
 msgid "Pending Plant Supply Units"
 msgstr "schwebende Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:67
+#: .\psucontrol\models.py:73 .\psucontrol\models.py:104
+#: .\psucontrol\models.py:178
 msgid "timestamp"
 msgstr "Zeitstempel"
 
-#: .\psucontrol\models.py:70
+#: .\psucontrol\models.py:76
 msgid "temperature"
 msgstr "Temperatur"
 
-#: .\psucontrol\models.py:71
+#: .\psucontrol\models.py:77
 msgid "air humidity"
 msgstr "Luftfeuchte"
 
-#: .\psucontrol\models.py:72
+#: .\psucontrol\models.py:78
 msgid "ground humidity"
 msgstr "Bodenfeuchte"
 
-#: .\psucontrol\models.py:73
+#: .\psucontrol\models.py:79
 msgid "brightness"
 msgstr "Helligkeit"
 
-#: .\psucontrol\models.py:74
+#: .\psucontrol\models.py:80
 msgid "fill level"
 msgstr "Füllstand"
 
-#: .\psucontrol\models.py:80
+#: .\psucontrol\models.py:86
 msgid "Data Measurement"
 msgstr "Datenmessung"
 
-#: .\psucontrol\models.py:81
+#: .\psucontrol\models.py:87
 msgid "Data Measurements"
 msgstr "Datenmessungen"
+
+#: .\psucontrol\models.py:107
+msgid "image"
+msgstr "Bild"
+
+#: .\psucontrol\models.py:113
+msgid "PSU Image"
+msgstr "Bild von einer Pflanzenpflegestation"
+
+#: .\psucontrol\models.py:114
+msgid "PSU Images"
+msgstr "Bilder von Pflanzenpflegestationen"
+
+#: .\psucontrol\models.py:170
+msgid "classification"
+msgstr "Einstufung"
+
+#: .\psucontrol\models.py:175
+msgid "psu identity key"
+msgstr "PSU Identitätsschlüssel"
+
+#: .\psucontrol\models.py:181
+msgid "request uri"
+msgstr "Anfrage URI"
+
+#: .\psucontrol\models.py:184
+msgid "request"
+msgstr "Anfrage"
+
+#: .\psucontrol\models.py:187
+msgid "repsonse"
+msgstr "Antwort"
+
+#: .\psucontrol\models.py:195
+msgid "Log Entry"
+msgstr "Logeintrag"
+
+#: .\psucontrol\models.py:196
+msgid "Log Entries"
+msgstr "Logeinträge"
+
+#: .\psucontrol\views.py:26
+msgid "Failed to identify PSU"
+msgstr "Fehler beim Identifizieren der PSU"
+
+#: .\psucontrol\views.py:27
+msgid "Failed to authenticate PSU"
+msgstr "Fehler beim Authentifizieren der PSU"
+
+#: .\psucontrol\views.py:28
+msgid "Failed to deserialize public key"
+msgstr "Fehler beim einlesen des öffentlichen RSA Schlüssels"
+
+#: .\psucontrol\views.py:30
+msgid "Bad request"
+msgstr "Anfrage nicht verwertbar"
+
+#: .\psucontrol\views.py:32
+msgid "Failed to create new PSU"
+msgstr "Fehler beim Erstellen einer neuen PSU"
+
+#: .\psucontrol\views.py:33
+msgid "Failed to create new data measurement"
+msgstr "Fehler beim Erstellen einer Messung"
+
+#: .\psucontrol\views.py:34
+msgid "Problems with timestamp or making timestamp timezone aware."
+msgstr "Probleme mit dem Zeitstempel der Messung evtl. bzgl. Zeitzonen"
+
+#: .\psucontrol\views.py:35
+msgid "The timestamp already exists for this PSU"
+msgstr "Es gibt bereits eine Messung mit diesem Zeitstempel."
+
+#: .\psucontrol\views.py:36
+msgid "Failed to upload new image."
+msgstr "Fehler beim Hochladen des Kamerabildes"
 
 #: .\psufrontend\apps.py:7
 msgid "PSU Frontend"
 msgstr "PSU Bedienoberfläche"
 
-#: .\psufrontend\forms.py:12
+#: .\psufrontend\forms.py:13
 msgid "Pairing key"
 msgstr "Kopplungsschlüssel"
 
-#: .\psufrontend\forms.py:13
+#: .\psufrontend\forms.py:14
 msgid "This key should be displayed on your PSU."
 msgstr ""
 "Der Kopplungsschlüssel sollte auf deiner Pflegestation angeziegt werden."
 
-#: .\psufrontend\forms.py:14
+#: .\psufrontend\forms.py:15
 msgid "PSU name"
 msgstr "Name der neuen Pflanzenpflegestation"
 
-#: .\psufrontend\forms.py:15
+#: .\psufrontend\forms.py:16
 msgid "Choose a name to identify this particular PSU."
 msgstr "Wähle einen Namen für diese neue Pflanzenpflegestation."
 
-#: .\psufrontend\forms.py:19
+#: .\psufrontend\forms.py:20
 msgid ""
-"Sadly we could not match the given pairing key. Please check wether the key "
-"is correct and wether your PSU has a internet connection."
+"Sadly we could not match the given pairing key. Please check whether the key "
+"is correct and whether your PSU has a internet connection."
 msgstr ""
 "Leider konnten wir den Kopplungsschlüssel nicht in unserer Datenbank finden. "
 "Bitte überprüfe den Schlüssel und die Internetverbindung der Pflegestation "
@@ -298,21 +385,64 @@ msgstr ""
 msgid "Register PSU"
 msgstr "PSU Registrieren"
 
-#: .\psufrontend\templates\psufrontend\register_psu.html:16
+#: .\psufrontend\templates\psufrontend\register_psu.html:9
 msgid "Register Plant Supply Unit"
 msgstr "Registrierung einer neuen Pflanzenpflegestation"
 
-#: .\psufrontend\views.py:29
+#: .\psufrontend\views.py:30
 msgid "Successfully registered your new Plant Supply Unit."
 msgstr "Deine neue Pflanzenpflegestation wurde erfolgreich hinzugefügt."
 
-#: .\website\settings.py:160
-msgid "de"
+#: .\website\settings.py:211
+msgid "German"
 msgstr "Deutsch"
 
-#: .\website\settings.py:161
-msgid "en"
+#: .\website\settings.py:212
+msgid "English"
 msgstr "Englisch"
+
+#: .\website\templates\403.html:4
+msgid "Permission denied"
+msgstr "Zugriff verweigert"
+
+#: .\website\templates\403.html:7
+msgid ""
+"Sorry. Our server thinks you are not permitted to view this piece of content."
+msgstr ""
+"Entschuldigung, unser Server ist der Meinung, dass du keinen Zugriff auf "
+"diesen Inhalt hast."
+
+#: .\website\templates\403.html:8
+msgid ""
+"This should normally not happen, if you are only using links which we "
+"presented to you. However, there might be the possibility we just made a "
+"mistake. If you think you should be able to access this content, please "
+"contact an admin."
+msgstr ""
+"Dies sollte in der Regel nicht passieren, wenn du nur auf Links, die wir dir "
+"geschickt/angezeigt haben, klickst. Trotzdem kann es auch sein, dass wir "
+"einen Fehler gemacht haben. Wenn du der Meinung bist, du solltest diesen "
+"Inhalt sehen können, dann kontaktiere bitte einen Admin."
+
+#: .\website\templates\403.html:9 .\website\templates\404.html:9
+msgid "The following error message was generated:"
+msgstr "Die folgende Fehlermeldung wurde generiert:"
+
+#: .\website\templates\404.html:4
+msgid "Page Not Found"
+msgstr "Seite nicht gefunden"
+
+#: .\website\templates\404.html:7
+msgid "Sorry. We could not find the page you were looking for."
+msgstr "Entschuldigung, wir konnten die Seite, die du suchst, nicht finden."
+
+#: .\website\templates\404.html:8
+msgid ""
+"Probably you are using a deprecated link. If you think this page should "
+"exist, please contact an admin."
+msgstr ""
+"Eventuell nutzt du einen veralteten Link. Wenn du der Überzeugung bist, dass "
+"diese Seite existieren sollte, kontaktiere bitte einen Admin."
 
 #: .\website\templates\base.html:32
 msgid "Administration"
