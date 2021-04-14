@@ -432,7 +432,7 @@ div#body-wrapper {
 /* Header */
 
 header#mainheader {
-    padding: 15px 40px;
+    padding: 0 40px;
 
     background-color: var(--header-bcolor);
     color: var(--header-fcolor);
@@ -442,6 +442,21 @@ header#mainheader {
 
 header#mainheader div#nav-main {
     max-width: calc(100% - 4.5rem - 30px);
+    background-color: var(--header-bcolor);                   
+    display: flex;                     
+}
+
+div#nav-main a, div#nav-main a:visited{
+    display: block;
+    color: var(--header-fcolor);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+div#nav-main a:hover, div#nav-main a:focus {
+    color: var(--header-fcolor);
+    text-decoration: none;
+    background-color: #A2AD00;
 }
 
 @media (max-width: 1000px){
@@ -483,30 +498,7 @@ footer#mainfooter a:focus, footer#mainfooter > a:hover {
 -------------------------------------------------------------------------------------------------
     main navigation
 -------------------------------------------------------------------------------------------------
-*/
-/* navigation bar */
 
-div#nav-bar{
-    background-color: var(--header-bcolor);                
-    padding: 4px 0px;                     
-    margin: 0;                        
-}
-
-div#nav-bar a, div#nav-bar a:visited{
-    padding: 16px 16px;
-
-    color: var(--header-fcolor);
-    text-decoration: none;
-    font-weight: 500;
-    
-    
-}
-
-div#nav-bar a:hover, div#nav-bar a:focus {
-    color: var(--header-fcolor);
-    text-decoration: none;
-    background-color: #A2AD00;
-}
 
 /*drop-down-psu*/
 
@@ -518,6 +510,7 @@ div#nav-psu-drop-down {
 }
 
 div#nav-psu-drop-down a, div#nav-psu-drop-down a:visited{
+    display: block;
     color: var(--dropdown-fcolor);
     background-color: var(--dropdown-bcolor);
     text-decoration: none;
