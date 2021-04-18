@@ -24,12 +24,31 @@
             <td class="align-center">{{ d.fill_level }}</td>
           </tr>
         {% endfor %}
-        
+
+        <!--
         <div>   
-        <a href="/en/psufrontend/table/psu/1/page/0">0</a>
+        <a href="/en/psufrontend/table/psu/1/page/0">Previous</a>
         <a href="/en/psufrontend/table/psu/1/page/1">1</a>
         <a href="/en/psufrontend/table/psu/1/page/2">2</a>
         <a href="/en/psufrontend/table/psu/1/page/3">3</a>
+        </div>
+        -->
+        <div class="pagination">
+            <span class="step-links">
+              {% if table_obj.has_previous %}
+                  <a href="?page=1">&laquo; first</a>
+                  <a href="?page={{ table_obj.previous_page_number }}">previous</a>
+              {% endif %}
+
+              <span class="current">
+                  Page {{ table_obj.number }} of {{ table_obj.paginator.num_pages }}.
+              </span>
+
+              {% if table_obj.has_next %}
+                  <a href="?page={{ table_obj.next_page_number }}">next</a>
+                  <a href="?page={{ table_obj.paginator.num_pages }}">last &raquo;</a>
+              {% endif %}
+            </span>
         </div>
 
     </tbody>

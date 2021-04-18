@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.utils.translation import ugettext as _
+from django.core.paginator import Paginator
 
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
@@ -95,3 +96,15 @@ def table_view(request, *, page=0, psu=0):
     }
 
     return render(request, 'psufrontend/table.html', context=context)
+
+def viewtable(request):
+
+   table_details = DataMeasurement.objects.all()
+
+   paginator = Paginator(table_details, 30) # So limited to 30 items in a page
+
+   page_number = request.GET.get('page')
+
+   table_obj = paginator.get_page(page_number) #data
+
+   return render(request, 'psufrontend/table.html', {'table_obj': table_obj})
