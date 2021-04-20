@@ -432,19 +432,22 @@ div#body-wrapper {
 /* Header */
 
 header#mainheader {
-    padding: 0 40px;
-
+    padding: 0;
+    margin: 0;
     background-color: var(--header-bcolor);
     color: var(--header-fcolor);
 
     font-size: 1.4rem;
+
+    display: flex;
 }
 
 header#mainheader div#nav-main {
     max-width: calc(100% - 4.5rem - 30px);
-    background-color: var(--header-bcolor);                   
-    display: block; 
-    padding: 10px 10px;                  
+    background-color: var(--header-bcolor);
+    display: inline;
+    
+    /*padding: 10px 10px;*/                  
 }
 
 div#nav-main a, div#nav-main a:visited{
@@ -452,10 +455,11 @@ div#nav-main a, div#nav-main a:visited{
     color: var(--header-fcolor);
     text-decoration: none;
     font-weight: 500;
+    
 }
 
 div#nav-main a:hover, div#nav-main a:focus {
-    display: inline-block;
+    
     color: var(--header-fcolor);
     text-decoration: none;
     background-color: #A2AD00;
