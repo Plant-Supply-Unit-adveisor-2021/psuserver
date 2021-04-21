@@ -656,3 +656,20 @@ ul.messages > li.success {
 ul.messages > li.error {
     background-color: var(--messages-error-bcolor);
 }
+
+/*
+-------------------------------------------------------------------------------------------------
+    table buttons
+-------------------------------------------------------------------------------------------------
+*/
+
+table.pagination{
+    text-align: buttom;
+    margin-top: 720px;
+}
+.btn.btn-table{
+    background-color: red;
+    text-align: bottom;
+
+
+}

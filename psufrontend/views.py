@@ -9,6 +9,7 @@ from django.contrib import messages
 from psufrontend.forms import RegisterPSUForm
 from psucontrol.models import PSU, PendingPSU, DataMeasurement
 from psucontrol.utils import get_psus_with_permission
+from django.views.generic import ListView
 
 
 # Create your views here.
@@ -58,53 +59,15 @@ def register_psu_view(request):
     return render(request, 'psufrontend/register_psu.html', {'form':form})
 
 @login_required
-def table_view(request, *, page=0, psu=0):
-    """
-    view to handle the tabular-style presentation of measurements
-    """
-    # checking for which PSU the data should be displayed
-    psus = get_psus_with_permission(request.user, 1)
-    if len(psus) == 0:
-        # display view later
-        return None
+def table_view(request):
+     data_all = DataMeasurement.objects.all()
 
-    sel_psu = None
-    for p in psus:
-        if p.id == psu:
-            sel_psu = p
-            break
-    if sel_psu is None:
-        # id not found -> take first psu in list
-        sel_psu = psus[0]
+     paginator = Paginator(data_all, 30)
 
-    # gather data for sel_psu
-    data_all = DataMeasurement.objects.filter(psu=sel_psu)
-    data_count = len(data_all)
-    
-    # sorting out paging stuff
-    max_page = int(data_count / ITEMS_PER_PAGE - 0.5)
-    page = max(0, min(max_page, int(page)))
-    # slice data according to page
-    data_raw = data_all[ (page*ITEMS_PER_PAGE) : min(data_count, (page + 1)*ITEMS_PER_PAGE) ]
+     page = request.GET.get('page')
 
-    data = []
-    for d in data_raw:
-        data.append(DataSet(d))
+     datas = paginator.get_page(page)
 
-    context = {
-        'data': data,
-    }
+     return render(request, 'psufrontend/table.html', {'datas': datas})
 
-    return render(request, 'psufrontend/table.html', context=context)
 
-def viewtable(request):
-
-   table_details = DataMeasurement.objects.all()
-
-   paginator = Paginator(table_details, 30) # So limited to 30 items in a page
-
-   page_number = request.GET.get('page')
-
-   table_obj = paginator.get_page(page_number) #data
-
-   return render(request, 'psufrontend/table.html', {'table_obj': table_obj})
