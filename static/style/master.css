@@ -428,6 +428,11 @@ div#body-wrapper {
         padding: 2rem;
     }
 }
+@media (max-width: 1000px){
+    header#mainheader {
+        padding: 16px 20px;
+    }
+}
 
 /* Header */
 
@@ -455,6 +460,7 @@ div#nav-main a, div#nav-main a:visited{
     color: var(--header-fcolor);
     text-decoration: none;
     font-weight: 500;
+    padding: 2vw;
     
 }
 
@@ -465,11 +471,7 @@ div#nav-main a:hover, div#nav-main a:focus {
     background-color: #A2AD00;
 }
 
-@media (max-width: 1000px){
-    header#mainheader {
-        padding: 16px 20px;
-    }
-}
+
 
 /* Footer */
 footer#mainfooter {
