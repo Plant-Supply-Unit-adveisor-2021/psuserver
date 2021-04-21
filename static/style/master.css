@@ -514,7 +514,7 @@ footer#mainfooter a:focus, footer#mainfooter > a:hover {
 div#nav-psu-drop-down {
     position: absolute;
     top: calc(31px + 1.4rem);
-    left: 280px;
+    left: 250px;
 }
 
 div#nav-psu-drop-down a, div#nav-psu-drop-down a:visited{
