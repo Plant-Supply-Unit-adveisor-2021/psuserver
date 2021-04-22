@@ -663,13 +663,24 @@ ul.messages > li.error {
 -------------------------------------------------------------------------------------------------
 */
 
-table.pagination{
-    text-align: buttom;
-    margin-top: 720px;
+.pagination {
+    text-align: center;
+    position: relative;
+    margin-bottom: 10px;
 }
-.btn.btn-table{
-    background-color: red;
-    text-align: bottom;
 
+a#table:link, a#table:visited {
+    background-color: white;
+    color: green;
+    border: 2px;
+    border-radius: 10px;
+    padding: 5px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
 
+a#table:hover, a#table:active {
+    background-color: #3CB371;
+    color: white;
 }

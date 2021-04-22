@@ -13,6 +13,8 @@
         <th class="align-center">Fill Level</th>
       </tr>
     </thead>
+
+
     <tbody>
         {% for d in datas %}
           <tr>
@@ -28,8 +30,8 @@
         <div class="pagination">
             <span class="step-links">
               {% if datas.has_previous %}
-                  <a class="btn btn-table" href="?page=1">&laquo; first</a>
-                  <a href="?page={{ datas.previous_page_number }}">previous</a>
+                  <a id="table" href="?page=1">&laquo; first</a>
+                  <a id="table" href="?page={{ datas.previous_page_number }}">previous</a>
               {% endif %}
 
               <span class="current">
@@ -37,8 +39,8 @@
               </span>
 
               {% if datas.has_next %}
-                  <a href="?page={{ datas.next_page_number }}">next</a>
-                  <a href="?page={{ datas.paginator.num_pages }}">last &raquo;</a>
+                  <a id="table" href="?page={{ datas.next_page_number }}">next</a>
+                  <a id="table" href="?page={{ datas.paginator.num_pages }}">last &raquo;</a>
               {% endif %}
             </span>
         </div>

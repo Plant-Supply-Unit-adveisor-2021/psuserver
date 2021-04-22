@@ -14,7 +14,6 @@ from django.views.generic import ListView
 
 # Create your views here.
 
-ITEMS_PER_PAGE = 35
 
 class DataSet():
     """
@@ -70,4 +69,9 @@ def table_view(request):
 
      return render(request, 'psufrontend/table.html', {'datas': datas})
 
+@login_required
+def table_filter(request):
+    data_filter = DataMeasurement.objects.filter(psu=sel_psu)
+
+    return render(request)
 
