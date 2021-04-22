@@ -70,7 +70,22 @@ def table_view(request):
      return render(request, 'psufrontend/table.html', {'datas': datas})
 
 @login_required
-def table_filter(request):
+def table_filter(request, *, psu=0):
+    # checking for which PSU the data should be displayed
+    psus = get_psus_with_permission(request.user, 1)
+    if len(psus) == 0:
+        # display view later
+        return None
+
+    sel_psu = None
+    for p in psus:
+        if p.id == psu:
+            sel_psu = p
+            break
+    if sel_psu is None:
+        # id not found -> take first psu in list
+        sel_psu = psus[0]
+
     data_filter = DataMeasurement.objects.filter(psu=sel_psu)
 
     return render(request)
