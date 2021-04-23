@@ -462,9 +462,6 @@ div#nav-main a, div#nav-main a:visited{
     font-weight: 500;
     padding: 1vw;
     
-    
-    
-    
 }
 
 div#nav-main a:hover, div#nav-main a:focus {
@@ -473,18 +470,21 @@ div#nav-main a:hover, div#nav-main a:focus {
     text-decoration: none;
     background-color: #A2AD00;
 }
-a#nav-main-logo {
-    display: flex;
+a#nav-main-logo{
+    display: inline-block;
     
-    width: 1rem;
-    height: 1rem;
+    width: 2rem;
+    height: 2rem;
 
-
+    
 
     background-image: url("../serveronly/logo_transparent.png");
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: contain;
+    position: relative;
+    
+
     
 }
 
