@@ -25,8 +25,8 @@
                 <div id="nav-main">
                     {% block nav %}
                         {% if user.is_authenticated %} 
-                        <span>
-                            <a href="{% url 'homepage:index' %}"> <img src="{% static 'serveronly/logo_transparent.png' %}" style="width: 5%;display: flexbox; margin: 0"/></a>
+                        
+                            <a id="nav-main-logo" href="{% url 'homepage:index' %}"> </a>
                             <a href="{% url 'psufrontend:register_psu' %}">{% trans "Choice" %}</a>
                             <span id="nav-psu">
                                 <a id="nav-psu-toggle" class="toggle" onClick="toggleDropDown('nav-psu');">PSU</a>
@@ -35,7 +35,7 @@
                                     <a href="{% url 'auth:edit_profile' %}" class="drop-down-element">{% trans "Status PSU" %}</a>
                                 </div>
                             </span>
-                        </span>
+                        
                         {% else %}
                             <div id="nav-main-logged-out">{% trans "Welcome to Team Plant Supply Unit" %}</div>
                         {% endif %}
