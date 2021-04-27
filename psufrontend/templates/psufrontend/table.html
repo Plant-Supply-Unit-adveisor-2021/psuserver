@@ -2,6 +2,19 @@
 
 
 {% block body %}
+  <br>
+  <div class="row">
+    <div class="col">
+      <div class="card card-body">
+        <form method="get">
+          {{myFilter.form}}
+          <button class="btn btn primary" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  </br>
+
   <table class="table-striped">
     <thead>
       <tr>
@@ -13,7 +26,6 @@
         <th class="align-center">Fill Level</th>
       </tr>
     </thead>
-
 
     <tbody>
         {% for d in datas %}

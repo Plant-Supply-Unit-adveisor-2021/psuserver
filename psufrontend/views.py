@@ -11,6 +11,8 @@ from psucontrol.models import PSU, PendingPSU, DataMeasurement
 from psucontrol.utils import get_psus_with_permission
 from django.views.generic import ListView
 
+from .filters import DataMeasurementFilter
+
 
 # Create your views here.
 
@@ -67,7 +69,12 @@ def table_view(request):
 
      datas = paginator.get_page(page)
 
-     return render(request, 'psufrontend/table.html', {'datas': datas})
+     myFilter = DataMeasurementFilter(request.GET, queryset=data_all)
+     data_all = myFilter.qs
+
+     context = {'datas': datas, 'myFilter': myFilter}
+
+     return render(request, 'psufrontend/table.html', context)
 
 @login_required
 def table_filter(request, *, psu=0):
