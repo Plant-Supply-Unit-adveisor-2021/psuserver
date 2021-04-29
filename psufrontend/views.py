@@ -60,25 +60,7 @@ def register_psu_view(request):
     return render(request, 'psufrontend/register_psu.html', {'form':form})
 
 @login_required
-def table_view(request):
-     data_all = DataMeasurement.objects.all()
-
-     paginator = Paginator(data_all, 30)
-
-     page = request.GET.get('page')
-
-     datas = paginator.get_page(page)
-
-     myFilter = DataMeasurementFilter(request.GET, queryset=data_all)
-     data_all = myFilter.qs
-
-     context = {'datas': datas, 'myFilter': myFilter}
-
-     return render(request, 'psufrontend/table.html', context)
-
-@login_required
-def table_filter(request, *, psu=0):
-    # checking for which PSU the data should be displayed
+def table_view(request, *, psu=0):
     psus = get_psus_with_permission(request.user, 1)
     if len(psus) == 0:
         # display view later
@@ -95,5 +77,14 @@ def table_filter(request, *, psu=0):
 
     data_filter = DataMeasurement.objects.filter(psu=sel_psu)
 
-    return render(request)
+    paginator = Paginator(data_filter, 30)
 
+    page = request.GET.get('page')
+
+    datas = paginator.get_page(page)
+
+    #myFilter = DataMeasurementFilter(request.GET, queryset=data_all)
+
+    context = {'datas': datas, "psus": psus}
+
+    return render(request, 'psufrontend/table.html', context)

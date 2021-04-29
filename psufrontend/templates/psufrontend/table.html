@@ -2,18 +2,7 @@
 
 
 {% block body %}
-  <br>
-  <div class="row">
-    <div class="col">
-      <div class="card card-body">
-        <form method="get">
-          {{myFilter.form}}
-          <button class="btn btn primary" type="submit">Search</button>
-        </form>
-      </div>
-    </div>
-  </div>
-  </br>
+
 
   <table class="table-striped">
     <thead>
@@ -38,6 +27,12 @@
             <td class="align-center">{{ d.fill_level }}</td>
           </tr>
         {% endfor %}
+
+        <div class="psuf" id="psuf">
+          {% for p in psus %}
+            PSU: <a id="table" href="{% url 'psufrontend:table_view' psu=p.id %}">{{ p.id }}</a>
+          {% endfor %}
+        </div>
 
         <div class="pagination">
             <span class="step-links">

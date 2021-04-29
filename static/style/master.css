@@ -684,3 +684,9 @@ a#table:hover, a#table:active {
     background-color: #3CB371;
     color: white;
 }
+
+.psuf {
+    text-align: middle;
+    position: relative;
+    margin-bottom: 10px;
+}
