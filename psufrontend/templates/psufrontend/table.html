@@ -28,10 +28,14 @@
           </tr>
         {% endfor %}
 
-        <div class="psuf" id="psuf">
-          {% for p in psus %}
-            PSU: <a id="table" href="{% url 'psufrontend:table_view' psu=p.id %}">{{ p.id }}</a>
-          {% endfor %}
+        <div class="psufilter">
+          <p id="psu"> You are currently viewing the data of PSU 1 </p>
+          <p id="psu"> Select PSU </p>
+          <div id="psu">
+            {% for p in psus %}
+              <a id="table" href="{% url 'psufrontend:table_view' psu=p.id %}">PSU: {{ p.id }}</a>
+            {% endfor %}
+          </div>
         </div>
 
         <div class="pagination">
@@ -42,7 +46,7 @@
               {% endif %}
 
               <span class="current">
-                  Page {{ datas.number }} of {{ datas.paginator.num_pages }}.
+                  Page {{ datas.number }} of {{ datas.paginator.num_pages }}
               </span>
 
               {% if datas.has_next %}

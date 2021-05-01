@@ -11,8 +11,6 @@ from psucontrol.models import PSU, PendingPSU, DataMeasurement
 from psucontrol.utils import get_psus_with_permission
 from django.views.generic import ListView
 
-from .filters import DataMeasurementFilter
-
 
 # Create your views here.
 

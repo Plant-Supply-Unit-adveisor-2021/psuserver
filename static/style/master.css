@@ -685,8 +685,26 @@ a#table:hover, a#table:active {
     color: white;
 }
 
-.psuf {
-    text-align: middle;
+span.current {
+    padding: 10px;
+    font-family: Comic Sans MS;
+}
+
+.psufilter {
     position: relative;
-    margin-bottom: 10px;
+    font-family: Comic Sans MS;
+}
+
+#psu {
+    position: relative;
+}
+
+p#psu {
+    margin: 0;
+    padding: 0.25em 0em;
+}
+
+
+div#psu {
+    height: 23.48px;
 }
