@@ -492,7 +492,7 @@ a#nav-main-logo, a#nav-main-logo :visited{
 
 a#nav-main-logo :hover, a#nav-main-logo :focus{
     text-decoration: none;
-    background-color: ;
+    background-color: var(--header-bcolor) ;
 }
 
 
