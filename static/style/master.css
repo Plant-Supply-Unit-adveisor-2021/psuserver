@@ -69,8 +69,8 @@
 
     --messages-bcolor: #ddd;
     --messages-fcolor: #111;
-    --messages-success-fcolor: #0a0;
-    --messages-error-fcolor: #b00;
+    --messages-success-bcolor: #87d25c;
+    --messages-error-bcolor: #f06b6b;
 
     --nav-main-hover: #A2AD00;
 }
@@ -613,10 +613,6 @@ a#nav-user-toggle.logged-in::after {
 
 ul.messages {
     display: block;
-
-    position: relative;
-    /* move to the very top of the body wrapper */
-    top: -2rem;
 
     margin: 0 0 1rem 0;
     border: 0;

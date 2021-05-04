@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans 'Page Not Found' %} - Plant Supply Unit{% endblock title %}
+
+{% block body %}
+<h2>{% trans 'Sorry. We could not find the page you were looking for.' %}</h2>
+<p>{% trans 'Probably you are using a deprecated link. If you think this page should exist, please contact an admin.' %}</p>
+<p>{% trans 'The following error message was generated:' %} {{ exception }}</p>
+{% endblock %}
