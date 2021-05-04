@@ -10,7 +10,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>{% block title %}Plant Supply Unit{% endblock title %}</title>
-        <link rel="shortcut icon" type="image/png" href="{% static 'serveronly/favicon.png' %}"/>
+        <!--<link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>-->
 
         <!-- master stylesheet -->
         <link rel="stylesheet" href="{% static 'style/master.css' %}">
@@ -22,9 +22,25 @@
     </head>
     <body>
         <header id="mainheader">
-            {% block header %}
-                <div id="nav-main">{% trans "Welcome to Team Plant Supply Unit" %}</div>
-            {% endblock %}
+            <!-- navigation bar -->
+                <div id="nav-main">
+                    <!-- logo on the left -->
+                    <a id="nav-main-logo" href="{% url 'homepage:index' %}"></a>
+                    {% if user.is_authenticated %} 
+                        <!-- navigation when user is logged in -->
+                        <a class="nav-main-element" href="">{% trans "Dashboard" %}</a>
+                        <div id="nav-psu" class="nav-drop-down">
+                            <a id="nav-psu-toggle"  class="toggle nav-main-element" onClick="toggleDropDown('nav-psu');">PSUs</a>
+                            <div id="nav-psu-drop-down" class="drop-down">
+                                <a href="" class="drop-down-element">{% trans "Measurements" %}</a>
+                                <a href="{% url 'psufrontend:register_psu' %}" class="drop-down-element">{% trans "Register PSU" %}</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <!-- navigation when user is logged out -->
+                        <span class="nav-main-element">{% trans "Welcome to Team Plant Supply Unit" %}</span>
+                    {% endif %}
+                </div>
             <div id="nav-user">
                 <a id="nav-user-toggle" class="toggle {% if user.is_authenticated %}logged-in{% endif %}" onClick="toggleDropDown('nav-user');"></a>
                 <div id="nav-user-drop-down" class="drop-down">
