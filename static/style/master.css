@@ -71,6 +71,8 @@
     --messages-fcolor: #111;
     --messages-success-fcolor: #0a0;
     --messages-error-fcolor: #b00;
+
+    --nav-main-hover: #A2AD00;
 }
 
 /*
@@ -442,52 +444,9 @@ header#mainheader {
     background-color: var(--header-bcolor);
     color: var(--header-fcolor);
 
-    font-size: 1.4rem;
+    font-size: 1.5rem;
 
     display: flex;
-}
-
-header#mainheader div#nav-main {
-    display: flex;
-    max-width: calc(100% - 4.5rem - 30px);
-    padding: 0 1rem;
-    margin: 0 auto 0 0;
-
-    background-color: var(--header-bcolor);
-}
-
-div#nav-main .nav-main-element {
-    padding: 1.25rem 1rem;
-}
-
-div#nav-main a.nav-main-element, div#nav-main a.nav-main-element:visited{
-    display: block;
-
-    color: var(--header-fcolor);
-    text-decoration: none;
-    font-weight: 500;
-}
-
-a.nav-main-element:hover,a.nav-main-element:focus{
-    color: var(--header-fcolor);
-    text-decoration: none;
-    background-color: #A2AD00;
-}
-
-
-/* Styling of logo at the left */
-a#nav-main-logo {
-    display: block;
-    
-    width: 5rem;
-    height: 100%;
-
-    margin: 0 1rem;
-    
-    background-image: url("../serveronly/logo_transparent.png");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
 }
 
 
@@ -524,44 +483,83 @@ footer#mainfooter a:focus, footer#mainfooter > a:hover {
 -------------------------------------------------------------------------------------------------
     main navigation
 -------------------------------------------------------------------------------------------------
+*/
 
+header#mainheader div#nav-main {
+    display: flex;
+    max-width: calc(100% - 4.5rem - 30px);
+    padding: 0 1rem;
+    margin: 0 auto 0 0;
 
-/*drop-down-psu*/
-
-
-div#nav-psu-drop-down {
-    position: absolute;
-    top: calc(31px + 1.4rem);
-    left: 200px;
+    background-color: var(--header-bcolor);
 }
 
-div#nav-psu-drop-down a, div#nav-psu-drop-down a:visited{
+div#nav-main .nav-main-element {
     display: block;
-    color: var(--dropdown-fcolor);
-    background-color: var(--dropdown-bcolor);
-    text-decoration: none;
-
-}
-div#nav-psu-drop-down a:hover, div#nav-psu-drop-down a:focus {
-    color: var(--dropdown-fcolor);
-    text-decoration: none;
-    background-color: var(--dropdown-bcolor-active);
+    padding: 1.25rem 1rem;
 }
 
+div#nav-main a.nav-main-element, div#nav-main a.nav-main-element:visited{
+    display: block;
+
+    color: var(--header-fcolor);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+div#nav-main a.nav-main-element:hover, div#nav-main a.nav-main-element:focus{
+    color: var(--header-fcolor);
+    text-decoration: none;
+    background-color: var(--nav-main-hover);
+}
+
+
+/* Styling of logo at the left */
+a#nav-main-logo {
+    display: block;
+    
+    width: 5rem;
+    height: 100%;
+
+    margin: 0 1rem;
+    
+    background-image: url("../serveronly/logo_transparent.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+
+/* Styling of menu drop-downs */
+
+div.nav-drop-down {
+    display: block;
+    position: relative;
+}
+
+div.nav-drop-down .toggle {
+    cursor: pointer;
+}
+
+div.nav-drop-down .drop-down {
+    position: absolute;
+    left: 0;
+}
 
 
 /* user menu */
 div#nav-user {
-    /*position: absolute;
-    top: 13px;
-    right: 30px;*/
+    display: block;
+    position: relative;
+
+    padding: 0;
     margin: auto 1rem auto 0;
 }
 
 div#nav-user-drop-down {
     position: absolute;
-    top: calc(31px + 1.4rem);
-    right: -10px;
+    top: 58px;
+    right: 0px;
 }
 
 
