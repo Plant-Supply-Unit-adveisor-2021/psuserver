@@ -476,7 +476,7 @@ div#nav-main a, div#nav-main a:visited{
     background-color: #A2AD00;
 }*/
 
-a#nav-main-background a:hover, a#nav-main-background a:focus{
+a.nav-main-background:hover,a.nav-main-background:focus{
     color: var(--header-fcolor);
     text-decoration: none;
     background-color: #A2AD00;

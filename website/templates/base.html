@@ -27,9 +27,9 @@
                         {% if user.is_authenticated %} 
                         
                             <a id="nav-main-logo" href="{% url 'homepage:index' %}"> </a>
-                            <a id="nav-main-background" href="{% url 'psufrontend:register_psu' %}" >{% trans "Choice" %}</a>
+                            <a class="nav-main-background" href="{% url 'psufrontend:register_psu' %}" >{% trans "Choice" %}</a>
                             <span id="nav-psu">
-                                <a id ="nav-main-background" id="nav-psu-toggle"  class="toggle" onClick="toggleDropDown('nav-psu');">PSU</a>
+                                <a id="nav-psu-toggle"  class="toggle nav-main-background" onClick="toggleDropDown('nav-psu');">PSU</a>
                                 <div id="nav-psu-drop-down" class="drop-down">
                                     {% if user.is_staff %}<a href="{% url 'psufrontend:register_psu' %}" class="drop-down-element">{% trans "New PSU" %}</a>{% endif %}
                                     <a href="{% url 'auth:edit_profile' %}" class="drop-down-element">{% trans "Status PSU" %}</a>
