@@ -69,8 +69,8 @@
 
     --messages-bcolor: #ddd;
     --messages-fcolor: #111;
-    --messages-success-bcolor: #a5ff71;
-    --messages-error-bcolor: #ff5c5c;
+    --messages-success-fcolor: #0a0;
+    --messages-error-fcolor: #b00;
 }
 
 /*
@@ -448,57 +448,47 @@ header#mainheader {
 }
 
 header#mainheader div#nav-main {
+    display: flex;
     max-width: calc(100% - 4.5rem - 30px);
-    background-color: var(--header-bcolor);
-    display: inline;
+    padding: 0 1rem;
+    margin: 0 auto 0 0;
 
-    
-    /*padding: 10px 10px;*/                  
+    background-color: var(--header-bcolor);
 }
 
-div#nav-main a, div#nav-main a:visited{
-    display: inline-block;
+div#nav-main .nav-main-element {
+    padding: 1.25rem 1rem;
+}
+
+div#nav-main a.nav-main-element, div#nav-main a.nav-main-element:visited{
+    display: block;
+
     color: var(--header-fcolor);
     text-decoration: none;
     font-weight: 500;
-    padding: 1vw;
-
-    position: relative;
-    top: 0px;
-    left: 10px;
-    
 }
 
-/*div#nav-main a:hover, div#nav-main a:focus {
-    
-    color: var(--header-fcolor);
-    text-decoration: none;
-    background-color: #A2AD00;
-}*/
-
-a.nav-main-background:hover,a.nav-main-background:focus{
+a.nav-main-element:hover,a.nav-main-element:focus{
     color: var(--header-fcolor);
     text-decoration: none;
     background-color: #A2AD00;
 }
 
+
+/* Styling of logo at the left */
 a#nav-main-logo {
-    display: inline-block;
+    display: block;
     
-    width: 2.7rem;
-    height: 1.65rem;
+    width: 5rem;
+    height: 100%;
+
+    margin: 0 1rem;
     
     background-image: url("../serveronly/logo_transparent.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
-
-    position: relative;
-    vertical-align: middle;   
 }
-
-
-
 
 
 /* Footer */
@@ -562,9 +552,10 @@ div#nav-psu-drop-down a:hover, div#nav-psu-drop-down a:focus {
 
 /* user menu */
 div#nav-user {
-    position: absolute;
+    /*position: absolute;
     top: 13px;
-    right: 30px;
+    right: 30px;*/
+    margin: auto 1rem auto 0;
 }
 
 div#nav-user-drop-down {
@@ -587,7 +578,7 @@ a#nav-user-toggle, a#nav-user-toggle:visited {
     background-image: url("../icons/user_logged_out.png");
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: contain;
     opacity: 0.7;
 
     cursor: pointer;
