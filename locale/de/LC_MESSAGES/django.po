@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-09 14:22+0200\n"
+"POT-Creation-Date: 2021-05-05 23:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -129,7 +129,7 @@ msgid "Welcome"
 msgstr "Willkommen"
 
 #: .\authentication\templates\authentication\after_register.html:7
-#: .\website\templates\base.html:26
+#: .\website\templates\base.html:41
 msgid "Welcome to Team Plant Supply Unit"
 msgstr "Willkommen beim Team Plant Supply Unit"
 
@@ -148,7 +148,7 @@ msgid "Edit User"
 msgstr "Profil bearbeiten"
 
 #: .\authentication\templates\authentication\edit_profile.html:9
-#: .\website\templates\base.html:33
+#: .\website\templates\base.html:49
 msgid "Edit Profile"
 msgstr "Profil bearbeiten"
 
@@ -163,13 +163,13 @@ msgstr "Sichern"
 
 #: .\authentication\templates\authentication\login.html:4
 #: .\authentication\templates\authentication\login.html:10
-#: .\website\templates\base.html:36
+#: .\website\templates\base.html:52
 msgid "Login"
 msgstr "Einloggen"
 
 #: .\authentication\templates\authentication\register.html:4
 #: .\authentication\templates\authentication\register.html:11
-#: .\website\templates\base.html:37
+#: .\website\templates\base.html:53
 msgid "Register"
 msgstr "Registrieren"
 
@@ -382,6 +382,7 @@ msgstr ""
 "nochmal."
 
 #: .\psufrontend\templates\psufrontend\register_psu.html:4
+#: .\website\templates\base.html:36
 msgid "Register PSU"
 msgstr "PSU Registrieren"
 
@@ -444,10 +445,18 @@ msgstr ""
 "Eventuell nutzt du einen veralteten Link. Wenn du der Überzeugung bist, dass "
 "diese Seite existieren sollte, kontaktiere bitte einen Admin."
 
-#: .\website\templates\base.html:32
+#: .\website\templates\base.html:31
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: .\website\templates\base.html:35
+msgid "Measurements"
+msgstr "Datenmessungen"
+
+#: .\website\templates\base.html:48
 msgid "Administration"
 msgstr "Administration"
 
-#: .\website\templates\base.html:34
+#: .\website\templates\base.html:50
 msgid "Logout"
 msgstr "Ausloggen"
