@@ -32,7 +32,7 @@ class PSU(models.Model):
                                              blank=True)
 
     def __str__(self):
-        return '{:02d} - {}  --  {}'.format(self.id, self.name, self.owner)
+        return '{:02d} - {} ({})'.format(self.id, self.name, self.owner)
 
     class Meta:
         verbose_name = _('Plant Supply Unit')
