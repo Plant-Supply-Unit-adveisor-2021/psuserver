@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-05 23:28+0200\n"
+"POT-Creation-Date: 2021-05-07 00:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -218,7 +218,8 @@ msgid "permitted users"
 msgstr "Berechtigte Benutzer:innen"
 
 #: .\psucontrol\models.py:38 .\psucontrol\models.py:70
-#: .\psucontrol\models.py:101 .\psucontrol\models.py:173
+#: .\psucontrol\models.py:101 .\psucontrol\models.py:166
+#: .\psucontrol\models.py:215
 msgid "Plant Supply Unit"
 msgstr "Pflanzenpflegestation"
 
@@ -243,7 +244,7 @@ msgid "Pending Plant Supply Units"
 msgstr "schwebende Pflanzenpflegestationen"
 
 #: .\psucontrol\models.py:73 .\psucontrol\models.py:104
-#: .\psucontrol\models.py:178
+#: .\psucontrol\models.py:175 .\psucontrol\models.py:220
 msgid "timestamp"
 msgstr "Zeitstempel"
 
@@ -287,31 +288,71 @@ msgstr "Bild von einer Pflanzenpflegestation"
 msgid "PSU Images"
 msgstr "Bilder von Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:170
+#: .\psucontrol\models.py:149
+msgid "canceled"
+msgstr "abgebrochen"
+
+#: .\psucontrol\models.py:150
+msgid "scheduled"
+msgstr "geplant"
+
+#: .\psucontrol\models.py:151
+msgid "approved"
+msgstr "freigegeben"
+
+#: .\psucontrol\models.py:152
+msgid "transmitted"
+msgstr "gesendet"
+
+#: .\psucontrol\models.py:153
+msgid "done"
+msgstr "abgeschlossen"
+
+#: .\psucontrol\models.py:169
+msgid "status"
+msgstr "Status"
+
+#: .\psucontrol\models.py:172
+msgid "amount"
+msgstr "Menge"
+
+#: .\psucontrol\models.py:178
+msgid "execution timestamp"
+msgstr "Ausführungszeitstempel"
+
+#: .\psucontrol\models.py:185
+msgid "Watering Task"
+msgstr "Bewässerungsauftrag"
+
+#: .\psucontrol\models.py:186
+msgid "Watering Tasks"
+msgstr "Bewässerungsaufträge"
+
+#: .\psucontrol\models.py:212
 msgid "classification"
 msgstr "Einstufung"
 
-#: .\psucontrol\models.py:175
+#: .\psucontrol\models.py:217
 msgid "psu identity key"
 msgstr "PSU Identitätsschlüssel"
 
-#: .\psucontrol\models.py:181
+#: .\psucontrol\models.py:223
 msgid "request uri"
 msgstr "Anfrage URI"
 
-#: .\psucontrol\models.py:184
+#: .\psucontrol\models.py:226
 msgid "request"
 msgstr "Anfrage"
 
-#: .\psucontrol\models.py:187
+#: .\psucontrol\models.py:229
 msgid "repsonse"
 msgstr "Antwort"
 
-#: .\psucontrol\models.py:195
+#: .\psucontrol\models.py:237
 msgid "Log Entry"
 msgstr "Logeintrag"
 
-#: .\psucontrol\models.py:196
+#: .\psucontrol\models.py:238
 msgid "Log Entries"
 msgstr "Logeinträge"
 
@@ -350,6 +391,14 @@ msgstr "Es gibt bereits eine Messung mit diesem Zeitstempel."
 #: .\psucontrol\views.py:36
 msgid "Failed to upload new image."
 msgstr "Fehler beim Hochladen des Kamerabildes"
+
+#: .\psucontrol\views.py:38
+msgid "No watering task available."
+msgstr "Kein Bewässerungsauftrag vorhanden."
+
+#: .\psucontrol\views.py:39
+msgid "Failed to mark watering task as done."
+msgstr "Fehler beim Markieren des Bewässserungsauftrag als abgeschlossen."
 
 #: .\psufrontend\apps.py:7
 msgid "PSU Frontend"
