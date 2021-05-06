@@ -3,6 +3,7 @@ from django.db import transaction
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.primitives import serialization, hashes
 import base64
+from time import sleep
 
 from website.utils import get_test_user
 from psucontrol.models import PSU, PendingPSU, DataMeasurement, PSUImage, WateringTask, CommunicationLogEntry
@@ -25,8 +26,9 @@ class PSUCommunicationTestCase(TransactionTestCase):
         self.psu = PSU.objects.create(name='TEST-PSU', identity_key='test-key', public_rsa_key=pub_rsa_str, owner=get_test_user())
 
         # create two WateringTasks for testing
-        WateringTask.objects.create(psu=self.psu, amount=500)
-        WateringTask.objects.create(psu=self.psu, amount=200)
+        self.wt1 = WateringTask.objects.create(psu=self.psu, amount=500)
+        sleep(0.1)
+        self.wt2 = WateringTask.objects.create(psu=self.psu, amount=200)
     
 
     def get_signed_msg(self,* ,client=None):
@@ -397,21 +399,21 @@ class PSUCommunicationTestCase(TransactionTestCase):
         res = self.check_status(uri, True, data=data, client=c)
 
         # check whether correct task was returned
-        self.check_dict_value(uri, data, res, "watering_task_id", 2)
+        self.check_dict_value(uri, data, res, "watering_task_id", self.wt2.id)
         self.check_dict_value(uri, data, res, "watering_task_amount", 200)
 
         # check whether things in the database are correct
-        wt_active = WateringTask.objects.first()
-        self.failUnlessEqual(wt_active.status, 10, 'The first WateringTask has status {} but should have 10.'.format(wt_active.status))
-        wt_canceled = WateringTask.objects.last()
-        self.failUnlessEqual(wt_active.status, -10, 'The last WateringTask has status {} but should have -10.'.format(wt_canceled.status))
+        self.wt1.refresh_from_db()
+        self.wt2.refresh_from_db()
+        self.failUnlessEqual(self.wt1.status, -10, 'The first WateringTask has status {} but should have -10.'.format(self.wt1.status))
+        self.failUnlessEqual(self.wt2.status, 10, 'The last WateringTask has status {} but should have 10.'.format(self.wt2.status))
 
         # Try getting the task another task -> should be successful
         data['signed_challenge'] = self.get_signed_msg()
         res = self.check_status(uri, True, data=data, client=c)
 
         # check whether correct task was returned
-        self.check_dict_value(uri, data, res, "watering_task_id", 2)
+        self.check_dict_value(uri, data, res, "watering_task_id", self.wt2.id)
         self.check_dict_value(uri, data, res, "watering_task_amount", 200)
 
         """
@@ -439,25 +441,25 @@ class PSUCommunicationTestCase(TransactionTestCase):
 
         # Try marking a wrong watering task as done
         data['signed_challenge'] = self.get_signed_msg()
-        data['watering_task_id'] = 1
+        data['watering_task_id'] = str(self.wt1.id)
         self.check_error_code(uri, '0xW2', data=data, client=c)
 
         # check whether things in the database are correct
-        wt_active = WateringTask.objects.first()
-        self.failUnlessEqual(wt_active.status, 10, 'The first WateringTask has status {} but should have 10.'.format(wt_active.status))
-        wt_canceled = WateringTask.objects.last()
-        self.failUnlessEqual(wt_active.status, -10, 'The last WateringTask has status {} but should have -10.'.format(wt_canceled.status))
+        self.wt1.refresh_from_db()
+        self.wt2.refresh_from_db()
+        self.failUnlessEqual(self.wt1.status, -10, 'The first WateringTask has status {} but should have -10.'.format(self.wt1.status))
+        self.failUnlessEqual(self.wt2.status, 10, 'The last WateringTask has status {} but should have 10.'.format(self.wt2.status))
 
         # Test whether watering task was marked as done
         data['signed_challenge'] = self.get_signed_msg()
-        data['watering_task_id'] = 2
+        data['watering_task_id'] = str(self.wt2.id)
         self.check_status(uri, True, data=data, client=c)
 
         # check whether things in the database are correct
-        wt_active = WateringTask.objects.first()
-        self.failUnlessEqual(wt_active.status, 20, 'The first WateringTask has status {} but should have 20.'.format(wt_active.status))
-        wt_canceled = WateringTask.objects.last()
-        self.failUnlessEqual(wt_active.status, -10, 'The last WateringTask has status {} but should have -10.'.format(wt_canceled.status))
+        self.wt1.refresh_from_db()
+        self.wt2.refresh_from_db()
+        self.failUnlessEqual(self.wt1.status, -10, 'The first WateringTask has status {} but should have -10.'.format(self.wt1.status))
+        self.failUnlessEqual(self.wt2.status, 20, 'The last WateringTask has status {} but should have 20.'.format(self.wt2.status))
 
         uri = '/psucontrol/get_watering_task'
 

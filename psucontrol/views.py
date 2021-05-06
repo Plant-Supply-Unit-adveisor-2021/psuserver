@@ -16,7 +16,7 @@ from django.utils.timezone import make_aware
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-from psucontrol.models import PendingPSU, PSU, DataMeasurement, PSUImage, CommunicationLogEntry
+from psucontrol.models import PendingPSU, PSU, DataMeasurement, PSUImage, WateringTask, CommunicationLogEntry
 
 
 # Create your views here.
@@ -34,6 +34,9 @@ ERROR_CODES = {
     '0xD3': gettext_noop('Problems with timestamp or making timestamp timezone aware.'),
     '0xD4': gettext_noop('The timestamp already exists for this PSU'),
     '0xD5': gettext_noop('Failed to upload new image.'),
+    # W - Watering
+    '0xW1': gettext_noop('No watering task available.'),
+    '0xW2': gettext_noop('Failed to mark watering task as done.'),
 }
 
 
@@ -331,7 +334,26 @@ def get_watering_task(request):
                 # return authentication error
                 return respond_n_log(request, json_error_response('0xA2'), CommunicationLogEntry.Level.ERROR, psu=psu)
 
-            return respond_n_log(request, {'status', 'None'}, CommunicationLogEntry.Level.MINOR_INFO)
+            # get all open watering tasks for this PSU
+            tasks = WateringTask.objects.filter(psu=psu, status__in=[0, 10])
+
+            if len(tasks) == 0:
+                # return no tasks available error
+                return respond_n_log(request, json_error_response('0xW1'), CommunicationLogEntry.Level.MINOR_INFO)
+            
+            # save first watering task
+            task = tasks[0]
+
+            # cancel all tasks
+            for t in tasks:
+                # chancel task
+                t.status = -10
+                t.save()
+
+            # set status of task to be send to transmitted
+            task.status = 10
+            task.save()
+            return respond_n_log(request, {'status': 'ok', 'watering_task_id': task.id, 'watering_task_amount': task.amount}, CommunicationLogEntry.Level.MINOR_INFO)
 
         except KeyError:
             # return bad request
@@ -361,8 +383,20 @@ def mark_watering_task_executed(request):
                 # return authentication error
                 return respond_n_log(request, json_error_response('0xA2'), CommunicationLogEntry.Level.ERROR, psu=psu)
 
-            return respond_n_log(request, {'status', 'None'}, CommunicationLogEntry.Level.MINOR_INFO)
+            task = WateringTask.objects.get(id=request.POST['watering_task_id'])
+            
+            if not task.psu == psu or task.status != 10:
+                # return failed to mark watering task as done error
+                return respond_n_log(request, json_error_response('0xW2'), CommunicationLogEntry.Level.ERROR)
 
+            task.status = 20
+            task.timestamp_execution = make_aware(datetime.now())
+            task.save()
+            return respond_n_log(request, {'status': 'ok'}, CommunicationLogEntry.Level.MINOR_INFO)
+
+        except WateringTask.DoesNotExist:
+            # return failed to mark watering task as done error
+            return respond_n_log(request, json_error_response('0xW2'), CommunicationLogEntry.Level.ERROR)
         except KeyError:
             # return bad request
             return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MAJOR_ERROR)
