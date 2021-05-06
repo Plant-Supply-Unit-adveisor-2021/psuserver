@@ -42,7 +42,7 @@ class PSUImageAdmin(admin.ModelAdmin):
 class WateringTaskAdmin(admin.ModelAdmin):
     model = WateringTask
 
-    list_display = ['timestamp', 'status', 'amount', 'psu']
+    list_display = ['id', 'timestamp', 'status', 'amount', 'psu']
     list_filter = ['psu', 'status']
     search_fields = ['psu__id', 'psu__name', 'psu__owner__email', 'psu__owner__last_name', 'psu__owner__first_name', 'status']
 

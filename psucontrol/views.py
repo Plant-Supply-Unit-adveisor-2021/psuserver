@@ -308,3 +308,64 @@ def add_image(request):
     else:
         # return bad request type
         return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MINOR_ERROR)
+
+
+@csrf_exempt
+@require_POST
+def get_watering_task(request):
+    """
+    view to handle to ge the most recent watering task
+    ALL others will be set to canceled
+    """
+    if request.POST:
+        try:
+            # identification of the PSU
+            psu = identify_psu(request.POST['identity_key'])
+
+            if psu is None:
+                # return identification error
+                return respond_n_log(request, json_error_response('0xA1'), CommunicationLogEntry.Level.ERROR)
+
+            # authenticate PSU
+            if not authenticate_psu(psu, request.POST['signed_challenge']):
+                # return authentication error
+                return respond_n_log(request, json_error_response('0xA2'), CommunicationLogEntry.Level.ERROR, psu=psu)
+
+            return respond_n_log(request, {'status', 'None'}, CommunicationLogEntry.Level.MINOR_INFO)
+
+        except KeyError:
+            # return bad request
+            return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MAJOR_ERROR)
+    else:
+        # return bad request type
+        return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MINOR_ERROR)
+
+
+@csrf_exempt
+@require_POST
+def mark_watering_task_executed(request):
+    """
+    view to handle the information of a psu that the watering task was executed
+    """
+    if request.POST:
+        try:
+            # identification of the PSU
+            psu = identify_psu(request.POST['identity_key'])
+
+            if psu is None:
+                # return identification error
+                return respond_n_log(request, json_error_response('0xA1'), CommunicationLogEntry.Level.ERROR)
+
+            # authenticate PSU
+            if not authenticate_psu(psu, request.POST['signed_challenge']):
+                # return authentication error
+                return respond_n_log(request, json_error_response('0xA2'), CommunicationLogEntry.Level.ERROR, psu=psu)
+
+            return respond_n_log(request, {'status', 'None'}, CommunicationLogEntry.Level.MINOR_INFO)
+
+        except KeyError:
+            # return bad request
+            return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MAJOR_ERROR)
+    else:
+        # return bad request type
+        return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MINOR_ERROR)

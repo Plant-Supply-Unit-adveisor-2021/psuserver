@@ -159,6 +159,9 @@ class WateringTask(models.Model):
     model to store current and past watering tasks
     """
 
+    # id of the task for identification purposes
+    id = models.BigAutoField(primary_key=True)
+
     # field for storing the concerning PSU
     psu = models.ForeignKey(PSU, models.CASCADE, verbose_name=_('Plant Supply Unit'))
 
@@ -175,8 +178,8 @@ class WateringTask(models.Model):
     timestamp_execution = models.DateTimeField(_('execution timestamp'), blank=True, null=True)
 
     def __str__(self):
-        return 'WT {} - {}'.format(self.psu,
-                                   self.timestamp.strftime('%d.%m.%Y %H:%M:%S'))
+        return 'WT{} {} - {}'.format(self.id, self.psu,
+                                     self.timestamp.strftime('%d.%m.%Y %H:%M:%S'))
 
     class Meta:
         verbose_name = _('Watering Task')
