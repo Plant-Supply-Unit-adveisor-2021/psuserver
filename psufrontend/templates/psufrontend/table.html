@@ -29,8 +29,7 @@
         {% endfor %}
 
         <div class="psufilter">
-          <p id="psu"> You are currently viewing the data of PSU 1 </p>
-          <p id="psu"> Select PSU </p>
+          <p id="psu"> Please select your PSU: </p>
           <div id="psu">
             {% for p in psus %}
               <a id="psubutton" href="{% url 'psufrontend:table_view' psu=p.id %}">{{ p.name}}:{{ p.owner }} {{ p.id }}</a>
