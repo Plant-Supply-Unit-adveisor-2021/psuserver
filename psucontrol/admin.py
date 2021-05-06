@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from psucontrol.models import PSU, PendingPSU, DataMeasurement, PSUImage, CommunicationLogEntry
+from psucontrol.models import PSU, PendingPSU, DataMeasurement, PSUImage, WateringTask, CommunicationLogEntry
 
 
 # Register your models here.
@@ -36,6 +36,15 @@ class PSUImageAdmin(admin.ModelAdmin):
     list_display = ['psu', 'timestamp', 'image']
     list_filter = ['psu']
     search_fields = ['psu__id', 'psu__name', 'psu__owner__email', 'psu__owner__last_name', 'psu__owner__first_name']
+
+
+@admin.register(WateringTask)
+class WateringTaskAdmin(admin.ModelAdmin):
+    model = WateringTask
+
+    list_display = ['timestamp', 'status', 'amount', 'psu']
+    list_filter = ['psu', 'status']
+    search_fields = ['psu__id', 'psu__name', 'psu__owner__email', 'psu__owner__last_name', 'psu__owner__first_name', 'status']
 
 
 @admin.register(CommunicationLogEntry)

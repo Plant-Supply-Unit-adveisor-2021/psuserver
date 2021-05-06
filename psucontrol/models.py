@@ -145,6 +145,45 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
         os.remove(old_file.path)
 
 
+WATERING_STATUS_CHOICES = [
+    (-10, _('canceled')),
+    (0, _('scheduled')),
+    (5, _('approved')),
+    (10, _('received')),
+    (20, _('done')),
+]
+
+
+class WateringTask(models.Model):
+    """
+    model to store current and past watering tasks
+    """
+
+    # field for storing the concerning PSU
+    psu = models.ForeignKey(PSU, models.CASCADE, verbose_name=_('Plant Supply Unit'))
+
+    # field for storing the status
+    status = models.IntegerField(_('status'), choices=WATERING_STATUS_CHOICES)
+
+    # field for storing the amount in milliliters to be used
+    amount = models.IntegerField(_('amount'))
+
+    # timestamp of the creation
+    timestamp = models.DateTimeField(_('timestamp'), auto_now_add=True)
+
+    # timestamp of the execution
+    timestamp_execution = models.DateTimeField(_('execution timestamp'), blank=True, null=True)
+
+    def __str__(self):
+        return 'WT {} - {}'.format(self.psu,
+                                   self.timestamp.strftime('%d.%m.%Y %H:%M:%S'))
+
+    class Meta:
+        verbose_name = _('Watering Task')
+        verbose_name_plural = _('Watering Tasks')
+        ordering = ['-timestamp', 'status']
+
+
 class CommunicationLogEntry(models.Model):
     """
     model to log the communication between the server and the PSUs
