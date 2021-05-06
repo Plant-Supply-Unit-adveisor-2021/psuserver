@@ -392,10 +392,6 @@ class PSUCommunicationTestCase(TransactionTestCase):
         data = {'identity_key':self.psu.identity_key, 'signed_challenge': 'some weird challenge'}
         self.check_error_code(uri, '0xA2', data=data, client=c)
 
-        # Test error 0xB1 if wrong post data except auth stuff is given
-        data['signed_challenge'] = self.get_signed_msg()
-        self.check_error_code(uri, '0xB1', data=data, client=c)
-
         # Test the returned WateringTask and check wether other Task was canceled
         data['signed_challenge'] = self.get_signed_msg()
         res = self.check_status(uri, True, data=data, client=c)
