@@ -33,7 +33,7 @@
           <p id="psu"> Select PSU </p>
           <div id="psu">
             {% for p in psus %}
-              <a id="table" href="{% url 'psufrontend:table_view' psu=p.id %}">PSU: {{ p.id }}</a>
+              <a id="psubutton" href="{% url 'psufrontend:table_view' psu=p.id %}">{{ p.name}}:{{ p.owner }} {{ p.id }}</a>
             {% endfor %}
           </div>
         </div>
