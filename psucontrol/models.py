@@ -73,11 +73,11 @@ class DataMeasurement(models.Model):
     timestamp = models.DateTimeField(_('timestamp'))
 
     # data which is measured by a PSU
-    temperature = models.FloatField(_('temperature'))
-    air_humidity = models.FloatField(_('air humidity'))
-    ground_humidity = models.FloatField(_('ground humidity'))
-    brightness = models.FloatField(_('brightness'))
-    fill_level = models.FloatField(_('fill level'))
+    temperature = models.FloatField(_('temperature'), blank=True, null=True)
+    air_humidity = models.FloatField(_('air humidity'), blank=True, null=True)
+    ground_humidity = models.FloatField(_('ground humidity'), blank=True, null=True)
+    brightness = models.FloatField(_('brightness'), blank=True, null=True)
+    fill_level = models.FloatField(_('fill level'), blank=True, null=True)
 
     def __str__(self):
         return 'DM {} - {}'.format(self.psu, self.timestamp.strftime('%d.%m.%Y %H:%M:%S'))

@@ -206,6 +206,13 @@ def get_challenge(request):
         return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MINOR_ERROR)
 
 
+def none_or_float(value):
+    try:
+        return float(value)
+    except ValueError:
+        return None
+
+
 @csrf_exempt
 @require_POST
 def add_data_measurement(request):
@@ -229,11 +236,11 @@ def add_data_measurement(request):
             # try to create new DataMeasurement
             DataMeasurement(psu=psu,
                             timestamp=make_aware(datetime.strptime(request.POST['timestamp'], '%Y-%m-%d_%H-%M-%S')),
-                            temperature=float(request.POST['temperature']),
-                            air_humidity=float(request.POST['air_humidity']),
-                            ground_humidity=float(request.POST['ground_humidity']),
-                            brightness=float(request.POST['brightness']),
-                            fill_level=float(request.POST['fill_level'])).save()
+                            temperature=none_or_float(request.POST['temperature']),
+                            air_humidity=none_or_float(request.POST['air_humidity']),
+                            ground_humidity=none_or_float(request.POST['ground_humidity']),
+                            brightness=none_or_float(request.POST['brightness']),
+                            fill_level=none_or_float(request.POST['fill_level'])).save()
 
         except (NonExistentTimeError, ValueError):
             # return timezone error
