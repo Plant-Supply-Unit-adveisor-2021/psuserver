@@ -149,7 +149,7 @@ WATERING_STATUS_CHOICES = [
     (-10, _('canceled')),
     (0, _('scheduled')),
     (5, _('approved')),
-    (10, _('received')),
+    (10, _('transmitted')),
     (20, _('done')),
 ]
 
@@ -166,7 +166,7 @@ class WateringTask(models.Model):
     psu = models.ForeignKey(PSU, models.CASCADE, verbose_name=_('Plant Supply Unit'))
 
     # field for storing the status
-    status = models.IntegerField(_('status'), choices=WATERING_STATUS_CHOICES)
+    status = models.IntegerField(_('status'), choices=WATERING_STATUS_CHOICES, default=0)
 
     # field for storing the amount in milliliters to be used
     amount = models.IntegerField(_('amount'))
