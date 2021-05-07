@@ -26,9 +26,9 @@ class PSUCommunicationTestCase(TransactionTestCase):
         self.psu = PSU.objects.create(name='TEST-PSU', identity_key='test-key', public_rsa_key=pub_rsa_str, owner=get_test_user())
 
         # create two WateringTasks for testing
-        self.wt1 = WateringTask.objects.create(psu=self.psu, amount=500)
+        self.wt1 = WateringTask.objects.create(psu=self.psu, amount=500, status=5)
         sleep(0.1)
-        self.wt2 = WateringTask.objects.create(psu=self.psu, amount=200)
+        self.wt2 = WateringTask.objects.create(psu=self.psu, amount=200, status=5)
     
 
     def get_signed_msg(self,* ,client=None):

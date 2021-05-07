@@ -335,11 +335,11 @@ def get_watering_task(request):
                 return respond_n_log(request, json_error_response('0xA2'), CommunicationLogEntry.Level.ERROR, psu=psu)
 
             # get all open watering tasks for this PSU
-            tasks = WateringTask.objects.filter(psu=psu, status__in=[0, 10])
+            tasks = WateringTask.objects.filter(psu=psu, status__in=[5, 10])
 
             if len(tasks) == 0:
                 # return no tasks available error
-                return respond_n_log(request, json_error_response('0xW1'), CommunicationLogEntry.Level.MINOR_INFO)
+                return respond_n_log(request, json_error_response('0xW1'), CommunicationLogEntry.Level.MINOR_INFO, psu=psu)
             
             # save first watering task
             task = tasks[0]
@@ -353,7 +353,7 @@ def get_watering_task(request):
             # set status of task to be send to transmitted
             task.status = 10
             task.save()
-            return respond_n_log(request, {'status': 'ok', 'watering_task_id': task.id, 'watering_task_amount': task.amount}, CommunicationLogEntry.Level.MINOR_INFO)
+            return respond_n_log(request, {'status': 'ok', 'watering_task_id': task.id, 'watering_task_amount': task.amount}, CommunicationLogEntry.Level.MINOR_INFO, psu=psu)
 
         except KeyError:
             # return bad request
@@ -387,16 +387,16 @@ def mark_watering_task_executed(request):
             
             if not task.psu == psu or task.status != 10:
                 # return failed to mark watering task as done error
-                return respond_n_log(request, json_error_response('0xW2'), CommunicationLogEntry.Level.ERROR)
+                return respond_n_log(request, json_error_response('0xW2'), CommunicationLogEntry.Level.ERROR, psu=psu)
 
             task.status = 20
             task.timestamp_execution = make_aware(datetime.now())
             task.save()
-            return respond_n_log(request, {'status': 'ok'}, CommunicationLogEntry.Level.MINOR_INFO)
+            return respond_n_log(request, {'status': 'ok'}, CommunicationLogEntry.Level.MINOR_INFO, psu=psu)
 
         except WateringTask.DoesNotExist:
             # return failed to mark watering task as done error
-            return respond_n_log(request, json_error_response('0xW2'), CommunicationLogEntry.Level.ERROR)
+            return respond_n_log(request, json_error_response('0xW2'), CommunicationLogEntry.Level.ERROR, psu=psu)
         except KeyError:
             # return bad request
             return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MAJOR_ERROR)
