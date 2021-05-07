@@ -17,6 +17,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from psucontrol.models import PendingPSU, PSU, DataMeasurement, PSUImage, WateringTask, CommunicationLogEntry
+from psucontrol.watering import CalculateWatering
 
 
 # Create your views here.
@@ -258,6 +259,8 @@ def add_data_measurement(request):
             # return creation error
             return respond_n_log(request, json_error_response('0xD2'), CommunicationLogEntry.Level.ERROR, psu=psu)
 
+        # start thread to calculate the need of water and return status ok
+        CalculateWatering(psu).start()
         return respond_n_log(request, {'status': 'ok'}, CommunicationLogEntry.Level.MINOR_INFO, psu=psu)
     else:
         # return bad request type
