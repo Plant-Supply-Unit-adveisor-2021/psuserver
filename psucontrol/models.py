@@ -10,15 +10,15 @@ from authentication.models import User
 
 # Create your models here.
 
-class WateringAlgorithm(models.Model):
+class WateringParams(models.Model):
     """
     model holding the parameters for the watering alogrithm
     enables the capability to provide different params for different PSUs due to other plants, etc. 
     """
-    # id of the algorithm
+    # id of the watering params
     id = models.BigAutoField(primary_key=True)
 
-    # name describing the algorithm
+    # name describing the watering params
     name = models.CharField(_('name'), max_length=128)
 
     # parameters for the alogrithm
@@ -35,8 +35,8 @@ class WateringAlgorithm(models.Model):
         return '{} - {}'.format(self.id, self.name)
 
     class Meta:
-        verbose_name = _('Watering Algorithm')
-        verbose_name_plural = _('Watering Algorithms')
+        verbose_name = _('Watering Parameters')
+        verbose_name_plural = _('Watering Parameters')
         ordering = ['name']
 
 
@@ -62,7 +62,7 @@ class PSU(models.Model):
                                              blank=True)
 
     # fields needed to control the watering
-    watering_algorithm = models.ForeignKey(WateringAlgorithm, models.PROTECT, verbose_name=_('watering algorithm'), null=True, blank=True)
+    watering_params = models.ForeignKey(WateringParams, models.PROTECT, verbose_name=_('watering parameters'), null=True, blank=True)
     unauthorized_watering = models.BooleanField(_('unauthorized watering'), default=False)
 
     def __str__(self):

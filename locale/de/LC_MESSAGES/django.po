@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-07 11:50+0200\n"
+"POT-Creation-Date: 2021-05-07 13:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -233,13 +233,9 @@ msgstr "Multiplikator für den Ableitungsteil."
 msgid "Duration of one timestep."
 msgstr "Dauer eines Zeitschritts"
 
-#: .\psucontrol\models.py:38
-msgid "Watering Algorithm"
-msgstr "Bewässerungsalgorithmus"
-
-#: .\psucontrol\models.py:39
-msgid "Watering Algorithms"
-msgstr "Bewässerungsalgorithmen"
+#: .\psucontrol\models.py:38 .\psucontrol\models.py:39
+msgid "Watering Parameters"
+msgstr "Bewässerungsparameter"
 
 #: .\psucontrol\models.py:55 .\psucontrol\models.py:83
 msgid "identity key"
@@ -262,8 +258,8 @@ msgid "permitted users"
 msgstr "Berechtigte Benutzer:innen"
 
 #: .\psucontrol\models.py:65
-msgid "watering algorithm"
-msgstr "Bewässerungsalgorithmus"
+msgid "watering parameters"
+msgstr "Bewässerungsparameter"
 
 #: .\psucontrol\models.py:66
 msgid "unauthorized watering"
@@ -408,47 +404,47 @@ msgstr "Logeintrag"
 msgid "Log Entries"
 msgstr "Logeinträge"
 
-#: .\psucontrol\views.py:26
+#: .\psucontrol\views.py:27
 msgid "Failed to identify PSU"
 msgstr "Fehler beim Identifizieren der PSU"
 
-#: .\psucontrol\views.py:27
+#: .\psucontrol\views.py:28
 msgid "Failed to authenticate PSU"
 msgstr "Fehler beim Authentifizieren der PSU"
 
-#: .\psucontrol\views.py:28
+#: .\psucontrol\views.py:29
 msgid "Failed to deserialize public key"
 msgstr "Fehler beim einlesen des öffentlichen RSA Schlüssels"
 
-#: .\psucontrol\views.py:30
+#: .\psucontrol\views.py:31
 msgid "Bad request"
 msgstr "Anfrage nicht verwertbar"
 
-#: .\psucontrol\views.py:32
+#: .\psucontrol\views.py:33
 msgid "Failed to create new PSU"
 msgstr "Fehler beim Erstellen einer neuen PSU"
 
-#: .\psucontrol\views.py:33
+#: .\psucontrol\views.py:34
 msgid "Failed to create new data measurement"
 msgstr "Fehler beim Erstellen einer Messung"
 
-#: .\psucontrol\views.py:34
+#: .\psucontrol\views.py:35
 msgid "Problems with timestamp or making timestamp timezone aware."
 msgstr "Probleme mit dem Zeitstempel der Messung evtl. bzgl. Zeitzonen"
 
-#: .\psucontrol\views.py:35
+#: .\psucontrol\views.py:36
 msgid "The timestamp already exists for this PSU"
 msgstr "Es gibt bereits eine Messung mit diesem Zeitstempel."
 
-#: .\psucontrol\views.py:36
+#: .\psucontrol\views.py:37
 msgid "Failed to upload new image."
 msgstr "Fehler beim Hochladen des Kamerabildes"
 
-#: .\psucontrol\views.py:38
+#: .\psucontrol\views.py:39
 msgid "No watering task available."
 msgstr "Kein Bewässerungsauftrag vorhanden."
 
-#: .\psucontrol\views.py:39
+#: .\psucontrol\views.py:40
 msgid "Failed to mark watering task as done."
 msgstr "Fehler beim Markieren des Bewässserungsauftrag als abgeschlossen."
 
