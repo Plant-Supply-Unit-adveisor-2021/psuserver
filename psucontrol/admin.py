@@ -17,7 +17,7 @@ class PSUAdmin(admin.ModelAdmin):
     model = PSU
 
     list_display = ['id', 'name', 'owner', 'watering_algorithm', 'identity_key']
-    list_filter = ['owner', 'watering_algorithm']
+    list_filter = ['owner', 'watering_algorithm', 'unauthorized_watering']
     search_fields = ['id', 'name', 'owner', 'watering_algorithm__name', 'identity_key']
 
 

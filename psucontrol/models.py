@@ -63,7 +63,7 @@ class PSU(models.Model):
 
     # fields needed to control the watering
     watering_algorithm = models.ForeignKey(WateringAlgorithm, models.PROTECT, verbose_name=_('watering algorithm'), null=True, blank=True)
-    unauthored_watering = models.BooleanField(_('unauthored watering'), default=False)
+    unauthorized_watering = models.BooleanField(_('unauthorized watering'), default=False)
 
     def __str__(self):
         return '{:02d} - {} ({})'.format(self.id, self.name, self.owner)

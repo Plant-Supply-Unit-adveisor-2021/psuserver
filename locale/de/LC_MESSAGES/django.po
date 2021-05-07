@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-07 00:09+0200\n"
+"POT-Creation-Date: 2021-05-07 11:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -193,166 +193,218 @@ msgstr "Dein Passwort wurde erfolgreich geändert."
 msgid "PSU Control"
 msgstr "PSU Steuerung"
 
-#: .\psucontrol\models.py:22
+#: .\psucontrol\models.py:22 .\psucontrol\models.py:52
 msgid "name"
 msgstr "Name"
 
-#: .\psucontrol\models.py:25 .\psucontrol\models.py:49
+#: .\psucontrol\models.py:25
+msgid "ground humidity goal"
+msgstr "Bodenfeuchteziel"
+
+#: .\psucontrol\models.py:26
+msgid "light level limit"
+msgstr "Lichtniveaulimit"
+
+#: .\psucontrol\models.py:26
+msgid "Light limit to prevent watering in the mid of the night."
+msgstr "Lichtniveaulimit um das Gießen in der Nacht zu verhindern."
+
+#: .\psucontrol\models.py:27
+msgid "temperature limit"
+msgstr "Temperaturlimit"
+
+#: .\psucontrol\models.py:27
+msgid "Temperature limit to prevent watering in too hot periods."
+msgstr "Termperaturlimit um das Gießen in zu heißen Perioden zu vermeiden."
+
+#: .\psucontrol\models.py:29
+msgid "Multiplier for the proportional part."
+msgstr "Multiplikator für den proportionalen Teil."
+
+#: .\psucontrol\models.py:30
+msgid "Multiplier for the integral part."
+msgstr "Multiplikator für den integrativen Teil."
+
+#: .\psucontrol\models.py:31
+msgid "Multiplier for the derivative part."
+msgstr "Multiplikator für den Ableitungsteil."
+
+#: .\psucontrol\models.py:32
+msgid "Duration of one timestep."
+msgstr "Dauer eines Zeitschritts"
+
+#: .\psucontrol\models.py:38
+msgid "Watering Algorithm"
+msgstr "Bewässerungsalgorithmus"
+
+#: .\psucontrol\models.py:39
+msgid "Watering Algorithms"
+msgstr "Bewässerungsalgorithmen"
+
+#: .\psucontrol\models.py:55 .\psucontrol\models.py:83
 msgid "identity key"
 msgstr "Identitätsschlüssel"
 
-#: .\psucontrol\models.py:26 .\psucontrol\models.py:51
+#: .\psucontrol\models.py:56 .\psucontrol\models.py:85
 msgid "public rsa key"
 msgstr "Öffentlicher RSA-Schlüssel"
 
-#: .\psucontrol\models.py:27
+#: .\psucontrol\models.py:57
 msgid "current challenge token"
 msgstr "Aktueller Challenge Token"
 
-#: .\psucontrol\models.py:30
+#: .\psucontrol\models.py:60
 msgid "owner"
 msgstr "Besitzer:in"
 
-#: .\psucontrol\models.py:31
+#: .\psucontrol\models.py:61
 msgid "permitted users"
 msgstr "Berechtigte Benutzer:innen"
 
-#: .\psucontrol\models.py:38 .\psucontrol\models.py:70
-#: .\psucontrol\models.py:101 .\psucontrol\models.py:166
-#: .\psucontrol\models.py:215
+#: .\psucontrol\models.py:65
+msgid "watering algorithm"
+msgstr "Bewässerungsalgorithmus"
+
+#: .\psucontrol\models.py:66
+msgid "unauthorized watering"
+msgstr "eigenmächtiges Gießen"
+
+#: .\psucontrol\models.py:72 .\psucontrol\models.py:104
+#: .\psucontrol\models.py:135 .\psucontrol\models.py:200
+#: .\psucontrol\models.py:249
 msgid "Plant Supply Unit"
 msgstr "Pflanzenpflegestation"
 
-#: .\psucontrol\models.py:39
+#: .\psucontrol\models.py:73
 msgid "Plant Supply Units"
 msgstr "Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:53
+#: .\psucontrol\models.py:87
 msgid "pairing key"
 msgstr "Kopplungsschlüssel"
 
-#: .\psucontrol\models.py:56
+#: .\psucontrol\models.py:90
 msgid "creation time"
 msgstr "Erstellungszeit"
 
-#: .\psucontrol\models.py:59
+#: .\psucontrol\models.py:93
 msgid "Pending Plant Supply Unit"
 msgstr "schwebende Pflanzenpflegestation"
 
-#: .\psucontrol\models.py:60
+#: .\psucontrol\models.py:94
 msgid "Pending Plant Supply Units"
 msgstr "schwebende Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:73 .\psucontrol\models.py:104
-#: .\psucontrol\models.py:175 .\psucontrol\models.py:220
+#: .\psucontrol\models.py:107 .\psucontrol\models.py:138
+#: .\psucontrol\models.py:209 .\psucontrol\models.py:254
 msgid "timestamp"
 msgstr "Zeitstempel"
 
-#: .\psucontrol\models.py:76
+#: .\psucontrol\models.py:110
 msgid "temperature"
 msgstr "Temperatur"
 
-#: .\psucontrol\models.py:77
+#: .\psucontrol\models.py:111
 msgid "air humidity"
 msgstr "Luftfeuchte"
 
-#: .\psucontrol\models.py:78
+#: .\psucontrol\models.py:112
 msgid "ground humidity"
 msgstr "Bodenfeuchte"
 
-#: .\psucontrol\models.py:79
+#: .\psucontrol\models.py:113
 msgid "brightness"
 msgstr "Helligkeit"
 
-#: .\psucontrol\models.py:80
+#: .\psucontrol\models.py:114
 msgid "fill level"
 msgstr "Füllstand"
 
-#: .\psucontrol\models.py:86
+#: .\psucontrol\models.py:120
 msgid "Data Measurement"
 msgstr "Datenmessung"
 
-#: .\psucontrol\models.py:87
+#: .\psucontrol\models.py:121
 msgid "Data Measurements"
 msgstr "Datenmessungen"
 
-#: .\psucontrol\models.py:107
+#: .\psucontrol\models.py:141
 msgid "image"
 msgstr "Bild"
 
-#: .\psucontrol\models.py:113
+#: .\psucontrol\models.py:147
 msgid "PSU Image"
 msgstr "Bild von einer Pflanzenpflegestation"
 
-#: .\psucontrol\models.py:114
+#: .\psucontrol\models.py:148
 msgid "PSU Images"
 msgstr "Bilder von Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:149
+#: .\psucontrol\models.py:183
 msgid "canceled"
 msgstr "abgebrochen"
 
-#: .\psucontrol\models.py:150
+#: .\psucontrol\models.py:184
 msgid "scheduled"
 msgstr "geplant"
 
-#: .\psucontrol\models.py:151
+#: .\psucontrol\models.py:185
 msgid "approved"
 msgstr "freigegeben"
 
-#: .\psucontrol\models.py:152
+#: .\psucontrol\models.py:186
 msgid "transmitted"
 msgstr "gesendet"
 
-#: .\psucontrol\models.py:153
+#: .\psucontrol\models.py:187
 msgid "done"
 msgstr "abgeschlossen"
 
-#: .\psucontrol\models.py:169
+#: .\psucontrol\models.py:203
 msgid "status"
 msgstr "Status"
 
-#: .\psucontrol\models.py:172
+#: .\psucontrol\models.py:206
 msgid "amount"
 msgstr "Menge"
 
-#: .\psucontrol\models.py:178
+#: .\psucontrol\models.py:212
 msgid "execution timestamp"
 msgstr "Ausführungszeitstempel"
 
-#: .\psucontrol\models.py:185
+#: .\psucontrol\models.py:219
 msgid "Watering Task"
 msgstr "Bewässerungsauftrag"
 
-#: .\psucontrol\models.py:186
+#: .\psucontrol\models.py:220
 msgid "Watering Tasks"
 msgstr "Bewässerungsaufträge"
 
-#: .\psucontrol\models.py:212
+#: .\psucontrol\models.py:246
 msgid "classification"
 msgstr "Einstufung"
 
-#: .\psucontrol\models.py:217
+#: .\psucontrol\models.py:251
 msgid "psu identity key"
 msgstr "PSU Identitätsschlüssel"
 
-#: .\psucontrol\models.py:223
+#: .\psucontrol\models.py:257
 msgid "request uri"
 msgstr "Anfrage URI"
 
-#: .\psucontrol\models.py:226
+#: .\psucontrol\models.py:260
 msgid "request"
 msgstr "Anfrage"
 
-#: .\psucontrol\models.py:229
+#: .\psucontrol\models.py:263
 msgid "repsonse"
 msgstr "Antwort"
 
-#: .\psucontrol\models.py:237
+#: .\psucontrol\models.py:271
 msgid "Log Entry"
 msgstr "Logeintrag"
 
-#: .\psucontrol\models.py:238
+#: .\psucontrol\models.py:272
 msgid "Log Entries"
 msgstr "Logeinträge"
 
