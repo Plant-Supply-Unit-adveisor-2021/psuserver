@@ -1,15 +1,24 @@
 from django.contrib import admin
 
-from psucontrol.models import PSU, PendingPSU, DataMeasurement, PSUImage, WateringTask, CommunicationLogEntry
+from psucontrol.models import WateringAlgorithm, PSU, PendingPSU, DataMeasurement, PSUImage, WateringTask, CommunicationLogEntry
 
 
 # Register your models here.
+@admin.register(WateringAlgorithm)
+class WateringAlgorithmAdmin(admin.ModelAdmin):
+    model = WateringAlgorithm
+
+    list_display = ['id', 'name', 'ground_humidity_goal', 'kp', 'ki', 'kd', 'dt']
+    search_fields = ['id', 'name']
+
+
 @admin.register(PSU)
 class PSUAdmin(admin.ModelAdmin):
     model = PSU
 
-    list_display = ['id', 'name', 'owner', 'identity_key']
-    search_fields = ['id', 'name', 'owner', 'identity_key']
+    list_display = ['id', 'name', 'owner', 'watering_algorithm', 'identity_key']
+    list_filter = ['owner', 'watering_algorithm']
+    search_fields = ['id', 'name', 'owner', 'watering_algorithm__name', 'identity_key']
 
 
 @admin.register(PendingPSU)

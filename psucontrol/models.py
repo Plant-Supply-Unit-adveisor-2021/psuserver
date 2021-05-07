@@ -10,6 +10,36 @@ from authentication.models import User
 
 # Create your models here.
 
+class WateringAlgorithm(models.Model):
+    """
+    model holding the parameters for the watering alogrithm
+    enables the capability to provide different params for different PSUs due to other plants, etc. 
+    """
+    # id of the algorithm
+    id = models.BigAutoField(primary_key=True)
+
+    # name describing the algorithm
+    name = models.CharField(_('name'), max_length=128)
+
+    # parameters for the alogrithm
+    ground_humidity_goal = models.FloatField(_('ground humidity goal'))
+    light_level_limit = models.FloatField(_('light level limit'), help_text=_("Light limit to prevent watering in the mid of the night."))
+    temperature_limit = models.FloatField(_('temperature limit'), help_text=_("Temperature limit to prevent watering in too hot periods."))
+    # PDI controller
+    kp = models.FloatField('Kp', help_text=_("Multiplier for the proportional part."))
+    ki = models.FloatField('Ki', help_text=_("Multiplier for the integral part."))
+    kd = models.FloatField('Kd', help_text=_("Multiplier for the derivative part."))
+    dt = models.FloatField('dt', help_text=_("Duration of one timestep."))
+
+    def __str__(self):
+        return '{} - {}'.format(self.id, self.name)
+
+    class Meta:
+        verbose_name = _('Watering Algorithm')
+        verbose_name_plural = _('Watering Algorithms')
+        ordering = ['name']
+
+
 class PSU(models.Model):
     """
     model representing a Plant Supply Unit
@@ -30,6 +60,10 @@ class PSU(models.Model):
     owner = models.ForeignKey(User, models.PROTECT, verbose_name=_('owner'), related_name='owner')
     permitted_users = models.ManyToManyField(User, verbose_name=_('permitted users'), related_name='permitted_user',
                                              blank=True)
+
+    # fields needed to control the watering
+    watering_algorithm = models.ForeignKey(WateringAlgorithm, models.PROTECT, verbose_name=_('watering algorithm'), null=True, blank=True)
+    unauthored_watering = models.BooleanField(_('unauthored watering'), default=False)
 
     def __str__(self):
         return '{:02d} - {} ({})'.format(self.id, self.name, self.owner)
