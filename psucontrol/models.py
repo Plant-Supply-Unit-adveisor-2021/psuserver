@@ -274,3 +274,31 @@ class CommunicationLogEntry(models.Model):
         verbose_name = _('Log Entry')
         verbose_name_plural = _('Log Entries')
         ordering = ['-timestamp', '-level']
+
+
+class WateringDecision(models.Model):
+    """
+    model for storing the decsion made by the algorithm
+    """
+    # timestamp of the decision
+    timestamp = models.DateTimeField(_('timestamp'), auto_now_add=True)
+
+    # watering params used
+    watering_params = models.ForeignKey(WateringParams, models.SET_NULL, verbose_name=_('watering parameters'), null=True, blank=True)
+
+    # field for storing the concerning PSU
+    psu = models.ForeignKey(PSU, models.CASCADE, verbose_name=_('Plant Supply Unit'))
+
+    # field for storing the amount in milliliters to be used
+    amount = models.IntegerField(_('amount'))
+
+    # field for saving other information in text
+    info = models.TextField(_('information'))
+
+    def __str__(self):
+        return 'WD {} for {}'.format(self.timestamp.strftime('%d.%m.%Y %H:%M:%S'), self.psu)
+
+    class Meta:
+        verbose_name = _('Watering Decision')
+        verbose_name_plural = _('Watering Decisions')
+        ordering = ['-timestamp']

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from psucontrol.models import WateringParams, PSU, PendingPSU, DataMeasurement, PSUImage, WateringTask, CommunicationLogEntry
+from psucontrol.models import WateringParams, PSU, PendingPSU, DataMeasurement, PSUImage, WateringTask, CommunicationLogEntry, WateringDecision
 
 
 # Register your models here.
@@ -8,7 +8,7 @@ from psucontrol.models import WateringParams, PSU, PendingPSU, DataMeasurement, 
 class WateringParamsAdmin(admin.ModelAdmin):
     model = WateringParams
 
-    list_display = ['id', 'name', 'ground_humidity_goal', 'kp', 'ki', 'kd', 'dt']
+    list_display = ['id', 'name', 'ground_humidity_goal', 'minimum_amount', 'maximum_amount', 'starting_amount']
     search_fields = ['id', 'name']
 
 
@@ -63,3 +63,12 @@ class CommunicationLogEntryAdmin(admin.ModelAdmin):
     list_display = ['timestamp', 'level', 'psu_identity_key', 'request_uri']
     list_filter = ['level', 'psu', 'request_uri']
     search_fields = ['psu__id', 'psu__name', 'psu__owner__email', 'psu__owner__last_name', 'psu__owner__first_name', 'level', 'request_uri', 'psu_identity_key']
+
+
+@admin.register(WateringDecision)
+class WateringDecisionAdmin(admin.ModelAdmin):
+    model = WateringDecision
+
+    list_display = ['timestamp', 'psu', 'amount', 'watering_params']
+    list_filter = ['psu', 'watering_params']
+    search_fields = ['psu__id', 'psu__name', 'psu__owner__email', 'psu__owner__last_name', 'psu__owner__first_name', 'watering_params__name']
