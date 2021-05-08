@@ -22,10 +22,13 @@ class WateringParams(models.Model):
     name = models.CharField(_('name'), max_length=128)
 
     # parameters for the alogrithm
-    ground_humidity_goal = models.FloatField(_('ground humidity goal'))
-    light_level_limit = models.FloatField(_('light level limit'), help_text=_("Light limit to prevent watering in the mid of the night."))
-    temperature_limit = models.FloatField(_('temperature limit'), help_text=_("Temperature limit to prevent watering in too hot periods."))
-    # PDI controller
+    ground_humidity_goal = models.FloatField(_('ground humidity goal'), default=80)
+    light_level_limit = models.FloatField(_('light level limit'), help_text=_("Light limit to prevent watering in the mid of the night."), default=10)
+    temperature_limit = models.FloatField(_('temperature limit'), help_text=_("Temperature limit to prevent watering in too hot periods."), default=27)
+    minimum_amount = models.IntegerField(_('minimum amount'), help_text=_("The minimum amount of water which should be used for the watering."), default=40)
+    maximum_amount = models.IntegerField(_('maximum amount'), help_text=_("The maximum amount of water which should be used for the watering."), default=100)
+    starting_amount = models.IntegerField(_('starting amount'), help_text=_("The amount of water which is used to test how many water is needed."), default=40)
+    # PID controller
     kp = models.FloatField('Kp', help_text=_("Multiplier for the proportional part."))
     ki = models.FloatField('Ki', help_text=_("Multiplier for the integral part."))
     kd = models.FloatField('Kd', help_text=_("Multiplier for the derivative part."))
