@@ -1,11 +1,9 @@
-import re
-
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
 from django.core.exceptions import ValidationError
 
-from psucontrol.models import PendingPSU, PSU
+from psucontrol.models import PendingPSU, to_psu
 
 
 class RegisterPSUForm(forms.Form):
@@ -23,16 +21,12 @@ class RegisterPSUForm(forms.Form):
                                     "the key is correct and whether your PSU has a internet connection."))
         return self.cleaned_data
 
-def get_psu_through_string(value):
-    pattern = re.compile('.*(#(?P<id>\d*)).*')
-    regex = pattern.match(value)
-    return PSU.objects.get(id=int(regex.group('id')))
 
 class AddWateringTaskForm(forms.Form):
     """
     form to add a new WateringTask
     """
-    psu = forms.TypedChoiceField(label=_('Plant Supply Unit'), choices=[], help_text=_('The PSU you want to water manually.'), coerce=get_psu_through_string)
+    psu = forms.TypedChoiceField(label=_('Plant Supply Unit'), choices=[], help_text=_('The PSU you want to water manually.'), coerce=to_psu)
     amount = forms.IntegerField(label=_('Amount of water'), help_text=_('The amount of water in milliliters you want to give to your plant.'))
 
     def __init__(self, psus, *args, **kwargs):
@@ -40,7 +34,7 @@ class AddWateringTaskForm(forms.Form):
         # initialize choice field with PSUs
         choices = []
         for p in psus:
-            choices.append((_('{} of {} {} (#{})').format(p.name, p.owner.first_name, p.owner.last_name, p.id), p))
+            choices.append((p, _('{} of {} {} (#{})').format(p.name, p.owner.first_name, p.owner.last_name, p.id)))
         self.fields['psu'].choices = choices
 
     def clean(self):

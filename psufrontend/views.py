@@ -48,8 +48,11 @@ def add_watering_task_view(request):
     
     @csrf_protect
     def add_watering_task(request, form):
+        # cancel old tasks
+        for ot in WateringTask.objects.filter(psu=form.cleaned_data['psu'], status__in=[0, 5]):
+            ot.status = -10
+            ot.save()
         # create WateringTask
-        print(form.cleaned_data['psu'])
         WateringTask.objects.create(psu=form.cleaned_data['psu'], status=5, amount=form.cleaned_data['amount'])
         messages.success(request, _('Successfully added your watering request. It might take a few minutes to fullfill your request. Note: Only the lastest watering task will be fullfilled.'))
     

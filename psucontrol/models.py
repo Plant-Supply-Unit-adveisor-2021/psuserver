@@ -1,4 +1,4 @@
-import os
+import os, re
 
 from django.db import models
 from django.conf import settings
@@ -75,6 +75,18 @@ class PSU(models.Model):
         verbose_name = _('Plant Supply Unit')
         verbose_name_plural = _('Plant Supply Units')
         ordering = ['id']
+
+
+def to_psu(value):
+    """
+    accepts string value from PSU.__str__ and converts to PSU
+    """
+    try:
+        pattern = re.compile('(?P<id>\d*).*')
+        regex = pattern.match(value)
+        return PSU.objects.get(id=int(regex.group('id')))
+    except Exception:
+        return None
 
 
 class PendingPSU(models.Model):
