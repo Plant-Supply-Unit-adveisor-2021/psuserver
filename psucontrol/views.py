@@ -16,7 +16,8 @@ from django.utils.timezone import make_aware
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-from psucontrol.models import PendingPSU, PSU, DataMeasurement, PSUImage, CommunicationLogEntry
+from psucontrol.models import PendingPSU, PSU, DataMeasurement, PSUImage, WateringTask, CommunicationLogEntry
+from psucontrol.watering import CalculateWatering
 
 
 # Create your views here.
@@ -34,6 +35,9 @@ ERROR_CODES = {
     '0xD3': gettext_noop('Problems with timestamp or making timestamp timezone aware.'),
     '0xD4': gettext_noop('The timestamp already exists for this PSU'),
     '0xD5': gettext_noop('Failed to upload new image.'),
+    # W - Watering
+    '0xW1': gettext_noop('No watering task available.'),
+    '0xW2': gettext_noop('Failed to mark watering task as done.'),
 }
 
 
@@ -255,6 +259,8 @@ def add_data_measurement(request):
             # return creation error
             return respond_n_log(request, json_error_response('0xD2'), CommunicationLogEntry.Level.ERROR, psu=psu)
 
+        # start thread to calculate the need of water and return status ok
+        CalculateWatering(psu).start()
         return respond_n_log(request, {'status': 'ok'}, CommunicationLogEntry.Level.MINOR_INFO, psu=psu)
     else:
         # return bad request type
@@ -305,6 +311,98 @@ def add_image(request):
             return respond_n_log(request, json_error_response('0xD5'), CommunicationLogEntry.Level.ERROR, psu=psu)
 
         return respond_n_log(request, {'status': 'ok'}, CommunicationLogEntry.Level.MINOR_INFO, psu=psu)
+    else:
+        # return bad request type
+        return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MINOR_ERROR)
+
+
+@csrf_exempt
+@require_POST
+def get_watering_task(request):
+    """
+    view to handle to ge the most recent watering task
+    ALL others will be set to canceled
+    """
+    if request.POST:
+        try:
+            # identification of the PSU
+            psu = identify_psu(request.POST['identity_key'])
+
+            if psu is None:
+                # return identification error
+                return respond_n_log(request, json_error_response('0xA1'), CommunicationLogEntry.Level.ERROR)
+
+            # authenticate PSU
+            if not authenticate_psu(psu, request.POST['signed_challenge']):
+                # return authentication error
+                return respond_n_log(request, json_error_response('0xA2'), CommunicationLogEntry.Level.ERROR, psu=psu)
+
+            # get all open watering tasks for this PSU
+            tasks = WateringTask.objects.filter(psu=psu, status__in=[5, 10])
+
+            if len(tasks) == 0:
+                # return no tasks available error
+                return respond_n_log(request, json_error_response('0xW1'), CommunicationLogEntry.Level.MINOR_INFO, psu=psu)
+            
+            # save first watering task
+            task = tasks[0]
+
+            # cancel all tasks
+            for t in tasks:
+                # chancel task
+                t.status = -10
+                t.save()
+
+            # set status of task to be send to transmitted
+            task.status = 10
+            task.save()
+            return respond_n_log(request, {'status': 'ok', 'watering_task_id': task.id, 'watering_task_amount': task.amount}, CommunicationLogEntry.Level.MINOR_INFO, psu=psu)
+
+        except KeyError:
+            # return bad request
+            return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MAJOR_ERROR)
+    else:
+        # return bad request type
+        return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MINOR_ERROR)
+
+
+@csrf_exempt
+@require_POST
+def mark_watering_task_executed(request):
+    """
+    view to handle the information of a psu that the watering task was executed
+    """
+    if request.POST:
+        try:
+            # identification of the PSU
+            psu = identify_psu(request.POST['identity_key'])
+
+            if psu is None:
+                # return identification error
+                return respond_n_log(request, json_error_response('0xA1'), CommunicationLogEntry.Level.ERROR)
+
+            # authenticate PSU
+            if not authenticate_psu(psu, request.POST['signed_challenge']):
+                # return authentication error
+                return respond_n_log(request, json_error_response('0xA2'), CommunicationLogEntry.Level.ERROR, psu=psu)
+
+            task = WateringTask.objects.get(id=request.POST['watering_task_id'])
+            
+            if not task.psu == psu or task.status != 10:
+                # return failed to mark watering task as done error
+                return respond_n_log(request, json_error_response('0xW2'), CommunicationLogEntry.Level.ERROR, psu=psu)
+
+            task.status = 20
+            task.timestamp_execution = make_aware(datetime.now())
+            task.save()
+            return respond_n_log(request, {'status': 'ok'}, CommunicationLogEntry.Level.MINOR_INFO, psu=psu)
+
+        except WateringTask.DoesNotExist:
+            # return failed to mark watering task as done error
+            return respond_n_log(request, json_error_response('0xW2'), CommunicationLogEntry.Level.ERROR, psu=psu)
+        except KeyError:
+            # return bad request
+            return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MAJOR_ERROR)
     else:
         # return bad request type
         return respond_n_log(request, json_error_response('0xB1'), CommunicationLogEntry.Level.MINOR_ERROR)
