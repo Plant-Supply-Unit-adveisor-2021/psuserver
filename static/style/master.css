@@ -222,7 +222,7 @@ input {
 
 /* text fields */
 
-input[type="text"], input[type="email"], input[type="password"] {
+input[type="text"], input[type="email"], input[type="password"], input[type="number"] {
     display: block;
 
     width: 100%;
@@ -238,25 +238,25 @@ input[type="text"], input[type="email"], input[type="password"] {
     color: var(--input-fcolor);
 }
 
-input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus,
-input[type="text"]:hover, input[type="email"]:hover, input[type="password"]:hover {
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, input[type="number"]:focus,
+input[type="text"]:hover, input[type="email"]:hover, input[type="password"]:hover, input[type="number"]:hover {
     border: 1px solid var(--input-border-color-action);
 }
 
-input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, input[type="number"]:focus {
     box-shadow: 0 0 0 3px var(--input-shadow-color-focus);
 }
 
-input[type="text"]:invalid, input[type="email"]:invalid, input[type="password"]:invalid {
+input[type="text"]:invalid, input[type="email"]:invalid, input[type="password"]:invalid, input[type="number"]:invalid {
     border: 1px solid var(--input-border-color-invalid);
 }
 
-input[type="text"]:focus:invalid, input[type="email"]:focus:invalid, input[type="password"]:focus:invalid,
-input[type="text"]:hover:invalid, input[type="email"]:hover:invalid, input[type="password"]:hover:invalid {
+input[type="text"]:focus:invalid, input[type="email"]:focus:invalid, input[type="password"]:focus:invalid, input[type="number"]:focus:invalid,
+input[type="text"]:hover:invalid, input[type="email"]:hover:invalid, input[type="password"]:hover:invalid, input[type="number"]:hover:invalid {
     border: 1px solid var(--input-border-color-action-invalid);
 }
 
-input[type="text"]:focus:invalid, input[type="email"]:focus:invalid, input[type="password"]:focus:invalid {
+input[type="text"]:focus:invalid, input[type="email"]:focus:invalid, input[type="password"]:focus:invalid, input[type="number"]:focus:invalid {
     box-shadow: 0 0 0 3px var(--input-shadow-color-focus-invalid);
 }
 

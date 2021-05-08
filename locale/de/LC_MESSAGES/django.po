@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-08 19:08+0200\n"
+"POT-Creation-Date: 2021-05-08 21:34+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -129,7 +129,7 @@ msgid "Welcome"
 msgstr "Willkommen"
 
 #: .\authentication\templates\authentication\after_register.html:7
-#: .\website\templates\base.html:41
+#: .\website\templates\base.html:42
 msgid "Welcome to Team Plant Supply Unit"
 msgstr "Willkommen beim Team Plant Supply Unit"
 
@@ -148,7 +148,7 @@ msgid "Edit User"
 msgstr "Profil bearbeiten"
 
 #: .\authentication\templates\authentication\edit_profile.html:9
-#: .\website\templates\base.html:49
+#: .\website\templates\base.html:50
 msgid "Edit Profile"
 msgstr "Profil bearbeiten"
 
@@ -157,19 +157,20 @@ msgid "Change Password"
 msgstr "Passwort ändern"
 
 #: .\authentication\templates\authentication\edit_profile.html:13
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:11
 #: .\psufrontend\templates\psufrontend\register_psu.html:11
 msgid "Save"
 msgstr "Sichern"
 
 #: .\authentication\templates\authentication\login.html:4
 #: .\authentication\templates\authentication\login.html:10
-#: .\website\templates\base.html:52
+#: .\website\templates\base.html:53
 msgid "Login"
 msgstr "Einloggen"
 
 #: .\authentication\templates\authentication\register.html:4
 #: .\authentication\templates\authentication\register.html:11
-#: .\website\templates\base.html:53
+#: .\website\templates\base.html:54
 msgid "Register"
 msgstr "Registrieren"
 
@@ -223,7 +224,9 @@ msgstr "Minimale Menge"
 
 #: .\psucontrol\models.py:28
 msgid "The minimum amount of water which should be used for the watering."
-msgstr "Die minimale Menge an Wasser, die für einen Bewässerungsauftrag benötigt wird."
+msgstr ""
+"Die minimale Menge an Wasser, die für einen Bewässerungsauftrag benötigt "
+"wird."
 
 #: .\psucontrol\models.py:29
 msgid "maximum amount"
@@ -231,7 +234,8 @@ msgstr "Maximale Menge"
 
 #: .\psucontrol\models.py:29
 msgid "The maximum amount of water which should be used for the watering."
-msgstr "Die maximale Menge an Wasser, die für einen Bewässerungsauftrag genutzt wird."
+msgstr ""
+"Die maximale Menge an Wasser, die für einen Bewässerungsauftrag genutzt wird."
 
 #: .\psucontrol\models.py:30
 msgid "starting amount"
@@ -292,6 +296,7 @@ msgstr "eigenmächtiges Gießen"
 #: .\psucontrol\models.py:75 .\psucontrol\models.py:107
 #: .\psucontrol\models.py:138 .\psucontrol\models.py:203
 #: .\psucontrol\models.py:252 .\psucontrol\models.py:290
+#: .\psufrontend\forms.py:35
 msgid "Plant Supply Unit"
 msgstr "Pflanzenpflegestation"
 
@@ -489,24 +494,24 @@ msgstr "Fehler beim Markieren des Bewässserungsauftrag als abgeschlossen."
 msgid "PSU Frontend"
 msgstr "PSU Bedienoberfläche"
 
-#: .\psufrontend\forms.py:13
+#: .\psufrontend\forms.py:15
 msgid "Pairing key"
 msgstr "Kopplungsschlüssel"
 
-#: .\psufrontend\forms.py:14
+#: .\psufrontend\forms.py:16
 msgid "This key should be displayed on your PSU."
 msgstr ""
 "Der Kopplungsschlüssel sollte auf deiner Pflegestation angeziegt werden."
 
-#: .\psufrontend\forms.py:15
+#: .\psufrontend\forms.py:17
 msgid "PSU name"
 msgstr "Name der neuen Pflanzenpflegestation"
 
-#: .\psufrontend\forms.py:16
+#: .\psufrontend\forms.py:18
 msgid "Choose a name to identify this particular PSU."
 msgstr "Wähle einen Namen für diese neue Pflanzenpflegestation."
 
-#: .\psufrontend\forms.py:20
+#: .\psufrontend\forms.py:22
 msgid ""
 "Sadly we could not match the given pairing key. Please check whether the key "
 "is correct and whether your PSU has a internet connection."
@@ -515,8 +520,39 @@ msgstr ""
 "Bitte überprüfe den Schlüssel und die Internetverbindung der Pflegestation "
 "nochmal."
 
-#: .\psufrontend\templates\psufrontend\register_psu.html:4
+#: .\psufrontend\forms.py:35
+msgid "The PSU you want to water manually."
+msgstr ""
+"Wähle die Pflegestation aus, die den manuellen Gießvorgang durchführen soll."
+
+#: .\psufrontend\forms.py:36
+msgid "Amount of water"
+msgstr "Wassermenge"
+
+#: .\psufrontend\forms.py:36
+msgid "The amount of water in milliliters you want to give to your plant."
+msgstr ""
+"Die Wassermenge in Millilitern mit der die Pflanze gegossen werden soll."
+
+#: .\psufrontend\forms.py:43
+msgid "{} of {} {} (#{})"
+msgstr "{} von {} {} (#{})"
+
+#: .\psufrontend\forms.py:48
+msgid "Please enter an amount of water that is bigger than zero."
+msgstr "Bitte geb eine Wassermenge an, die größer als 0 ist."
+
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:4
 #: .\website\templates\base.html:36
+msgid "Manual Watering"
+msgstr "Manuelles Gießen"
+
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:9
+msgid "Create a watering task for your PSU"
+msgstr "Erstelle einen Bewässerungsauftrag für deine Pflanzenpflegestation."
+
+#: .\psufrontend\templates\psufrontend\register_psu.html:4
+#: .\website\templates\base.html:37
 msgid "Register PSU"
 msgstr "PSU Registrieren"
 
@@ -524,9 +560,19 @@ msgstr "PSU Registrieren"
 msgid "Register Plant Supply Unit"
 msgstr "Registrierung einer neuen Pflanzenpflegestation"
 
-#: .\psufrontend\views.py:30
+#: .\psufrontend\views.py:31
 msgid "Successfully registered your new Plant Supply Unit."
 msgstr "Deine neue Pflanzenpflegestation wurde erfolgreich hinzugefügt."
+
+#: .\psufrontend\views.py:54
+msgid ""
+"Successfully added your watering request. It might take a few minutes to "
+"fullfill your request. Note: Only the lastest watering task will be "
+"fullfilled."
+msgstr ""
+"Dein Auftrag wurde erfolgreich gespeichert. Beachte, dass nur der letzte "
+"offene Bewässerungsauftrag durchgeführt wird und es ein paar Minuten dauern "
+"kann, bis die Pflegestation den Gießvorgang vornimmt."
 
 #: .\website\settings.py:211
 msgid "German"
@@ -587,10 +633,10 @@ msgstr "Dashboard"
 msgid "Measurements"
 msgstr "Datenmessungen"
 
-#: .\website\templates\base.html:48
+#: .\website\templates\base.html:49
 msgid "Administration"
 msgstr "Administration"
 
-#: .\website\templates\base.html:50
+#: .\website\templates\base.html:51
 msgid "Logout"
 msgstr "Ausloggen"
