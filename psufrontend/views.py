@@ -86,3 +86,7 @@ def table_view(request, *, psu=0):
     context = {'datas': datas, "psus": psus}
 
     return render(request, 'psufrontend/table.html', context)
+
+def no_psu_view(request):
+
+    return render(request, 'psufrontend/no_psu.html')

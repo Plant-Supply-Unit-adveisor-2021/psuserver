@@ -728,4 +728,31 @@ div#psu {
 }
 
 
+/*
+-------------------------------------------------------------------------------------------------
+    no_psu page
+-------------------------------------------------------------------------------------------------
+*/
 
+.no_psu {
+    font-family: Comic Sans MS;
+}
+
+#nopsu {
+    color: #fff;
+    position: relative;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    background: #1E90FF;
+    width: 0.8em;
+    margin-top: 0.3em;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    box-shadow: 0 0 10px rgba(0, 0 , 0, 0.1);
+    transition-duration: 0.5s;
+}
+
+a#nopsu:hover, a#nopsu:focus, a#nopsu:active {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
