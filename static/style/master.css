@@ -72,9 +72,9 @@
     --messages-success-bcolor: #87d25c;
     --messages-error-bcolor: #f06b6b;
 
-    --table-header-bcolor: #D1DF00;
-    --table-odd-bcolor: #eee;
-    --table-even-bcolor: #fff;
+    --table-header-bcolor: #009879;
+    --table-even-bcolor: #f3f3f3;
+    --table-odd-bcolor: #fff;
 }
 
 /*
@@ -407,44 +407,46 @@ div.drop-down .drop-down-element:focus, div.drop-down .drop-down-element:hover {
 
 /* general stuff */
 
-table {
-    display: block;
+.table-striped {
     width: 100%;
-
-    padding: 0;
-    border: 0;
-    margin: 0;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.9em;
 }
 
-thead, tbody {
-    display: block;
-    width: 100%;
-
-    padding: 0;
-    border: 0;
-    margin: 0;
-}
-
-tr {
+.table-striped tr {
     display: flex;
+    widows: 100%;
 }
 
-td, th {
+.table-striped thead tr {
+    color: #ffffff;
+}
+
+.table-striped th, .table-striped td {
     flex: 1;
-    padding: .4rem 1rem;
+    padding: 0.7em 1em;
 }
 
 /* striped table */
-table.table-striped th{
+.table-striped th {
     background-color: var(--table-header-bcolor);
 }
 
-table.table-striped tr{
+.table-striped tr {
     background-color: var(--table-odd-bcolor);
 }
 
-table.table-striped tr:nth-of-type(2n){
+.table-striped tr:nth-of-type(even) {
     background-color: var(--table-even-bcolor);
+}
+
+.table-striped tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.table-striped tbody tr {
+    border-bottom: 1px solid #ddd;
 }
 
 /*
@@ -711,6 +713,7 @@ div#psu {
 }
 
 #psubutton {
+    font-size: 0.8em;
     display: inline-block;
     position: relative;
     cursor: pointer;
@@ -724,7 +727,7 @@ div#psu {
 }
 
 #psubutton:hover {
-    color: #3CB371;
+    color: #009879;
 }
 
 
@@ -756,3 +759,4 @@ div#psu {
 a#nopsu:hover, a#nopsu:focus, a#nopsu:active {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }
+
