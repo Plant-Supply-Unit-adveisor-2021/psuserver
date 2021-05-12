@@ -689,12 +689,10 @@ a#table:hover, a#table:active {
 
 span.current {
     padding: 0.75em;
-    font-family: Comic Sans MS;
 }
 
 .psufilter {
     position: relative;
-    font-family: Comic Sans MS;
     font-size: 110%;
 }
 
@@ -712,24 +710,22 @@ div#psu {
     margin-bottom: 0.5em;
 }
 
-#psubutton {
+a#psubutton:link, a#psubutton:visited {
+    background-color: white;
+    color: green;
     font-size: 0.8em;
-    display: inline-block;
-    position: relative;
-    cursor: pointer;
-    color: #A0A0A0;
+    border: 2px;
+    border-radius: 10px;
+    padding: 5px 8px;
+    text-align: center;
     text-decoration: none;
-    background: none;
-    padding: 0.25em 0.3em;
-    border-radius: 0.25em;
-    transition: 1s;
-    border: 0.15em solid #32CD32;
+    display: inline-block;
 }
 
-#psubutton:hover {
-    color: #009879;
+a#psubutton:hover, a#psubutton:active {
+    background-color: #3CB371;
+    color: white;
 }
-
 
 /*
 -------------------------------------------------------------------------------------------------
