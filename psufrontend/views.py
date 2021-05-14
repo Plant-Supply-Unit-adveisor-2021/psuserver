@@ -87,6 +87,10 @@ def table_view(request, *, psu=0):
 
     return render(request, 'psufrontend/table.html', context)
 
-def no_psu_view(request):
 
+@login_required
+def no_psu_view(request):
+    """
+    if a user does not have access to a PSU, he/she will be redirected to this page
+    """
     return render(request, 'psufrontend/no_psu.html')

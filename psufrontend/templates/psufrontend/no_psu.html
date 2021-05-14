@@ -1,14 +1,12 @@
 {% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}Sorry - Plant Supply Unit{% endblock title %}
 
 {% block body %}
-	
-	<div class=no_psu>
-		<p>Hey there &#x1F44B;!</p>
-		<p>It seems you do not posses any PSUs yet.</p>
-		<p>Did you forget to register you brand new Plant Supply Unit &#128541;?</p>
-		<p>Click the button below to start the journey with your first PSU!</p>
-		<p>Hope you enjoy your time with us.</p>
-		<a id="nopsu" href="http://127.0.0.1:8000/en/psufrontend/register_psu">Lets go</a>
-	</div>
-
+	<h2>Sorry :/</h2>
+	<p>
+		{% trans "It seems you do not have access to any PSUs yet. Maybe you forgot to register your brand new Plant Supply Unit. Otherwise please contact an Administrator to tackle your problem.<br>Click the button below to start the journey with your first PSU!" %}
+	</p>
+	<a class="btn btn-primary" href="{% url 'psufrontend:register_psu' %}">{% trans "Register PSU" %}</a>
 {% endblock %}

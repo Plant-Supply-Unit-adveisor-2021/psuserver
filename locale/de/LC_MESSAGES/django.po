@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-09 14:22+0200\n"
+"POT-Creation-Date: 2021-05-15 00:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -381,6 +381,20 @@ msgstr ""
 "Bitte überprüfe den Schlüssel und die Internetverbindung der Pflegestation "
 "nochmal."
 
+#: .\psufrontend\templates\psufrontend\no_psu.html:9
+msgid ""
+"It seems you do not have access to any PSUs yet. Maybe you forgot to "
+"register your brand new Plant Supply Unit. Otherwise please contact an "
+"Administrator to tackle your problem.<br>Click the button below to start the "
+"journey with your first PSU!"
+msgstr ""
+"Es scheint so, als ob du aktuell keinen Zugriff auf eine PSU hast. Eventuell "
+"hast du vergessen deine brandneue Pflanzenpflegestation zu registrieren. "
+"Wenn dem nicht so ist, kontaktiere bitte einen Adminstrator um das Problem "
+"zu lösen.<br>Registriere jetzt deine erste Pflanzenpflegestation und beginne "
+"deine Reise mit uns."
+
+#: .\psufrontend\templates\psufrontend\no_psu.html:11
 #: .\psufrontend\templates\psufrontend\register_psu.html:4
 msgid "Register PSU"
 msgstr "PSU Registrieren"
@@ -389,7 +403,7 @@ msgstr "PSU Registrieren"
 msgid "Register Plant Supply Unit"
 msgstr "Registrierung einer neuen Pflanzenpflegestation"
 
-#: .\psufrontend\views.py:30
+#: .\psufrontend\views.py:50
 msgid "Successfully registered your new Plant Supply Unit."
 msgstr "Deine neue Pflanzenpflegestation wurde erfolgreich hinzugefügt."
 

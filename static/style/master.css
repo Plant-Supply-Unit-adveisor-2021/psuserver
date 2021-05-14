@@ -178,6 +178,8 @@ a.thicken:hover, a.thicken:focus {
 
 .btn, .btn:visited {
     display: block;
+    box-sizing: border-box;
+    width: max-content;
 
     margin: 1rem 0 1rem 0;
     border: 0;
@@ -186,8 +188,9 @@ a.thicken:hover, a.thicken:focus {
     background-color: var(--btn-bcolor);
     color: var(--btn-fcolor);
 
-    text-decoration: none;
     font-size: 1rem;
+    font-weight: normal;
+    text-decoration: none;
 }
 
 .btn:focus, .btn:hover {
@@ -195,6 +198,8 @@ a.thicken:hover, a.thicken:focus {
     color: var(--btn-fcolor-action);
 
     cursor: pointer;
+
+    text-decoration: none;
 }
 
 .btn.btn-primary, .btn.btn-primary:visited {
@@ -726,33 +731,3 @@ a#psubutton:hover, a#psubutton:active {
     background-color: #3CB371;
     color: white;
 }
-
-/*
--------------------------------------------------------------------------------------------------
-    no_psu page
--------------------------------------------------------------------------------------------------
-*/
-
-.no_psu {
-    font-family: Comic Sans MS;
-}
-
-#nopsu {
-    color: #fff;
-    position: relative;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    background: #1E90FF;
-    width: 0.8em;
-    margin-top: 0.3em;
-    padding: 0.5em;
-    border-radius: 0.5em;
-    box-shadow: 0 0 10px rgba(0, 0 , 0, 0.1);
-    transition-duration: 0.5s;
-}
-
-a#nopsu:hover, a#nopsu:focus, a#nopsu:active {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-}
-
