@@ -7,20 +7,18 @@ from django.contrib import messages
 
 from psufrontend.forms import RegisterPSUForm, ChangeUserPermissionsForm
 from psucontrol.models import PSU, PendingPSU, DataMeasurement
-from psucontrol.utils import get_psus_with_permission
-
-
-from django.http import HttpResponse
-
+from psucontrol.utils import get_psus_with_permission, get_users_with_permission
 
 # Create your views here.
 
 ITEMS_PER_PAGE = 35
 
+
 class DataSet():
     """
     class holding pretty data for displaying it
     """
+
     def __init__(self, dm):
         """
         takes a DataMeasurement instance to generate pretty data
@@ -60,24 +58,34 @@ def register_psu_view(request):
     return render(request, 'psufrontend/register_psu.html', {'form': form})
 
 
-@csrf_exempt
 @login_required
-def change_user_permissions(request):
+def change_user_permissions_view(request, psu=0):
     """
     view for changing user permissions for selected PSU
     """
 
-    @csrf_exempt
-    def select_PSU(request, form):
-        psu = PSU.objects.get
+    # checking to which psus user has access
+    psus = get_psus_with_permission(request.user, min_level=10)
 
-    form = ChangeUserPermissionsForm(request.POST or None)
+    # checking for which PSU the permitted users should be displayed
+    if len(psus) == 0:
+        # display view later
+        return None
 
-    # check wether form was submitted correctly
-    if request.POST and form.is_valid():
-        select_PSU(request, form)
+    sel_psu = None
+    for p in psus:
+        if p.id == psu:
+            sel_psu = p
+            break
+    if sel_psu is None:
+        # id not found -> take first psu in list
+        sel_psu = psus[0]
 
-    return render(request, 'psufrontend/change_user_permissions.html', {'form': form})
+    users = get_users_with_permission(sel_psu, min_level=1)
+
+    form = ChangeUserPermissionsForm(psus, users, request.POST or None)
+
+    return render(request, 'psufrontend/change_user_permissions.html', context={'form': form})
 
 
 @login_required
@@ -103,12 +111,12 @@ def table_view(request, *, page=0, psu=0):
     # gather data for sel_psu
     data_all = DataMeasurement.objects.filter(psu=sel_psu)
     data_count = len(data_all)
-    
+
     # sorting out paging stuff
     max_page = int(data_count / ITEMS_PER_PAGE - 0.5)
     page = max(0, min(max_page, int(page)))
     # slice data according to page
-    data_raw = data_all[ (page*ITEMS_PER_PAGE) : min(data_count, (page + 1)*ITEMS_PER_PAGE) ]
+    data_raw = data_all[(page * ITEMS_PER_PAGE): min(data_count, (page + 1) * ITEMS_PER_PAGE)]
 
     data = []
     for d in data_raw:

@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
 
 from psucontrol.models import PendingPSU, PSU
+import psufrontend.views
 
 
 class RegisterPSUForm(forms.Form):
@@ -21,16 +22,37 @@ class RegisterPSUForm(forms.Form):
                                     "the key is correct and whether your PSU has a internet connection."))
         return self.cleaned_data
 
-class ChangeUserPermissionsForm(forms.Form):
 
-    select_psu = forms.CharField(label=_('Select PSU'), max_length=100, min_length=1,
-                                 help_text=_('For which PSU do you want to change the user permissions?'))
+class ChangeUserPermissionsForm(forms.Form):
+    """
+    form for selecting a PSU and changing permissions for active users or add new users with permissions
+    """
+    select_psu = forms.ChoiceField(label=_('Select psu: '), label_suffix=_(''),
+                                   help_text=_('For which PSU do you want to change the user permissions?'))
+
+    active_users = forms.ChoiceField(label=_('Active users: '), label_suffix=_(''),
+                                     help_text=_('select permitted user to remove permissions'))
 
     select_user = forms.CharField(label=_('Select user'), max_length=100, min_length=1,
-                                 help_text=_('For which user do you want to change permissions for this PSU?'))
+                                  help_text=_('Add a user that you want to give permissions to'))
 
-    def clean(self):
-        if PSU.objects.filter(select_psu=self.cleaned_data['select_psu']).count() == 0:
-            raise ValidationError(_("Sadly we could not match the given pairing key. Please check wether "
-                                    "the key is correct and wether your PSU has a internet connection."))
-        return self.cleaned_data
+    # stellt die PSUs, auf die der user Zugriff hat, in einem ChoiceField zur Auswahl
+    def __init__(self, psus, users, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.psus = psus
+        self.fields['select_psu'].choices = self.psus_choices()
+        self.users = users
+        self.fields['active_users'].choices = self.users_choices()
+
+    def psus_choices(self):
+        strings = []
+        for p in self.psus:
+            strings.append((str(p), p))
+        return strings
+
+    # stellt die user, die auf die ausgewählte PSU Zugriff haben, in einem MultipleChoiceField zur Auswahl
+    def users_choices(self):
+        strings = []
+        for u in self.users:
+            strings.append((str(u), u))
+        return strings

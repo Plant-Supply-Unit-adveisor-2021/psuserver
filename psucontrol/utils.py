@@ -1,4 +1,6 @@
 from psucontrol.models import PSU
+from authentication.models import User
+
 
 def check_permissions(psu, user):
     """
@@ -35,3 +37,14 @@ def get_psus_with_permission(user, min_level):
         if check_permissions(p, user) > min_level:
             psus.append(p)
     return psus
+
+
+def get_users_with_permission(psu, min_level):
+    """
+    returns all users that have access to a given PSU
+    """
+    users = []
+    for u in User.objects.all():
+        if check_permissions(psu, u) > min_level:
+            users.append(u)
+    return users
