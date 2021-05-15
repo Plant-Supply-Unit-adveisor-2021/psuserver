@@ -25,8 +25,8 @@
     --footer-fcolor: #fff;
 
 
-    --link-fcolor: #A2AD00;
-    --link-fcolor-action: #D1DF00;
+    --link-fcolor: #3CB371;
+    --link-fcolor-action: #00e266;
     --btn-bcolor: ;
     --btn-fcolor: ;
     --btn-bcolor-action: ;
@@ -37,7 +37,7 @@
     --btn-primary-fcolor-action: #fff;
     --btn-secondary-bcolor: transparent;
     --btn-secondary-fcolor: #3CB371;
-    --btn-secondary-bcolor-action: #3CB371/*#00e266*/;
+    --btn-secondary-bcolor-action: #3CB371;
     --btn-secondary-fcolor-action: #fff;
     --btn-warning-bcolor: ;
     --btn-warning-fcolor: ;
@@ -77,7 +77,7 @@
     --table-odd-bcolor: #fff;
     --table-divdor-color: #ddd;
 
-    --nav-main-hover: #A2AD00;
+    --nav-main-hover: #3CB371;
 }
 
 /*
@@ -258,6 +258,8 @@ input {
     box-shadow: none;
     text-shadow: none;
     outline: none;
+
+    font-family: inherit;
 }
 
 /* text fields */
@@ -276,7 +278,6 @@ input[type="text"], input[type="email"], input[type="password"], input[type="num
 
     background-color: var(--input-bcolor);
     color: var(--input-fcolor);
-    font-family: inherit;
 }
 
 input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, input[type="number"]:focus, select:focus,

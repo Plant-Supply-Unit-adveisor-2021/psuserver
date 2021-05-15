@@ -25,8 +25,8 @@
     --footer-fcolor: #fff;
 
 
-    --link-fcolor: #A2AD00;
-    --link-fcolor-action: #D1DF00;
+    --link-fcolor: #3CB371;
+    --link-fcolor-action: #00e266;
     --btn-bcolor: ;
     --btn-fcolor: ;
     --btn-bcolor-action: ;
@@ -35,10 +35,10 @@
     --btn-primary-fcolor: #fff;
     --btn-primary-bcolor-action: #0073D7;
     --btn-primary-fcolor-action: #fff;
-    --btn-secondary-bcolor: ;
-    --btn-secondary-fcolor: ;
-    --btn-secondary-bcolor-action: ;
-    --btn-secondary-fcolor-action: ;
+    --btn-secondary-bcolor: transparent;
+    --btn-secondary-fcolor: #3CB371;
+    --btn-secondary-bcolor-action: #3CB371;
+    --btn-secondary-fcolor-action: #fff;
     --btn-warning-bcolor: ;
     --btn-warning-fcolor: ;
     --btn-warning-bcolor-action: ;
@@ -68,6 +68,13 @@
 
     --messages-bcolor: #292929;
     --messages-fcolor: #fff;
-    --messages-success-fcolor: #0a0;
-    --messages-error-fcolor: #b00;
+    --messages-success-bcolor: #87d25c;
+    --messages-error-bcolor: #f06b6b;
+
+    --table-header-bcolor: #3CB371;
+    --table-even-bcolor: #444;
+    --table-odd-bcolor: #333;
+    --table-divdor-color: #4a4a4a;
+
+    --nav-main-hover: #3CB371;
 }
