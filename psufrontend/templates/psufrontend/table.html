@@ -6,11 +6,11 @@
 {% block body %}
 
   <!-- psu selection links -->
-  <div class="psufilter">
-    <p id="psu">{% trans "Select a Plant Supply Unit" %}</p>
-    <div id="psu">
+  <div class="psuselection">
+    <h4>{% trans "Select a Plant Supply Unit" %}</h4>
+    <div>
       {% for p in psus %}
-        <a id="psubutton" class="{% if p.id == sel_psu.id %}selected{% endif %}" href="{% url 'psufrontend:table_view' psu=p.id %}">{{ p.pretty_name }}</a>
+        <a class="btn btn-inline-block btn-secondary {% if p.id == sel_psu.id %}selected{% endif %}" href="{% url 'psufrontend:table_view' psu=p.id %}">{{ p.pretty_name }}</a>
       {% endfor %}
     </div>
   </div>
@@ -20,15 +20,15 @@
 
     <div class="pagination align-center">
         {% if measurements.has_previous %}
-            <a class="btn btn-secondary" href="?page=1">&laquo; {% trans "first" %}</a>
-            <a class="btn btn-secondary" href="?page={{ measurements.previous_page_number }}">{% trans "previous" %}</a>
+            <a class="btn btn-inline-block btn-secondary" href="?page=1">&laquo; {% trans "first" %}</a>
+            <a class="btn btn-inline-block btn-secondary" href="?page={{ measurements.previous_page_number }}">{% trans "previous" %}</a>
         {% endif %}
 
         <span>{% trans "Page" %} {{ measurements.number }} {% trans "of" %} {{ measurements.paginator.num_pages }}</span>
 
         {% if measurements.has_next %}
-            <a class="btn btn-secondary" href="?page={{ measurements.next_page_number }}">{% trans "next" %}</a>
-            <a class="btn btn-secondary" href="?page={{ measurements.paginator.num_pages }}">{% trans "last" %} &raquo;</a>
+            <a class="btn btn-inline-block btn-secondary" href="?page={{ measurements.next_page_number }}">{% trans "next" %}</a>
+            <a class="btn btn-inline-block btn-secondary" href="?page={{ measurements.paginator.num_pages }}">{% trans "last" %} &raquo;</a>
         {% endif %}
     </div>
 

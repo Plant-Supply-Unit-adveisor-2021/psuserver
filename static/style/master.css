@@ -194,6 +194,12 @@ a.thicken:hover, a.thicken:focus {
     text-decoration: none;
 }
 
+.btn.btn-inline-block {
+    display: inline-block;
+    padding: .1rem 1rem .2rem 1rem;
+    margin: 0 .25rem;
+}
+
 .btn:focus, .btn:hover {
     background-color: var(--btn-bcolor-action);
     color: var(--btn-fcolor-action);
@@ -222,7 +228,7 @@ a.thicken:hover, a.thicken:focus {
     font-weight: 600;
 }
 
-.btn.btn-secondary:focus, .btn.btn-secondary:hover {
+.btn.btn.btn-secondary.selected, .btn-secondary:focus, .btn.btn-secondary:hover {
     background-color: var(--btn-secondary-bcolor-action);
     color: var(--btn-secondary-fcolor-action);
 }
@@ -683,49 +689,20 @@ ul.messages > li.error {
 -------------------------------------------------------------------------------------------------
 */
 
-.pagination a, .pagination a:visited {
-    display: inline-block;
-    padding: .1rem 1rem;
-    margin: 0 .25rem;
-}
-
 .pagination span {
     display: inline-block;
     margin: 0 .5rem;
 }
 
-.psufilter {
-    position: relative;
-    font-size: 110%;
+.psuselection {
+    margin: 2rem 0;
 }
 
-#psu {
-    position: relative;
+.psuselection h4{
+    margin: 0 0 1rem 0;
 }
 
-p#psu {
-    margin: 0;
-    padding: 0.25em 0em;
-}
-
-
-div#psu {
-    margin-bottom: 0.5em;
-}
-
-a#psubutton:link, a#psubutton:visited {
-    background-color: white;
-    color: green;
-    font-size: 0.8em;
-    border: 2px;
-    border-radius: 10px;
-    padding: 5px 8px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-}
-
-a#psubutton:hover, a#psubutton:active {
-    background-color: #3CB371;
-    color: white;
+.psuselection div {
+    display: flex;
+    flex-direction: row;
 }

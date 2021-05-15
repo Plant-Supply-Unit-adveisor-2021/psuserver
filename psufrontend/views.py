@@ -78,18 +78,18 @@ def table_view(request, *, psu=0):
         # id not found -> take first psu in list
         sel_psu = psus[0]
 
+    context = {"psus": psus, "sel_psu": sel_psu}
+
     # get measurements of the selected PSU
     measurements = DataMeasurement.objects.filter(psu=sel_psu)
 
     # catch case if there are no measurements
-    if len(measurements) == 0:
-        context = {"psus": psus}
-    else:
+    if len(measurements) != 0:
         # set up paginator in order to create pages displaying the data
         paginator = Paginator(measurements, 30)
         measurements_on_page = paginator.get_page(request.GET.get('page'))
 
-        context = {'measurements': measurements_on_page, "psus": psus, "sel_psu": sel_psu}
+        context['measurements'] = measurements_on_page
     
     return render(request, 'psufrontend/table.html', context)
 
