@@ -76,7 +76,7 @@
     --table-even-bcolor: #f3f3f3;
     --table-odd-bcolor: #fff;
     --table-divdor-color: #ddd;
-    
+
     --nav-main-hover: #A2AD00;
 }
 
@@ -803,4 +803,6 @@ ul.messages > li.error {
 .psuselection div {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    gap: .5rem;
 }
