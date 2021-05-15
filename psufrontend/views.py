@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib import messages
 
-from psufrontend.forms import RegisterPSUForm
-from psucontrol.models import PSU, PendingPSU, DataMeasurement
+from psufrontend.forms import RegisterPSUForm, AddWateringTaskForm
+from psucontrol.models import PSU, PendingPSU, DataMeasurement,WateringTask
 from psucontrol.utils import get_psus_with_permission
 
 
@@ -52,7 +52,7 @@ def register_psu_view(request):
 
     # check whether form was submitted correctly
     if request.POST and form.is_valid():
-        create_PSU(request, form)
+        create_psu(request, form)
     
     return render(request, 'psufrontend/register_psu.html', {'form':form})
 
@@ -100,3 +100,30 @@ def no_psu_view(request):
     if a user does not have access to a PSU, he/she will be redirected to this page
     """
     return render(request, 'psufrontend/no_psu.html')
+
+
+@csrf_exempt
+@login_required
+def add_watering_task_view(request):
+    """
+    view for adding a watering task for a specific PSU
+    """
+    
+    @csrf_protect
+    def add_watering_task(request, form):
+        # cancel old tasks
+        for ot in WateringTask.objects.filter(psu=form.cleaned_data['psu'], status__in=[0, 5]):
+            ot.status = -10
+            ot.save()
+        # create WateringTask
+        WateringTask.objects.create(psu=form.cleaned_data['psu'], status=5, amount=form.cleaned_data['amount'])
+        messages.success(request, _('Successfully added your watering request. It might take a few minutes to fullfill your request. Note: Only the lastest watering task will be fullfilled.'))
+    
+    psus = get_psus_with_permission(request.user, 1)
+    form = AddWateringTaskForm(psus, request.POST or None)
+
+    if request.POST and form.is_valid():
+        add_watering_task(request, form)
+
+    return render(request, 'psufrontend/add_watering_task.html', {'form': form})
+    
