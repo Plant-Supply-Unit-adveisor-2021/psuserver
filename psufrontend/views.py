@@ -85,7 +85,7 @@ def change_user_permissions_view(request, psu=0):
 
     form = ChangeUserPermissionsForm(psus, users, request.POST or None)
 
-    return render(request, 'psufrontend/change_user_permissions.html', context={'form': form})
+    return render(request, 'psufrontend/change_user_permissions.html', context={'form': form, "psus": psus, "sel_psu": sel_psu})
 
 
 @login_required
