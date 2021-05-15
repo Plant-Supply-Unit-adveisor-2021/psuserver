@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-15 10:32+0200\n"
+"POT-Creation-Date: 2021-05-15 11:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -411,31 +411,59 @@ msgstr "Registrierung einer neuen Pflanzenpflegestation"
 msgid "Measurements"
 msgstr "Datenmessungen"
 
-#: .\psufrontend\templates\psufrontend\table.html:43
+#: .\psufrontend\templates\psufrontend\table.html:10
+msgid "Select a Plant Supply Unit"
+msgstr "Wähle eine Pflanzenpflegestation"
+
+#: .\psufrontend\templates\psufrontend\table.html:23
+msgid "first"
+msgstr "Erste"
+
+#: .\psufrontend\templates\psufrontend\table.html:24
+msgid "previous"
+msgstr "Vorherige"
+
+#: .\psufrontend\templates\psufrontend\table.html:27
+msgid "Page"
+msgstr "Seite"
+
+#: .\psufrontend\templates\psufrontend\table.html:27
+msgid "of"
+msgstr "von"
+
+#: .\psufrontend\templates\psufrontend\table.html:30
+msgid "next"
+msgstr "Nächste"
+
+#: .\psufrontend\templates\psufrontend\table.html:31
+msgid "last"
+msgstr "Letzte"
+
+#: .\psufrontend\templates\psufrontend\table.html:39
 msgid "Timestamp"
 msgstr "Zeitstempel"
 
-#: .\psufrontend\templates\psufrontend\table.html:44
+#: .\psufrontend\templates\psufrontend\table.html:40
 msgid "Temperature"
 msgstr "Temperatur"
 
-#: .\psufrontend\templates\psufrontend\table.html:45
+#: .\psufrontend\templates\psufrontend\table.html:41
 msgid "Air Humidity"
 msgstr "Luftfeuchte"
 
-#: .\psufrontend\templates\psufrontend\table.html:46
+#: .\psufrontend\templates\psufrontend\table.html:42
 msgid "Ground Humidity"
 msgstr "Bodenfeuchte"
 
-#: .\psufrontend\templates\psufrontend\table.html:47
+#: .\psufrontend\templates\psufrontend\table.html:43
 msgid "Brightness"
 msgstr "Helligkeit"
 
-#: .\psufrontend\templates\psufrontend\table.html:48
+#: .\psufrontend\templates\psufrontend\table.html:44
 msgid "Fill Level"
 msgstr "Füllstand"
 
-#: .\psufrontend\templates\psufrontend\table.html:69
+#: .\psufrontend\templates\psufrontend\table.html:65
 msgid ""
 "Sorry. It looks like this Plant Supply Unit did not send any measurements "
 "yet. Please try again later or consider a problem with the internet "
@@ -445,7 +473,7 @@ msgstr ""
 "finden. Versuch es später nochmal oder überprüfe die Internetverbindung "
 "deiner PSU."
 
-#: .\psufrontend\views.py:50
+#: .\psufrontend\views.py:49
 msgid "Successfully registered your new Plant Supply Unit."
 msgstr "Deine neue Pflanzenpflegestation wurde erfolgreich hinzugefügt."
 

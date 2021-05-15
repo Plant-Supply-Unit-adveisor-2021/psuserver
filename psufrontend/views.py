@@ -9,7 +9,6 @@ from django.contrib import messages
 from psufrontend.forms import RegisterPSUForm
 from psucontrol.models import PSU, PendingPSU, DataMeasurement
 from psucontrol.utils import get_psus_with_permission
-from django.views.generic import ListView
 
 
 # Create your views here.

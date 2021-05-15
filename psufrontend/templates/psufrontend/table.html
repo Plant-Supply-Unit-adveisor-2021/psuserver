@@ -18,22 +18,18 @@
   {% if measurements %}
     <!-- render table and pagination  -->
 
-    <div class="pagination">
-        <span class="step-links">
-          {% if measurements.has_previous %}
-              <a id="table" href="?page=1">&laquo; first</a>
-              <a id="table" href="?page={{ measurements.previous_page_number }}">previous</a>
-          {% endif %}
+    <div class="pagination align-center">
+        {% if measurements.has_previous %}
+            <a class="btn btn-secondary" href="?page=1">&laquo; {% trans "first" %}</a>
+            <a class="btn btn-secondary" href="?page={{ measurements.previous_page_number }}">{% trans "previous" %}</a>
+        {% endif %}
 
-          <span class="current">
-              Page {{ measurements.number }} of {{ measurements.paginator.num_pages }}
-          </span>
+        <span>{% trans "Page" %} {{ measurements.number }} {% trans "of" %} {{ measurements.paginator.num_pages }}</span>
 
-          {% if measurements.has_next %}
-              <a id="table" href="?page={{ measurements.next_page_number }}">next</a>
-              <a id="table" href="?page={{ measurements.paginator.num_pages }}">last &raquo;</a>
-          {% endif %}
-        </span>
+        {% if measurements.has_next %}
+            <a class="btn btn-secondary" href="?page={{ measurements.next_page_number }}">{% trans "next" %}</a>
+            <a class="btn btn-secondary" href="?page={{ measurements.paginator.num_pages }}">{% trans "last" %} &raquo;</a>
+        {% endif %}
     </div>
 
     <table class="table-striped">

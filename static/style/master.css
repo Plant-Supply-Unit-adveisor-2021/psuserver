@@ -35,10 +35,10 @@
     --btn-primary-fcolor: #fff;
     --btn-primary-bcolor-action: #0073D7;
     --btn-primary-fcolor-action: #fff;
-    --btn-secondary-bcolor: ;
-    --btn-secondary-fcolor: ;
-    --btn-secondary-bcolor-action: ;
-    --btn-secondary-fcolor-action: ;
+    --btn-secondary-bcolor: transparent;
+    --btn-secondary-fcolor: #3CB371;
+    --btn-secondary-bcolor-action: #3CB371/*#00e266*/;
+    --btn-secondary-fcolor-action: #fff;
     --btn-warning-bcolor: ;
     --btn-warning-fcolor: ;
     --btn-warning-bcolor-action: ;
@@ -72,9 +72,10 @@
     --messages-success-bcolor: #87d25c;
     --messages-error-bcolor: #f06b6b;
 
-    --table-header-bcolor: #009879;
+    --table-header-bcolor: #3CB371;
     --table-even-bcolor: #f3f3f3;
     --table-odd-bcolor: #fff;
+    --table-divdor-color: #ddd;
 }
 
 /*
@@ -213,8 +214,12 @@ a.thicken:hover, a.thicken:focus {
 }
 
 .btn.btn-secondary, .btn.btn-secondary:visited {
+    border-radius: .75rem;
+
     background-color: var(--btn-secondary-bcolor);
     color: var(--btn-secondary-fcolor);
+
+    font-weight: 600;
 }
 
 .btn.btn-secondary:focus, .btn.btn-secondary:hover {
@@ -412,16 +417,18 @@ div.drop-down .drop-down-element:focus, div.drop-down .drop-down-element:hover {
 
 /* general stuff */
 
+table{
+    margin: 1rem 0 2rem 0;
+}
+
 .table-striped {
     width: 100%;
     border-collapse: collapse;
-    margin: 20px 0;
     font-size: 0.9em;
 }
 
 .table-striped tr {
     display: flex;
-    widows: 100%;
 }
 
 .table-striped thead tr {
@@ -440,6 +447,7 @@ div.drop-down .drop-down-element:focus, div.drop-down .drop-down-element:hover {
 
 .table-striped tr {
     background-color: var(--table-odd-bcolor);
+    border-bottom: 1px solid var(--table-divdor-color);
 }
 
 .table-striped tr:nth-of-type(even) {
@@ -447,11 +455,7 @@ div.drop-down .drop-down-element:focus, div.drop-down .drop-down-element:hover {
 }
 
 .table-striped tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
-}
-
-.table-striped tbody tr {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 2px solid var(--table-header-bcolor);
 }
 
 /*
@@ -664,36 +668,30 @@ ul.messages > li.error {
     background-color: var(--messages-error-bcolor);
 }
 
+
+/*
+-------------------------------------------------------------------------------------------------
+    
+    special stuff for special views
+
+-------------------------------------------------------------------------------------------------
+*/ 
+
 /*
 -------------------------------------------------------------------------------------------------
     table page buttons
 -------------------------------------------------------------------------------------------------
 */
 
-.pagination {
-    text-align: center;
-    position: relative;
-    margin-bottom: 10px;
-}
-
-a#table:link, a#table:visited {
-    background-color: white;
-    color: green;
-    border: 2px;
-    border-radius: 10px;
-    padding: 5px 8px;
-    text-align: center;
-    text-decoration: none;
+.pagination a, .pagination a:visited {
     display: inline-block;
+    padding: .1rem 1rem;
+    margin: 0 .25rem;
 }
 
-a#table:hover, a#table:active {
-    background-color: #3CB371;
-    color: white;
-}
-
-span.current {
-    padding: 0.75em;
+.pagination span {
+    display: inline-block;
+    margin: 0 .5rem;
 }
 
 .psufilter {
