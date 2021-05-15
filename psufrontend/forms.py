@@ -34,7 +34,7 @@ class AddWateringTaskForm(forms.Form):
         # initialize choice field with PSUs
         choices = []
         for p in psus:
-            choices.append((p, _('{} of {} {} (#{})').format(p.name, p.owner.first_name, p.owner.last_name, p.id)))
+            choices.append((p,p.pretty_name()))
         self.fields['psu'].choices = choices
 
     def clean(self):

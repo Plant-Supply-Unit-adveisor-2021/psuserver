@@ -63,10 +63,13 @@ class PSU(models.Model):
     owner = models.ForeignKey(User, models.PROTECT, verbose_name=_('owner'), related_name='owner')
     permitted_users = models.ManyToManyField(User, verbose_name=_('permitted users'), related_name='permitted_user',
                                              blank=True)
-
+    
     # fields needed to control the watering
     watering_params = models.ForeignKey(WateringParams, models.PROTECT, verbose_name=_('watering parameters'), null=True, blank=True)
     unauthorized_watering = models.BooleanField(_('unauthorized watering'), default=False)
+
+    def pretty_name(self):
+        return _('{} of {} {} (#{})').format(self.name, self.owner.first_name, self.owner.last_name, self.id)
 
     def __str__(self):
         return '{:02d} - {} ({})'.format(self.id, self.name, self.owner)

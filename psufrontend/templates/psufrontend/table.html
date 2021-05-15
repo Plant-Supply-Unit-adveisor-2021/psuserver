@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load extra_utils %}
+
+{% block title %}{% trans "Measurements" %} - Plant Supply Unit{% endblock title %}{% trans "Measurements" %}
+
+{% block body %}
+
+  <!-- psu selection links -->
+  <div class="psuselection">
+    <h4>{% trans "Select a Plant Supply Unit" %}</h4>
+    <div>
+      {% for p in psus %}
+        <a class="btn btn-inline-block btn-secondary {% if p.id == sel_psu.id %}selected{% endif %}" href="{% url 'psufrontend:table' psu=p.id %}">{{ p.pretty_name }}</a>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% if measurements %}
+    <!-- render table and pagination  -->
+
+    <div class="pagination align-center">
+        {% if measurements.has_previous %}
+            <a class="btn btn-inline-block btn-secondary" href="?page=1">&laquo; {% trans "first" %}</a>
+            <a class="btn btn-inline-block btn-secondary" href="?page={{ measurements.previous_page_number }}">{% trans "previous" %}</a>
+        {% endif %}
+
+        <span>{% trans "Page" %} {{ measurements.number }} {% trans "of" %} {{ measurements.paginator.num_pages }}</span>
+
+        {% if measurements.has_next %}
+            <a class="btn btn-inline-block btn-secondary" href="?page={{ measurements.next_page_number }}">{% trans "next" %}</a>
+            <a class="btn btn-inline-block btn-secondary" href="?page={{ measurements.paginator.num_pages }}">{% trans "last" %} &raquo;</a>
+        {% endif %}
+    </div>
+
+    <table class="table-striped">
+      <!-- table head -->
+      <thead>
+        <tr>
+          <th class="align-center" style="flex: 1.5;">{% trans "Timestamp" %}</th>
+          <th class="align-center">{% trans "Temperature" %}</th>
+          <th class="align-center">{% trans "Air Humidity" %}</th>
+          <th class="align-center">{% trans "Ground Humidity" %}</th>
+          <th class="align-center">{% trans "Brightness" %}</th>
+          <th class="align-center">{% trans "Fill Level" %}</th>
+        </tr>
+      </thead>
+
+      <!-- table body with measurements -->
+      <tbody>
+        {% for m in measurements %}
+          <tr>
+            <td class="align-center" style="flex: 1.5;">{{ m.timestamp }}</td>
+            <td class="align-center">{{ m.temperature | round:1 }} °C</td>
+            <td class="align-center">{{ m.air_humidity | round:1 }} %</td>
+            <td class="align-center">{{ m.ground_humidity | round:1 }} %</td>
+            <td class="align-center">{{ m.brightness | round:0 }} %</td>
+            <td class="align-center">{{ m.fill_level | round:0 }} %</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  {% else %}
+    <!-- display message about not having found any data -->
+    <p>{% trans "Sorry. It looks like this Plant Supply Unit did not send any measurements yet. Please try again later or consider a problem with the internet connection of your PSU." %}</p>
+  {% endif %}
+{% endblock %}
