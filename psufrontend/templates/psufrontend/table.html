@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load extra_utils %}
 
 {% block title %}{% trans "Measurements" %} - Plant Supply Unit{% endblock title %}{% trans "Measurements" %}
 
@@ -50,11 +51,11 @@
         {% for m in measurements %}
           <tr>
             <td class="align-center" style="flex: 1.5;">{{ m.timestamp }}</td>
-            <td class="align-center">{{ m.temperature }}</td>
-            <td class="align-center">{{ m.air_humidity }}</td>
-            <td class="align-center">{{ m.ground_humidity }}</td>
-            <td class="align-center">{{ m.brightness }}</td>
-            <td class="align-center">{{ m.fill_level }}</td>
+            <td class="align-center">{{ m.temperature | round:1 }} °C</td>
+            <td class="align-center">{{ m.air_humidity | round:1 }} %</td>
+            <td class="align-center">{{ m.ground_humidity | round:1 }} %</td>
+            <td class="align-center">{{ m.brightness | round:0 }} %</td>
+            <td class="align-center">{{ m.fill_level | round:0 }} %</td>
           </tr>
         {% endfor %}
       </tbody>

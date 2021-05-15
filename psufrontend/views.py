@@ -13,23 +13,6 @@ from psucontrol.utils import get_psus_with_permission
 
 # Create your views here.
 
-
-class DataSet():
-    """
-    class holding pretty data for displaying it
-    """
-    def __init__(self, dm):
-        """
-        takes a DataMeasurement instance to generate pretty data
-        """
-        self.timestamp = dm.timestamp
-        self.temperature = '{:.1f} °C'.format(dm.temperature)
-        self.air_humidity = '{:.0f} %'.format(dm.air_humidity)
-        self.ground_humidity = '{:.0f} %'.format(dm.ground_humidity)
-        self.brightness = '{:.0f} %'.format(dm.brightness)
-        self.fill_level = '{:.0f} %'.format(dm.fill_level)
-
-
 @csrf_exempt
 @login_required
 def register_psu_view(request):
