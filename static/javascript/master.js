@@ -42,3 +42,37 @@ function toggleDropDown(id){
         console.error(e);
     }
 }
+
+
+/*
+----------------------------------------------------------------------------------------------------------------------------------------------------
+    charts and diagramms
+----------------------------------------------------------------------------------------------------------------------------------------------------
+*/
+
+/*linechart one*/
+
+let myChart1 = document.getElementById("myChart").getContext('2d');
+
+let time = m.timestamp;
+let data_h = m.ground_humidity;
+let color_h = ['#49A9EA']
+
+let chart1 = new Chart(myChart1, {
+    type: 'line',
+    data: {
+        labels: time,
+        datasets: [ {
+            data: data_h,
+            backgroundColor: color_h,
+
+        }]
+    },
+    options: {
+        title: {
+            text: "Humidity",
+            display: true
+        }
+    }
+
+} )
