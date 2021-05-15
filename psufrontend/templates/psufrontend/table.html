@@ -1,60 +1,71 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
+{% block title %}{% trans "Measurements" %} - Plant Supply Unit{% endblock title %}{% trans "Measurements" %}
 
 {% block body %}
 
+  <!-- psu selection links -->
+  <div class="psufilter">
+    <p id="psu">{% trans "Select a Plant Supply Unit" %}</p>
+    <div id="psu">
+      {% for p in psus %}
+        <a id="psubutton" class="{% if p.id == sel_psu.id %}selected{% endif %}" href="{% url 'psufrontend:table_view' psu=p.id %}">{{ p.pretty_name }}</a>
+      {% endfor %}
+    </div>
+  </div>
 
-  <table class="table-striped">
-    <thead>
-      <tr>
-        <th class="align-center" style="flex: 1.5;">Timestamp</th>
-        <th class="align-center">Temperature</th>
-        <th class="align-center">Air Humidity</th>
-        <th class="align-center">Ground Humidity</th>
-        <th class="align-center">Brightness</th>
-        <th class="align-center">Fill Level</th>
-      </tr>
-    </thead>
+  {% if measurements %}
+    <!-- render table and pagination  -->
 
-    <tbody>
-        {% for d in datas %}
+    <div class="pagination">
+        <span class="step-links">
+          {% if measurements.has_previous %}
+              <a id="table" href="?page=1">&laquo; first</a>
+              <a id="table" href="?page={{ measurements.previous_page_number }}">previous</a>
+          {% endif %}
+
+          <span class="current">
+              Page {{ measurements.number }} of {{ measurements.paginator.num_pages }}
+          </span>
+
+          {% if measurements.has_next %}
+              <a id="table" href="?page={{ measurements.next_page_number }}">next</a>
+              <a id="table" href="?page={{ measurements.paginator.num_pages }}">last &raquo;</a>
+          {% endif %}
+        </span>
+    </div>
+
+    <table class="table-striped">
+      <!-- table head -->
+      <thead>
+        <tr>
+          <th class="align-center" style="flex: 1.5;">{% trans "Timestamp" %}</th>
+          <th class="align-center">{% trans "Temperature" %}</th>
+          <th class="align-center">{% trans "Air Humidity" %}</th>
+          <th class="align-center">{% trans "Ground Humidity" %}</th>
+          <th class="align-center">{% trans "Brightness" %}</th>
+          <th class="align-center">{% trans "Fill Level" %}</th>
+        </tr>
+      </thead>
+
+      <!-- table body with measurements -->
+      <tbody>
+        {% for m in measurements %}
           <tr>
-            <td class="align-center" style="flex: 1.5;">{{ d.timestamp }}</td>
-            <td class="align-center">{{ d.temperature }}</td>
-            <td class="align-center">{{ d.air_humidity }}</td>
-            <td class="align-center">{{ d.ground_humidity }}</td>
-            <td class="align-center">{{ d.brightness }}</td>
-            <td class="align-center">{{ d.fill_level }}</td>
+            <td class="align-center" style="flex: 1.5;">{{ m.timestamp }}</td>
+            <td class="align-center">{{ m.temperature }}</td>
+            <td class="align-center">{{ m.air_humidity }}</td>
+            <td class="align-center">{{ m.ground_humidity }}</td>
+            <td class="align-center">{{ m.brightness }}</td>
+            <td class="align-center">{{ m.fill_level }}</td>
           </tr>
         {% endfor %}
+      </tbody>
+    </table>
 
-        <div class="psufilter">
-          <p id="psu"> Please select your PSU: </p>
-          <div id="psu">
-            {% for p in psus %}
-              <a id="psubutton" href="{% url 'psufrontend:table_view' psu=p.id %}">{{ p.name}}:{{ p.owner }} {{ p.id }}</a>
-            {% endfor %}
-          </div>
-        </div>
-
-        <div class="pagination">
-            <span class="step-links">
-              {% if datas.has_previous %}
-                  <a id="table" href="?page=1">&laquo; first</a>
-                  <a id="table" href="?page={{ datas.previous_page_number }}">previous</a>
-              {% endif %}
-
-              <span class="current">
-                  Page {{ datas.number }} of {{ datas.paginator.num_pages }}
-              </span>
-
-              {% if datas.has_next %}
-                  <a id="table" href="?page={{ datas.next_page_number }}">next</a>
-                  <a id="table" href="?page={{ datas.paginator.num_pages }}">last &raquo;</a>
-              {% endif %}
-            </span>
-        </div>
-
-    </tbody>
-  </table>
+  {% else %}
+    <!-- display message about not having found any data -->
+    <p>{% trans "Sorry. It looks like this Plant Supply Unit did not send any measurements yet. Please try again later or consider a problem with the internet connection of your PSU." %}</p>
+  {% endif %}
 {% endblock %}

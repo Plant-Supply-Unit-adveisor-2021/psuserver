@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.utils.translation import ugettext as _
 from django.core.paginator import Paginator
 
@@ -59,11 +59,17 @@ def register_psu_view(request):
 
 @login_required
 def table_view(request, *, psu=0):
+    """
+    view to present the DataMeasurements of one PSU in a tabular style to the user
+    """
+    
+    # gather the psus of the user
     psus = get_psus_with_permission(request.user, 1)
     if len(psus) == 0:
-        # display view later
-        return None
+        # no psus -> redirect to the no_psu_view
+        return redirect('psufrontend:no_psu')
 
+    # Try finding the handed over PSU id in the list of psus
     sel_psu = None
     for p in psus:
         if p.id == psu:
@@ -73,18 +79,19 @@ def table_view(request, *, psu=0):
         # id not found -> take first psu in list
         sel_psu = psus[0]
 
-    data_filter = DataMeasurement.objects.filter(psu=sel_psu)
+    # get measurements of the selected PSU
+    measurements = DataMeasurement.objects.filter(psu=sel_psu)
 
-    paginator = Paginator(data_filter, 30)
+    # catch case if there are no measurements
+    if len(measurements) == 0:
+        context = {"psus": psus}
+    else:
+        # set up paginator in order to create pages displaying the data
+        paginator = Paginator(measurements, 30)
+        measurements_on_page = paginator.get_page(request.GET.get('page'))
 
-    page = request.GET.get('page')
-
-    datas = paginator.get_page(page)
-
-    #myFilter = DataMeasurementFilter(request.GET, queryset=data_all)
-
-    context = {'datas': datas, "psus": psus}
-
+        context = {'measurements': measurements_on_page, "psus": psus, "sel_psu": sel_psu}
+    
     return render(request, 'psufrontend/table.html', context)
 
 

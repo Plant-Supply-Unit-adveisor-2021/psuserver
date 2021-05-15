@@ -31,6 +31,9 @@ class PSU(models.Model):
     permitted_users = models.ManyToManyField(User, verbose_name=_('permitted users'), related_name='permitted_user',
                                              blank=True)
 
+    def pretty_name(self):
+        return _('{} of {} {} (#{})').format(self.name, self.owner.first_name, self.owner.last_name, self.id)
+    
     def __str__(self):
         return '{:02d} - {}  --  {}'.format(self.id, self.name, self.owner)
 
