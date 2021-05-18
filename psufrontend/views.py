@@ -109,4 +109,12 @@ def add_watering_task_view(request):
         add_watering_task(request, form)
 
     return render(request, 'psufrontend/add_watering_task.html', {'form': form})
-    
+
+
+@login_required
+def chart_view(request):
+    """
+    view for chart
+    """
+    return render(request, 'psufrontend/chart.html')
+
