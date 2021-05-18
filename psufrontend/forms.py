@@ -3,9 +3,8 @@ from django.utils.translation import gettext_lazy as _
 
 from django.core.exceptions import ValidationError
 
-from psucontrol.models import PendingPSU, PSU
+from psucontrol.models import PendingPSU, PSU, to_psu
 import psufrontend.views
-
 
 class RegisterPSUForm(forms.Form):
     """
@@ -45,3 +44,24 @@ class ChangeUserPermissionsForm(forms.Form):
         for u in self.users:
             strings.append((str(u), u))
         return strings
+
+
+class AddWateringTaskForm(forms.Form):
+    """
+    form to add a new WateringTask
+    """
+    psu = forms.TypedChoiceField(label=_('Plant Supply Unit'), choices=[], help_text=_('The PSU you want to water manually.'), coerce=to_psu)
+    amount = forms.IntegerField(label=_('Amount of water'), help_text=_('The amount of water in milliliters you want to give to your plant.'))
+
+    def __init__(self, psus, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # initialize choice field with PSUs
+        choices = []
+        for p in psus:
+            choices.append((p,p.pretty_name()))
+        self.fields['psu'].choices = choices
+
+    def clean(self):
+        if self.cleaned_data['amount'] <= 0:
+            raise ValidationError(_('Please enter an amount of water that is bigger than zero.'))
+        return self.cleaned_data

@@ -3,9 +3,10 @@ from django.db import transaction
 from cryptography.hazmat.primitives.asymmetric import rsa, padding
 from cryptography.hazmat.primitives import serialization, hashes
 import base64
+from time import sleep
 
 from website.utils import get_test_user
-from psucontrol.models import PSU, PendingPSU, DataMeasurement, PSUImage, CommunicationLogEntry
+from psucontrol.models import PSU, PendingPSU, DataMeasurement, PSUImage, WateringTask, CommunicationLogEntry
 
 # Create your tests here.
 
@@ -23,6 +24,11 @@ class PSUCommunicationTestCase(TransactionTestCase):
         self.rsa_pk = rsa.generate_private_key(public_exponent=65537, key_size=2048)
         pub_rsa_str = str(self.rsa_pk.public_key().public_bytes(serialization.Encoding.PEM, serialization.PublicFormat.SubjectPublicKeyInfo), 'utf-8')
         self.psu = PSU.objects.create(name='TEST-PSU', identity_key='test-key', public_rsa_key=pub_rsa_str, owner=get_test_user())
+
+        # create two WateringTasks for testing
+        self.wt1 = WateringTask.objects.create(psu=self.psu, amount=500, status=5)
+        sleep(0.1)
+        self.wt2 = WateringTask.objects.create(psu=self.psu, amount=200, status=5)
     
 
     def get_signed_msg(self,* ,client=None):
@@ -365,3 +371,98 @@ class PSUCommunicationTestCase(TransactionTestCase):
         data['signed_challenge'] = self.get_signed_msg()
         data['image'] = open(png_file, 'rb')
         self.check_error_code(uri, '0xD4', data=data, client=c)
+
+
+    def test_watering_task(self):
+        """
+        test process of getting a watering task
+        """
+        uri = '/psucontrol/get_watering_task'
+
+        c = Client()
+
+        # Test error 0xB1 if no post data is given
+        self.check_error_code(uri, '0xB1', client=c)
+
+        # Test error 0xB1 if wrong post data is given
+        self.check_error_code(uri, '0xB1', data={'test':'test'}, client=c)
+
+        # Test error 0xA1 if wrong identity_key is given
+        self.check_error_code(uri, '0xA1', data={'identity_key':'somekey'}, client=c)
+
+        # Test error 0xA2 if wrong signed challenge is given
+        data = {'identity_key':self.psu.identity_key, 'signed_challenge': 'some weird challenge'}
+        self.check_error_code(uri, '0xA2', data=data, client=c)
+
+        # Test the returned WateringTask and check wether other Task was canceled
+        data['signed_challenge'] = self.get_signed_msg()
+        res = self.check_status(uri, True, data=data, client=c)
+
+        # check whether correct task was returned
+        self.check_dict_value(uri, data, res, "watering_task_id", self.wt2.id)
+        self.check_dict_value(uri, data, res, "watering_task_amount", 200)
+
+        # check whether things in the database are correct
+        self.wt1.refresh_from_db()
+        self.wt2.refresh_from_db()
+        self.failUnlessEqual(self.wt1.status, -10, 'The first WateringTask has status {} but should have -10.'.format(self.wt1.status))
+        self.failUnlessEqual(self.wt2.status, 10, 'The last WateringTask has status {} but should have 10.'.format(self.wt2.status))
+
+        # Try getting the task another task -> should be successful
+        data['signed_challenge'] = self.get_signed_msg()
+        res = self.check_status(uri, True, data=data, client=c)
+
+        # check whether correct task was returned
+        self.check_dict_value(uri, data, res, "watering_task_id", self.wt2.id)
+        self.check_dict_value(uri, data, res, "watering_task_amount", 200)
+
+        """
+        test the process of marking a watering task as executed
+        """
+
+        uri = '/psucontrol/mark_watering_task_executed'
+
+        # Test error 0xB1 if no post data is given
+        self.check_error_code(uri, '0xB1', client=c)
+
+        # Test error 0xB1 if wrong post data is given
+        self.check_error_code(uri, '0xB1', data={'test':'test'}, client=c)
+
+        # Test error 0xA1 if wrong identity_key is given
+        self.check_error_code(uri, '0xA1', data={'identity_key':'somekey'}, client=c)
+
+        # Test error 0xA2 if wrong signed challenge is given
+        data = {'identity_key':self.psu.identity_key, 'signed_challenge': 'some weird challenge'}
+        self.check_error_code(uri, '0xA2', data=data, client=c)
+
+        # Test error 0xB1 if wrong post data except auth stuff is given
+        data['signed_challenge'] = self.get_signed_msg()
+        self.check_error_code(uri, '0xB1', data=data, client=c)
+
+        # Try marking a wrong watering task as done
+        data['signed_challenge'] = self.get_signed_msg()
+        data['watering_task_id'] = str(self.wt1.id)
+        self.check_error_code(uri, '0xW2', data=data, client=c)
+
+        # check whether things in the database are correct
+        self.wt1.refresh_from_db()
+        self.wt2.refresh_from_db()
+        self.failUnlessEqual(self.wt1.status, -10, 'The first WateringTask has status {} but should have -10.'.format(self.wt1.status))
+        self.failUnlessEqual(self.wt2.status, 10, 'The last WateringTask has status {} but should have 10.'.format(self.wt2.status))
+
+        # Test whether watering task was marked as done
+        data['signed_challenge'] = self.get_signed_msg()
+        data['watering_task_id'] = str(self.wt2.id)
+        self.check_status(uri, True, data=data, client=c)
+
+        # check whether things in the database are correct
+        self.wt1.refresh_from_db()
+        self.wt2.refresh_from_db()
+        self.failUnlessEqual(self.wt1.status, -10, 'The first WateringTask has status {} but should have -10.'.format(self.wt1.status))
+        self.failUnlessEqual(self.wt2.status, 20, 'The last WateringTask has status {} but should have 20.'.format(self.wt2.status))
+
+        uri = '/psucontrol/get_watering_task'
+
+        # Try getting another watering task which does not exist
+        data['signed_challenge'] = self.get_signed_msg()
+        self.check_error_code(uri, '0xW1', data=data, client=c)

@@ -29,3 +29,14 @@ def cut(value, arg):
     template filter to replace all appearances of arg through nothing
     """
     return value.replace(arg, '')
+
+@register.filter
+def round(value, digits):
+    """
+    template filter to round a floating point number
+    """
+    try:
+        return '{0:.{1}f}'.format(float(value).__round__(digits), max(digits,0))
+    except Exception:
+        # some kind of error occured -> do not touch value
+        return value

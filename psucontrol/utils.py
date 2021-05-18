@@ -11,8 +11,8 @@ def check_permissions(psu, user):
         10 owner
     """
 
-    if user.is_staff or user.is_superuser:
-        # treat staff and superusers higher than owners
+    if user.is_superuser:
+        # treat superusers higher than owners
         return 20
 
     elif psu.owner == user:

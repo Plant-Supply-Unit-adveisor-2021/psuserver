@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-09 14:22+0200\n"
+"POT-Creation-Date: 2021-05-15 12:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -129,7 +129,7 @@ msgid "Welcome"
 msgstr "Willkommen"
 
 #: .\authentication\templates\authentication\after_register.html:7
-#: .\website\templates\base.html:26
+#: .\website\templates\base.html:42
 msgid "Welcome to Team Plant Supply Unit"
 msgstr "Willkommen beim Team Plant Supply Unit"
 
@@ -148,7 +148,7 @@ msgid "Edit User"
 msgstr "Profil bearbeiten"
 
 #: .\authentication\templates\authentication\edit_profile.html:9
-#: .\website\templates\base.html:33
+#: .\website\templates\base.html:50
 msgid "Edit Profile"
 msgstr "Profil bearbeiten"
 
@@ -157,19 +157,20 @@ msgid "Change Password"
 msgstr "Passwort ändern"
 
 #: .\authentication\templates\authentication\edit_profile.html:13
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:11
 #: .\psufrontend\templates\psufrontend\register_psu.html:11
 msgid "Save"
 msgstr "Sichern"
 
 #: .\authentication\templates\authentication\login.html:4
 #: .\authentication\templates\authentication\login.html:10
-#: .\website\templates\base.html:36
+#: .\website\templates\base.html:53
 msgid "Login"
 msgstr "Einloggen"
 
 #: .\authentication\templates\authentication\register.html:4
 #: .\authentication\templates\authentication\register.html:11
-#: .\website\templates\base.html:37
+#: .\website\templates\base.html:54
 msgid "Register"
 msgstr "Registrieren"
 
@@ -193,163 +194,305 @@ msgstr "Dein Passwort wurde erfolgreich geändert."
 msgid "PSU Control"
 msgstr "PSU Steuerung"
 
-#: .\psucontrol\models.py:22
+#: .\psucontrol\models.py:22 .\psucontrol\models.py:55
 msgid "name"
 msgstr "Name"
 
-#: .\psucontrol\models.py:25 .\psucontrol\models.py:49
+#: .\psucontrol\models.py:25
+msgid "ground humidity goal"
+msgstr "Bodenfeuchteziel"
+
+#: .\psucontrol\models.py:26
+msgid "light level limit"
+msgstr "Lichtniveaulimit"
+
+#: .\psucontrol\models.py:26
+msgid "Light limit to prevent watering in the mid of the night."
+msgstr "Lichtniveaulimit um das Gießen in der Nacht zu verhindern."
+
+#: .\psucontrol\models.py:27
+msgid "temperature limit"
+msgstr "Temperaturlimit"
+
+#: .\psucontrol\models.py:27
+msgid "Temperature limit to prevent watering in too hot periods."
+msgstr "Termperaturlimit um das Gießen in zu heißen Perioden zu vermeiden."
+
+#: .\psucontrol\models.py:28
+msgid "minimum amount"
+msgstr "Minimale Menge"
+
+#: .\psucontrol\models.py:28
+msgid "The minimum amount of water which should be used for the watering."
+msgstr ""
+"Die minimale Menge an Wasser, die für einen Bewässerungsauftrag benötigt "
+"wird."
+
+#: .\psucontrol\models.py:29
+msgid "maximum amount"
+msgstr "Maximale Menge"
+
+#: .\psucontrol\models.py:29
+msgid "The maximum amount of water which should be used for the watering."
+msgstr ""
+"Die maximale Menge an Wasser, die für einen Bewässerungsauftrag genutzt wird."
+
+#: .\psucontrol\models.py:30
+msgid "starting amount"
+msgstr "Startmenge"
+
+#: .\psucontrol\models.py:30
+msgid "The amount of water which is used to test how many water is needed."
+msgstr "Die Menge an Wasser zum Testen der Auswirkungen einer bestimmten Menge"
+
+#: .\psucontrol\models.py:32
+msgid "Multiplier for the proportional part."
+msgstr "Multiplikator für den proportionalen Teil."
+
+#: .\psucontrol\models.py:33
+msgid "Multiplier for the integral part."
+msgstr "Multiplikator für den integrativen Teil."
+
+#: .\psucontrol\models.py:34
+msgid "Multiplier for the derivative part."
+msgstr "Multiplikator für den Ableitungsteil."
+
+#: .\psucontrol\models.py:35
+msgid "Duration of one timestep."
+msgstr "Dauer eines Zeitschritts"
+
+#: .\psucontrol\models.py:41 .\psucontrol\models.py:42
+msgid "Watering Parameters"
+msgstr "Bewässerungsparameter"
+
+#: .\psucontrol\models.py:58 .\psucontrol\models.py:101
 msgid "identity key"
 msgstr "Identitätsschlüssel"
 
-#: .\psucontrol\models.py:26 .\psucontrol\models.py:51
+#: .\psucontrol\models.py:59 .\psucontrol\models.py:103
 msgid "public rsa key"
 msgstr "Öffentlicher RSA-Schlüssel"
 
-#: .\psucontrol\models.py:27
+#: .\psucontrol\models.py:60
 msgid "current challenge token"
 msgstr "Aktueller Challenge Token"
 
-#: .\psucontrol\models.py:30
+#: .\psucontrol\models.py:63
 msgid "owner"
 msgstr "Besitzer:in"
 
-#: .\psucontrol\models.py:31
+#: .\psucontrol\models.py:64
 msgid "permitted users"
 msgstr "Berechtigte Benutzer:innen"
 
-#: .\psucontrol\models.py:38 .\psucontrol\models.py:70
-#: .\psucontrol\models.py:101 .\psucontrol\models.py:173
+#: .\psucontrol\models.py:68 .\psucontrol\models.py:302
+msgid "watering parameters"
+msgstr "Bewässerungsparameter"
+
+#: .\psucontrol\models.py:69
+msgid "unauthorized watering"
+msgstr "eigenmächtiges Gießen"
+
+#: .\psucontrol\models.py:72 .\psufrontend\forms.py:37
+msgid "{} of {} {} (#{})"
+msgstr "{} von {} {} (#{})"
+
+#: .\psucontrol\models.py:78 .\psucontrol\models.py:122
+#: .\psucontrol\models.py:153 .\psucontrol\models.py:218
+#: .\psucontrol\models.py:267 .\psucontrol\models.py:305
+#: .\psufrontend\forms.py:29
 msgid "Plant Supply Unit"
 msgstr "Pflanzenpflegestation"
 
-#: .\psucontrol\models.py:39
+#: .\psucontrol\models.py:79
 msgid "Plant Supply Units"
 msgstr "Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:53
+#: .\psucontrol\models.py:105
 msgid "pairing key"
 msgstr "Kopplungsschlüssel"
 
-#: .\psucontrol\models.py:56
+#: .\psucontrol\models.py:108
 msgid "creation time"
 msgstr "Erstellungszeit"
 
-#: .\psucontrol\models.py:59
+#: .\psucontrol\models.py:111
 msgid "Pending Plant Supply Unit"
 msgstr "schwebende Pflanzenpflegestation"
 
-#: .\psucontrol\models.py:60
+#: .\psucontrol\models.py:112
 msgid "Pending Plant Supply Units"
 msgstr "schwebende Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:73 .\psucontrol\models.py:104
-#: .\psucontrol\models.py:178
+#: .\psucontrol\models.py:125 .\psucontrol\models.py:156
+#: .\psucontrol\models.py:227 .\psucontrol\models.py:272
+#: .\psucontrol\models.py:299
 msgid "timestamp"
 msgstr "Zeitstempel"
 
-#: .\psucontrol\models.py:76
+#: .\psucontrol\models.py:128
 msgid "temperature"
 msgstr "Temperatur"
 
-#: .\psucontrol\models.py:77
+#: .\psucontrol\models.py:129
 msgid "air humidity"
 msgstr "Luftfeuchte"
 
-#: .\psucontrol\models.py:78
+#: .\psucontrol\models.py:130
 msgid "ground humidity"
 msgstr "Bodenfeuchte"
 
-#: .\psucontrol\models.py:79
+#: .\psucontrol\models.py:131
 msgid "brightness"
 msgstr "Helligkeit"
 
-#: .\psucontrol\models.py:80
+#: .\psucontrol\models.py:132
 msgid "fill level"
 msgstr "Füllstand"
 
-#: .\psucontrol\models.py:86
+#: .\psucontrol\models.py:138
 msgid "Data Measurement"
 msgstr "Datenmessung"
 
-#: .\psucontrol\models.py:87
+#: .\psucontrol\models.py:139
 msgid "Data Measurements"
 msgstr "Datenmessungen"
 
-#: .\psucontrol\models.py:107
+#: .\psucontrol\models.py:159
 msgid "image"
 msgstr "Bild"
 
-#: .\psucontrol\models.py:113
+#: .\psucontrol\models.py:165
 msgid "PSU Image"
 msgstr "Bild von einer Pflanzenpflegestation"
 
-#: .\psucontrol\models.py:114
+#: .\psucontrol\models.py:166
 msgid "PSU Images"
 msgstr "Bilder von Pflanzenpflegestationen"
 
-#: .\psucontrol\models.py:170
+#: .\psucontrol\models.py:201
+msgid "canceled"
+msgstr "abgebrochen"
+
+#: .\psucontrol\models.py:202
+msgid "scheduled"
+msgstr "geplant"
+
+#: .\psucontrol\models.py:203
+msgid "approved"
+msgstr "freigegeben"
+
+#: .\psucontrol\models.py:204
+msgid "transmitted"
+msgstr "gesendet"
+
+#: .\psucontrol\models.py:205
+msgid "done"
+msgstr "abgeschlossen"
+
+#: .\psucontrol\models.py:221
+msgid "status"
+msgstr "Status"
+
+#: .\psucontrol\models.py:224 .\psucontrol\models.py:308
+msgid "amount"
+msgstr "Menge"
+
+#: .\psucontrol\models.py:230
+msgid "execution timestamp"
+msgstr "Ausführungszeitstempel"
+
+#: .\psucontrol\models.py:237
+msgid "Watering Task"
+msgstr "Bewässerungsauftrag"
+
+#: .\psucontrol\models.py:238
+msgid "Watering Tasks"
+msgstr "Bewässerungsaufträge"
+
+#: .\psucontrol\models.py:264
 msgid "classification"
 msgstr "Einstufung"
 
-#: .\psucontrol\models.py:175
+#: .\psucontrol\models.py:269
 msgid "psu identity key"
 msgstr "PSU Identitätsschlüssel"
 
-#: .\psucontrol\models.py:181
+#: .\psucontrol\models.py:275
 msgid "request uri"
 msgstr "Anfrage URI"
 
-#: .\psucontrol\models.py:184
+#: .\psucontrol\models.py:278
 msgid "request"
 msgstr "Anfrage"
 
-#: .\psucontrol\models.py:187
+#: .\psucontrol\models.py:281
 msgid "repsonse"
 msgstr "Antwort"
 
-#: .\psucontrol\models.py:195
+#: .\psucontrol\models.py:289
 msgid "Log Entry"
 msgstr "Logeintrag"
 
-#: .\psucontrol\models.py:196
+#: .\psucontrol\models.py:290
 msgid "Log Entries"
 msgstr "Logeinträge"
 
-#: .\psucontrol\views.py:26
+#: .\psucontrol\models.py:311
+msgid "information"
+msgstr "Information"
+
+#: .\psucontrol\models.py:317
+msgid "Watering Decision"
+msgstr "Bewässerungsentscheidung"
+
+#: .\psucontrol\models.py:318
+msgid "Watering Decisions"
+msgstr "Bewässerungsentscheidungen"
+
+#: .\psucontrol\views.py:27
 msgid "Failed to identify PSU"
 msgstr "Fehler beim Identifizieren der PSU"
 
-#: .\psucontrol\views.py:27
+#: .\psucontrol\views.py:28
 msgid "Failed to authenticate PSU"
 msgstr "Fehler beim Authentifizieren der PSU"
 
-#: .\psucontrol\views.py:28
+#: .\psucontrol\views.py:29
 msgid "Failed to deserialize public key"
 msgstr "Fehler beim einlesen des öffentlichen RSA Schlüssels"
 
-#: .\psucontrol\views.py:30
+#: .\psucontrol\views.py:31
 msgid "Bad request"
 msgstr "Anfrage nicht verwertbar"
 
-#: .\psucontrol\views.py:32
+#: .\psucontrol\views.py:33
 msgid "Failed to create new PSU"
 msgstr "Fehler beim Erstellen einer neuen PSU"
 
-#: .\psucontrol\views.py:33
+#: .\psucontrol\views.py:34
 msgid "Failed to create new data measurement"
 msgstr "Fehler beim Erstellen einer Messung"
 
-#: .\psucontrol\views.py:34
+#: .\psucontrol\views.py:35
 msgid "Problems with timestamp or making timestamp timezone aware."
 msgstr "Probleme mit dem Zeitstempel der Messung evtl. bzgl. Zeitzonen"
 
-#: .\psucontrol\views.py:35
+#: .\psucontrol\views.py:36
 msgid "The timestamp already exists for this PSU"
 msgstr "Es gibt bereits eine Messung mit diesem Zeitstempel."
 
-#: .\psucontrol\views.py:36
+#: .\psucontrol\views.py:37
 msgid "Failed to upload new image."
 msgstr "Fehler beim Hochladen des Kamerabildes"
+
+#: .\psucontrol\views.py:39
+msgid "No watering task available."
+msgstr "Kein Bewässerungsauftrag vorhanden."
+
+#: .\psucontrol\views.py:40
+msgid "Failed to mark watering task as done."
+msgstr "Fehler beim Markieren des Bewässserungsauftrag als abgeschlossen."
 
 #: .\psufrontend\apps.py:7
 msgid "PSU Frontend"
@@ -381,7 +524,49 @@ msgstr ""
 "Bitte überprüfe den Schlüssel und die Internetverbindung der Pflegestation "
 "nochmal."
 
+#: .\psufrontend\forms.py:29
+msgid "The PSU you want to water manually."
+msgstr ""
+"Wähle die Pflegestation aus, die den manuellen Gießvorgang durchführen soll."
+
+#: .\psufrontend\forms.py:30
+msgid "Amount of water"
+msgstr "Wassermenge"
+
+#: .\psufrontend\forms.py:30
+msgid "The amount of water in milliliters you want to give to your plant."
+msgstr ""
+"Die Wassermenge in Millilitern mit der die Pflanze gegossen werden soll."
+
+#: .\psufrontend\forms.py:42
+msgid "Please enter an amount of water that is bigger than zero."
+msgstr "Bitte geb eine Wassermenge an, die größer als 0 ist."
+
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:4
+#: .\website\templates\base.html:36
+msgid "Manual Watering"
+msgstr "Manuelles Gießen"
+
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:9
+msgid "Create a watering task for your PSU"
+msgstr "Erstelle einen Bewässerungsauftrag für deine Pflanzenpflegestation."
+
+#: .\psufrontend\templates\psufrontend\no_psu.html:9
+msgid ""
+"It seems you do not have access to any PSUs yet. Maybe you forgot to "
+"register your brand new Plant Supply Unit. Otherwise please contact an "
+"Administrator to tackle your problem.<br>Click the button below to start the "
+"journey with your first PSU!"
+msgstr ""
+"Es scheint so, als ob du aktuell keinen Zugriff auf eine PSU hast. Eventuell "
+"hast du vergessen deine brandneue Pflanzenpflegestation zu registrieren. "
+"Wenn dem nicht so ist, kontaktiere bitte einen Adminstrator um das Problem "
+"zu lösen.<br>Registriere jetzt deine erste Pflanzenpflegestation und beginne "
+"deine Reise mit uns."
+
+#: .\psufrontend\templates\psufrontend\no_psu.html:11
 #: .\psufrontend\templates\psufrontend\register_psu.html:4
+#: .\website\templates\base.html:37
 msgid "Register PSU"
 msgstr "PSU Registrieren"
 
@@ -389,9 +574,86 @@ msgstr "PSU Registrieren"
 msgid "Register Plant Supply Unit"
 msgstr "Registrierung einer neuen Pflanzenpflegestation"
 
-#: .\psufrontend\views.py:30
+#: .\psufrontend\templates\psufrontend\table.html:4
+#: .\website\templates\base.html:35
+msgid "Measurements"
+msgstr "Datenmessungen"
+
+#: .\psufrontend\templates\psufrontend\table.html:10
+msgid "Select a Plant Supply Unit"
+msgstr "Wähle eine Pflanzenpflegestation"
+
+#: .\psufrontend\templates\psufrontend\table.html:23
+msgid "first"
+msgstr "Erste"
+
+#: .\psufrontend\templates\psufrontend\table.html:24
+msgid "previous"
+msgstr "Vorherige"
+
+#: .\psufrontend\templates\psufrontend\table.html:27
+msgid "Page"
+msgstr "Seite"
+
+#: .\psufrontend\templates\psufrontend\table.html:27
+msgid "of"
+msgstr "von"
+
+#: .\psufrontend\templates\psufrontend\table.html:30
+msgid "next"
+msgstr "Nächste"
+
+#: .\psufrontend\templates\psufrontend\table.html:31
+msgid "last"
+msgstr "Letzte"
+
+#: .\psufrontend\templates\psufrontend\table.html:39
+msgid "Timestamp"
+msgstr "Zeitstempel"
+
+#: .\psufrontend\templates\psufrontend\table.html:40
+msgid "Temperature"
+msgstr "Temperatur"
+
+#: .\psufrontend\templates\psufrontend\table.html:41
+msgid "Air Humidity"
+msgstr "Luftfeuchte"
+
+#: .\psufrontend\templates\psufrontend\table.html:42
+msgid "Ground Humidity"
+msgstr "Bodenfeuchte"
+
+#: .\psufrontend\templates\psufrontend\table.html:43
+msgid "Brightness"
+msgstr "Helligkeit"
+
+#: .\psufrontend\templates\psufrontend\table.html:44
+msgid "Fill Level"
+msgstr "Füllstand"
+
+#: .\psufrontend\templates\psufrontend\table.html:65
+msgid ""
+"Sorry. It looks like this Plant Supply Unit did not send any measurements "
+"yet. Please try again later or consider a problem with the internet "
+"connection of your PSU."
+msgstr ""
+"Sorry. Wir konnten leider keine Daten von dieser Pflanzenpflegestation "
+"finden. Versuch es später nochmal oder überprüfe die Internetverbindung "
+"deiner PSU."
+
+#: .\psufrontend\views.py:49
 msgid "Successfully registered your new Plant Supply Unit."
 msgstr "Deine neue Pflanzenpflegestation wurde erfolgreich hinzugefügt."
+
+#: .\psufrontend\views.py:120
+msgid ""
+"Successfully added your watering request. It might take a few minutes to "
+"fullfill your request. Note: Only the lastest watering task will be "
+"fullfilled."
+msgstr ""
+"Dein Auftrag wurde erfolgreich gespeichert. Beachte, dass nur der letzte "
+"offene Bewässerungsauftrag durchgeführt wird und es ein paar Minuten dauern "
+"kann, bis die Pflegestation den Gießvorgang vornimmt."
 
 #: .\website\settings.py:211
 msgid "German"
@@ -444,10 +706,14 @@ msgstr ""
 "Eventuell nutzt du einen veralteten Link. Wenn du der Überzeugung bist, dass "
 "diese Seite existieren sollte, kontaktiere bitte einen Admin."
 
-#: .\website\templates\base.html:32
+#: .\website\templates\base.html:31
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: .\website\templates\base.html:49
 msgid "Administration"
 msgstr "Administration"
 
-#: .\website\templates\base.html:34
+#: .\website\templates\base.html:51
 msgid "Logout"
 msgstr "Ausloggen"

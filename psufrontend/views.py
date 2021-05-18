@@ -1,35 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.utils.translation import ugettext as _
+from django.core.paginator import Paginator
 
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib import messages
 
-from psufrontend.forms import RegisterPSUForm, ChangeUserPermissionsForm
-from psucontrol.models import PSU, PendingPSU, DataMeasurement
+from psufrontend.forms import RegisterPSUForm, AddWateringTaskForm, ChangeUserPermissionsForm
+from psucontrol.models import PSU, PendingPSU, DataMeasurement, WateringTask
 from psucontrol.utils import get_psus_with_permission, get_users_with_permission
 
+
 # Create your views here.
-
-ITEMS_PER_PAGE = 35
-
-
-class DataSet():
-    """
-    class holding pretty data for displaying it
-    """
-
-    def __init__(self, dm):
-        """
-        takes a DataMeasurement instance to generate pretty data
-        """
-        self.timestamp = dm.timestamp
-        self.temperature = '{:.1f} °C'.format(dm.temperature)
-        self.air_humidity = '{:.0f} %'.format(dm.air_humidity)
-        self.ground_humidity = '{:.0f} %'.format(dm.ground_humidity)
-        self.brightness = '{:.0f} %'.format(dm.brightness)
-        self.fill_level = '{:.0f} %'.format(dm.fill_level)
-
 
 @csrf_exempt
 @login_required
@@ -89,16 +71,18 @@ def change_user_permissions_view(request, psu=0):
 
 
 @login_required
-def table_view(request, *, page=0, psu=0):
+def table_view(request, *, psu=0):
     """
-    view to handle the tabular-style presentation of measurements
+    view to present the DataMeasurements of one PSU in a tabular style to the user
     """
-    # checking for which PSU the data should be displayed
+    
+    # gather the psus of the user
     psus = get_psus_with_permission(request.user, 1)
     if len(psus) == 0:
-        # display view later
-        return None
+        # no psus -> redirect to the no_psu_view
+        return redirect('psufrontend:no_psu')
 
+    # Try finding the handed over PSU id in the list of psus
     sel_psu = None
     for p in psus:
         if p.id == psu:
@@ -108,22 +92,52 @@ def table_view(request, *, page=0, psu=0):
         # id not found -> take first psu in list
         sel_psu = psus[0]
 
-    # gather data for sel_psu
-    data_all = DataMeasurement.objects.filter(psu=sel_psu)
-    data_count = len(data_all)
+    context = {"psus": psus, "sel_psu": sel_psu}
 
-    # sorting out paging stuff
-    max_page = int(data_count / ITEMS_PER_PAGE - 0.5)
-    page = max(0, min(max_page, int(page)))
-    # slice data according to page
-    data_raw = data_all[(page * ITEMS_PER_PAGE): min(data_count, (page + 1) * ITEMS_PER_PAGE)]
+    # get measurements of the selected PSU
+    measurements = DataMeasurement.objects.filter(psu=sel_psu)
 
-    data = []
-    for d in data_raw:
-        data.append(DataSet(d))
+    # catch case if there are no measurements
+    if len(measurements) != 0:
+        # set up paginator in order to create pages displaying the data
+        paginator = Paginator(measurements, 30)
+        measurements_on_page = paginator.get_page(request.GET.get('page'))
 
-    context = {
-        'data': data,
-    }
+        context['measurements'] = measurements_on_page
+    
+    return render(request, 'psufrontend/table.html', context)
 
-    return render(request, 'psufrontend/table.html', context=context)
+
+@login_required
+def no_psu_view(request):
+    """
+    if a user does not have access to a PSU, he/she will be redirected to this page
+    """
+    return render(request, 'psufrontend/no_psu.html')
+
+
+@csrf_exempt
+@login_required
+def add_watering_task_view(request):
+    """
+    view for adding a watering task for a specific PSU
+    """
+    
+    @csrf_protect
+    def add_watering_task(request, form):
+        # cancel old tasks
+        for ot in WateringTask.objects.filter(psu=form.cleaned_data['psu'], status__in=[0, 5]):
+            ot.status = -10
+            ot.save()
+        # create WateringTask
+        WateringTask.objects.create(psu=form.cleaned_data['psu'], status=5, amount=form.cleaned_data['amount'])
+        messages.success(request, _('Successfully added your watering request. It might take a few minutes to fullfill your request. Note: Only the lastest watering task will be fullfilled.'))
+    
+    psus = get_psus_with_permission(request.user, 1)
+    form = AddWateringTaskForm(psus, request.POST or None)
+
+    if request.POST and form.is_valid():
+        add_watering_task(request, form)
+
+    return render(request, 'psufrontend/add_watering_task.html', {'form': form})
+    
