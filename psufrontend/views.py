@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib import messages
 
-from psufrontend.forms import RegisterPSUForm, AddWateringTaskForm
+from psufrontend.forms import RegisterPSUForm, AddWateringTaskForm, WateringControlForm
 from psucontrol.models import PSU, PendingPSU, DataMeasurement,WateringTask
 from psucontrol.utils import get_psus_with_permission
 
@@ -109,4 +109,37 @@ def add_watering_task_view(request):
         add_watering_task(request, form)
 
     return render(request, 'psufrontend/add_watering_task.html', {'form': form})
-    
+
+
+@csrf_exempt    
+@login_required
+def watering_control_view(request, psu=0):
+
+    psus = get_psus_with_permission(request.user, 1)
+    if len(psus) == 0:
+        # no psus -> redirect to the no_psu_view
+        return redirect('psufrontend:no_psu')
+
+    # Try finding the handed over PSU id in the list of psus
+    sel_psu = None
+    for p in psus:
+        if p.id == psu:
+            sel_psu = p
+            break
+    if sel_psu is None:
+        # id not found -> take first psu in list
+        sel_psu = psus[0]
+
+    @csrf_protect
+    def watering_control(request, form):
+
+        messages.success(request, _('Successfully saved your choice.'))
+
+    form = WateringControlForm(psus, request.POST or None)
+
+    if request.POST and form.is_valid():
+        watering_control(request, form)
+
+    context = {"sel_psu": sel_psu, "psus": psus, "form": form}
+
+    return render(request, 'psufrontend/watering_control.html', context)

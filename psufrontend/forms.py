@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 from django.core.exceptions import ValidationError
 
-from psucontrol.models import PendingPSU, to_psu
+from psucontrol.models import PendingPSU, to_psu, WateringParams
 
 
 class RegisterPSUForm(forms.Form):
@@ -41,3 +41,17 @@ class AddWateringTaskForm(forms.Form):
         if self.cleaned_data['amount'] <= 0:
             raise ValidationError(_('Please enter an amount of water that is bigger than zero.'))
         return self.cleaned_data
+
+class WateringControlForm(forms.Form):
+    """
+    form to change watering parameters and choose if you want to water manually
+    """
+    param = forms.TypedChoiceField(label=_('Watering Paramter'), choices=[], help_text=_('Choose your watering parameter.'), coerce=WateringParams)
+
+    def __init__(self, psus, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # initialize choice field with parameters
+        choices = []
+        for p in psus:
+            choices.append((p,p.pretty_name()))
+        self.fields['param'].choices = choices
