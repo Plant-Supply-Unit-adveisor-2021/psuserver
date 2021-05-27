@@ -112,7 +112,7 @@ def add_watering_task_view(request):
 
 
 @login_required
-def chart_view(request):
+def chart_view(request, *, psu=0):
     """
     view for chart
     """
@@ -144,5 +144,5 @@ def chart_view(request):
         measurements_on_page = paginator.get_page(request.GET.get('page'))
 
         context['measurements'] = measurements_on_page
-    return render(request, 'psufrontend/chart.html')
+    return render(request, 'psufrontend/chart.html', context=context)
 

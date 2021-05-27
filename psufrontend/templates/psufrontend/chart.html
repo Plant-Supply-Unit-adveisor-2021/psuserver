@@ -2,22 +2,51 @@
 {% load i18n %}
 {% load extra_utils %}
 
-{% block title %}{% trans "Chart" %} - Plant Supply Unit{% endblock title %}{% trans "Chart" %}
+{% block title %}{% trans "Chart" %} - Plant Supply Unit{% endblock title %}
 
+{% block head %}<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>{% endblock head %}
 
-    <head>
-        <meta chartset="utf-8">
-        <title>Charts</title>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    </head>
-    <body>
-        <h1>Charts</h1>
-        <div>
-            <canvas id="myChart"></canvas>
-            <script scr="scripts.js"></script>
-        </div>
-    </body>
+{% block body %}
+    
+    <h1>Charts</h1>
+    <div>
+        <canvas id="myChart"></canvas>
+        <script>
+            
 
+            let myChart1 = document.getElementById("myChart").getContext('2d');
+            
+            let time = [];
+            let data_h = [];
+            {% for m in measurements  %}
+                time.push("{{m.timestamp}}");
+                data_h.push({{m.ground_humidity| round:1 }});
+            {% endfor %}
+            let color_h = ['#49A9EA']
+            
+            
+            
+            let chart1 = new Chart(myChart1, {
+                type: 'line',
+                data: {
+                    labels: time,
+                    datasets: [ {
+                        data: data_h,
+                        backgroundColor: color_h,
+            
+                    }]
+                },
+                options: {
+                    title: {
+                        text: "Füllstand",
+                        display: true
+                    }
+                }
+            
+            } )</script>
+    </div>
+    
+{% endblock body %}
 
 
 
