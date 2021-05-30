@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib import messages
 
 from psufrontend.forms import RegisterPSUForm, AddWateringTaskForm, WateringControlForm
-from psucontrol.models import PSU, PendingPSU, DataMeasurement,WateringTask
+from psucontrol.models import PSU, PendingPSU, DataMeasurement
 from psucontrol.utils import get_psus_with_permission
 
 
@@ -47,6 +47,7 @@ def table_view(request, *, psu=0):
     
     # gather the psus of the user
     psus = get_psus_with_permission(request.user, 1)
+
     if len(psus) == 0:
         # no psus -> redirect to the no_psu_view
         return redirect('psufrontend:no_psu')
@@ -116,6 +117,7 @@ def add_watering_task_view(request):
 def watering_control_view(request, psu=0):
 
     psus = get_psus_with_permission(request.user, 1)
+
     if len(psus) == 0:
         # no psus -> redirect to the no_psu_view
         return redirect('psufrontend:no_psu')
@@ -130,10 +132,20 @@ def watering_control_view(request, psu=0):
         # id not found -> take first psu in list
         sel_psu = psus[0]
 
+    sel_param = None
+    for pa in psus:
+        if p.id == psu:
+            sel_psu = p
+            break
+    if sel_psu is None:
+        # id not found -> take first psu in list
+        sel_psu = psus[0]
+
     @csrf_protect
     def watering_control(request, form):
 
         messages.success(request, _('Successfully saved your choice.'))
+
 
     form = WateringControlForm(psus, request.POST or None)
 

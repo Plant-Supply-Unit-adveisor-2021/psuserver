@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 from django.core.exceptions import ValidationError
 
-from psucontrol.models import PendingPSU, to_psu, WateringParams
+from psucontrol.models import PendingPSU, to_psu, PSU
 
 
 class RegisterPSUForm(forms.Form):
@@ -31,7 +31,7 @@ class AddWateringTaskForm(forms.Form):
 
     def __init__(self, psus, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # initialize choice field with PSUs
+        # initialize choice field wit h PSUs
         choices = []
         for p in psus:
             choices.append((p,p.pretty_name()))
@@ -46,12 +46,22 @@ class WateringControlForm(forms.Form):
     """
     form to change watering parameters and choose if you want to water manually
     """
-    param = forms.TypedChoiceField(label=_('Watering Paramter'), choices=[], help_text=_('Choose your watering parameter.'), coerce=WateringParams)
+    psu = forms.TypedChoiceField(label=_('Plant Supply Unit'), choices=[], help_text=_('The PSU you want to chage.'), coerce=to_psu)
+    param = forms.TypedChoiceField(label=_('Watering Paramter'), required=False, choices=[], help_text=_('Choose your watering parameter.'), coerce=PSU)
+    unauthorized_watering = forms.BooleanField(label='Water PSU manually', required=False, help_text=_('Select if you want to water you PSU yourself or not'))
 
-    def __init__(self, psus, *args, **kwargs):
+    def __init__(self, params, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # initialize choice field with parameters
         choices = []
+        for pa in params:
+            choices.append((pa,pa.pretty_name()))
+        self.fields['param'].choices = choices
+
+    def __init__(self, psus, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # initialize choice field with PSUs
+        choices = []
         for p in psus:
             choices.append((p,p.pretty_name()))
-        self.fields['param'].choices = choices
+        self.fields['psu'].choices = choices
