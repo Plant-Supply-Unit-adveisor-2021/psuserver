@@ -18,11 +18,25 @@
             
             let time = [];
             let data_h = [];
+            let brightness = [];
+            let air = [];
+            let temp = [];
+            let filllevel = [];
+
             {% for m in measurements  %}
                 time.push("{{m.timestamp}}");
                 data_h.push({{m.ground_humidity| round:1 }});
+                brightness.push({{ m.brightness | round:0 }});
+                air.push({{ m.air_humidity | round:1 }});
+                temp.push({{ m.temperature | round:1 }});
+                filllevel.push({{ m.fill_level | round:0 }});
             {% endfor %}
-            let color_h = ['#49A9EA']
+            
+            let color_h = ['#49A9EA'];
+            let color_b = ['#333'];
+            let color_a = ['#00e266'];
+            let color_t =['#c00'];
+            let color_f = ['#0400d7'];
             
             
             
@@ -31,19 +45,74 @@
                 data: {
                     labels: time,
                     datasets: [ {
+                        label: 'Humidity',
                         data: data_h,
+                        borderColor: color_h,
                         backgroundColor: color_h,
-            
-                    }]
+                    },
+                    {
+                        label: 'Brightness',
+                        data: brightness,
+                        borderColor: color_b,
+                        backgroundColor: color_b,
+
+                    },
+                     {
+                        label: 'Air Humidity',
+                        data: air,
+                        borderColor: color_a,
+                        backgroundColor: color_a,
+
+                    },
+                     {
+                        label: 'Temperatur in °C',
+                        data: temp,
+                        borderColor: color_t,
+                        backgroundColor: color_t,
+
+                    },
+                     {
+                        label: 'Fill level',
+                        data: filllevel,
+                        borderColor: color_f,
+                        backgroundColor: color_f,
+
+                    }
+
+                    ]
                 },
                 options: {
                     title: {
-                        text: "Füllstand",
-                        display: true
+                        text: "Chart",
+                        display: true,
+                    },
+                    scales: {
+                        x: {
+                        reverse: true,
+                        }
                     }
                 }
             
-            } )</script>
+            } )
+            /*
+            let chart2 = new Chart(myChart1, {
+                type: 'doughnut',
+                data: {
+                    labels: filllevel,
+                    datasets: [ {
+                        label: 'Fill level',
+                        data: filllevel,
+                        backgroundColor: color_f,
+                    },
+                    options: {
+                        title: {
+                        text: "Füllstand",
+                        display: true,
+                        }
+                    }
+            })
+            */
+            </script>
     </div>
     
 {% endblock body %}
