@@ -16,6 +16,7 @@
 
             let myChart1 = document.getElementById("myChart").getContext('2d');
             
+            
             let time = [];
             let data_h = [];
             let brightness = [];
@@ -94,26 +95,57 @@
                 }
             
             } )
-            /*
-            let chart2 = new Chart(myChart1, {
+
+            
+            
+ 
+            
+            </script>
+    </div>
+    <div>
+        <canvas id="myChart2"></canvas>
+        <script>
+                let myChart2 = document.getElementById("myChart2").getContext('2d');
+
+            
+            
+            let fl = [];
+
+
+            {% for m in measurements  %}
+                fl.push({{ m.fill_level | round:0 }});
+            {% endfor %}
+
+            let lastfl = console.log(fl.slice(-1)[0]);
+            let full_l = [60, 40];
+            let label2 = ['full', ''];
+            let color2 = ['#0400d7', '#ffffff']
+            
+           
+           
+
+                let chart2 = new Chart(myChart2, {
                 type: 'doughnut',
                 data: {
-                    labels: filllevel,
+                    labels: label2,
                     datasets: [ {
                         label: 'Fill level',
-                        data: filllevel,
-                        backgroundColor: color_f,
+                        data: full_l,
+                        backgroundColor: color2
+                    }]
                     },
                     options: {
                         title: {
                         text: "Füllstand",
-                        display: true,
+                        display: true
                         }
                     }
             })
-            */
-            </script>
+
+
+        </script>
     </div>
+
     
 {% endblock body %}
 
