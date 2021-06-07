@@ -112,12 +112,12 @@
             let fl = [];
 
 
-            {% for m in measurements  %}
+            {% for m in measurement  %}
                 fl.push({{ m.fill_level | round:0 }});
             {% endfor %}
 
-            let lastfl = console.log(fl.slice(-1)[0]);
-            let full_l = [60, 40];
+            let lastfl = console.log(fl.slice(3));
+            let full_l = [lastfl, 100-lastfl];
             let label2 = ['full', ''];
             let color2 = ['#0400d7', '#ffffff']
             
