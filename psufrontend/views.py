@@ -140,6 +140,8 @@ def chart_view(request, *, psu=0):
     # get measurements of the selected PSU
     measurements = DataMeasurement.objects.filter(psu=sel_psu)
 
+    lastmeasurement = DataMeasurement.objects.filter.first(psu=sel_psu)
+
     # catch case if there are no measurements
     if len(measurements) != 0:
         # set up paginator in order to create pages displaying the data
