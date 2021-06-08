@@ -139,7 +139,6 @@ def watering_control_view(request, psu=0):
 
         messages.success(request, _('Successfully saved your choice.'))
 
-    psus = get_psus_with_permission(request.user, 1)
     wateringparameter = WateringParams.objects.all
     form = WateringControlForm(psus, request.POST or None)
 
