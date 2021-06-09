@@ -149,3 +149,12 @@ def watering_control_view(request, psu=0):
     context = {"form": form, "psus": psus, "sel_psu": sel_psu}
 
     return render(request, 'psufrontend/watering_control.html', context)
+
+
+@csrf_exempt    
+@login_required
+def dashboard_view(request):
+    """
+    view for showing the newesst information to user
+    """
+    return render(request, 'psufrontend/dashboard.html')
