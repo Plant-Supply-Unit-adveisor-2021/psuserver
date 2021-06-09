@@ -109,7 +109,7 @@
 
             
             
-            let full_l = [{{lastmeasurement.fill_level}}, 100-{{lastmeasurement.fill_level}}];
+            let full_l = [{{lastmeasurement.fill_level | round:0 }}, 100-{{lastmeasurement.fill_level | round:0 }}];
             
             let label2 = ['water', ''];
             let color2 = ['#0400d7', '#ffffff']
