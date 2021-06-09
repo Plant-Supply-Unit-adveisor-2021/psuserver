@@ -111,11 +111,9 @@
             
             
               {% l = lastmeasurement %}
-
-             
-
             /*let lastfl = console.log(fl.slice(3));*/
             let full_l = [{{l.fill_level}}, 100-{{l.fill_level}}];
+            {% endblock %}
             let label2 = ['full', ''];
             let color2 = ['#0400d7', '#ffffff']
             

@@ -140,7 +140,7 @@ def chart_view(request, *, psu=0):
     # get measurements of the selected PSU
     measurements = DataMeasurement.objects.filter(psu=sel_psu)
 
-    lastmeasurement = DataMeasurement.objects.filter.first(psu=sel_psu)
+    lastmeasurement = DataMeasurement.objects.filter(psu=sel_psu).first()
 
     # catch case if there are no measurements
     if len(measurements) != 0:
