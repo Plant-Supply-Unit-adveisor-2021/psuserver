@@ -136,6 +136,18 @@ def chart_view(request, *, psu=0):
 
     context = {"psus": psus, "sel_psu": sel_psu}
 
+    c_measurements = DataMeasurement.objects.filter(psu=sel_psu)
+
+
+    
+    # catch case if there are no measurements
+    if len(c_measurements) != 0:
+        # set up paginator in order to create pages displaying the data
+        paginator = Paginator(c_measurements, 30)
+        c_measurements_on_page = paginator.get_page(request.GET.get('page'))
+
+        context['c_measurements'] = c_measurements_on_page
+
     # get measurements of the selected PSU
     measurements = DataMeasurement.objects.filter(psu=sel_psu).first()
     
