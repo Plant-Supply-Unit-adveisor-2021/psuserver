@@ -109,12 +109,9 @@
 
             
             
+            let full_l = [{{lastmeasurement.fill_level}}, 100-{{lastmeasurement.fill_level}}];
             
-              {% l = lastmeasurement %}
-            /*let lastfl = console.log(fl.slice(3));*/
-            let full_l = [{{l.fill_level}}, 100-{{l.fill_level}}];
-            {% endblock %}
-            let label2 = ['full', ''];
+            let label2 = ['water', ''];
             let color2 = ['#0400d7', '#ffffff']
             
            
