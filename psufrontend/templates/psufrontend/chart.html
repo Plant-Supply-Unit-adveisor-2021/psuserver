@@ -24,7 +24,7 @@
             let temp = [];
             let filllevel = [];
 
-            {% for m in c_measurements  %}
+            {% for m in week_measurements  %}
                 time.push("{{m.timestamp}}");
                 data_h.push({{m.ground_humidity| round:1 }});
                 brightness.push({{ m.brightness | round:0 }});

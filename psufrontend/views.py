@@ -2,6 +2,10 @@ from django.shortcuts import redirect, render
 from django.utils.translation import ugettext as _
 from django.core.paginator import Paginator
 
+from django.utils import timezone
+from datetime import timedelta
+import datetime
+
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib import messages
@@ -156,6 +160,11 @@ def chart_view(request, *, psu=0):
     lastmeasurement = DataMeasurement.objects.filter(psu=sel_psu).first()
     context['lastmeasurement'] = DataMeasurement.objects.filter(psu=sel_psu).first()
 
+    #filter measurements of the last week from starting today
+
+    week = datetime.datetime.today() - datetime.timedelta(days=7) 
+    week_measurements = DataMeasurement.objects.filter(date_time_field__contains=datetime.date(week))
+    context['week_measurements'] = week_measurements = DataMeasurement.objects.filter(date_time_field__contains=datetime.date(week))
 
     return render(request, 'psufrontend/chart.html', context=context)
 
