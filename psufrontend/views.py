@@ -139,12 +139,12 @@ def watering_control_view(request, psu=0):
 
         messages.success(request, _('Successfully saved your choice.'))
 
-    wateringparameter = WateringParams.objects.all()
-    form = WateringControlForm(wateringparameter, request.POST or None)
+    wateringparameters = WateringParams.objects.all()
+    form = WateringControlForm(wateringparameters, request.POST or None)
 
     if request.POST and form.is_valid():
         watering_control(request, form)
 
-    context = {"form": form, "psus": psus, "sel_psu": sel_psu, "wateringparameter": wateringparameter}
+    context = {"form": form, "psus": psus, "sel_psu": sel_psu}
 
     return render(request, 'psufrontend/watering_control.html', context)
