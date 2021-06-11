@@ -162,9 +162,9 @@ def chart_view(request, *, psu=0):
 
     #filter measurements of the last week from starting today
 
-    week = datetime.datetime.today() - datetime.timedelta(days=7) 
-    week_measurements = DataMeasurement.objects.filter(date_time_field__contains=datetime.date(week))
-    context['week_measurements'] = week_measurements = DataMeasurement.objects.filter(date_time_field__contains=datetime.date(week))
+    week = timezone.now() - timedelta(days=7) 
+    week_measurements = DataMeasurement.objects.filter(timestamp = week)
+    context['week_measurements'] = week_measurements = DataMeasurement.objects.filter(timestamp = week)
 
     return render(request, 'psufrontend/chart.html', context=context)
 
