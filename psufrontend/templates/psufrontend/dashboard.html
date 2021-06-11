@@ -1,1 +1,32 @@
-<h3>Dashboard</h3>
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Dashboard" %} - Plant Supply Unit{% endblock title %}{% trans "Dashboard" %}
+
+{% block body %}
+
+<br>
+
+	<div class="row">
+		<div class="col-md-7">
+			<h5>Last 10 measurements:</h5>
+			<hr>
+			<div class="card card-body">
+				<table class="table table-sm">
+			        <tr>
+			          <th style="flex: 1.5;">{% trans "Timestamp" %}</th>
+			          <th>{% trans "Temperature" %}</th>
+			          <th>{% trans "Air Humidity" %}</th>
+			          <th>{% trans "Ground Humidity" %}</th>
+			          <th>{% trans "Brightness" %}</th>
+			          <th>{% trans "Fill Level" %}</th>
+			        </tr>
+			    </table>
+			</div>
+		</div>
+	</div>
+
+
+<h5>dashboard</h5>
+
+{% endblock %}
