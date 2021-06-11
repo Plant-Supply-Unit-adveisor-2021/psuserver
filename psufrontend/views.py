@@ -139,7 +139,7 @@ def watering_control_view(request, psu=0):
 
         messages.success(request, _('Successfully saved your choice.'))
 
-    wateringparameter = WateringParams.objects.all
+    wateringparameter = WateringParams.objects.all()
     form = WateringControlForm(wateringparameter, request.POST or None)
 
     if request.POST and form.is_valid():
