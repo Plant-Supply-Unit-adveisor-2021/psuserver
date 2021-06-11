@@ -158,13 +158,27 @@ def chart_view(request, *, psu=0):
     #get last measurment for filllevel diagramm
 
     lastmeasurement = DataMeasurement.objects.filter(psu=sel_psu).first()
-    context['lastmeasurement'] = DataMeasurement.objects.filter(psu=sel_psu).first()
+    context['lastmeasurement'] = lastmeasurement
 
     #filter measurements of the last week from starting today
 
-    week = timezone.now() - timedelta(days=7) 
-    week_measurements = DataMeasurement.objects.filter(timestamp = week)
-    context['week_measurements'] = week_measurements = DataMeasurement.objects.filter(timestamp = week)
+    week = lastmeasurement.timestamp - timedelta(days=7)
+
+    week_measurements = DataMeasurement.objects.filter(timestamp__gte = week, psu=sel_psu)
+    context['week_measurements'] = week_measurements 
+
+    # measurements for one day starting with yesterday
+    day1 = lastmeasurement.timestamp - timedelta(days=1)
+    day2 = lastmeasurement.timestamp - timedelta(days=2)
+    day3 = lastmeasurement.timestamp - timedelta(days=3)
+
+    today = DataMeasurement.objects.filter(timestamp__gte = day1, psu=sel_psu)
+    context['today']=today
+
+    day1_ago = DataMeasurement.objects.filter(timestamp__range=(day2, day1), psu=sel_psu) 
+    context['day1_ago'] = day1_ago
+
+    day2_ago = DataMeasurement.objects.filter(timestamp__range=(day3, day2), psu=sel_psu) 
+    context['day2_ago'] = day2_ago
 
     return render(request, 'psufrontend/chart.html', context=context)
-

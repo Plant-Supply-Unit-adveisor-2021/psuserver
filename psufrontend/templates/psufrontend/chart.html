@@ -9,6 +9,16 @@
 {% block body %}
     
     <h1>Charts</h1>
+
+    <!-- psu selection links -->
+        <div class="psuselection">
+        <h4>{% trans "Select a Plant Supply Unit" %}</h4>
+        <div>
+            {% for p in psus %}
+            <a class="btn btn-inline-block btn-secondary {% if p.id == sel_psu.id %}selected{% endif %}" href="{% url 'psufrontend:chart' psu=p.id %}">{{ p.pretty_name }}</a>
+            {% endfor %}
+        </div>
+        </div>
     <div>
         <div id="line">
             <canvas id="myChart"></canvas>
@@ -52,26 +62,28 @@
                         data: data_h,
                         borderColor: color_h,
                         backgroundColor: color_h,
+                        tension: 0.1,
                     },
                     {
                         label: 'Brightness',
                         data: brightness,
                         borderColor: color_b,
                         backgroundColor: color_b,
-
+                        tension: 0.1,
                     },
                      {
                         label: 'Air Humidity',
                         data: air,
                         borderColor: color_a,
                         backgroundColor: color_a,
-
+                        tension: 0.1,
                     },
                      {
                         label: 'Temperatur in °C',
                         data: temp,
                         borderColor: color_t,
                         backgroundColor: color_t,
+                        tension: 0.1,
 
                     },
                      {
@@ -79,7 +91,7 @@
                         data: filllevel,
                         borderColor: color_f,
                         backgroundColor: color_f,
-
+                        tension: 0.1,
                     }
 
                     ]
@@ -92,6 +104,11 @@
                     scales: {
                         x: {
                         reverse: true,
+                        }
+                    },
+                    elements: {
+                        point:{
+                            radius: 0
                         }
                     }
                 }
