@@ -19,6 +19,18 @@
             {% endfor %}
         </div>
         </div>
+
+        <div class="dayselection">
+        <h4>{% trans "Select a Period of time" %}</h4>
+        <div>
+            
+            <a class="btn btn-inline-block btn-secondary {% if choice == 0%}selected{% endif %}" href="{% url 'psufrontend:chart' day=0 %}">Today</a>
+            <a class="btn btn-inline-block btn-secondary {% if choice == 1%}selected{% endif %}" href="{% url 'psufrontend:chart' day=1 %}">Yesterday</a>
+            <a class="btn btn-inline-block btn-secondary {% if choice == 2%}selected{% endif %}" href="{% url 'psufrontend:chart' day=2 %}">2 Days ago</a>
+            <a class="btn btn-inline-block btn-secondary {% if choice == 3%}selected{% endif %}" href="{% url 'psufrontend:chart' day=3 %}">Last Week</a>
+
+        </div>
+        </div>
     <div>
         <div id="line">
             <canvas id="myChart"></canvas>
@@ -36,7 +48,7 @@
             let temp = [];
             let filllevel = [];
 
-            {% for m in week_measurements  %}
+            {% for m in sel_day %}
                 time.push("{{m.timestamp}}");
                 data_h.push({{m.ground_humidity| round:1 }});
                 brightness.push({{ m.brightness | round:0 }});

@@ -118,7 +118,7 @@ def add_watering_task_view(request):
 
 
 @login_required
-def chart_view(request, *, psu=0):
+def chart_view(request, *, psu=0, day=0):
     """
     view for chart
     """
@@ -180,5 +180,18 @@ def chart_view(request, *, psu=0):
 
     day2_ago = DataMeasurement.objects.filter(timestamp__range=(day3, day2), psu=sel_psu) 
     context['day2_ago'] = day2_ago
+
+    days = [today, day1_ago, day2_ago, week_measurements]
+
+    sel_day = None
+    for choice in days:
+        if choice == day:
+            sel_day = choice
+            break
+    if sel_day is None:
+        # id not found -> take first psu in list
+        sel_day= days[0]
+
+    context = {"days": days, "sel_day": sel_day}
 
     return render(request, 'psufrontend/chart.html', context=context)
