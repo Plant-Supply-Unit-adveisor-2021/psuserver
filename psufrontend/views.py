@@ -152,7 +152,7 @@ def watering_control_view(request, psu=0):
 
 @csrf_exempt    
 @login_required
-def dashboard_view(request, psu=0):
+def dashboard_view(request, *, psu=0):
     """
     view for showing the newesst information to user
     """
@@ -173,8 +173,10 @@ def dashboard_view(request, psu=0):
         # id not found -> take first psu in list
         sel_psu = psus[0]
 
-    measurements = DataMeasurement.objects.filter(psu=sel_psu)
+    d_measurements = DataMeasurement.objects.filter(psu=sel_psu)
+    lastmeasurement = DataMeasurement.objects.filter(psu=sel_psu).first()
+    context['lastmeasurement'] = lastmeasurement
 
-    context = {"measurements": measurements, "psus": psus, "sel_psu": sel_psu}
+    context = {"d_measurements": d_measurements, "psus": psus, "sel_psu": sel_psu}
 
-    return render(request, 'psufrontend/dashboard.html')
+    return render(request, 'psufrontend/dashboard.html', context=context)

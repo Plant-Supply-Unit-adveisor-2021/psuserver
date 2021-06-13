@@ -5,14 +5,15 @@
 {% block title %}{% trans "Dashboard" %} - Plant Supply Unit{% endblock title %}{% trans "Dashboard" %}
 
 {% block body %}
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 	<div class="row">
-		<div class="col-md-3">
+		<div class="col-md-4">
 			<h5>MY PSUs:</h5>
 			<hr>
-			<div>
-				<a class="btn btn-primary" href="{% url 'psufrontend:register_psu' %}">Add new PSU</a>
-				<table>
+			<div class="card card-body">
+				<a class="btn btn-primary  btn-sm btn-block" href="{% url 'psufrontend:register_psu' %}">Add new PSU</a>
+				<table class="table table-sm">
 					<thead>
 						<tr>
 							<th>{% trans "Identity key" %}</th>
@@ -33,12 +34,12 @@
 			</div>
 		</div>
 
-		<div class="col-md-9">
+		<div class="col-md-8">
 			<h5>LAST 10 MEASUREMENTS:</h5>
 			<hr>
 			<div class="card card-body">
-				<a class="btn btn-primary" href="{% url 'psufrontend:add_watering_task' %}">Manually water the plant</a>
-			    <table class="table-striped">
+				<a class="btn btn-primary  btn-sm btn-block" href="{% url 'psufrontend:add_watering_task' %}">Manually water the plant</a>
+			    <table class="table table-sm">
 			      <!-- table head -->
 			      <thead>
 			        <tr>
@@ -53,14 +54,14 @@
 
 			      <!-- table body with measurements -->
 			      <tbody>
-			        {% for m in measurements %}
+			        {% for d in d_measurements %}
 			          <tr>
-			            <td style="flex: 1.5;">{{ m.timestamp }}</td>
-			            <td>{{ m.temperature | round:1 }} °C</td>
-			            <td>{{ m.air_humidity | round:1 }} %</td>
-			            <td>{{ m.ground_humidity | round:1 }} %</td>
-			            <td>{{ m.brightness | round:0 }} %</td>
-			            <td>{{ m.fill_level | round:0 }} %</td>
+			            <td style="flex: 1.5;">{{ d.timestamp }}</td>
+			            <td>{{ d.temperature | round:1 }} °C</td>
+			            <td>{{ d.air_humidity | round:1 }} %</td>
+			            <td>{{ d.ground_humidity | round:1 }} %</td>
+			            <td>{{ d.brightness | round:0 }} %</td>
+			            <td>{{ d.fill_level | round:0 }} %</td>
 			          </tr>
 			        {% endfor %}
 			      </tbody>
