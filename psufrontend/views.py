@@ -139,9 +139,8 @@ def watering_control_view(request, psu=0):
 
         messages.success(request, _('Successfully saved your choice.'))
 
-    psus = get_psus_with_permission(request.user, 1)
-    wateringparameter = WateringParams.objects.all
-    form = WateringControlForm(psus, request.POST or None)
+    wateringparameters = WateringParams.objects.all()
+    form = WateringControlForm(wateringparameters, request.POST or None)
 
     if request.POST and form.is_valid():
         watering_control(request, form)
@@ -153,8 +152,29 @@ def watering_control_view(request, psu=0):
 
 @csrf_exempt    
 @login_required
-def dashboard_view(request):
+def dashboard_view(request, psu=0):
     """
     view for showing the newesst information to user
     """
+
+    psus = get_psus_with_permission(request.user, 1)
+
+    if len(psus) == 0:
+        # no psus -> redirect to the no_psu_view
+        return redirect('psufrontend:no_psu')
+
+    # Try finding the handed over PSU id in the list of psus
+    sel_psu = None
+    for p in psus:
+        if p.id == psu:
+            sel_psu = p
+            break
+    if sel_psu is None:
+        # id not found -> take first psu in list
+        sel_psu = psus[0]
+
+    measurements = DataMeasurement.objects.filter(psu=sel_psu)
+
+    context = {"measurements": measurements, "psus": psus, "sel_psu": sel_psu}
+
     return render(request, 'psufrontend/dashboard.html')
