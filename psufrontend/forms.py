@@ -46,7 +46,7 @@ class WateringControlForm(forms.Form):
     """
     form to change watering parameters and choose if you want to water manually
     """
-    params = forms.TypedChoiceField(label=_('Watering Paramter'), choices=[], help_text=_('Please choose the correct watering parameter.'), coerce=to_psu)
+    watering_params = forms.TypedChoiceField(label=_('Watering Paramter'), choices=[], help_text=_('Please choose the correct watering parameter.'))
     unauthorized_watering = forms.BooleanField(label='Water PSU manually', required=False, help_text=_('Click on the button if you want to water your PSU yourself.'))
 
     def __init__(self, wateringparameters, *args, **kwargs):
@@ -55,5 +55,8 @@ class WateringControlForm(forms.Form):
         choices = []
         for w in wateringparameters:
             choices.append((w,w))
-        self.fields['params'].choices = choices
+        self.fields['watering_params'].choices = choices
+
+    def clean(self):
+        return self.cleaned_data
 

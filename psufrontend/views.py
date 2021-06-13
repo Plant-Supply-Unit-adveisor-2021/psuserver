@@ -135,7 +135,9 @@ def watering_control_view(request, psu=0):
         sel_psu = psus[0]
 
     @csrf_protect
-    def watering_control(request, form):
+    def add_watering_control(request, form):
+        # Add watering parameter to the PSU
+        #PSU(watering_params=form.cleaned_data['watering_params'], unauthorized_watering=form.cleaned_data['unauthorized_watering']).save()
 
         messages.success(request, _('Successfully saved your choice.'))
 
@@ -143,7 +145,7 @@ def watering_control_view(request, psu=0):
     form = WateringControlForm(wateringparameters, request.POST or None)
 
     if request.POST and form.is_valid():
-        watering_control(request, form)
+        add_watering_control(request, form)
 
     context = {"form": form, "psus": psus, "sel_psu": sel_psu}
 
