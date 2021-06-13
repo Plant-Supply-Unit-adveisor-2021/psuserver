@@ -181,7 +181,7 @@ def chart_view(request, *, psu=0, day=0):
     day2_ago = DataMeasurement.objects.filter(timestamp__range=(day3, day2), psu=sel_psu) 
     context['day2_ago'] = day2_ago
 
-    days = [today, day1_ago, day2_ago, week_measurements]
+    days = [today, day1_ago, day2_ago, week]
 
     sel_day = None
     for choice in days:
@@ -193,5 +193,6 @@ def chart_view(request, *, psu=0, day=0):
         sel_day= days[0]
 
     context = {"days": days, "sel_day": sel_day}
+
 
     return render(request, 'psufrontend/chart.html', context=context)
