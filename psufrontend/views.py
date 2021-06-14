@@ -174,9 +174,18 @@ def dashboard_view(request, *, psu=0):
         sel_psu = psus[0]
 
     d_measurements = DataMeasurement.objects.filter(psu=sel_psu)
+    if len(d_measurements) != 0:
+        # set up paginator in order to create pages displaying the data
+        paginator = Paginator(d_measurements, 8)
+        lastmeasurements = paginator.get_page(request.GET.get('page'))
+
+    # get measurements of the selected PSU
+    measurements = DataMeasurement.objects.filter(psu=sel_psu).first()
+    
+    #get last measurment for filllevel diagramm
+
     lastmeasurement = DataMeasurement.objects.filter(psu=sel_psu).first()
-    context['lastmeasurement'] = lastmeasurement
 
-    context = {"d_measurements": d_measurements, "psus": psus, "sel_psu": sel_psu}
+    context = {"lastmeasurement": lastmeasurement, "lastmeasurements": lastmeasurements, "d_measurements": d_measurements, "psus": psus, "sel_psu": sel_psu}
 
-    return render(request, 'psufrontend/dashboard.html', context=context)
+    return render(request, 'psufrontend/dashboard.html', context)

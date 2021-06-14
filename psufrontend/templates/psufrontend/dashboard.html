@@ -4,9 +4,13 @@
 
 {% block title %}{% trans "Dashboard" %} - Plant Supply Unit{% endblock title %}{% trans "Dashboard" %}
 
-{% block body %}
+{% block head %}
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+{% endblock head %}
 
+{% block body %}
+	{% include "psufrontend/status.html" %}
 	<div class="row">
 		<div class="col-md-4">
 			<h5>MY PSUs:</h5>
@@ -35,7 +39,7 @@
 		</div>
 
 		<div class="col-md-8">
-			<h5>LAST 10 MEASUREMENTS:</h5>
+			<h5>LAST 8 MEASUREMENTS:</h5>
 			<hr>
 			<div class="card card-body">
 				<a class="btn btn-primary  btn-sm btn-block" href="{% url 'psufrontend:add_watering_task' %}">Manually water the plant</a>
@@ -54,7 +58,7 @@
 
 			      <!-- table body with measurements -->
 			      <tbody>
-			        {% for d in d_measurements %}
+			        {% for d in lastmeasurements %}
 			          <tr>
 			            <td style="flex: 1.5;">{{ d.timestamp }}</td>
 			            <td>{{ d.temperature | round:1 }} °C</td>
@@ -70,6 +74,49 @@
 		</div>
 
 	</div>
+
+	<div class="row">
+	    <div class="col-md-4">
+	    <h5>Current Fillstand</h5>
+	    <hr>
+        <div id = "filllevel">
+        <canvas id="myChart2"></canvas>
+        </div>
+        <script>
+                let myChart2 = document.getElementById("myChart2").getContext('2d');
+
+            
+            
+            let full_l = [{{lastmeasurement.fill_level | round:0 }}, 100-{{lastmeasurement.fill_level | round:0 }}];
+            
+            let label2 = ['water', ''];
+            let color2 = ['#0400d7', '#ffffff']
+            
+           
+           
+
+                let chart2 = new Chart(myChart2, {
+                type: 'doughnut',
+                data: {
+                    labels: label2,
+                    datasets: [ {
+                        label: 'Fill level',
+                        data: full_l,
+                        backgroundColor: color2
+                    }]
+                    },
+                    options: {
+                        title: {
+                        text: "Füllstand",
+                        display: true
+                        }
+                    }
+            })
+
+
+        </script>
+    	</div>
+    </div>
 
 
 {% endblock %}
