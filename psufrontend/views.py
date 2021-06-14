@@ -2,9 +2,7 @@ from django.shortcuts import redirect, render
 from django.utils.translation import ugettext as _
 from django.core.paginator import Paginator
 
-from django.utils import timezone
 from datetime import timedelta
-import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
@@ -12,7 +10,7 @@ from django.contrib import messages
 
 from psufrontend.forms import RegisterPSUForm, AddWateringTaskForm
 from psucontrol.models import PSU, PendingPSU, DataMeasurement,WateringTask
-from psucontrol.utils import get_psus_with_permission
+from psucontrol.utils import get_psus_with_permission, get_timedelta
 
 
 # Create your views here.
@@ -117,12 +115,20 @@ def add_watering_task_view(request):
     return render(request, 'psufrontend/add_watering_task.html', {'form': form})
 
 
+TIME_CHOICES = [
+    (_('last 24h'), '1d'),
+    (_('last 3 days'), '3d'),
+    (_('last week'), '7d'),
+    (_('last 2 weeks'), '14d'),
+]
+
+
 @login_required
-def chart_view(request, *, psu=0, day=0):
+def chart_view(request, *, psu=0, time_range=""):
     """
     view for chart
     """
-       # gather the psus of the user
+    # gather the psus of the user
     psus = get_psus_with_permission(request.user, 1)
     if len(psus) == 0:
         # no psus -> redirect to the no_psu_view
@@ -138,61 +144,24 @@ def chart_view(request, *, psu=0, day=0):
         # id not found -> take first psu in list
         sel_psu = psus[0]
 
-    context = {"psus": psus, "sel_psu": sel_psu}
+    # Try to parse range to timedalta
+    delta = get_timedelta(time_range)
+    if delta is None:
+        # go back to 3 days if there is no vaild range
+        delta = timedelta(days=3)
+        time_range = "3d"
 
-    c_measurements = DataMeasurement.objects.filter(psu=sel_psu)
-
-
+    context = {"psus": psus, "sel_psu": sel_psu, "time_range": time_range, "time_choices": TIME_CHOICES}
     
-    # catch case if there are no measurements
-    if len(c_measurements) != 0:
-        # set up paginator in order to create pages displaying the data
-        paginator = Paginator(c_measurements, 30)
-        c_measurements_on_page = paginator.get_page(request.GET.get('page'))
-
-        context['c_measurements'] = c_measurements_on_page
-
-    # get measurements of the selected PSU
-    measurements = DataMeasurement.objects.filter(psu=sel_psu).first()
-    
-    #get last measurment for filllevel diagramm
-
+    # get last measurment in order to display filllevel and take it as a reference point considering time
     lastmeasurement = DataMeasurement.objects.filter(psu=sel_psu).first()
     context['lastmeasurement'] = lastmeasurement
 
-    #filter measurements of the last week from starting today
+    if not lastmeasurement is None:
+        # filter measurements of the last week from starting today
+        start_time = lastmeasurement.timestamp - delta
 
-    week = lastmeasurement.timestamp - timedelta(days=7)
-
-    week_measurements = DataMeasurement.objects.filter(timestamp__gte = week, psu=sel_psu)
-    context['week_measurements'] = week_measurements 
-
-    # measurements for one day starting with yesterday
-    day1 = lastmeasurement.timestamp - timedelta(days=1)
-    day2 = lastmeasurement.timestamp - timedelta(days=2)
-    day3 = lastmeasurement.timestamp - timedelta(days=3)
-
-    today = DataMeasurement.objects.filter(timestamp__gte = day1, psu=sel_psu)
-    context['today']=today
-
-    day1_ago = DataMeasurement.objects.filter(timestamp__range=(day2, day1), psu=sel_psu) 
-    context['day1_ago'] = day1_ago
-
-    day2_ago = DataMeasurement.objects.filter(timestamp__range=(day3, day2), psu=sel_psu) 
-    context['day2_ago'] = day2_ago
-
-    days = [today, day1_ago, day2_ago, week]
-
-    sel_day = None
-    for choice in days:
-        if choice == day:
-            sel_day = choice
-            break
-    if sel_day is None:
-        # id not found -> take first psu in list
-        sel_day= days[0]
-
-    context = {"days": days, "sel_day": sel_day}
-
+        measurements = DataMeasurement.objects.filter(timestamp__gte = start_time, psu=sel_psu)
+        context['measurements'] = measurements
 
     return render(request, 'psufrontend/chart.html', context=context)

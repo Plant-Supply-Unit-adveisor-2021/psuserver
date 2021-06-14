@@ -42,6 +42,3 @@ function toggleDropDown(id){
         console.error(e);
     }
 }
-
-
-

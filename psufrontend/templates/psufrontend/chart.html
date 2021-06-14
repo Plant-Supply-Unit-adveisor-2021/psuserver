@@ -8,9 +8,9 @@
 
 {% block body %}
     
-    <h1>Charts</h1>
+    <h1>{% trans "Charts" %}</h1>
 
-    <!-- psu selection links -->
+        <!-- psu selection links -->
         <div class="psuselection">
         <h4>{% trans "Select a Plant Supply Unit" %}</h4>
         <div>
@@ -20,15 +20,13 @@
         </div>
         </div>
 
+        <!-- selection of time range -->
         <div class="dayselection">
-        <h5>{% trans "Select a Period of time" %}</h5>
+        <h5>{% trans "Select a time period" %}</h5>
         <div>
-            
-            <a class="btn btn-inline-block btn-secondary {% if choice == 0%}selected{% endif %}" href="{% url 'psufrontend:chart' day=0 %}">Today</a>
-            <a class="btn btn-inline-block btn-secondary {% if choice == 1%}selected{% endif %}" href="{% url 'psufrontend:chart' day=1 %}">Yesterday</a>
-            <a class="btn btn-inline-block btn-secondary {% if choice == 2%}selected{% endif %}" href="{% url 'psufrontend:chart' day=2 %}">2 Days ago</a>
-            <a class="btn btn-inline-block btn-secondary {% if choice == 3%}selected{% endif %}" href="{% url 'psufrontend:chart' day=3 %}">Last Week</a>
-
+            {% for tc in time_choices %}
+                <a class="btn btn-inline-block btn-secondary {% if time_range == tc.1 %}selected{% endif %}" href="{% url 'psufrontend:chart' psu=sel_psu.id time_range=tc.1 %}">{{ tc.0 }}</a>
+            {% endfor %}
         </div>
         
         </div>
@@ -37,8 +35,6 @@
             <canvas id="myChart"></canvas>
         </div>
         <script>
-            
-
             let myChart1 = document.getElementById("myChart").getContext('2d');
             
             
@@ -49,7 +45,7 @@
             let temp = [];
             let filllevel = [];
 
-            {% for m in sel_day %}
+            {% for m in measurements %}
                 time.push("{{m.timestamp}}");
                 data_h.push({{m.ground_humidity| round:1 }});
                 brightness.push({{ m.brightness | round:0 }});
