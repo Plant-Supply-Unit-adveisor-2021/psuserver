@@ -39,10 +39,10 @@
 		<div class="col-md">
 			<div class="card text-center text-white  mb-3" id="last-time-water-amount">
 			  	<div class="card-header">
-			  		<h5 class="card-title">{% trans "Latest Water Amount" %}</h5>
+			  		<h5 class="card-title">{% trans "Last Time watered at" %}</h5>
 			  	</div>
 			  	<div class="card-body">
-			    	<h4 class="card-title">{{ last_water_amount.timestamp }}</h4>
+			    	<h4 class="card-title">{{ last_water_detail.timestamp_execution }}</h4>
 			  	</div>
 			</div>
 		</div>
@@ -52,10 +52,10 @@
 		<div class="col-md">
 			<div class="card text-center text-white  mb-3" id="watering-parameter">
 			  	<div class="card-header">
-			  		<h5 class="card-title">{% trans "Watering Parameter" %}</h5>
+			  		<h5 class="card-title">{% trans "Latest Water Amount" %}</h5>
 			  	</div>
 			  	<div class="card-body">
-			    	<h4 class="card-title">{{ current_parameter.watering_params.name }}</h4>
+			    	<h4 class="card-title">{{ last_water_detail.amount }}</h4>
 			  	</div>
 			</div>
 		</div>

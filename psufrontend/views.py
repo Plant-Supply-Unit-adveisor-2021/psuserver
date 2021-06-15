@@ -9,6 +9,7 @@ from django.contrib import messages
 from psufrontend.forms import RegisterPSUForm, AddWateringTaskForm, WateringControlForm
 from psucontrol.models import PSU, PendingPSU, DataMeasurement, WateringTask, WateringParams
 from psucontrol.utils import get_psus_with_permission
+from datetime import datetime
 
 
 # Create your views here.
@@ -180,19 +181,19 @@ def dashboard_view(request, *, psu=0):
         paginator = Paginator(d_measurements, 8)
         lastmeasurements = paginator.get_page(request.GET.get('page'))
 
-    #get last measurment for filllevel diagramm
+    #get lastest measurement for fill level diagramm
     measurements = DataMeasurement.objects.filter(psu=sel_psu).first()
     lastmeasurement = DataMeasurement.objects.filter(psu=sel_psu).first()
 
-    total_measurements = DataMeasurement.objects.filter(psu=sel_psu).count()
+    #get measurements, which are collected in the last 24 hours
+    today = datetime.now().date()
+    total_measurements = DataMeasurement.objects.filter(psu=sel_psu, timestamp__gte=today).count()
 
-    #get latest water amount of current PSU 
-    last_water_amount = WateringTask.objects.filter(psu=sel_psu).first()
+    #get latest watering time and amount of the PSU 
+    last_water_detail = WateringTask.objects.filter(psu=sel_psu).first()
 
-    current_parameter = psus
     context = {"total_measurements": total_measurements,
-                "current_parameter": current_parameter, 
-                "last_water_amount": last_water_amount, 
+                "last_water_detail": last_water_detail, 
                 "lastmeasurement": lastmeasurement, 
                 "lastmeasurements": lastmeasurements, 
                 "d_measurements": d_measurements, 
