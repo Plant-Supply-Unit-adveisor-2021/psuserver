@@ -16,7 +16,7 @@ class WateringParamsAdmin(admin.ModelAdmin):
 class PSUAdmin(admin.ModelAdmin):
     model = PSU
 
-    list_display = ['id', 'name', 'owner', 'watering_params', 'identity_key']
+    list_display = ['id', 'name', 'owner', 'watering_params', 'unauthorized_watering', 'identity_key']
     list_filter = ['owner', 'watering_params', 'unauthorized_watering']
     search_fields = ['id', 'name', 'owner__email', 'owner__last_name', 'owner__first_name', 'watering_params__name', 'identity_key']
 

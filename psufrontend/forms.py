@@ -51,6 +51,7 @@ class WateringControlForm(forms.Form):
 
     def __init__(self, wateringparameters, psu, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['unauthorized_watering'].initial = psu.unauthorized_watering
         # initialize choice field with parameters
         choices = []
         for w in wateringparameters:
