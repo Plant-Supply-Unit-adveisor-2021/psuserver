@@ -12,4 +12,5 @@ urlpatterns = [
     path(r'add_watering_task', v.add_watering_task_view, name='add_watering_task'),
     path(r'watering_control', v.watering_control_view, name='watering_control'),
     path(r'dashboard', v.dashboard_view, name='dashboard'),
+    path(r'dashboard/psu/<int:psu>', v.dashboard_view, name='dashboard'),
 ]

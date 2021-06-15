@@ -173,21 +173,30 @@ def dashboard_view(request, *, psu=0):
         # id not found -> take first psu in list
         sel_psu = psus[0]
 
+    #display 8 objects in the table 
     d_measurements = DataMeasurement.objects.filter(psu=sel_psu)
     if len(d_measurements) != 0:
         # set up paginator in order to create pages displaying the data
         paginator = Paginator(d_measurements, 8)
         lastmeasurements = paginator.get_page(request.GET.get('page'))
 
-    # get measurements of the selected PSU
-    measurements = DataMeasurement.objects.filter(psu=sel_psu).first()
-    
     #get last measurment for filllevel diagramm
-
+    measurements = DataMeasurement.objects.filter(psu=sel_psu).first()
     lastmeasurement = DataMeasurement.objects.filter(psu=sel_psu).first()
 
-    #last_water_amount = 
+    total_measurements = DataMeasurement.objects.filter(psu=sel_psu).count()
 
-    context = {"lastmeasurement": lastmeasurement, "lastmeasurements": lastmeasurements, "d_measurements": d_measurements, "psus": psus, "sel_psu": sel_psu}
+    #get latest water amount of current PSU 
+    last_water_amount = WateringTask.objects.filter(psu=sel_psu).first()
+
+    current_parameter = psus
+    context = {"total_measurements": total_measurements,
+                "current_parameter": current_parameter, 
+                "last_water_amount": last_water_amount, 
+                "lastmeasurement": lastmeasurement, 
+                "lastmeasurements": lastmeasurements, 
+                "d_measurements": d_measurements, 
+                "psus": psus, 
+                "sel_psu": sel_psu}
 
     return render(request, 'psufrontend/dashboard.html', context)

@@ -30,7 +30,7 @@
 						{% for p in psus %}
 							<tr>
 								<td>{{ p.id }}</td>
-								<td><a class="{% if p.id == sel_psu.id %}selected{% endif %}"href="{% url 'psufrontend:dashboard' %}">{{ p.pretty_name }}</a><td>
+								<td><a class="{% if p.id == sel_psu.id %}selected{% endif %}"href="{% url 'psufrontend:dashboard' psu=p.id %}">{{ p.pretty_name }}</a><td>
 							</tr>
 						{% endfor %}
 					</tbody>
@@ -80,7 +80,7 @@
 		</div>
 
 	    <div class="col-md-4">
-	    <h5>{% trans "Current Filllevel:" %}</h5>
+	    <h5>{% trans "Current Fill Level:" %}</h5>
 	    <hr>
         <div id = "filllevel">
         <canvas id="myChart2"></canvas>
