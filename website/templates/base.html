@@ -34,8 +34,8 @@
                             <div id="nav-psu-drop-down" class="drop-down">
                                 <a href="{% url 'psufrontend:table' %}" class="drop-down-element">{% trans "Measurements" %}</a>
                                 <a href="{% url 'psufrontend:add_watering_task' %}" class="drop-down-element">{% trans "Manual Watering" %}</a>
+                                <a href="{% url 'psufrontend:watering_control' %}" class="drop-down-element">{% trans "Watering Settings" %}</a>
                                 <a href="{% url 'psufrontend:register_psu' %}" class="drop-down-element">{% trans "Register PSU" %}</a>
-                                <a href="{% url 'psufrontend:watering_control' %}" class="drop-down-element">{% trans "Watering Control" %}</a>
                             </div>
                         </div>
                     {% else %}
