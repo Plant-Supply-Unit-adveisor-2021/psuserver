@@ -47,7 +47,6 @@ def table_view(request, *, psu=0):
     
     # gather the psus of the user
     psus = get_psus_with_permission(request.user, 1)
-
     if len(psus) == 0:
         # no psus -> redirect to the no_psu_view
         return redirect('psufrontend:no_psu')
@@ -119,7 +118,6 @@ def watering_control_view(request, psu=0):
     view for choosing a watering parameter and decide if one wants to water the PSU manually
     """
     psus = get_psus_with_permission(request.user, 1)
-
     if len(psus) == 0:
         # no psus -> redirect to the no_psu_view
         return redirect('psufrontend:no_psu')
@@ -136,13 +134,13 @@ def watering_control_view(request, psu=0):
 
     @csrf_protect
     def add_watering_control(request, form):
-        # Add watering parameter to the PSU
-        #PSU(watering_params=form.cleaned_data['watering_params'], unauthorized_watering=form.cleaned_data['unauthorized_watering']).save()
-
-        messages.success(request, _('Successfully saved your choice.'))
+        sel_psu.watering_params = form.cleaned_data['watering_params']
+        sel_psu.unauthorized_watering = form.cleaned_data['unauthorized_watering']
+        sel_psu.save()
+        messages.success(request, _('Successfully saved your watering settings.'))
 
     wateringparameters = WateringParams.objects.all()
-    form = WateringControlForm(wateringparameters, request.POST or None)
+    form = WateringControlForm(wateringparameters, sel_psu, request.POST or None)
 
     if request.POST and form.is_valid():
         add_watering_control(request, form)

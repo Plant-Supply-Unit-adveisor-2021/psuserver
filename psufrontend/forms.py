@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 from django.core.exceptions import ValidationError
 
-from psucontrol.models import PendingPSU, to_psu, PSU, WateringParams
+from psucontrol.models import PendingPSU, to_psu, to_watering_params
 
 
 class RegisterPSUForm(forms.Form):
@@ -31,7 +31,7 @@ class AddWateringTaskForm(forms.Form):
 
     def __init__(self, psus, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # initialize choice field wit h PSUs
+        # initialize choice field with PSUs
         choices = []
         for p in psus:
             choices.append((p,p.pretty_name()))
@@ -46,17 +46,15 @@ class WateringControlForm(forms.Form):
     """
     form to change watering parameters and choose if you want to water manually
     """
-    watering_params = forms.TypedChoiceField(label=_('Watering Paramter'), choices=[], help_text=_('Please choose the correct watering parameter.'))
-    unauthorized_watering = forms.BooleanField(label='Water PSU manually', required=False, help_text=_('Click on the button if you want to water your PSU yourself.'))
+    watering_params = forms.TypedChoiceField(label=_('Watering Paramter'), choices=[], help_text=_('Please choose the correct watering parameter.'), coerce=to_watering_params)
+    unauthorized_watering = forms.BooleanField(label=_('Automatic Watering'), required=False, help_text=_('Let your PSU water your plant through an algorithm automatically.'))
 
-    def __init__(self, wateringparameters, *args, **kwargs):
+    def __init__(self, wateringparameters, psu, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # initialize choice field with parameters
         choices = []
         for w in wateringparameters:
-            choices.append((w,w))
+            choices.append((w,w.name))
         self.fields['watering_params'].choices = choices
-
-    def clean(self):
-        return self.cleaned_data
-
+        if not psu.watering_params is None:
+            self.fields['watering_params'].initial = psu.watering_params
