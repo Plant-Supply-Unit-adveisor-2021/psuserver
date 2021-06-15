@@ -186,6 +186,8 @@ def dashboard_view(request, *, psu=0):
 
     lastmeasurement = DataMeasurement.objects.filter(psu=sel_psu).first()
 
+    #last_water_amount = 
+
     context = {"lastmeasurement": lastmeasurement, "lastmeasurements": lastmeasurements, "d_measurements": d_measurements, "psus": psus, "sel_psu": sel_psu}
 
     return render(request, 'psufrontend/dashboard.html', context)
