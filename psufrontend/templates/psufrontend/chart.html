@@ -2,9 +2,12 @@
 {% load i18n %}
 {% load extra_utils %}
 
-{% block title %}{% trans "Chart" %} - Plant Supply Unit{% endblock title %}
+{% block title %}{% trans "Charts" %} - Plant Supply Unit{% endblock title %}
 
-{% block head %}<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>{% endblock head %}
+{% block head %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js" integrity="sha512-rmZcZsyhe0/MAjquhTgiUcb4d9knaFc7b5xAfju483gbEXTkeJRUMIPk6s3ySZMYUHEcjKbjLjyddGWMrNEvZg==" crossorigin="anonymous"></script>
+    <script src='https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js'></script>
+{% endblock head %}
 
 {% block body %}
     
@@ -32,88 +35,74 @@
         </div>
     <div>
         <div id="line">
-            <canvas id="myChart"></canvas>
+            <canvas id="measurement_chart" style="margin: 2rem 0;"></canvas>
         </div>
         <script>
-            let myChart1 = document.getElementById("myChart").getContext('2d');
-            
-            
-            let time = [];
-            let data_h = [];
-            let brightness = [];
-            let air = [];
-            let temp = [];
-            let filllevel = [];
 
-            {% for m in measurements %}
-                time.push("{{m.timestamp}}");
-                data_h.push({{m.ground_humidity| round:1 }});
-                brightness.push({{ m.brightness | round:0 }});
-                air.push({{ m.air_humidity | round:1 }});
-                temp.push({{ m.temperature | round:1 }});
-                filllevel.push({{ m.fill_level | round:0 }});
-            {% endfor %}
-            
-            let color_h = ['#49A9EA'];
-            let color_b = ['#333'];
-            let color_a = ['#00e266'];
-            let color_t =['#c00'];
-            let color_f = ['#0400d7'];
-            
-            
-            
-            let chart1 = new Chart(myChart1, {
+            var measurement_chart_canvas = document.getElementById("measurement_chart")
+
+            var labels = [ {% for m in measurements %} new Date("{{m.timestamp | plain }}"), {%endfor%} ]
+            var datasets = [
+                // load data from context
+                {
+                    label: '{% trans "Ground Humidity" %} in %',
+                    data: [ {% for m in measurements %} {% if m.ground_humidity == None %}null{% else %}{{m.ground_humidity| round:1 }}{% endif %}, {%endfor%} ],
+                    tension: 0.1,
+                    borderColor: '#49A9EA',
+                    backgroundColor: "transparent"
+                },
+                {
+                    label: '{% trans "Temperature" %} in °C',
+                    data: [ {% for m in measurements %} {% if m.temperature == None %}null{% else %}{{m.temperature| round:1 }}{% endif %}, {%endfor%} ],
+                    tension: 0.1,
+                    borderColor: '#c00',
+                    backgroundColor: "transparent"
+                },
+                {
+                    label: '{% trans "Air Humidity" %} in %',
+                    data: [ {% for m in measurements %} {% if m.air_humidity == None %}null{% else %}{{m.air_humidity| round:1 }}{% endif %}, {%endfor%} ],
+                    tension: 0.1,
+                    borderColor: '#00e266',
+                    backgroundColor: "transparent"
+                },
+                {
+                    label: '{% trans "Brightness" %} in %',
+                    data: [ {% for m in measurements %} {% if m.brightness == None %}null{% else %}{{m.brightness| round:0 }}{% endif %}, {%endfor%} ],
+                    tension: 0.1,
+                    borderColor: '#333',
+                    backgroundColor: "transparent"
+                },
+                {
+                    label: '{% trans "Fill Level" %} in %',
+                    data: [ {% for m in measurements %} {% if m.fill_level == None %}null{% else %}{{m.fill_level| round:0 }}{% endif %},, {%endfor%} ],
+                    tension: 0.1,
+                    borderColor: '#0400d7',
+                    backgroundColor: "transparent"
+                }
+            ]
+
+            var measurement_chart = new Chart(measurement_chart_canvas, {
                 type: 'line',
                 data: {
-                    labels: time,
-                    datasets: [ {
-                        label: 'Humidity',
-                        data: data_h,
-                        borderColor: color_h,
-                        backgroundColor: color_h,
-                        tension: 0.1,
-                    },
-                    {
-                        label: 'Brightness',
-                        data: brightness,
-                        borderColor: color_b,
-                        backgroundColor: color_b,
-                        tension: 0.1,
-                    },
-                     {
-                        label: 'Air Humidity',
-                        data: air,
-                        borderColor: color_a,
-                        backgroundColor: color_a,
-                        tension: 0.1,
-                    },
-                     {
-                        label: 'Temperatur in °C',
-                        data: temp,
-                        borderColor: color_t,
-                        backgroundColor: color_t,
-                        tension: 0.1,
-
-                    },
-                     {
-                        label: 'Fill level',
-                        data: filllevel,
-                        borderColor: color_f,
-                        backgroundColor: color_f,
-                        tension: 0.1,
-                    }
-
-                    ]
+                    labels: labels,
+                    datasets: datasets
                 },
                 options: {
-                    title: {
-                        text: "Chart",
-                        display: true,
-                    },
                     scales: {
-                        x: {
-                        reverse: true,
-                        }
+                        xAxes: [{
+                            type: 'time',
+                            time: {
+                                tooltipFormat: 'DD.MM.YYYY HH:mm',
+                                displayFormats:{
+                                    hour: 'DD.MM. HH:mm',
+                                    day: 'DD.MM.YYYY'
+                                }
+                            },
+                            ticks: {
+                                autoSkip: true,
+                                maxTicksLimit: 20
+                            }
+                        }]
                     },
                     elements: {
                         point:{
@@ -121,13 +110,7 @@
                         }
                     }
                 }
-            
-            } )
-
-            
-            
- 
-            
+            });
             </script>
     </div>
     <div>
