@@ -810,29 +810,26 @@ ul.messages > li.error {
 
 /*
 -----------------------------------------------------------------------------------------------------------------
-styling charts
+    styling charts
 ------------------------------------------------------------------------------------------------------------
 */
 
-div#filllevel {
- display: inline-block;
-
- width: 10rem;
- 
- position: absolute;
-    top: 80px;
-    right: 100px;
-
-
+div#filllevel_n_time_range{
+    display: flex;
+    margin: 0 0 2rem 0;
 }
 
-/*
-div#line {
-    display: inline-block;
-    
-    width: 20rem;
-
-    position: absolute;
-        top: 200px;
+div#time_range{
+    flex: 1;
+    margin: auto 0 0 0;
 }
-*/
+
+div#filllevel_n_time_range div#filllevel_chart_wrapper h5{
+    margin: 0;
+    font-size: 1rem;
+    text-align: center;
+}
+
+div#filllevel_n_time_range div#filllevel_chart_wrapper {
+    width: 175px;
+}
