@@ -2,13 +2,15 @@ from django.shortcuts import redirect, render
 from django.utils.translation import ugettext as _
 from django.core.paginator import Paginator
 
+from datetime import timedelta
+
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib import messages
 
 from psufrontend.forms import RegisterPSUForm, AddWateringTaskForm
 from psucontrol.models import PSU, PendingPSU, DataMeasurement,WateringTask
-from psucontrol.utils import get_psus_with_permission
+from psucontrol.utils import get_psus_with_permission, get_timedelta
 
 
 # Create your views here.
@@ -109,4 +111,55 @@ def add_watering_task_view(request):
         add_watering_task(request, form)
 
     return render(request, 'psufrontend/add_watering_task.html', {'form': form})
+
+
+TIME_CHOICES = [
+    (_('last 24h'), '1d'),
+    (_('last 3 days'), '3d'),
+    (_('last week'), '7d'),
+    (_('last 2 weeks'), '14d'),
+]
+
+
+@login_required
+def chart_view(request, *, psu=0, time_range=""):
+    """
+    view for chart
+    """
+    # gather the psus of the user
+    psus = get_psus_with_permission(request.user, 1)
+    if len(psus) == 0:
+        # no psus -> redirect to the no_psu_view
+        return redirect('psufrontend:no_psu')
+
+    # Try finding the handed over PSU id in the list of psus
+    sel_psu = None
+    for p in psus:
+        if p.id == psu:
+            sel_psu = p
+            break
+    if sel_psu is None:
+        # id not found -> take first psu in list
+        sel_psu = psus[0]
+
+    # Try to parse range to timedalta
+    delta = get_timedelta(time_range)
+    if delta is None:
+        # go back to 3 days if there is no vaild range
+        delta = timedelta(days=3)
+        time_range = "3d"
+
+    context = {"psus": psus, "sel_psu": sel_psu, "time_range": time_range, "time_choices": TIME_CHOICES}
     
+    # get last measurment in order to display filllevel and take it as a reference point considering time
+    lastmeasurement = DataMeasurement.objects.filter(psu=sel_psu).first()
+    context['lastmeasurement'] = lastmeasurement
+
+    if not lastmeasurement is None:
+        # filter measurements of the last week from starting today
+        start_time = lastmeasurement.timestamp - delta
+
+        measurements = DataMeasurement.objects.filter(timestamp__gte = start_time, psu=sel_psu)
+        context['measurements'] = measurements
+
+    return render(request, 'psufrontend/chart.html', context=context)

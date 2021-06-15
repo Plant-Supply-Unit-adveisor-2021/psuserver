@@ -40,3 +40,11 @@ def round(value, digits):
     except Exception:
         # some kind of error occured -> do not touch value
         return value
+
+
+@register.filter
+def plain(value):
+    """
+    template filter to get string representation
+    """
+    return str(value)

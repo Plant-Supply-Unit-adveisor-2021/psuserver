@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-15 12:28+0200\n"
+"POT-Creation-Date: 2021-06-15 11:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -129,7 +129,7 @@ msgid "Welcome"
 msgstr "Willkommen"
 
 #: .\authentication\templates\authentication\after_register.html:7
-#: .\website\templates\base.html:42
+#: .\website\templates\base.html:43
 msgid "Welcome to Team Plant Supply Unit"
 msgstr "Willkommen beim Team Plant Supply Unit"
 
@@ -148,7 +148,7 @@ msgid "Edit User"
 msgstr "Profil bearbeiten"
 
 #: .\authentication\templates\authentication\edit_profile.html:9
-#: .\website\templates\base.html:50
+#: .\website\templates\base.html:51
 msgid "Edit Profile"
 msgstr "Profil bearbeiten"
 
@@ -164,13 +164,13 @@ msgstr "Sichern"
 
 #: .\authentication\templates\authentication\login.html:4
 #: .\authentication\templates\authentication\login.html:10
-#: .\website\templates\base.html:53
+#: .\website\templates\base.html:54
 msgid "Login"
 msgstr "Einloggen"
 
 #: .\authentication\templates\authentication\register.html:4
 #: .\authentication\templates\authentication\register.html:11
-#: .\website\templates\base.html:54
+#: .\website\templates\base.html:55
 msgid "Register"
 msgstr "Registrieren"
 
@@ -293,7 +293,7 @@ msgstr "Bewässerungsparameter"
 msgid "unauthorized watering"
 msgstr "eigenmächtiges Gießen"
 
-#: .\psucontrol\models.py:72 .\psufrontend\forms.py:37
+#: .\psucontrol\models.py:72
 msgid "{} of {} {} (#{})"
 msgstr "{} von {} {} (#{})"
 
@@ -543,13 +543,59 @@ msgid "Please enter an amount of water that is bigger than zero."
 msgstr "Bitte geb eine Wassermenge an, die größer als 0 ist."
 
 #: .\psufrontend\templates\psufrontend\add_watering_task.html:4
-#: .\website\templates\base.html:36
+#: .\website\templates\base.html:37
 msgid "Manual Watering"
 msgstr "Manuelles Gießen"
 
 #: .\psufrontend\templates\psufrontend\add_watering_task.html:9
 msgid "Create a watering task for your PSU"
 msgstr "Erstelle einen Bewässerungsauftrag für deine Pflanzenpflegestation."
+
+#: .\psufrontend\templates\psufrontend\chart.html:5
+#: .\psufrontend\templates\psufrontend\chart.html:14
+#: .\website\templates\base.html:36
+msgid "Charts"
+msgstr "Diagramme"
+
+#: .\psufrontend\templates\psufrontend\chart.html:18
+#: .\psufrontend\templates\psufrontend\table.html:11
+msgid "Select a Plant Supply Unit"
+msgstr "Wähle eine Pflanzenpflegestation"
+
+#: .\psufrontend\templates\psufrontend\chart.html:29
+msgid "Select a time period"
+msgstr "Wähle eine Zeitperiode"
+
+#: .\psufrontend\templates\psufrontend\chart.html:37
+#: .\psufrontend\templates\psufrontend\chart.html:83
+#: .\psufrontend\templates\psufrontend\chart.html:133
+#: .\psufrontend\templates\psufrontend\table.html:45
+msgid "Fill Level"
+msgstr "Füllstand"
+
+#: .\psufrontend\templates\psufrontend\chart.html:55
+#: .\psufrontend\templates\psufrontend\table.html:43
+msgid "Ground Humidity"
+msgstr "Bodenfeuchte"
+
+#: .\psufrontend\templates\psufrontend\chart.html:62
+#: .\psufrontend\templates\psufrontend\table.html:41
+msgid "Temperature"
+msgstr "Temperatur"
+
+#: .\psufrontend\templates\psufrontend\chart.html:69
+#: .\psufrontend\templates\psufrontend\table.html:42
+msgid "Air Humidity"
+msgstr "Luftfeuchte"
+
+#: .\psufrontend\templates\psufrontend\chart.html:76
+#: .\psufrontend\templates\psufrontend\table.html:44
+msgid "Brightness"
+msgstr "Helligkeit"
+
+#: .\psufrontend\templates\psufrontend\chart.html:125
+msgid "Water"
+msgstr "Wasser"
 
 #: .\psufrontend\templates\psufrontend\no_psu.html:9
 msgid ""
@@ -566,7 +612,7 @@ msgstr ""
 
 #: .\psufrontend\templates\psufrontend\no_psu.html:11
 #: .\psufrontend\templates\psufrontend\register_psu.html:4
-#: .\website\templates\base.html:37
+#: .\website\templates\base.html:38
 msgid "Register PSU"
 msgstr "PSU Registrieren"
 
@@ -574,64 +620,40 @@ msgstr "PSU Registrieren"
 msgid "Register Plant Supply Unit"
 msgstr "Registrierung einer neuen Pflanzenpflegestation"
 
-#: .\psufrontend\templates\psufrontend\table.html:4
+#: .\psufrontend\templates\psufrontend\table.html:5
 #: .\website\templates\base.html:35
 msgid "Measurements"
 msgstr "Datenmessungen"
 
-#: .\psufrontend\templates\psufrontend\table.html:10
-msgid "Select a Plant Supply Unit"
-msgstr "Wähle eine Pflanzenpflegestation"
-
-#: .\psufrontend\templates\psufrontend\table.html:23
+#: .\psufrontend\templates\psufrontend\table.html:24
 msgid "first"
 msgstr "Erste"
 
-#: .\psufrontend\templates\psufrontend\table.html:24
+#: .\psufrontend\templates\psufrontend\table.html:25
 msgid "previous"
 msgstr "Vorherige"
 
-#: .\psufrontend\templates\psufrontend\table.html:27
+#: .\psufrontend\templates\psufrontend\table.html:28
 msgid "Page"
 msgstr "Seite"
 
-#: .\psufrontend\templates\psufrontend\table.html:27
+#: .\psufrontend\templates\psufrontend\table.html:28
 msgid "of"
 msgstr "von"
 
-#: .\psufrontend\templates\psufrontend\table.html:30
+#: .\psufrontend\templates\psufrontend\table.html:31
 msgid "next"
 msgstr "Nächste"
 
-#: .\psufrontend\templates\psufrontend\table.html:31
+#: .\psufrontend\templates\psufrontend\table.html:32
 msgid "last"
 msgstr "Letzte"
 
-#: .\psufrontend\templates\psufrontend\table.html:39
+#: .\psufrontend\templates\psufrontend\table.html:40
 msgid "Timestamp"
 msgstr "Zeitstempel"
 
-#: .\psufrontend\templates\psufrontend\table.html:40
-msgid "Temperature"
-msgstr "Temperatur"
-
-#: .\psufrontend\templates\psufrontend\table.html:41
-msgid "Air Humidity"
-msgstr "Luftfeuchte"
-
-#: .\psufrontend\templates\psufrontend\table.html:42
-msgid "Ground Humidity"
-msgstr "Bodenfeuchte"
-
-#: .\psufrontend\templates\psufrontend\table.html:43
-msgid "Brightness"
-msgstr "Helligkeit"
-
-#: .\psufrontend\templates\psufrontend\table.html:44
-msgid "Fill Level"
-msgstr "Füllstand"
-
-#: .\psufrontend\templates\psufrontend\table.html:65
+#: .\psufrontend\templates\psufrontend\table.html:66
 msgid ""
 "Sorry. It looks like this Plant Supply Unit did not send any measurements "
 "yet. Please try again later or consider a problem with the internet "
@@ -641,11 +663,11 @@ msgstr ""
 "finden. Versuch es später nochmal oder überprüfe die Internetverbindung "
 "deiner PSU."
 
-#: .\psufrontend\views.py:49
+#: .\psufrontend\views.py:34
 msgid "Successfully registered your new Plant Supply Unit."
 msgstr "Deine neue Pflanzenpflegestation wurde erfolgreich hinzugefügt."
 
-#: .\psufrontend\views.py:120
+#: .\psufrontend\views.py:107
 msgid ""
 "Successfully added your watering request. It might take a few minutes to "
 "fullfill your request. Note: Only the lastest watering task will be "
@@ -654,6 +676,22 @@ msgstr ""
 "Dein Auftrag wurde erfolgreich gespeichert. Beachte, dass nur der letzte "
 "offene Bewässerungsauftrag durchgeführt wird und es ein paar Minuten dauern "
 "kann, bis die Pflegestation den Gießvorgang vornimmt."
+
+#: .\psufrontend\views.py:119
+msgid "last 24h"
+msgstr "letzten 24h"
+
+#: .\psufrontend\views.py:120
+msgid "last 3 days"
+msgstr "letzen 3 Tage"
+
+#: .\psufrontend\views.py:121
+msgid "last week"
+msgstr "letzte Woche"
+
+#: .\psufrontend\views.py:122
+msgid "last 2 weeks"
+msgstr "letzten 2 Wochen"
 
 #: .\website\settings.py:211
 msgid "German"
@@ -710,10 +748,10 @@ msgstr ""
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: .\website\templates\base.html:49
+#: .\website\templates\base.html:50
 msgid "Administration"
 msgstr "Administration"
 
-#: .\website\templates\base.html:51
+#: .\website\templates\base.html:52
 msgid "Logout"
 msgstr "Ausloggen"

@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load extra_utils %}
+
+{% block title %}{% trans "Charts" %} - Plant Supply Unit{% endblock title %}
+
+{% block head %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js" integrity="sha512-rmZcZsyhe0/MAjquhTgiUcb4d9knaFc7b5xAfju483gbEXTkeJRUMIPk6s3ySZMYUHEcjKbjLjyddGWMrNEvZg==" crossorigin="anonymous"></script>
+    <script src='https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js'></script>
+{% endblock head %}
+
+{% block body %}
+    
+    <h1>{% trans "Charts" %}</h1>
+
+    <!-- psu selection links -->
+    <div class="psuselection">
+        <h4>{% trans "Select a Plant Supply Unit" %}</h4>
+        <div>
+            {% for p in psus %}
+            <a class="btn btn-inline-block btn-secondary {% if p.id == sel_psu.id %}selected{% endif %}" href="{% url 'psufrontend:chart' psu=p.id %}">{{ p.pretty_name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- selection of time range and filllevel indicator -->
+    <div id="filllevel_n_time_range">
+        <div id="time_range" class="psuselection">
+            <h4>{% trans "Select a time period" %}</h4>
+            <div>
+                {% for tc in time_choices %}
+                    <a class="btn btn-inline-block btn-secondary {% if time_range == tc.1 %}selected{% endif %}" href="{% url 'psufrontend:chart' psu=sel_psu.id time_range=tc.1 %}">{{ tc.0 }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div id="filllevel_chart_wrapper">
+            <h5>{% trans "Fill Level" %}</h5>
+            <canvas id="filllevel_chart"></canvas>
+        </div>
+    </div>
+
+    <div id="charts">
+        <div id="measurement_chart_wrapper">
+            <canvas id="measurement_chart" style="margin: 2rem 0;"></canvas>
+        </div>
+    </div>
+    
+    <script>
+        var measurement_chart_canvas = document.getElementById("measurement_chart");
+
+        var labels = [ {% for m in measurements %} new Date("{{m.timestamp | plain }}"), {%endfor%} ];
+        var datasets = [
+            // load data from context
+            {
+                label: '{% trans "Ground Humidity" %} in %',
+                data: [ {% for m in measurements %} {% if m.ground_humidity == None %}null{% else %}{{m.ground_humidity| round:1 }}{% endif %}, {%endfor%} ],
+                tension: 0.1,
+                borderColor: '#49A9EA',
+                backgroundColor: "transparent"
+            },
+            {
+                label: '{% trans "Temperature" %} in °C',
+                data: [ {% for m in measurements %} {% if m.temperature == None %}null{% else %}{{m.temperature| round:1 }}{% endif %}, {%endfor%} ],
+                tension: 0.1,
+                borderColor: '#c00',
+                backgroundColor: "transparent"
+            },
+            {
+                label: '{% trans "Air Humidity" %} in %',
+                data: [ {% for m in measurements %} {% if m.air_humidity == None %}null{% else %}{{m.air_humidity| round:1 }}{% endif %}, {%endfor%} ],
+                tension: 0.1,
+                borderColor: '#00e266',
+                backgroundColor: "transparent"
+            },
+            {
+                label: '{% trans "Brightness" %} in %',
+                data: [ {% for m in measurements %} {% if m.brightness == None %}null{% else %}{{m.brightness| round:0 }}{% endif %}, {%endfor%} ],
+                tension: 0.1,
+                borderColor: '#333',
+                backgroundColor: "transparent"
+            },
+            {
+                label: '{% trans "Fill Level" %} in %',
+                data: [ {% for m in measurements %} {% if m.fill_level == None %}null{% else %}{{m.fill_level| round:0 }}{% endif %}, {%endfor%} ],
+                tension: 0.1,
+                borderColor: '#0400d7',
+                backgroundColor: "transparent"
+            }
+        ];
+
+        var measurement_chart = new Chart(measurement_chart_canvas, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: datasets
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        time: {
+                            tooltipFormat: 'DD.MM.YYYY HH:mm',
+                            displayFormats:{
+                                hour: 'DD.MM. HH:mm',
+                                day: 'DD.MM.YYYY'
+                            }
+                        },
+                        ticks: {
+                            autoSkip: true,
+                            maxTicksLimit: 20
+                        }
+                    }]
+                },
+                elements: {
+                    point:{
+                        radius: 0
+                    }
+                }
+            }
+        });
+        
+        var filllevel_chart_canvas = document.getElementById("filllevel_chart");
+        
+        var filllevel = [{{lastmeasurement.fill_level | round:0 }}, 100-{{lastmeasurement.fill_level | round:0 }}];
+        var filllevel_labels = ['{% trans "Water" %}', ''];
+        var filllevel_colors = ['#0400d7', '#ccc'];
+        
+        var filllevel_chart = new Chart(filllevel_chart_canvas, {
+            type: 'doughnut',
+            data: {
+                labels: filllevel_labels,
+                datasets: [{
+                    label: '{% trans "Fill Level" %}',
+                    data: filllevel,
+                    backgroundColor: filllevel_colors
+                }],
+            },
+            options: {
+                legend: {
+                    display: false
+                }
+            }
+        });
+    </script>
+
+{% endblock body %}
