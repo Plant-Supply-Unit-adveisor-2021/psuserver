@@ -549,7 +549,7 @@ msgstr "Bewässerungsparameter"
 
 #: .\psufrontend\forms.py:49
 msgid "Please choose the watering parameter according to your plant."
-msgstr "Bitte wähle den passenden Paramatersatz für deine Pflanze aus."
+msgstr "Bitte wähle den passenden Parametersatz für deine Pflanze aus."
 
 #: .\psufrontend\forms.py:50
 msgid "Automatic Watering"
