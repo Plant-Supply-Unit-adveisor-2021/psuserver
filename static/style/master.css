@@ -201,6 +201,9 @@ a.thicken:hover, a.thicken:focus {
     padding: .1rem 1rem .2rem 1rem;
     margin: 0 .25rem;
 }
+.btn.btn-right {
+    float: right;
+}
 
 .btn:focus, .btn:hover {
     background-color: var(--btn-bcolor-action);

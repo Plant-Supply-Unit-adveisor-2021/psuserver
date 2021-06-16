@@ -12,6 +12,8 @@
         <title>{% block title %}Plant Supply Unit{% endblock title %}</title>
         <!--<link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>-->
 
+        {% block head_pre_css %}{% endblock %}
+
         <!-- master stylesheet -->
         <link rel="stylesheet" href="{% static 'style/master.css' %}">
         {% if user.is_authenticated and user.darkmode_active %}

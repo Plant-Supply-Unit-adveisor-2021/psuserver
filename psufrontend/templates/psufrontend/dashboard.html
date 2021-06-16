@@ -2,75 +2,64 @@
 {% load i18n %}
 {% load extra_utils %}
 
-{% block title %}{% trans "Dashboard" %} - Plant Supply Unit{% endblock title %}{% trans "Dashboard" %}
-
-{% block head %}
+{% block head_pre_css %}
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-{% endblock head %}
+{% endblock %}
+
+{% block title %}{% trans "Dashboard" %} - Plant Supply Unit{% endblock title %}
 
 {% block body %}
+
+	<!-- psu selection -->
+	<div class="psuselection">
+	    <h4>{% trans "My Plant Supply Units" %}</h4>
+	    <div>
+	      {% for p in psus %}
+	        <a class="btn btn-inline-block btn-secondary {% if p.id == sel_psu.id %}selected{% endif %}" href="{% url 'psufrontend:dashboard' psu=p.id %}">{{ p.pretty_name }}</a>
+	      {% endfor %}
+		  <a class="btn btn-inline-block btn-secondary" href="{% url 'psufrontend:register_psu' %}">{% trans "Add new PSU" %}</a>
+	    </div>
+  	</div>
+	
+	<hr>
+
 	{% include "psufrontend/status.html" %}
+	
+	<!-- area to show the latest measurements and small graphs -->
+	<div>
+		<h4>{% trans "Latest Measurements" %}</h4>
+		<table class="table-striped">
+			<!-- table head -->
+			<thead>
+				<tr>
+				<th class="align-center" style="flex: 1.5;">{% trans "Timestamp" %}</th>
+				<th class="align-center">{% trans "Temperature" %}</th>
+				<th class="align-center">{% trans "Air Humidity" %}</th>
+				<th class="align-center">{% trans "Ground Humidity" %}</th>
+				<th class="align-center">{% trans "Brightness" %}</th>
+				<th class="align-center">{% trans "Fill Level" %}</th>
+				</tr>
+			</thead>
 
-	<div class="row">
-		<div class="col-md-4">
-			<h5>{% trans "MY PSUs:" %}</h5>
-			<hr>
-			<div class="card card-body">
-				<a class="btn btn-primary  btn-sm btn-block" href="{% url 'psufrontend:register_psu' %}">Add new PSU</a>
-				<table class="table table-sm">
-					<thead>
-						<tr>
-							<th>{% trans "Identity key" %}</th>
-							<th>{% trans "Name" %}</th>
-						</tr>
-					</thead>
-
-					<tbody>
-						{% for p in psus %}
-							<tr>
-								<td>{{ p.id }}</td>
-								<td><a class="{% if p.id == sel_psu.id %}selected{% endif %}"href="{% url 'psufrontend:dashboard' psu=p.id %}">{{ p.pretty_name }}</a><td>
-							</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-			</div>
+			<!-- table body with measurements -->
+			<tbody>
+				{% for m in measurements %}
+				<tr>
+					<td class="align-center" style="flex: 1.5;">{{ m.timestamp }}</td>
+					<td class="align-center">{{ m.temperature | round:1 }} °C</td>
+					<td class="align-center">{{ m.air_humidity | round:1 }} %</td>
+					<td class="align-center">{{ m.ground_humidity | round:1 }} %</td>
+					<td class="align-center">{{ m.brightness | round:0 }} %</td>
+					<td class="align-center">{{ m.fill_level | round:0 }} %</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<div style="display: flex; flex-wrap: wrap;">
+			<a class="btn btn-primary" style="margin: 1rem auto 0 0;" href="{% url 'psufrontend:add_watering_task' %}">{% trans "Manually water the plant" %}</a>
+			<a class="btn btn-primary" style="margin: 1rem 0 0 0;" href="{% url 'psufrontend:table' psu=sel_psu.id %}">{% trans "View all measurements" %}</a>
 		</div>
-
-		<div class="col-md-8">
-			<h5>{% trans "LAST 8 MEASUREMENTS:" %}</h5>
-			<hr>
-			<div class="card card-body">
-				<a class="btn btn-primary  btn-sm btn-block" href="{% url 'psufrontend:add_watering_task' %}">Manually water the plant</a>
-			    <table class="table table-sm">
-			      <!-- table head -->
-			      <thead>
-			        <tr>
-			          <th style="flex: 1.5;">{% trans "Timestamp" %}</th>
-			          <th>{% trans "Temperature" %}</th>
-			          <th>{% trans "Air Humidity" %}</th>
-			          <th>{% trans "Ground Humidity" %}</th>
-			          <th>{% trans "Brightness" %}</th>
-			        </tr>
-			      </thead>
-
-			      <!-- table body with measurements -->
-			      <tbody>
-			        {% for d in lastmeasurements %}
-			          <tr>
-			            <td style="flex: 1.5;">{{ d.timestamp }}</td>
-			            <td>{{ d.temperature | round:1 }} °C</td>
-			            <td>{{ d.air_humidity | round:1 }} %</td>
-			            <td>{{ d.ground_humidity | round:1 }} %</td>
-			            <td>{{ d.brightness | round:0 }} %</td>
-			          </tr>
-			        {% endfor %}
-			      </tbody>
-			    </table>
-			</div>
-		</div>
-
 	</div>
 
 	<div class="row">

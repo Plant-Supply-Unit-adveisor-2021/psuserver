@@ -174,31 +174,18 @@ def dashboard_view(request, *, psu=0):
         # id not found -> take first psu in list
         sel_psu = psus[0]
 
+    context = {"psus": psus, "sel_psu": sel_psu}
+
     # display 8 objects in the table 
-    d_measurements = DataMeasurement.objects.filter(psu=sel_psu)
-    if len(d_measurements) != 0:
-        # set up paginator in order to create pages displaying the data
-        paginator = Paginator(d_measurements, 8)
-        lastmeasurements = paginator.get_page(request.GET.get('page'))
-
-    #get lastest measurement for fill level diagramm
-    measurements = DataMeasurement.objects.filter(psu=sel_psu).first()
-    lastmeasurement = DataMeasurement.objects.filter(psu=sel_psu).first()
-
-    #get measurements, which are collected in the last 24 hours
-    today = datetime.now().date()
-    total_measurements = DataMeasurement.objects.filter(psu=sel_psu, timestamp__gte=today).count()
+    measurements = DataMeasurement.objects.filter(psu=sel_psu)
+    context['measurement_count'] = len(measurements)
+    if len(measurements) != 0:
+        # hand over last eight measurements to template
+        context['measurements'] = measurements[:10]
+        context['lastmeasurement'] = measurements[0]
 
     #get latest watering time and amount of the PSU 
-    last_water_detail = WateringTask.objects.filter(psu=sel_psu).first()
-
-    context = {"total_measurements": total_measurements,
-                "last_water_detail": last_water_detail, 
-                "lastmeasurement": lastmeasurement, 
-                "lastmeasurements": lastmeasurements, 
-                "d_measurements": d_measurements, 
-                "psus": psus, 
-                "sel_psu": sel_psu}
+    context['last_watering_task'] = WateringTask.objects.filter(psu=sel_psu).first()
 
     return render(request, 'psufrontend/dashboard.html', context)
 
