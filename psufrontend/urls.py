@@ -10,7 +10,11 @@ urlpatterns = [
     path(r'table', v.table_view, name='table'),
     path(r'no_psu', v.no_psu_view, name='no_psu'),
     path(r'add_watering_task', v.add_watering_task_view, name='add_watering_task'),
+    path(r'watering_control/psu/<int:psu>', v.watering_control_view, name='watering_control'),
     path(r'watering_control', v.watering_control_view, name='watering_control'),
-    path(r'dashboard', v.dashboard_view, name='dashboard'),
     path(r'dashboard/psu/<int:psu>', v.dashboard_view, name='dashboard'),
+    path(r'dashboard', v.dashboard_view, name='dashboard'),
+    path(r'chart/psu/<int:psu>/<str:time_range>', v.chart_view, name='chart'),
+    path(r'chart/psu/<int:psu>', v.chart_view, name='chart'),
+    path(r'chart', v.chart_view, name='chart'),
 ]
