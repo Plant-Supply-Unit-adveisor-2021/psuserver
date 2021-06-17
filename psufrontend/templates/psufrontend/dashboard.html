@@ -4,7 +4,6 @@
 
 {% block head_pre_css %}
 	<script src='https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js'></script>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 {% endblock %}
 
 {% block title %}{% trans "Dashboard" %} - Plant Supply Unit{% endblock title %}
@@ -57,6 +56,9 @@
 						<!-- js for chart is located at the bottom of this file -->
 						<canvas id="filllevel_chart"></canvas>
 					</div>
+				</div>
+				<div id="lastseen" class="measurement-value"  style="background-color: #ffa700aa;">
+					<h4>{% trans "Last Server Contact" %}: {{ lastlog.timestamp }}</h4>
 				</div>
 			</div>
 			<div id="measurements">

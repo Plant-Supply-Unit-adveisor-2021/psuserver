@@ -851,6 +851,12 @@ div.dash-wrapper{
     margin: 1rem 0;
 }
 
+div.dash-wrapper h1, div.dash-wrapper h2, div.dash-wrapper h3,
+div.dash-wrapper h4, div.dash-wrapper h5 {
+    margin: 0 0 .5rem 0;
+    line-height: 1.2;
+}
+
 /* quick info part */
 
 div.dash-wrapper div#quick-info{
@@ -866,7 +872,7 @@ div.dash-wrapper div#quick-info div#measurement-values{
     justify-content: center;
 }
 
-div.dash-wrapper div#quick-info div#measurement-values div.measurement-value{
+div.dash-wrapper div#quick-info div.measurement-value{
     display: block;
     flex: 1;
     box-sizing: border-box;
@@ -888,6 +894,10 @@ div.dash-wrapper div#quick-info div#measurement-values div#filllevel canvas {
     margin: 0 auto;
 }
 
+div.dash-wrapper div#quick-info div#lastseen h4 {
+    margin: 0;
+}
+
 /* list with measurements */
 
 div.dash-wrapper div#measurements {
@@ -898,7 +908,7 @@ div.dash-wrapper div#measurements {
 }
 
 div.dash-wrapper div#measurements table {
-    margin: 0 0 1rem 0;
+    margin: 1.5rem 0 1rem 0;
 }
 
 div.dash-wrapper div#measurements div.button-box {

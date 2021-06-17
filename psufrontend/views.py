@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib import messages
 
 from psufrontend.forms import RegisterPSUForm, AddWateringTaskForm, WateringControlForm
-from psucontrol.models import PSU, PSUImage, PendingPSU, DataMeasurement, WateringTask, WateringParams
+from psucontrol.models import CommunicationLogEntry, PSU, PSUImage, PendingPSU, DataMeasurement, WateringTask, WateringParams
 from psucontrol.utils import get_psus_with_permission, get_timedelta
 
 
@@ -187,6 +187,9 @@ def dashboard_view(request, *, psu=0):
         context['wateringtasks'] = WateringTask.objects.filter(psu=sel_psu)[:5]
         # get latest image of the PSU 
         context['lastimage'] = PSUImage.objects.filter(psu=sel_psu).first()
+
+    # last communication log entry
+    context['lastlog'] = CommunicationLogEntry.objects.filter(psu=sel_psu).exclude(request_uri='/psucontrol/get_challenge').first()
 
     return render(request, 'psufrontend/dashboard.html', context)
 
