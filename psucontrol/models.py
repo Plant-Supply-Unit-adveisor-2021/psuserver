@@ -43,6 +43,18 @@ class WateringParams(models.Model):
         ordering = ['name']
 
 
+def to_watering_params(value):
+    """
+    accepts string value from WateringParams.__str__ and converts to WateringParams
+    """
+    try:
+        pattern = re.compile('(?P<id>\d*).*')
+        regex = pattern.match(value)
+        return WateringParams.objects.get(id=int(regex.group('id')))
+    except Exception:
+        return None
+
+
 class PSU(models.Model):
     """
     model representing a Plant Supply Unit

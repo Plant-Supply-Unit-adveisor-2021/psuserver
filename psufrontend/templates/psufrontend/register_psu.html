@@ -4,9 +4,12 @@
 {% block title %}{% trans "Register PSU" %} - Plant Supply Unit{% endblock title %}
 
 {% block body %}
+
+    <h2>{% trans "Register Plant Supply Unit" %}</h2>
+    
     <form enctype="multipart/form-data" method="POST">
         {% csrf_token %}
-        <h2>{% trans "Register Plant Supply Unit" %}</h2>
+        
         {{ form|cut:'<br>' }}
         <input type="submit" name="" value="{% trans "Save" %}"  class="btn btn-primary">
     </form>

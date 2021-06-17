@@ -3,14 +3,16 @@ from django.utils.translation import ugettext as _
 from django.core.paginator import Paginator
 from django.urls import resolve
 
+from datetime import timedelta
+
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib import messages
 
-from psufrontend.forms import RegisterPSUForm, AddWateringTaskForm, ChangeUserPermissionsForm, AddUserPermissionsForm, \
-    RevokeUserPermissionsForm
-from psucontrol.models import PSU, PendingPSU, DataMeasurement, WateringTask
-from psucontrol.utils import get_psus_with_permission, get_users_with_permission
+from psufrontend.forms import RegisterPSUForm, AddWateringTaskForm, WateringControlForm, ChangeUserPermissionsForm, AddUserPermissionsForm, RevokeUserPermissionsForm
+from psucontrol.models import CommunicationLogEntry, PSU, PSUImage, PendingPSU, DataMeasurement, WateringTask, WateringParams
+from psucontrol.utils import get_psus_with_permission, get_timedelta
+from psucontrol.watering import CalculateWatering
 from authentication.models import User
 
 # Create your views here.
@@ -203,7 +205,7 @@ def no_psu_view(request):
 
 @csrf_exempt
 @login_required
-def add_watering_task_view(request):
+def add_watering_task_view(request, psu=0):
     """
     view for adding a watering task for a specific PSU
     """
@@ -211,18 +213,183 @@ def add_watering_task_view(request):
     @csrf_protect
     def add_watering_task(request, form):
         # cancel old tasks
-        for ot in WateringTask.objects.filter(psu=form.cleaned_data['psu'], status__in=[0, 5]):
+        for ot in WateringTask.objects.filter(psu=sel_psu, status__in=[0, 5]):
             ot.status = -10
             ot.save()
         # create WateringTask
-        WateringTask.objects.create(psu=form.cleaned_data['psu'], status=5, amount=form.cleaned_data['amount'])
-        messages.success(request,
-                         _('Successfully added your watering request. It might take a few minutes to fullfill your request. Note: Only the lastest watering task will be fullfilled.'))
-
+        WateringTask.objects.create(psu=sel_psu, status=5, amount=form.cleaned_data['amount'])
+        messages.success(request, _('Successfully added your watering request. It might take a few minutes to fullfill your request. Note: Only the lastest watering task will be fullfilled.'))
+    
+    # gather the psus of the user
     psus = get_psus_with_permission(request.user, 1)
-    form = AddWateringTaskForm(psus, request.POST or None)
+    if len(psus) == 0:
+        # no psus -> redirect to the no_psu_view
+        return redirect('psufrontend:no_psu')
+
+    # Try finding the handed over PSU id in the list of psus
+    sel_psu = None
+    for p in psus:
+        if p.id == psu:
+            sel_psu = p
+            break
+    if sel_psu is None:
+        # id not found -> take first psu in list
+        sel_psu = psus[0]
+
+    context = {"psus": psus, "sel_psu": sel_psu}
+
+    measurements = DataMeasurement.objects.filter(psu=sel_psu)
+    context['measurement_count'] = len(measurements)
+    if len(measurements) != 0:
+        # hand over last 8 measurements to template
+        context['measurements'] = measurements[:8]
+        # get the last 8 wtaering tasks of a PSU 
+        wateringtasks = WateringTask.objects.filter(psu=sel_psu)[:8]
+        context['wateringtasks'] = wateringtasks
+
+        if len(wateringtasks) != 0 and ( 0 < wateringtasks[0].status < 20 or (wateringtasks[0].status == 20 and wateringtasks[0].timestamp_execution - measurements[0].timestamp > timedelta())):
+            context['old_data'] = True
+
+    context['alogrithm_amount'] = CalculateWatering(sel_psu).crunch_data_dry()
+
+    form = AddWateringTaskForm(request.POST or None)
 
     if request.POST and form.is_valid():
         add_watering_task(request, form)
 
-    return render(request, 'psufrontend/add_watering_task.html', {'form': form})
+    context['form'] = form
+
+    return render(request, 'psufrontend/add_watering_task.html', context=context)
+
+@csrf_exempt    
+@login_required
+def watering_control_view(request, psu=0):
+    """
+    view for choosing a watering parameter and decide if one wants to water the PSU manually
+    """
+
+    # gather the psus of the user
+    psus = get_psus_with_permission(request.user, 1)
+    if len(psus) == 0:
+        # no psus -> redirect to the no_psu_view
+        return redirect('psufrontend:no_psu')
+
+    # Try finding the handed over PSU id in the list of psus
+    sel_psu = None
+    for p in psus:
+        if p.id == psu:
+            sel_psu = p
+            break
+    if sel_psu is None:
+        # id not found -> take first psu in list
+        sel_psu = psus[0]
+
+    @csrf_protect
+    def add_watering_control(request, form):
+        sel_psu.watering_params = form.cleaned_data['watering_params']
+        sel_psu.unauthorized_watering = form.cleaned_data['unauthorized_watering']
+        sel_psu.save()
+        messages.success(request, _('Successfully saved your watering settings.'))
+
+    wateringparameters = WateringParams.objects.all()
+    form = WateringControlForm(wateringparameters, sel_psu, request.POST or None)
+
+    if request.POST and form.is_valid():
+        add_watering_control(request, form)
+
+    context = {"form": form, "psus": psus, "sel_psu": sel_psu}
+
+    return render(request, 'psufrontend/watering_control.html', context)
+
+
+@login_required
+def dashboard_view(request, *, psu=0):
+    """
+    view for showing the newesst information to user
+    """
+    # gather the psus of the user
+    psus = get_psus_with_permission(request.user, 1)
+    if len(psus) == 0:
+        # no psus -> redirect to the no_psu_view
+        return redirect('psufrontend:no_psu')
+
+    # Try finding the handed over PSU id in the list of psus
+    sel_psu = None
+    for p in psus:
+        if p.id == psu:
+            sel_psu = p
+            break
+    if sel_psu is None:
+        # id not found -> take first psu in list
+        sel_psu = psus[0]
+
+    context = {"psus": psus, "sel_psu": sel_psu}
+
+    measurements = DataMeasurement.objects.filter(psu=sel_psu)
+    context['measurement_count'] = len(measurements)
+    if len(measurements) != 0:
+        # hand over last 10 measurements to template
+        context['measurements'] = measurements[:10]
+        context['lastmeasurement'] = measurements[0]
+
+        # get the last 5 wtaering tasks of a PSU 
+        context['wateringtasks'] = WateringTask.objects.filter(psu=sel_psu)[:5]
+        # get latest image of the PSU 
+        context['lastimage'] = PSUImage.objects.filter(psu=sel_psu).first()
+
+    # last communication log entry
+    context['lastlog'] = CommunicationLogEntry.objects.filter(psu=sel_psu).exclude(request_uri='/psucontrol/get_challenge').first()
+
+    return render(request, 'psufrontend/dashboard.html', context)
+
+
+TIME_CHOICES = [
+    (_('last 24h'), '1d'),
+    (_('last 3 days'), '3d'),
+    (_('last week'), '7d'),
+    (_('last 2 weeks'), '14d'),
+]
+
+
+@login_required
+def chart_view(request, *, psu=0, time_range=""):
+    """
+    view for chart
+    """
+    # gather the psus of the user
+    psus = get_psus_with_permission(request.user, 1)
+    if len(psus) == 0:
+        # no psus -> redirect to the no_psu_view
+        return redirect('psufrontend:no_psu')
+
+    # Try finding the handed over PSU id in the list of psus
+    sel_psu = None
+    for p in psus:
+        if p.id == psu:
+            sel_psu = p
+            break
+    if sel_psu is None:
+        # id not found -> take first psu in list
+        sel_psu = psus[0]
+
+    # Try to parse range to timedalta
+    delta = get_timedelta(time_range)
+    if delta is None:
+        # go back to 3 days if there is no vaild range
+        delta = timedelta(days=3)
+        time_range = "3d"
+
+    context = {"psus": psus, "sel_psu": sel_psu, "time_range": time_range, "time_choices": TIME_CHOICES}
+    
+    # get last measurment in order to display filllevel and take it as a reference point considering time
+    lastmeasurement = DataMeasurement.objects.filter(psu=sel_psu).first()
+    context['lastmeasurement'] = lastmeasurement
+
+    if not lastmeasurement is None:
+        # filter measurements of the last week from starting today
+        start_time = lastmeasurement.timestamp - delta
+
+        measurements = DataMeasurement.objects.filter(timestamp__gte = start_time, psu=sel_psu)
+        context['measurements'] = measurements
+
+    return render(request, 'psufrontend/chart.html', context=context)

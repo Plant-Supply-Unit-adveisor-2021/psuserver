@@ -1,3 +1,5 @@
+from datetime import timedelta
+import re
 from psucontrol.models import PSU
 from authentication.models import User
 
@@ -48,3 +50,20 @@ def get_users_with_permission(psu, min_level, max_level):
         if max_level > check_permissions(psu, u) > min_level:
             users.append(u)
     return users
+
+
+def get_timedelta(string):
+    """
+    convert a string in the format [num days]d[num hours]h[num minutes]m[num seconds]s
+    if not possible return None
+    """
+    regex = re.compile(r'((?P<days>\d+?)d)?((?P<hours>\d+?)h)?((?P<minutes>\d+?)m)?((?P<seconds>\d+?)s)?')
+    parms = regex.match(string)
+    
+    args = dict()
+    for (name, parm) in parms.groupdict().items():
+        if parm:
+            args[name] = int(parm)
+    if len(args) < 1:
+        return None
+    return timedelta(**args)
