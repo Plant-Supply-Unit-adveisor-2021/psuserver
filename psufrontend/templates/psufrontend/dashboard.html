@@ -47,10 +47,6 @@
 						<h4>{% trans "Brightness" %}</h4>
 						<h1>{{lastmeasurement.brightness | round:0 }} %</h1>
 					</div>
-					<!--<div class="measurement-value">
-						<h4>{% trans "Fill Level" %}</h4>
-						<h1>{{lastmeasurement.fill_level | round:0 }} %</h1>
-					</div>-->
 					<div id="filllevel" class="measurement-value"  style="background-color: #90cd66aa;">
 						<h4>{% trans "Fill Level" %}</h4>
 						<!-- js for chart is located at the bottom of this file -->
@@ -137,55 +133,6 @@
 			</div>
 		{% endif %}
 	</div>
-	<!--
-	<div class="row">
-		<div class="col-md-6">
-    	<h5>{% trans "Image:" %}</h5>
-	    <hr>
-		</div>
-
-	    <div class="col-md-4">
-	    <h5>{% trans "Current Fill Level:" %}</h5>
-	    <hr>
-        <div id = "filllevel">
-        <canvas id="myChart2"></canvas>
-        </div>
-        <script>
-                let myChart2 = document.getElementById("myChart2").getContext('2d');
-
-            
-            
-            let full_l = [{{lastmeasurement.fill_level | round:0 }}, 100-{{lastmeasurement.fill_level | round:0 }}];
-            
-            let label2 = ['water', ''];
-            let color2 = ['#0400d7', '#ffffff']
-            
-           
-           
-
-                let chart2 = new Chart(myChart2, {
-                type: 'doughnut',
-                data: {
-                    labels: label2,
-                    datasets: [ {
-                        label: 'Fill level',
-                        data: full_l,
-                        backgroundColor: color2
-                    }]
-                    },
-                    options: {
-                        title: {
-                        text: "Füllstand",
-                        display: true
-                        }
-                    }
-            })
-
-
-        </script>
-    	</div>
-    </div>
-	-->
 	<script>
 		var filllevel_chart_canvas = document.getElementById("filllevel_chart");
         
