@@ -18,8 +18,9 @@
         <h4>{% trans "Select a Plant Supply Unit" %}</h4>
         <div>
             {% for p in psus %}
-            <a class="btn btn-inline-block btn-secondary {% if p.id == sel_psu.id %}selected{% endif %}" href="{% url 'psufrontend:chart' psu=p.id %}">{{ p.pretty_name }}</a>
+                <a class="btn btn-inline-block btn-secondary {% if p.id == sel_psu.id %}selected{% endif %}" href="{% url 'psufrontend:chart' psu=p.id %}">{{ p.pretty_name }}</a>
             {% endfor %}
+            <a class="btn btn-inline-block btn-secondary" href="{% url 'psufrontend:register_psu' %}">{% trans "Add new PSU" %}</a>
         </div>
     </div>
 

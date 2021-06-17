@@ -16,6 +16,7 @@
 	      {% for p in psus %}
 	        <a class="btn btn-inline-block btn-secondary {% if p.id == sel_psu.id %}selected{% endif %}" href="{% url 'psufrontend:add_watering_task' psu=p.id %}">{{ p.pretty_name }}</a>
 	      {% endfor %}
+          <a class="btn btn-inline-block btn-secondary" href="{% url 'psufrontend:register_psu' %}">{% trans "Add new PSU" %}</a>
 	    </div>
   	</div>
 
