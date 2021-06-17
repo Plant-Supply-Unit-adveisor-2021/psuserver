@@ -3,8 +3,9 @@ from django.utils.translation import gettext_lazy as _
 
 from django.core.exceptions import ValidationError
 
-from psucontrol.models import PendingPSU, PSU, to_psu
-import psufrontend.views
+from psucontrol.models import PendingPSU, to_psu
+from authentication.models import User
+from psucontrol.utils import check_permissions
 
 class RegisterPSUForm(forms.Form):
     """
@@ -27,14 +28,48 @@ class ChangeUserPermissionsForm(forms.Form):
     form for selecting a PSU and changing permissions for active users or add new users with permissions
     """
 
+    actions = [("1", "Give permissions to a user"), ("2", "Revoke permissions from a user")]
+    select_action = forms.ChoiceField(label=_('Select action: '), label_suffix=_(''), choices=actions)
+
+    def clean(self):
+        cleaned_data = self.cleaned_data.get('select_action')
+        return cleaned_data
+
+
+class AddUserPermissionsForm(forms.Form):
+    """
+    form for adding users and giving them permissions on a selected psu
+    """
+
+    select_user = forms.CharField(label=_('Select user'), max_length=100, min_length=1,
+                                  help_text=_('Type in the email-adress of a user that you want to give permissions to'))
+
+    def __init__(self, sel_psu, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.sel_psu = sel_psu
+
+    def clean(self):
+        if User.objects.get(email=self.cleaned_data.get('select_user')):
+            if User.objects.get(email=self.cleaned_data.get('select_user')) in self.sel_psu.permitted_users.all():
+                raise ValidationError(_("This user already has permissions on this PSU."))
+            else:
+                cleaned_data = self.cleaned_data.get('select_user')
+        else:
+            raise ValidationError(_("This user does not exist."))
+
+        return cleaned_data
+
+
+class RevokeUserPermissionsForm(forms.Form):
+    """
+    form for selecting an active user and revoking his/her permissions on a selected psu
+    """
+
     active_users = forms.ChoiceField(label=_('Active users: '), label_suffix=_(''),
                                      help_text=_('select permitted user to remove permissions'))
 
-    select_user = forms.CharField(label=_('Select user'), max_length=100, min_length=1,
-                                  help_text=_('Add a user that you want to give permissions to'))
-
     # stellt die user, die auf die ausgewählte PSU Zugriff haben, in einem MultipleChoiceField zur Auswahl
-    def __init__(self, psus, users, *args, **kwargs):
+    def __init__(self, users, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.users = users
         self.fields['active_users'].choices = self.users_choices()
@@ -42,23 +77,29 @@ class ChangeUserPermissionsForm(forms.Form):
     def users_choices(self):
         strings = []
         for u in self.users:
-            strings.append((str(u), u))
+            strings.append((u.email, u))
         return strings
+
+    def clean(self):
+        cleaned_data = self.cleaned_data.get('active_users')
+        return cleaned_data
 
 
 class AddWateringTaskForm(forms.Form):
     """
     form to add a new WateringTask
     """
-    psu = forms.TypedChoiceField(label=_('Plant Supply Unit'), choices=[], help_text=_('The PSU you want to water manually.'), coerce=to_psu)
-    amount = forms.IntegerField(label=_('Amount of water'), help_text=_('The amount of water in milliliters you want to give to your plant.'))
+    psu = forms.TypedChoiceField(label=_('Plant Supply Unit'), choices=[],
+                                 help_text=_('The PSU you want to water manually.'), coerce=to_psu)
+    amount = forms.IntegerField(label=_('Amount of water'),
+                                help_text=_('The amount of water in milliliters you want to give to your plant.'))
 
     def __init__(self, psus, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # initialize choice field with PSUs
         choices = []
         for p in psus:
-            choices.append((p,p.pretty_name()))
+            choices.append((p, p.pretty_name()))
         self.fields['psu'].choices = choices
 
     def clean(self):

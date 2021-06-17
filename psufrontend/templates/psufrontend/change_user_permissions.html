@@ -17,6 +17,15 @@
               {% endfor %}
             </div>
         </div>
+        <div class="active_users">
+            <h7>{% trans "Active users:" %}</h7>
+            <div>
+              {% for u in users %}
+                  <li>{{u|safe}}</li>
+              {% endfor %}
+            </div>
+            </br>
+        </div>
         {{ form|cut:'<br>' }}
         <input type="submit" name="" value="{% trans "Save" %}"  class="btn btn-primary">
     </form>

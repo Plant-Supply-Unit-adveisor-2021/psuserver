@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+
+{% block title %}{% trans "Add User Permissions" %} - Plant Supply Unit{% endblock title %}
+
+{% block body %}
+    <form enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        {% if "/de/psufrontend/add_user_permissions/" == request.path %}
+        <h2>{% trans "Add User Permissions" %}</h2>
+        {% else %}
+        <h2> {% trans "Add User Permissions" %} <span> {% trans " for PSU: " %}{{ sel_psu.pretty_name }}</span></h2>
+        {% endif %}
+
+
+        {% if "/de/psufrontend/add_user_permissions/" == request.path %}
+        <!-- psu selection links -->
+        <div class="psuselection">
+            <h4>{% trans "Select a Plant Supply Unit" %}</h4>
+            <div>
+              {% for p in psus %}
+                  <a class="btn btn-inline-block btn-secondary {% if p.id == sel_psu.id %}selected{% endif %}" href="{% url 'psufrontend:add_user_permissions' psu=p.id %}">{{ p.pretty_name }}</a>
+              {% endfor %}
+            </div>
+        </div>
+        <div class="active_users">
+            <h7>{% trans "Active users:" %}</h7>
+            <div>
+              {% for u in users %}
+                  <li>{{u|safe}}</li>
+              {% endfor %}
+            </div>
+            </br>
+        </div>
+        {{ form|cut:'<br>' }}
+        <input type="submit" name="" value="{% trans "Save" %}"  class="btn btn-primary">
+        {% else %}
+        <div class="active_users">
+            <h7>{% trans "Active users:" %}</h7>
+            <div>
+              {% for u in users %}
+                  <li>{{u|safe}}</li>
+              {% endfor %}
+            </div>
+            </br>
+        </div>
+        {{ form|cut:'<br>' }}
+        <input type="submit" name="" value="{% trans "Save" %}"  class="btn btn-primary">
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        <div class="psuselection">
+            <h4>{% trans "Select an other Plant Supply Unit" %}</h4>
+            <div>
+              {% for p in psus %}
+                  <a class="btn btn-inline-block btn-secondary {% if p.id == sel_psu.id %}selected{% endif %}" href="{% url 'psufrontend:add_user_permissions' psu=p.id %}">{{ p.pretty_name }}{{ request.path }}</a>
+              {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </form>
+{% endblock body %}
