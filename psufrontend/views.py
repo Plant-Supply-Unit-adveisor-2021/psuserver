@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib import messages
 
 from psufrontend.forms import RegisterPSUForm, AddWateringTaskForm, WateringControlForm
-from psucontrol.models import PSU, PendingPSU, DataMeasurement, WateringTask, WateringParams
+from psucontrol.models import PSU, PSUImage, PendingPSU, DataMeasurement, WateringTask, WateringParams
 from psucontrol.utils import get_psus_with_permission, get_timedelta
 
 
@@ -176,7 +176,6 @@ def dashboard_view(request, *, psu=0):
 
     context = {"psus": psus, "sel_psu": sel_psu}
 
-    # display 8 objects in the table 
     measurements = DataMeasurement.objects.filter(psu=sel_psu)
     context['measurement_count'] = len(measurements)
     if len(measurements) != 0:
@@ -184,8 +183,10 @@ def dashboard_view(request, *, psu=0):
         context['measurements'] = measurements[:10]
         context['lastmeasurement'] = measurements[0]
 
-    #get latest watering time and amount of the PSU 
-    context['last_watering_task'] = WateringTask.objects.filter(psu=sel_psu).first()
+        # get the last 5 wtaering tasks of a PSU 
+        context['wateringtasks'] = WateringTask.objects.filter(psu=sel_psu)[:5]
+        # get latest image of the PSU 
+        context['lastimage'] = PSUImage.objects.filter(psu=sel_psu).first()
 
     return render(request, 'psufrontend/dashboard.html', context)
 

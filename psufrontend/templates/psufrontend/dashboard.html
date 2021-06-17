@@ -24,10 +24,8 @@
 	    </div>
   	</div>
 	
-	<hr>
-	
 	<!-- area to show the latest measurements and small graphs -->
-	<div id="dash-measurement-wrapper">
+	<div class="dash-wrapper">
 		{% if measurements %}
 			<div id="quick-info">
 				<h3 class="align-center">{% trans "Status" %}</h3>
@@ -63,6 +61,7 @@
 			</div>
 			<div id="measurements">
 				<h3 class="align-center">{% trans "Latest Measurements" %}</h3>
+				<h5>&nbsp;</h5>
 				<table class="table-striped">
 					<!-- table head -->
 					<thead>
@@ -91,7 +90,6 @@
 					</tbody>
 				</table>
 				<div class="button-box">
-					<a class="btn btn-primary" href="{% url 'psufrontend:add_watering_task' %}">{% trans "Manually water the plant" %}</a>
 					<a class="btn btn-primary" href="{% url 'psufrontend:chart' psu=sel_psu.id %}">{% trans "View charts" %}</a>
 					<a class="btn btn-primary" href="{% url 'psufrontend:table' psu=sel_psu.id %}">{% trans "View all measurements" %}</a>
 				</div>
@@ -100,7 +98,42 @@
 			<h4 class="align-center">{% trans "Sorry. We could not find any data of this psu." %}</h4>
 		{% endif %}
 	</div>
-	<div id="dash-img-water-wrapper">
+	<div class="dash-wrapper">
+		{% if wateringtasks %}
+			<div id="wateringtasks">
+				<h3 class="align-center">{% trans "Latest Watering Tasks" %}</h3>
+				<h5>&nbsp;</h5>
+				<table class="table-striped">
+					<!-- table head -->
+					<thead>
+						<tr>
+						<th class="align-center" style="flex: 1.5;">{% trans "Time of Creation" %}</th>
+						<th class="align-center">{% trans "Amount" %}</th>
+						<th class="align-center" style="flex: 1.5;">{% trans "Time of Execution" %}</th>
+						</tr>
+					</thead>
+
+					<!-- table body with wateringtasks -->
+					<tbody>
+						{% for w in wateringtasks %}
+						<tr>
+							<td class="align-center" style="flex: 1.5;">{{ w.timestamp }}</td>
+							<td class="align-center">{{ w.amount | round:1 }} ml</td>
+							<td class="align-center" style="flex: 1.5;">{{ w.timestamp_execution }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<a class="btn btn-primary" href="{% url 'psufrontend:add_watering_task' %}">{% trans "Manually water the plant" %}</a>
+			</div>
+		{% endif %}
+		{% if lastimage %}
+			<div id="image">
+				<h3 class="align-center">{% trans "Latest Image" %}</h3>
+				<h5 class="align-center">{{ lastimage.timestamp }}</h5>
+				<img src="{{ lastimage.image.url }}" />
+			</div>
+		{% endif %}
 	</div>
 	<!--
 	<div class="row">
