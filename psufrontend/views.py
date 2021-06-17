@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib import messages
 
-from psufrontend.forms import RegisterPSUForm, AddWateringTaskForm, WateringControlForm, ChangeUserPermissionsForm, AddUserPermissionsForm, RevokeUserPermissionsForm
+from psufrontend.forms import RegisterPSUForm, AddWateringTaskForm, WateringControlForm, AddUserPermissionsForm, RevokeUserPermissionsForm
 from psucontrol.models import CommunicationLogEntry, PSU, PSUImage, PendingPSU, DataMeasurement, WateringTask, WateringParams
 from psucontrol.utils import get_psus_with_permission, get_users_with_permission, get_timedelta
 from psucontrol.watering import CalculateWatering
@@ -58,7 +58,9 @@ def change_user_permissions_view(request, psu=0):
 
     @csrf_protect
     def revoke_user_permission(request, form, psu):
-        pass
+        psu.permitted_users.remove(form.cleaned_data['user'])
+        psu.save()
+        messages.success(request, _('Successfully revoked permission of {}.').format(form.cleaned_data['user'].pretty_name()))
 
     # gather the psus of the user with high priviledges
     psus = get_psus_with_permission(request.user, 10)
@@ -78,16 +80,27 @@ def change_user_permissions_view(request, psu=0):
 
     context = {"psus": psus, "sel_psu": sel_psu}
 
-    add_form = AddUserPermissionsForm(request.POST or None)
-    context['add_form'] = add_form
+    if request.POST and 'ADD' in request.POST:
+        add_form = AddUserPermissionsForm(request.POST)
+        if add_form.is_valid():
+            # user clicked on add user
+            add_user_permission(request, add_form, sel_psu)
 
-    if request.POST and request.POST['ADD'] and add_form.is_valid():
-        # user clicked on add user
-        add_user_permission(request, add_form, sel_psu)
+    users = get_users_with_permission(sel_psu, min_level=1, max_level=9)
+
+    if request.POST and 'REVOKE' in request.POST:
+        revoke_form = RevokeUserPermissionsForm(users, request.POST)
+        if revoke_form.is_valid():
+            # user clicked on revoke permission
+            revoke_user_permission(request, revoke_form, sel_psu)
+            # reload users
+            users = get_users_with_permission(sel_psu, min_level=1, max_level=9)
+
+    context['users'] = users
+    context['add_form'] = AddUserPermissionsForm()
+    context['revoke_form'] = RevokeUserPermissionsForm(users)
 
     print(request.POST)
-
-    context['users'] = get_users_with_permission(sel_psu, min_level=1, max_level=9)
 
     return render(request, 'psufrontend/change_user_permissions.html', context=context)
 

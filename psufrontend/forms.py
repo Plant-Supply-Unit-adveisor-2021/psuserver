@@ -23,19 +23,6 @@ class RegisterPSUForm(forms.Form):
         return self.cleaned_data
 
 
-class ChangeUserPermissionsForm(forms.Form):
-    """
-    form for selecting a PSU and changing permissions for active users or add new users with permissions
-    """
-
-    actions = [("1", "Give permissions to a user"), ("2", "Revoke permissions from a user")]
-    select_action = forms.ChoiceField(label=_('Select action: '), label_suffix=_(''), choices=actions)
-
-    def clean(self):
-        cleaned_data = self.cleaned_data.get('select_action')
-        return cleaned_data
-
-
 class AddUserPermissionsForm(forms.Form):
     """
     form for adding a user and giving him the permission on a selected psu
@@ -65,24 +52,27 @@ class RevokeUserPermissionsForm(forms.Form):
     form for selecting an active user and revoking his/her permissions on a selected psu
     """
 
-    active_users = forms.ChoiceField(label=_('Active users: '), label_suffix=_(''),
-                                     help_text=_('select permitted user to remove permissions'))
+    revoke_user = forms.ChoiceField(label=_('User to revoke Permissions'), label_suffix=_(''),
+                                    help_text=_('Select a user you want to take away the permissions for this PSU.'))
 
-    # stellt die user, die auf die ausgewählte PSU Zugriff haben, in einem MultipleChoiceField zur Auswahl
     def __init__(self, users, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.users = users
-        self.fields['active_users'].choices = self.users_choices()
-
-    def users_choices(self):
-        strings = []
-        for u in self.users:
-            strings.append((u.email, u))
-        return strings
+        choices = []
+        for u in users:
+            choices.append((u.email, u))
+        self.fields['revoke_user'].choices = choices
 
     def clean(self):
-        cleaned_data = self.cleaned_data.get('active_users')
-        return cleaned_data
+        try:
+            self.cleaned_data['user'] = User.objects.get(email=self.cleaned_data['revoke_user'])
+        except KeyError:
+            # weird error should already be catched in advance
+            pass
+        except User.DoesNotExist:
+            # user does not exist
+            raise ValidationError(_('We could not find a user the user you wanted to revoke permissions of. Please try again.'))
+
+        return self.cleaned_data
 
 
 class AddWateringTaskForm(forms.Form):

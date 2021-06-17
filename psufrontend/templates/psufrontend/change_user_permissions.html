@@ -24,15 +24,23 @@
         <h4>{% trans "Currently Permitted Users:" %}</h4>
         {% if users %}
             {% for u in users %}
-                <li>{{u|safe}}</li>
+                <span>{{ u.pretty_name }}</span><br>
             {% endfor %}
         {% else %}
             {% trans "There are no users you gave permissions to access your PSU." %}
         {% endif %}
     </div><br><br>
 
+    <!-- form for revoking permissions -->
+    <h4>{% trans "Revoke Permission of a User" %}</h4>
+    <form enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        {{ revoke_form|cut:'<br>' }}
+        <input type="submit" name="REVOKE" value="{% trans "Revoke Permission" %}"  class="btn btn-primary">
+    </form><br><br>
+
     <!-- form for adding a user -->
-    <h4>{% trans "Give Permissions to another User" %}</h4>
+    <h4>{% trans "Give Permission to another User" %}</h4>
     <form enctype="multipart/form-data" method="POST">
         {% csrf_token %}
         {{ add_form|cut:'<br>' }}

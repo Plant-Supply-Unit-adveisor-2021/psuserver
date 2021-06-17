@@ -31,6 +31,9 @@ class User(AbstractUser):
 
     objects = UserManager()
 
+    def pretty_name(self):
+        return '{} {} ({})'.format(self.first_name, self.last_name, self.email)
+
     # Generic string value for User
     def __str__(self):
         return '{} {} - {}'.format(self.first_name, self.last_name, self.email)
