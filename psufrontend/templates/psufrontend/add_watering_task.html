@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load extra_utils %}
+
 
 {% block title %}{% trans "Manual Watering" %} - Plant Supply Unit{% endblock title %}
 
@@ -17,9 +19,81 @@
 	    </div>
   	</div>
 
+    <div>
+        <b>{% trans "Under the current circumstances the alogrithm would use " %}{{ alogrithm_amount }}{% trans " ml of water." %}</b>
+        {% if old_data %}<br><b>{% trans "Please take into account that the plant was or is going to be watered after the last measurement." %}</b>{% endif %}
+    </div><br>
+
     <form enctype="multipart/form-data" method="POST">
         {% csrf_token %}
         {{ form|cut:'<br>' }}
         <input type="submit" name="" value="{% trans "Submit Task" %}"  class="btn btn-primary">
     </form>
+
+    <div class="dash-wrapper">
+        {% if wateringtasks %}
+			<div id="wateringtasks">
+				<h3 class="align-center">{% trans "Latest Watering Tasks" %}</h3>
+				<h5>&nbsp;</h5>
+				<table class="table-striped">
+					<!-- table head -->
+					<thead>
+						<tr>
+						<th class="align-center" style="flex: 1.5;">{% trans "Time of Creation" %}</th>
+						<th class="align-center">{% trans "Amount" %}</th>
+						<th class="align-center" style="flex: 1.5;">{% trans "Time of Execution" %}</th>
+						</tr>
+					</thead>
+
+					<!-- table body with wateringtasks -->
+					<tbody>
+						{% for w in wateringtasks %}
+						<tr>
+							<td class="align-center" style="flex: 1.5;">{{ w.timestamp }}</td>
+							<td class="align-center">{{ w.amount | round:0 }} ml</td>
+							<td class="align-center" style="flex: 1.5;">{{ w.timestamp_execution }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		{% endif %}
+		{% if measurements %}
+			<div id="measurements">
+				<h3 class="align-center">{% trans "Latest Measurements" %}</h3>
+				<h5>&nbsp;</h5>
+				<table class="table-striped">
+					<!-- table head -->
+					<thead>
+						<tr>
+						<th class="align-center" style="flex: 1.5;">{% trans "Timestamp" %}</th>
+						<th class="align-center">{% trans "Temperature" %}</th>
+						<th class="align-center">{% trans "Air Humidity" %}</th>
+						<th class="align-center">{% trans "Ground Humidity" %}</th>
+						<th class="align-center">{% trans "Brightness" %}</th>
+						<th class="align-center">{% trans "Fill Level" %}</th>
+						</tr>
+					</thead>
+
+					<!-- table body with measurements -->
+					<tbody>
+						{% for m in measurements %}
+						<tr>
+							<td class="align-center" style="flex: 1.5;">{{ m.timestamp }}</td>
+							<td class="align-center">{{ m.temperature | round:1 }} °C</td>
+							<td class="align-center">{{ m.air_humidity | round:1 }} %</td>
+							<td class="align-center">{{ m.ground_humidity | round:1 }} %</td>
+							<td class="align-center">{{ m.brightness | round:0 }} %</td>
+							<td class="align-center">{{ m.fill_level | round:0 }} %</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<div class="button-box">
+					<a class="btn btn-primary" href="{% url 'psufrontend:chart' psu=sel_psu.id %}">{% trans "View charts" %}</a>
+					<a class="btn btn-primary" href="{% url 'psufrontend:table' psu=sel_psu.id %}">{% trans "View all measurements" %}</a>
+				</div>
+			</div>
+		{% endif %}
+	</div>
 {% endblock body %}

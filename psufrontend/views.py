@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.utils.translation import ugettext as _
 from django.core.paginator import Paginator
 
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
@@ -11,6 +11,7 @@ from django.contrib import messages
 from psufrontend.forms import RegisterPSUForm, AddWateringTaskForm, WateringControlForm
 from psucontrol.models import CommunicationLogEntry, PSU, PSUImage, PendingPSU, DataMeasurement, WateringTask, WateringParams
 from psucontrol.utils import get_psus_with_permission, get_timedelta
+from psucontrol.watering import CalculateWatering
 
 
 # Create your views here.
@@ -93,6 +94,16 @@ def add_watering_task_view(request, psu=0):
     """
     view for adding a watering task for a specific PSU
     """
+
+    @csrf_protect
+    def add_watering_task(request, form):
+        # cancel old tasks
+        for ot in WateringTask.objects.filter(psu=sel_psu, status__in=[0, 5]):
+            ot.status = -10
+            ot.save()
+        # create WateringTask
+        WateringTask.objects.create(psu=sel_psu, status=5, amount=form.cleaned_data['amount'])
+        messages.success(request, _('Successfully added your watering request. It might take a few minutes to fullfill your request. Note: Only the lastest watering task will be fullfilled.'))
     
     # gather the psus of the user
     psus = get_psus_with_permission(request.user, 1)
@@ -110,22 +121,28 @@ def add_watering_task_view(request, psu=0):
         # id not found -> take first psu in list
         sel_psu = psus[0]
 
-    @csrf_protect
-    def add_watering_task(request, form):
-        # cancel old tasks
-        for ot in WateringTask.objects.filter(psu=sel_psu, status__in=[0, 5]):
-            ot.status = -10
-            ot.save()
-        # create WateringTask
-        WateringTask.objects.create(psu=sel_psu, status=5, amount=form.cleaned_data['amount'])
-        messages.success(request, _('Successfully added your watering request. It might take a few minutes to fullfill your request. Note: Only the lastest watering task will be fullfilled.'))
-    
+    context = {"psus": psus, "sel_psu": sel_psu}
+
+    measurements = DataMeasurement.objects.filter(psu=sel_psu)
+    context['measurement_count'] = len(measurements)
+    if len(measurements) != 0:
+        # hand over last 8 measurements to template
+        context['measurements'] = measurements[:8]
+        # get the last 8 wtaering tasks of a PSU 
+        wateringtasks = WateringTask.objects.filter(psu=sel_psu)[:8]
+        context['wateringtasks'] = wateringtasks
+
+        if len(wateringtasks) != 0 and ( 0 < wateringtasks[0].status < 20 or (wateringtasks[0].status == 20 and wateringtasks[0].timestamp_execution - measurements[0].timestamp > timedelta())):
+            context['old_data'] = True
+
+    context['alogrithm_amount'] = CalculateWatering(sel_psu).crunch_data_dry()
+
     form = AddWateringTaskForm(request.POST or None)
 
     if request.POST and form.is_valid():
         add_watering_task(request, form)
 
-    context = {"form": form, "psus": psus, "sel_psu": sel_psu}
+    context['form'] = form
 
     return render(request, 'psufrontend/add_watering_task.html', context=context)
 
@@ -196,7 +213,7 @@ def dashboard_view(request, *, psu=0):
     measurements = DataMeasurement.objects.filter(psu=sel_psu)
     context['measurement_count'] = len(measurements)
     if len(measurements) != 0:
-        # hand over last eight measurements to template
+        # hand over last 10 measurements to template
         context['measurements'] = measurements[:10]
         context['lastmeasurement'] = measurements[0]
 

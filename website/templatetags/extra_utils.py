@@ -24,13 +24,6 @@ def i18n_code(context):
 
 
 @register.filter
-def cut(value, arg):
-    """
-    template filter to replace all appearances of arg through nothing
-    """
-    return value.replace(arg, '')
-
-@register.filter
 def round(value, digits):
     """
     template filter to round a floating point number
