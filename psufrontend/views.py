@@ -2,14 +2,14 @@ from django.shortcuts import redirect, render
 from django.utils.translation import ugettext as _
 from django.core.paginator import Paginator
 
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib import messages
 
 from psufrontend.forms import RegisterPSUForm, AddWateringTaskForm, WateringControlForm
-from psucontrol.models import PSU, PendingPSU, DataMeasurement, WateringTask, WateringParams
+from psucontrol.models import CommunicationLogEntry, PSU, PSUImage, PendingPSU, DataMeasurement, WateringTask, WateringParams
 from psucontrol.utils import get_psus_with_permission, get_timedelta
 
 
@@ -153,12 +153,54 @@ def watering_control_view(request, psu=0):
     return render(request, 'psufrontend/watering_control.html', context)
 
 
+@login_required
+def dashboard_view(request, *, psu=0):
+    """
+    view for showing the newesst information to user
+    """
+    # gather the psus of the user
+    psus = get_psus_with_permission(request.user, 1)
+    if len(psus) == 0:
+        # no psus -> redirect to the no_psu_view
+        return redirect('psufrontend:no_psu')
+
+    # Try finding the handed over PSU id in the list of psus
+    sel_psu = None
+    for p in psus:
+        if p.id == psu:
+            sel_psu = p
+            break
+    if sel_psu is None:
+        # id not found -> take first psu in list
+        sel_psu = psus[0]
+
+    context = {"psus": psus, "sel_psu": sel_psu}
+
+    measurements = DataMeasurement.objects.filter(psu=sel_psu)
+    context['measurement_count'] = len(measurements)
+    if len(measurements) != 0:
+        # hand over last eight measurements to template
+        context['measurements'] = measurements[:10]
+        context['lastmeasurement'] = measurements[0]
+
+        # get the last 5 wtaering tasks of a PSU 
+        context['wateringtasks'] = WateringTask.objects.filter(psu=sel_psu)[:5]
+        # get latest image of the PSU 
+        context['lastimage'] = PSUImage.objects.filter(psu=sel_psu).first()
+
+    # last communication log entry
+    context['lastlog'] = CommunicationLogEntry.objects.filter(psu=sel_psu).exclude(request_uri='/psucontrol/get_challenge').first()
+
+    return render(request, 'psufrontend/dashboard.html', context)
+
+
 TIME_CHOICES = [
     (_('last 24h'), '1d'),
     (_('last 3 days'), '3d'),
     (_('last week'), '7d'),
     (_('last 2 weeks'), '14d'),
 ]
+
 
 @login_required
 def chart_view(request, *, psu=0, time_range=""):
