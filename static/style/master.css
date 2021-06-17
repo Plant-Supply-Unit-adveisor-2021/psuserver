@@ -836,3 +836,73 @@ div#filllevel_n_time_range div#filllevel_chart_wrapper h5{
 div#filllevel_n_time_range div#filllevel_chart_wrapper {
     width: 175px;
 }
+
+/*
+-----------------------------------------------------------------------------------------------------------------
+    styling of dashboard
+------------------------------------------------------------------------------------------------------------
+*/
+
+/* current measurement area */
+
+div#dash-measurement-wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: top;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
+div#dash-measurement-wrapper div#quick-info{
+    display: block;
+    flex: 1;
+    margin: 2rem 1rem;
+}
+
+div#quick-info div#measurement-values{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+div#quick-info div#measurement-values div.measurement-value{
+    display: block;
+    flex: 1;
+    box-sizing: border-box;
+    min-width: 140px;
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: .5rem;
+    text-align: center;
+}
+
+div#quick-info div#measurement-values div#filllevel {
+    flex: 1;
+    box-sizing: border-box;
+    text-align: center;
+}
+div#quick-info div#measurement-values div#filllevel canvas {
+    max-width: 240px;
+    max-height: 240px;
+    margin: 0 auto;
+}
+
+div#dash-measurement-wrapper div#measurements {
+    display: block;
+    flex: 2;
+    margin: 2rem 1rem;
+    min-width: 660px;
+}
+
+div#measurements table {
+    margin-bottom: 1rem;
+}
+
+div#measurements div.button-box {
+    display: flex;
+}
+
+div#measurements div.button-box a {
+    margin: 0 1rem 0 0;
+}

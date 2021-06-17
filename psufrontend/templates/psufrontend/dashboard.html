@@ -3,13 +3,15 @@
 {% load extra_utils %}
 
 {% block head_pre_css %}
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src='https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js'></script>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 {% endblock %}
 
 {% block title %}{% trans "Dashboard" %} - Plant Supply Unit{% endblock title %}
 
 {% block body %}
+
+	<h1>Dashboard</h1>
 
 	<!-- psu selection -->
 	<div class="psuselection">
@@ -23,45 +25,84 @@
   	</div>
 	
 	<hr>
-
-	{% include "psufrontend/status.html" %}
 	
 	<!-- area to show the latest measurements and small graphs -->
-	<div>
-		<h4>{% trans "Latest Measurements" %}</h4>
-		<table class="table-striped">
-			<!-- table head -->
-			<thead>
-				<tr>
-				<th class="align-center" style="flex: 1.5;">{% trans "Timestamp" %}</th>
-				<th class="align-center">{% trans "Temperature" %}</th>
-				<th class="align-center">{% trans "Air Humidity" %}</th>
-				<th class="align-center">{% trans "Ground Humidity" %}</th>
-				<th class="align-center">{% trans "Brightness" %}</th>
-				<th class="align-center">{% trans "Fill Level" %}</th>
-				</tr>
-			</thead>
+	<div id="dash-measurement-wrapper">
+		{% if measurements %}
+			<div id="quick-info">
+				<h3 class="align-center">{% trans "Status" %}</h3>
+				<h5 class="align-center">{{ lastmeasurement.timestamp }}</h5>
+				<!-- show values of latest measurement -->
+				<div id="measurement-values">
+					<div class="measurement-value" style="background-color: #9E66CDaa;">
+						<h4>{% trans "Temperature" %}</h4>
+						<h1>{{lastmeasurement.temperature | round:1 }} °C</h1>
+					</div>
+					<div class="measurement-value" style="background-color: #6676CDaa;">
+						<h4>{% trans "Air Humidity" %}</h4>
+						<h1>{{lastmeasurement.air_humidity | round:1 }} %</h1>
+					</div>
+					<div class="measurement-value" style="background-color: #66C3CDaa;">
+						<h4>{% trans "Ground Humidity" %}</h4>
+						<h1>{{lastmeasurement.ground_humidity | round:1 }} %</h1>
+					</div>
+					<div class="measurement-value" style="background-color: #66CDAAaa;">
+						<h4>{% trans "Brightness" %}</h4>
+						<h1>{{lastmeasurement.brightness | round:0 }} %</h1>
+					</div>
+					<!--<div class="measurement-value">
+						<h4>{% trans "Fill Level" %}</h4>
+						<h1>{{lastmeasurement.fill_level | round:0 }} %</h1>
+					</div>-->
+					<div id="filllevel" class="measurement-value"  style="background-color: #90cd66aa;">
+						<h4>{% trans "Fill Level" %}</h4>
+						<!-- js for chart is located at the bottom of this file -->
+						<canvas id="filllevel_chart"></canvas>
+					</div>
+				</div>
+			</div>
+			<div id="measurements">
+				<h3 class="align-center">{% trans "Latest Measurements" %}</h3>
+				<table class="table-striped">
+					<!-- table head -->
+					<thead>
+						<tr>
+						<th class="align-center" style="flex: 1.5;">{% trans "Timestamp" %}</th>
+						<th class="align-center">{% trans "Temperature" %}</th>
+						<th class="align-center">{% trans "Air Humidity" %}</th>
+						<th class="align-center">{% trans "Ground Humidity" %}</th>
+						<th class="align-center">{% trans "Brightness" %}</th>
+						<th class="align-center">{% trans "Fill Level" %}</th>
+						</tr>
+					</thead>
 
-			<!-- table body with measurements -->
-			<tbody>
-				{% for m in measurements %}
-				<tr>
-					<td class="align-center" style="flex: 1.5;">{{ m.timestamp }}</td>
-					<td class="align-center">{{ m.temperature | round:1 }} °C</td>
-					<td class="align-center">{{ m.air_humidity | round:1 }} %</td>
-					<td class="align-center">{{ m.ground_humidity | round:1 }} %</td>
-					<td class="align-center">{{ m.brightness | round:0 }} %</td>
-					<td class="align-center">{{ m.fill_level | round:0 }} %</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-		<div style="display: flex; flex-wrap: wrap;">
-			<a class="btn btn-primary" style="margin: 1rem auto 0 0;" href="{% url 'psufrontend:add_watering_task' %}">{% trans "Manually water the plant" %}</a>
-			<a class="btn btn-primary" style="margin: 1rem 0 0 0;" href="{% url 'psufrontend:table' psu=sel_psu.id %}">{% trans "View all measurements" %}</a>
-		</div>
+					<!-- table body with measurements -->
+					<tbody>
+						{% for m in measurements %}
+						<tr>
+							<td class="align-center" style="flex: 1.5;">{{ m.timestamp }}</td>
+							<td class="align-center">{{ m.temperature | round:1 }} °C</td>
+							<td class="align-center">{{ m.air_humidity | round:1 }} %</td>
+							<td class="align-center">{{ m.ground_humidity | round:1 }} %</td>
+							<td class="align-center">{{ m.brightness | round:0 }} %</td>
+							<td class="align-center">{{ m.fill_level | round:0 }} %</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+				<div class="button-box">
+					<a class="btn btn-primary" href="{% url 'psufrontend:add_watering_task' %}">{% trans "Manually water the plant" %}</a>
+					<a class="btn btn-primary" href="{% url 'psufrontend:chart' psu=sel_psu.id %}">{% trans "View charts" %}</a>
+					<a class="btn btn-primary" href="{% url 'psufrontend:table' psu=sel_psu.id %}">{% trans "View all measurements" %}</a>
+				</div>
+			</div>
+		{% else %}
+			<h4 class="align-center">{% trans "Sorry. We could not find any data of this psu." %}</h4>
+		{% endif %}
 	</div>
-
+	<div id="dash-img-water-wrapper">
+	</div>
+	<!--
 	<div class="row">
 		<div class="col-md-6">
     	<h5>{% trans "Image:" %}</h5>
@@ -109,6 +150,30 @@
         </script>
     	</div>
     </div>
-
+	-->
+	<script>
+		var filllevel_chart_canvas = document.getElementById("filllevel_chart");
+        
+        var filllevel = [{{lastmeasurement.fill_level | round:0 }}, 100-{{lastmeasurement.fill_level | round:0 }}];
+        var filllevel_labels = ['{% trans "Water" %}', ''];
+        var filllevel_colors = ['#0400d7', '#ccc'];
+        
+        var filllevel_chart = new Chart(filllevel_chart_canvas, {
+            type: 'doughnut',
+            options: {
+                legend: {
+                    display: false,
+                }
+            },
+            data: {
+                labels: filllevel_labels,
+                datasets: [{
+                    label: '{% trans "Fill Level" %}',
+                    data: filllevel,
+                    backgroundColor: filllevel_colors
+                }],
+            }
+        });
+	</script>
 
 {% endblock %}
