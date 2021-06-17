@@ -236,7 +236,13 @@ def add_watering_task_view(request, psu=0):
         # id not found -> take first psu in list
         sel_psu = psus[0]
 
-    context = {"psus": psus, "sel_psu": sel_psu}
+
+    form = AddWateringTaskForm(request.POST or None)
+
+    if request.POST and form.is_valid():
+        add_watering_task(request, form)
+
+    context = {"psus": psus, "sel_psu": sel_psu, "form": form}
 
     measurements = DataMeasurement.objects.filter(psu=sel_psu)
     context['measurement_count'] = len(measurements)
@@ -250,14 +256,10 @@ def add_watering_task_view(request, psu=0):
         if len(wateringtasks) != 0 and ( 0 < wateringtasks[0].status < 20 or (wateringtasks[0].status == 20 and wateringtasks[0].timestamp_execution - measurements[0].timestamp > timedelta())):
             context['old_data'] = True
 
-    context['alogrithm_amount'] = CalculateWatering(sel_psu).crunch_data_dry()
-
-    form = AddWateringTaskForm(request.POST or None)
-
-    if request.POST and form.is_valid():
-        add_watering_task(request, form)
-
-    context['form'] = form
+    if not sel_psu.watering_params is None:
+        context['alogrithm_amount'] = CalculateWatering(sel_psu).crunch_data_dry()
+    else:
+        context['alogrithm_amount'] = 0
 
     return render(request, 'psufrontend/add_watering_task.html', context=context)
 
