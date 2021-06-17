@@ -89,28 +89,45 @@ def no_psu_view(request):
 
 @csrf_exempt
 @login_required
-def add_watering_task_view(request):
+def add_watering_task_view(request, psu=0):
     """
     view for adding a watering task for a specific PSU
     """
     
+    # gather the psus of the user
+    psus = get_psus_with_permission(request.user, 1)
+    if len(psus) == 0:
+        # no psus -> redirect to the no_psu_view
+        return redirect('psufrontend:no_psu')
+
+    # Try finding the handed over PSU id in the list of psus
+    sel_psu = None
+    for p in psus:
+        if p.id == psu:
+            sel_psu = p
+            break
+    if sel_psu is None:
+        # id not found -> take first psu in list
+        sel_psu = psus[0]
+
     @csrf_protect
     def add_watering_task(request, form):
         # cancel old tasks
-        for ot in WateringTask.objects.filter(psu=form.cleaned_data['psu'], status__in=[0, 5]):
+        for ot in WateringTask.objects.filter(psu=sel_psu, status__in=[0, 5]):
             ot.status = -10
             ot.save()
         # create WateringTask
-        WateringTask.objects.create(psu=form.cleaned_data['psu'], status=5, amount=form.cleaned_data['amount'])
+        WateringTask.objects.create(psu=sel_psu, status=5, amount=form.cleaned_data['amount'])
         messages.success(request, _('Successfully added your watering request. It might take a few minutes to fullfill your request. Note: Only the lastest watering task will be fullfilled.'))
     
-    psus = get_psus_with_permission(request.user, 1)
-    form = AddWateringTaskForm(psus, request.POST or None)
+    form = AddWateringTaskForm(request.POST or None)
 
     if request.POST and form.is_valid():
         add_watering_task(request, form)
 
-    return render(request, 'psufrontend/add_watering_task.html', {'form': form})
+    context = {"form": form, "psus": psus, "sel_psu": sel_psu}
+
+    return render(request, 'psufrontend/add_watering_task.html', context=context)
 
 @csrf_exempt    
 @login_required

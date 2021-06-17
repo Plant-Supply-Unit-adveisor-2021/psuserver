@@ -4,10 +4,22 @@
 {% block title %}{% trans "Manual Watering" %} - Plant Supply Unit{% endblock title %}
 
 {% block body %}
+
+    <h2>{% trans "Create a watering task for your PSU" %}</h2>
+
+    <!-- psu selection -->
+	<div class="psuselection">
+	    <h4>{% trans "Select a Plant Supply Unit" %}</h4>
+	    <div>
+	      {% for p in psus %}
+	        <a class="btn btn-inline-block btn-secondary {% if p.id == sel_psu.id %}selected{% endif %}" href="{% url 'psufrontend:add_watering_task' psu=p.id %}">{{ p.pretty_name }}</a>
+	      {% endfor %}
+	    </div>
+  	</div>
+
     <form enctype="multipart/form-data" method="POST">
         {% csrf_token %}
-        <h2>{% trans "Create a watering task for your PSU" %}</h2>
         {{ form|cut:'<br>' }}
-        <input type="submit" name="" value="{% trans "Save" %}"  class="btn btn-primary">
+        <input type="submit" name="" value="{% trans "Submit Task" %}"  class="btn btn-primary">
     </form>
 {% endblock body %}

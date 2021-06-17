@@ -26,16 +26,7 @@ class AddWateringTaskForm(forms.Form):
     """
     form to add a new WateringTask
     """
-    psu = forms.TypedChoiceField(label=_('Plant Supply Unit'), choices=[], help_text=_('The PSU you want to water manually.'), coerce=to_psu)
     amount = forms.IntegerField(label=_('Amount of water'), help_text=_('The amount of water in milliliters you want to give to your plant.'))
-
-    def __init__(self, psus, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # initialize choice field with PSUs
-        choices = []
-        for p in psus:
-            choices.append((p,p.pretty_name()))
-        self.fields['psu'].choices = choices
 
     def clean(self):
         if self.cleaned_data['amount'] <= 0:
