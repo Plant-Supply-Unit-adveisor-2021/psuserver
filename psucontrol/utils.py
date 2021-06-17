@@ -36,7 +36,7 @@ def get_psus_with_permission(user, min_level):
     """
     psus = []
     for p in PSU.objects.all():
-        if check_permissions(p, user) > min_level:
+        if check_permissions(p, user) >= min_level:
             psus.append(p)
     return psus
 
@@ -47,7 +47,7 @@ def get_users_with_permission(psu, min_level, max_level):
     """
     users = []
     for u in User.objects.all():
-        if max_level > check_permissions(psu, u) > min_level:
+        if min_level <= check_permissions(psu, u) <= max_level:
             users.append(u)
     return users
 

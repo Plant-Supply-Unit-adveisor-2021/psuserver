@@ -38,26 +38,26 @@ class ChangeUserPermissionsForm(forms.Form):
 
 class AddUserPermissionsForm(forms.Form):
     """
-    form for adding users and giving them permissions on a selected psu
+    form for adding a user and giving him the permission on a selected psu
     """
 
-    select_user = forms.CharField(label=_('Select user'), max_length=100, min_length=1,
-                                  help_text=_('Type in the email-adress of a user that you want to give permissions to'))
+    user_mail = forms.EmailField(label=_('E-Mail of the User'), max_length=100, min_length=1,
+                                 help_text=_('This should be the email address of the user you want to give permissions to.'))
 
-    def __init__(self, sel_psu, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.sel_psu = sel_psu
 
     def clean(self):
-        if User.objects.get(email=self.cleaned_data.get('select_user')):
-            if User.objects.get(email=self.cleaned_data.get('select_user')) in self.sel_psu.permitted_users.all():
-                raise ValidationError(_("This user already has permissions on this PSU."))
-            else:
-                cleaned_data = self.cleaned_data.get('select_user')
-        else:
-            raise ValidationError(_("This user does not exist."))
+        try:
+            self.cleaned_data['user'] = User.objects.get(email=self.cleaned_data['user_mail'])
+        except KeyError:
+            # mail validation failed
+            pass
+        except User.DoesNotExist:
+            # user does not exist
+            raise ValidationError(_('We could not find a user with this mail address in our system. Please make shure there is an account linked to this mail address.'))
 
-        return cleaned_data
+        return self.cleaned_data
 
 
 class RevokeUserPermissionsForm(forms.Form):

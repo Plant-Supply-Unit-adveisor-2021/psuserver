@@ -1,7 +1,6 @@
 from django.shortcuts import redirect, render
 from django.utils.translation import ugettext as _
 from django.core.paginator import Paginator
-from django.urls import resolve
 
 from datetime import timedelta
 
@@ -11,7 +10,7 @@ from django.contrib import messages
 
 from psufrontend.forms import RegisterPSUForm, AddWateringTaskForm, WateringControlForm, ChangeUserPermissionsForm, AddUserPermissionsForm, RevokeUserPermissionsForm
 from psucontrol.models import CommunicationLogEntry, PSU, PSUImage, PendingPSU, DataMeasurement, WateringTask, WateringParams
-from psucontrol.utils import get_psus_with_permission, get_timedelta
+from psucontrol.utils import get_psus_with_permission, get_users_with_permission, get_timedelta
 from psucontrol.watering import CalculateWatering
 from authentication.models import User
 
@@ -44,12 +43,55 @@ def register_psu_view(request):
     return render(request, 'psufrontend/register_psu.html', {'form': form})
 
 
+@csrf_exempt
 @login_required
 def change_user_permissions_view(request, psu=0):
     """
     view for changing user permissions for selected PSU
     """
 
+    @csrf_protect
+    def add_user_permission(request, form, psu):
+        psu.permitted_users.add(form.cleaned_data['user'])
+        psu.save()
+        messages.success(request, _('Successfully added a new permitted user.'))
+
+    @csrf_protect
+    def revoke_user_permission(request, form, psu):
+        pass
+
+    # gather the psus of the user with high priviledges
+    psus = get_psus_with_permission(request.user, 10)
+    if len(psus) == 0:
+        # no psus -> redirect to the no_psu_view
+        return redirect('psufrontend:no_psu')
+
+    # Try finding the handed over PSU id in the list of psus
+    sel_psu = None
+    for p in psus:
+        if p.id == psu:
+            sel_psu = p
+            break
+    if sel_psu is None:
+        # id not found -> take first psu in list
+        sel_psu = psus[0]
+
+    context = {"psus": psus, "sel_psu": sel_psu}
+
+    add_form = AddUserPermissionsForm(request.POST or None)
+    context['add_form'] = add_form
+
+    if request.POST and request.POST['ADD'] and add_form.is_valid():
+        # user clicked on add user
+        add_user_permission(request, add_form, sel_psu)
+
+    print(request.POST)
+
+    context['users'] = get_users_with_permission(sel_psu, min_level=1, max_level=9)
+
+    return render(request, 'psufrontend/change_user_permissions.html', context=context)
+
+    """
     # checking to which psus user has access
     psus = get_psus_with_permission(request.user, min_level=10)
 
@@ -86,7 +128,7 @@ def change_user_permissions_view(request, psu=0):
 
     return render(request, 'psufrontend/change_user_permissions.html',
                   context={'form': form, 'users': users, "psus": psus})
-
+    """
 
 def add_user_permissions_view(request, psu=0):
     # checking to which psus user has access
