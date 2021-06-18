@@ -82,9 +82,13 @@ def change_user_permissions_view(request, psu=0):
 
     if request.POST and 'ADD' in request.POST:
         add_form = AddUserPermissionsForm(request.POST)
+        context['add_form'] = add_form
         if add_form.is_valid():
             # user clicked on add user
             add_user_permission(request, add_form, sel_psu)
+
+    if not 'add_form' in context:
+        context['add_form'] = AddUserPermissionsForm()
 
     users = get_users_with_permission(sel_psu, min_level=1, max_level=9)
 
@@ -97,11 +101,8 @@ def change_user_permissions_view(request, psu=0):
             users = get_users_with_permission(sel_psu, min_level=1, max_level=9)
 
     context['users'] = users
-    context['add_form'] = AddUserPermissionsForm()
     context['revoke_form'] = RevokeUserPermissionsForm(users)
-
-    print(request.POST)
-
+    
     return render(request, 'psufrontend/change_user_permissions.html', context=context)
 
 
