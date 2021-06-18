@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-18 01:47+0200\n"
+"POT-Creation-Date: 2021-06-18 02:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -130,7 +130,7 @@ msgid "Welcome"
 msgstr "Willkommen"
 
 #: .\authentication\templates\authentication\after_register.html:7
-#: .\website\templates\base.html:47
+#: .\website\templates\base.html:52
 msgid "Welcome to Team Plant Supply Unit"
 msgstr "Willkommen beim Team Plant Supply Unit"
 
@@ -149,7 +149,7 @@ msgid "Edit User"
 msgstr "Profil bearbeiten"
 
 #: .\authentication\templates\authentication\edit_profile.html:9
-#: .\website\templates\base.html:55
+#: .\website\templates\base.html:60
 msgid "Edit Profile"
 msgstr "Profil bearbeiten"
 
@@ -165,13 +165,13 @@ msgstr "Sichern"
 
 #: .\authentication\templates\authentication\login.html:4
 #: .\authentication\templates\authentication\login.html:10
-#: .\website\templates\base.html:58
+#: .\website\templates\base.html:63
 msgid "Login"
 msgstr "Einloggen"
 
 #: .\authentication\templates\authentication\register.html:4
 #: .\authentication\templates\authentication\register.html:11
-#: .\website\templates\base.html:59
+#: .\website\templates\base.html:64
 msgid "Register"
 msgstr "Registrieren"
 
@@ -722,7 +722,7 @@ msgid "View all measurements"
 msgstr "Alle Datenmessungen ansehen"
 
 #: .\psufrontend\templates\psufrontend\change_user_permissions.html:5
-#: .\website\templates\base.html:41
+#: .\website\templates\base.html:46
 msgid "Change User Permissions"
 msgstr "Benutzerberechtigungen ändern"
 
@@ -817,7 +817,7 @@ msgstr ""
 
 #: .\psufrontend\templates\psufrontend\no_psu.html:11
 #: .\psufrontend\templates\psufrontend\register_psu.html:4
-#: .\website\templates\base.html:42
+#: .\website\templates\base.html:47
 msgid "Register PSU"
 msgstr "PSU Registrieren"
 
@@ -867,7 +867,7 @@ msgstr ""
 
 #: .\psufrontend\templates\psufrontend\watering_control.html:4
 #: .\psufrontend\templates\psufrontend\watering_control.html:8
-#: .\website\templates\base.html:40
+#: .\website\templates\base.html:45
 msgid "Watering Settings"
 msgstr "Bewässerungseinstellungen"
 
@@ -883,7 +883,7 @@ msgstr "Es wurde erfolgreich ein neuer berechtigter Benutzer hinzugefügt."
 msgid "Successfully revoked permission of {}."
 msgstr "{} wurden die Berechtigungen erfolgreich entzogen."
 
-#: .\psufrontend\views.py:169
+#: .\psufrontend\views.py:170
 msgid ""
 "Successfully added your watering request. It might take a few minutes to "
 "fullfill your request. Note: Only the lastest watering task will be "
@@ -893,23 +893,23 @@ msgstr ""
 "offene Bewässerungsauftrag durchgeführt wird und es ein paar Minuten dauern "
 "kann, bis die Pflegestation den Gießvorgang vornimmt."
 
-#: .\psufrontend\views.py:242
+#: .\psufrontend\views.py:243
 msgid "Successfully saved your watering settings."
 msgstr "Deine Einstellungen wurden erfolgreich gespeichert"
 
-#: .\psufrontend\views.py:297
+#: .\psufrontend\views.py:298
 msgid "last 24h"
 msgstr "letzten 24h"
 
-#: .\psufrontend\views.py:298
+#: .\psufrontend\views.py:299
 msgid "last 3 days"
 msgstr "letzten 3 Tage"
 
-#: .\psufrontend\views.py:299
+#: .\psufrontend\views.py:300
 msgid "last week"
 msgstr "letzte Woche"
 
-#: .\psufrontend\views.py:300
+#: .\psufrontend\views.py:301
 msgid "last 2 weeks"
 msgstr "letzten 2 Wochen"
 
@@ -964,10 +964,14 @@ msgstr ""
 "Eventuell nutzt du einen veralteten Link. Wenn du der Überzeugung bist, dass "
 "diese Seite existieren sollte, kontaktiere bitte einen Admin."
 
-#: .\website\templates\base.html:54
+#: .\website\templates\base.html:43
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: .\website\templates\base.html:59
 msgid "Administration"
 msgstr "Administration"
 
-#: .\website\templates\base.html:56
+#: .\website\templates\base.html:61
 msgid "Logout"
 msgstr "Ausloggen"

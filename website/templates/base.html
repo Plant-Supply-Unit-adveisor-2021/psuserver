@@ -37,6 +37,11 @@
                                 <a href="{% url 'psufrontend:table' %}" class="drop-down-element">{% trans "Measurements" %}</a>
                                 <a href="{% url 'psufrontend:chart' %}" class="drop-down-element">{% trans "Charts" %}</a>
                                 <a href="{% url 'psufrontend:add_watering_task' %}" class="drop-down-element">{% trans "Manual Watering" %}</a>
+                            </div>
+                        </div>
+                        <div id="nav-settings" class="nav-drop-down">
+                            <a id="nav-psu-toggle"  class="toggle nav-main-element" onClick="toggleDropDown('nav-settings');">{% trans "Settings" %}</a>
+                            <div id="nav-settings-drop-down" class="drop-down">
                                 <a href="{% url 'psufrontend:watering_control' %}" class="drop-down-element">{% trans "Watering Settings" %}</a>
                                 <a href="{% url 'psufrontend:change_user_permissions' %}" class="drop-down-element">{% trans "Change User Permissions" %}</a>
                                 <a href="{% url 'psufrontend:register_psu' %}" class="drop-down-element">{% trans "Register PSU" %}</a>
