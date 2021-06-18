@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+
+{% block title %}{% trans "Change User Permissions" %} - Plant Supply Unit{% endblock title %}
+
+{% block body %}
+
+    <h2>{% trans "Change Permissions for your Plant Supply Units" %}</h2>
+
+    <!-- psu selection links -->
+    <div class="psuselection">
+        <h4>{% trans "Select a Plant Supply Unit" %}</h4>
+        <div>
+            {% for p in psus %}
+                <a class="btn btn-inline-block btn-secondary {% if p.id == sel_psu.id %}selected{% endif %}" href="{% url 'psufrontend:change_user_permissions' psu=p.id %}">{{ p.pretty_name }}</a>
+            {% endfor %}
+            <a class="btn btn-inline-block btn-secondary" href="{% url 'psufrontend:register_psu' %}">{% trans "Add new PSU" %}</a>
+        </div>
+    </div>
+
+    <!-- list of active users -->
+    <div class="active_users">
+        <h4>{% trans "Currently Permitted Users:" %}</h4>
+        {% if users %}
+            {% for u in users %}
+                <span>{{ u.pretty_name }}</span><br>
+            {% endfor %}
+        {% else %}
+            {% trans "There are no users you gave permissions to access your PSU." %}
+        {% endif %}
+    </div><br><br>
+
+    <!-- form for revoking permissions -->
+    <h4>{% trans "Revoke Permission of a User" %}</h4>
+    <form enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        {{ revoke_form|cut:'<br>' }}
+        <input type="submit" name="REVOKE" value="{% trans "Revoke Permission" %}"  class="btn btn-primary">
+    </form><br><br>
+
+    <!-- form for adding a user -->
+    <h4>{% trans "Give Permission to another User" %}</h4>
+    <form enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        {{ add_form|cut:'<br>' }}
+        <input type="submit" name="ADD" value="{% trans "Add user" %}"  class="btn btn-primary">
+    </form>
+{% endblock body %}

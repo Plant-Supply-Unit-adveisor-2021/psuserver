@@ -8,11 +8,11 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib import messages
 
-from psufrontend.forms import RegisterPSUForm, AddWateringTaskForm, WateringControlForm
+from psufrontend.forms import RegisterPSUForm, AddWateringTaskForm, WateringControlForm, AddUserPermissionsForm, RevokeUserPermissionsForm
 from psucontrol.models import CommunicationLogEntry, PSU, PSUImage, PendingPSU, DataMeasurement, WateringTask, WateringParams
-from psucontrol.utils import get_psus_with_permission, get_timedelta
+from psucontrol.utils import get_psus_with_permission, get_users_with_permission, get_timedelta
 from psucontrol.watering import CalculateWatering
-
+from authentication.models import User
 
 # Create your views here.
 
@@ -24,30 +24,94 @@ def register_psu_view(request):
     """
 
     @csrf_protect
-    def create_psu(request, form):
-        # get the corresponding PendingPSU
-        p_psu = PendingPSU.objects.get(pairing_key=form.cleaned_data['pairing_key'])
+    def create_PSU(request, form):
+        # get the corressponding PendingPSU
+        pPSU = PendingPSU.objects.get(pairing_key=form.cleaned_data['pairing_key'])
         # create new PSU
-        PSU(name=form.cleaned_data['name'], identity_key=p_psu.identity_key,
-            public_rsa_key=p_psu.public_rsa_key, owner=request.user).save()
+        PSU(name=form.cleaned_data['name'], identity_key=pPSU.identity_key,
+            public_rsa_key=pPSU.public_rsa_key, owner=request.user).save()
         # delete PendingPSU
-        p_psu.delete()
+        pPSU.delete()
         messages.success(request, _('Successfully registered your new Plant Supply Unit.'))
 
     form = RegisterPSUForm(request.POST or None)
 
-    # check whether form was submitted correctly
+    # check wether form was submitted correctly
     if request.POST and form.is_valid():
-        create_psu(request, form)
+        create_PSU(request, form)
+
+    return render(request, 'psufrontend/register_psu.html', {'form': form})
+
+
+@csrf_exempt
+@login_required
+def change_user_permissions_view(request, psu=0):
+    """
+    view for changing user permissions for selected PSU
+    """
+
+    @csrf_protect
+    def add_user_permission(request, form, psu):
+        psu.permitted_users.add(form.cleaned_data['user'])
+        psu.save()
+        messages.success(request, _('Successfully added a new permitted user.'))
+
+    @csrf_protect
+    def revoke_user_permission(request, form, psu):
+        psu.permitted_users.remove(form.cleaned_data['user'])
+        psu.save()
+        messages.success(request, _('Successfully revoked permission of {}.').format(form.cleaned_data['user'].pretty_name()))
+
+    # gather the psus of the user with high priviledges
+    psus = get_psus_with_permission(request.user, 10)
+    if len(psus) == 0:
+        # no psus -> redirect to the no_psu_view
+        return redirect('psufrontend:no_psu')
+
+    # Try finding the handed over PSU id in the list of psus
+    sel_psu = None
+    for p in psus:
+        if p.id == psu:
+            sel_psu = p
+            break
+    if sel_psu is None:
+        # id not found -> take first psu in list
+        sel_psu = psus[0]
+
+    context = {"psus": psus, "sel_psu": sel_psu}
+
+    if request.POST and 'ADD' in request.POST:
+        add_form = AddUserPermissionsForm(request.POST)
+        context['add_form'] = add_form
+        if add_form.is_valid():
+            # user clicked on add user
+            add_user_permission(request, add_form, sel_psu)
+
+    if not 'add_form' in context:
+        context['add_form'] = AddUserPermissionsForm()
+
+    users = get_users_with_permission(sel_psu, min_level=1, max_level=9)
+
+    if request.POST and 'REVOKE' in request.POST:
+        revoke_form = RevokeUserPermissionsForm(users, request.POST)
+        if revoke_form.is_valid():
+            # user clicked on revoke permission
+            revoke_user_permission(request, revoke_form, sel_psu)
+            # reload users
+            users = get_users_with_permission(sel_psu, min_level=1, max_level=9)
+
+    context['users'] = users
+    context['revoke_form'] = RevokeUserPermissionsForm(users)
     
-    return render(request, 'psufrontend/register_psu.html', {'form':form})
+    return render(request, 'psufrontend/change_user_permissions.html', context=context)
+
 
 @login_required
 def table_view(request, *, psu=0):
     """
     view to present the DataMeasurements of one PSU in a tabular style to the user
     """
-    
+
     # gather the psus of the user
     psus = get_psus_with_permission(request.user, 1)
     if len(psus) == 0:
@@ -76,7 +140,7 @@ def table_view(request, *, psu=0):
         measurements_on_page = paginator.get_page(request.GET.get('page'))
 
         context['measurements'] = measurements_on_page
-    
+
     return render(request, 'psufrontend/table.html', context)
 
 
@@ -121,7 +185,13 @@ def add_watering_task_view(request, psu=0):
         # id not found -> take first psu in list
         sel_psu = psus[0]
 
-    context = {"psus": psus, "sel_psu": sel_psu}
+
+    form = AddWateringTaskForm(request.POST or None)
+
+    if request.POST and form.is_valid():
+        add_watering_task(request, form)
+
+    context = {"psus": psus, "sel_psu": sel_psu, "form": form}
 
     measurements = DataMeasurement.objects.filter(psu=sel_psu)
     context['measurement_count'] = len(measurements)
@@ -135,14 +205,10 @@ def add_watering_task_view(request, psu=0):
         if len(wateringtasks) != 0 and ( 0 < wateringtasks[0].status < 20 or (wateringtasks[0].status == 20 and wateringtasks[0].timestamp_execution - measurements[0].timestamp > timedelta())):
             context['old_data'] = True
 
-    context['alogrithm_amount'] = CalculateWatering(sel_psu).crunch_data_dry()
-
-    form = AddWateringTaskForm(request.POST or None)
-
-    if request.POST and form.is_valid():
-        add_watering_task(request, form)
-
-    context['form'] = form
+    if not sel_psu.watering_params is None:
+        context['alogrithm_amount'] = CalculateWatering(sel_psu).crunch_data_dry()
+    else:
+        context['alogrithm_amount'] = 0
 
     return render(request, 'psufrontend/add_watering_task.html', context=context)
 

@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: .\psufrontend\forms.py:55
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-17 23:11+0200\n"
+"POT-Creation-Date: 2021-06-18 02:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -116,11 +117,11 @@ msgstr "Nachname"
 msgid "darkmode active"
 msgstr "Darkmode aktiv"
 
-#: .\authentication\models.py:43
+#: .\authentication\models.py:46
 msgid "user"
 msgstr "Benutzer:in"
 
-#: .\authentication\models.py:44
+#: .\authentication\models.py:47
 msgid "users"
 msgstr "Benutzer:innen"
 
@@ -129,7 +130,7 @@ msgid "Welcome"
 msgstr "Willkommen"
 
 #: .\authentication\templates\authentication\after_register.html:7
-#: .\website\templates\base.html:46
+#: .\website\templates\base.html:52
 msgid "Welcome to Team Plant Supply Unit"
 msgstr "Willkommen beim Team Plant Supply Unit"
 
@@ -148,7 +149,7 @@ msgid "Edit User"
 msgstr "Profil bearbeiten"
 
 #: .\authentication\templates\authentication\edit_profile.html:9
-#: .\website\templates\base.html:54
+#: .\website\templates\base.html:60
 msgid "Edit Profile"
 msgstr "Profil bearbeiten"
 
@@ -157,20 +158,20 @@ msgid "Change Password"
 msgstr "Passwort ändern"
 
 #: .\authentication\templates\authentication\edit_profile.html:13
-#: .\psufrontend\templates\psufrontend\register_psu.html:11
-#: .\psufrontend\templates\psufrontend\watering_control.html:23
+#: .\psufrontend\templates\psufrontend\register_psu.html:14
+#: .\psufrontend\templates\psufrontend\watering_control.html:24
 msgid "Save"
 msgstr "Sichern"
 
 #: .\authentication\templates\authentication\login.html:4
 #: .\authentication\templates\authentication\login.html:10
-#: .\website\templates\base.html:57
+#: .\website\templates\base.html:63
 msgid "Login"
 msgstr "Einloggen"
 
 #: .\authentication\templates\authentication\register.html:4
 #: .\authentication\templates\authentication\register.html:11
-#: .\website\templates\base.html:58
+#: .\website\templates\base.html:64
 msgid "Register"
 msgstr "Registrieren"
 
@@ -497,24 +498,24 @@ msgstr "Fehler beim Markieren des Bewässserungsauftrag als abgeschlossen."
 msgid "PSU Frontend"
 msgstr "PSU Bedienoberfläche"
 
-#: .\psufrontend\forms.py:13
+#: .\psufrontend\forms.py:14
 msgid "Pairing key"
 msgstr "Kopplungsschlüssel"
 
-#: .\psufrontend\forms.py:14
+#: .\psufrontend\forms.py:15
 msgid "This key should be displayed on your PSU."
 msgstr ""
 "Der Kopplungsschlüssel sollte auf deiner Pflegestation angeziegt werden."
 
-#: .\psufrontend\forms.py:15
+#: .\psufrontend\forms.py:16
 msgid "PSU name"
 msgstr "Name der neuen Pflanzenpflegestation"
 
-#: .\psufrontend\forms.py:16
+#: .\psufrontend\forms.py:17
 msgid "Choose a name to identify this particular PSU."
 msgstr "Wähle einen Namen für diese neue Pflanzenpflegestation."
 
-#: .\psufrontend\forms.py:20
+#: .\psufrontend\forms.py:21
 msgid ""
 "Sadly we could not match the given pairing key. Please check whether the key "
 "is correct and whether your PSU has a internet connection."
@@ -523,32 +524,70 @@ msgstr ""
 "Bitte überprüfe den Schlüssel und die Internetverbindung der Pflegestation "
 "nochmal."
 
-#: .\psufrontend\forms.py:29
+#: .\psufrontend\forms.py:31
+msgid "E-Mail of the User"
+msgstr "Mailadresse des Nutzers"
+
+#: .\psufrontend\forms.py:32
+msgid ""
+"This should be the email address of the user you want to give permissions to."
+msgstr ""
+"Hier sollte die E-Mail Adresse des Benutzers eingegeben werden, der die "
+"Rechte erhalten soll."
+
+#: .\psufrontend\forms.py:45
+msgid ""
+"We could not find a user with this mail address in our system. Please make "
+"shure there is an account linked to this mail address."
+msgstr ""
+"Wir konnten keinen Nutzer mit dieser Mailadresse in unserem System finden. "
+"Bitte versichere dich, dass es einen Account mit dieser Mailadresse auf "
+"unserer Website gibt."
+
+#: .\psufrontend\forms.py:55
+msgid "User to revoke Permissions"
+msgstr "Nutzer, dem die Rechte entzogen werden sollen"
+
+#: .\psufrontend\forms.py:56
+msgid "Select a user you want to take away the permissions for this PSU."
+msgstr ""
+"Wähle bitte einen Nutzer aus, der keinen Zugriff mehr auf diese "
+"Pflanzenpflegestation haben soll."
+
+#: .\psufrontend\forms.py:73
+msgid ""
+"We could not find a user the user you wanted to revoke permissions of. "
+"Please try again."
+msgstr ""
+"Wir konnten den Nutzer, dem du die Rechte enziehen wolltest nicht finden. "
+"Bitte probiere es nochmal."
+
+#: .\psufrontend\forms.py:82
 msgid "Amount of water"
 msgstr "Wassermenge"
 
-#: .\psufrontend\forms.py:29
+#: .\psufrontend\forms.py:82
 msgid "The amount of water in milliliters you want to give to your plant."
 msgstr ""
 "Die Wassermenge in Millilitern, mit der die Pflanze gegossen werden soll."
 
-#: .\psufrontend\forms.py:33
+#: .\psufrontend\forms.py:86
 msgid "Please enter an amount of water that is bigger than zero."
 msgstr "Bitte geb eine Wassermenge an, die größer als 0 ist."
 
-#: .\psufrontend\forms.py:40
+#: .\psufrontend\forms.py:93
 msgid "Watering Paramter"
 msgstr "Bewässerungsparameter"
 
-#: .\psufrontend\forms.py:40
+#: .\psufrontend\forms.py:93
 msgid "Please choose the watering parameter according to your plant."
 msgstr "Bitte wähle den passenden Parametersatz für deine Pflanze aus."
 
-#: .\psufrontend\forms.py:41
+#: .\psufrontend\forms.py:94
 msgid "Automatic Watering"
 msgstr "Automatisches Gießen"
 
-#: .\psufrontend\forms.py:41
+#: .\psufrontend\forms.py:94
 msgid "Let your PSU water your plant through an algorithm automatically."
 msgstr "Lasse deine Pflanze automatisch durch einen Alogrithmus gießen."
 
@@ -562,113 +601,160 @@ msgid "Create a watering task for your PSU"
 msgstr "Erstelle einen Bewässerungsauftrag für deine Pflanzenpflegestation."
 
 #: .\psufrontend\templates\psufrontend\add_watering_task.html:14
+#: .\psufrontend\templates\psufrontend\change_user_permissions.html:13
 #: .\psufrontend\templates\psufrontend\chart.html:18
-#: .\psufrontend\templates\psufrontend\table.html:11
+#: .\psufrontend\templates\psufrontend\table.html:13
 #: .\psufrontend\templates\psufrontend\watering_control.html:12
 msgid "Select a Plant Supply Unit"
 msgstr "Wähle eine Pflanzenpflegestation"
 
-#: .\psufrontend\templates\psufrontend\add_watering_task.html:23
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:19
+#: .\psufrontend\templates\psufrontend\change_user_permissions.html:18
+#: .\psufrontend\templates\psufrontend\chart.html:23
+#: .\psufrontend\templates\psufrontend\dashboard.html:22
+#: .\psufrontend\templates\psufrontend\table.html:18
+#: .\psufrontend\templates\psufrontend\watering_control.html:17
+msgid "Add new PSU"
+msgstr "neue PSU hinzufügen"
+
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:24
 msgid "Under the current circumstances the alogrithm would use "
 msgstr "Der Algorithmus würde unter den aktuellen Gegebenheiten "
 
-#: .\psufrontend\templates\psufrontend\add_watering_task.html:23
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:24
 msgid " ml of water."
 msgstr " ml Wasser gießen."
 
-#: .\psufrontend\templates\psufrontend\add_watering_task.html:24
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:25
 msgid ""
 "Please take into account that the plant was or is going to be watered after "
 "the last measurement."
-msgstr "Bitte beachte, dass die Pflanze seit der letzten Messung gegossen wurde oder werden soll."
+msgstr ""
+"Bitte beachte, dass die Pflanze seit der letzten Messung gegossen wurde oder "
+"werden soll."
 
-#: .\psufrontend\templates\psufrontend\add_watering_task.html:30
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:31
 msgid "Submit Task"
 msgstr "Bewässerungsauftrag abschicken"
 
-#: .\psufrontend\templates\psufrontend\add_watering_task.html:36
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:37
 #: .\psufrontend\templates\psufrontend\dashboard.html:102
 msgid "Latest Watering Tasks"
 msgstr "Letzte Bewässerungsaufträge"
 
-#: .\psufrontend\templates\psufrontend\add_watering_task.html:42
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:43
 #: .\psufrontend\templates\psufrontend\dashboard.html:108
 msgid "Time of Creation"
 msgstr "Erstellungszeit"
 
-#: .\psufrontend\templates\psufrontend\add_watering_task.html:43
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:44
 #: .\psufrontend\templates\psufrontend\dashboard.html:109
 msgid "Amount"
 msgstr "Menge"
 
-#: .\psufrontend\templates\psufrontend\add_watering_task.html:44
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:45
 #: .\psufrontend\templates\psufrontend\dashboard.html:110
 msgid "Time of Execution"
 msgstr "Ausführungszeit"
 
-#: .\psufrontend\templates\psufrontend\add_watering_task.html:63
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:64
 #: .\psufrontend\templates\psufrontend\dashboard.html:61
 msgid "Latest Measurements"
 msgstr "Letzte Datenmessungen"
 
-#: .\psufrontend\templates\psufrontend\add_watering_task.html:69
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:70
 #: .\psufrontend\templates\psufrontend\dashboard.html:67
-#: .\psufrontend\templates\psufrontend\table.html:40
+#: .\psufrontend\templates\psufrontend\table.html:43
 msgid "Timestamp"
 msgstr "Zeitstempel"
 
-#: .\psufrontend\templates\psufrontend\add_watering_task.html:70
-#: .\psufrontend\templates\psufrontend\chart.html:62
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:71
+#: .\psufrontend\templates\psufrontend\chart.html:63
 #: .\psufrontend\templates\psufrontend\dashboard.html:35
 #: .\psufrontend\templates\psufrontend\dashboard.html:68
-#: .\psufrontend\templates\psufrontend\table.html:41
+#: .\psufrontend\templates\psufrontend\table.html:44
 msgid "Temperature"
 msgstr "Temperatur"
 
-#: .\psufrontend\templates\psufrontend\add_watering_task.html:71
-#: .\psufrontend\templates\psufrontend\chart.html:69
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:72
+#: .\psufrontend\templates\psufrontend\chart.html:70
 #: .\psufrontend\templates\psufrontend\dashboard.html:39
 #: .\psufrontend\templates\psufrontend\dashboard.html:69
-#: .\psufrontend\templates\psufrontend\table.html:42
+#: .\psufrontend\templates\psufrontend\table.html:45
 msgid "Air Humidity"
 msgstr "Luftfeuchte"
 
-#: .\psufrontend\templates\psufrontend\add_watering_task.html:72
-#: .\psufrontend\templates\psufrontend\chart.html:55
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:73
+#: .\psufrontend\templates\psufrontend\chart.html:56
 #: .\psufrontend\templates\psufrontend\dashboard.html:43
 #: .\psufrontend\templates\psufrontend\dashboard.html:70
-#: .\psufrontend\templates\psufrontend\table.html:43
+#: .\psufrontend\templates\psufrontend\table.html:46
 msgid "Ground Humidity"
 msgstr "Bodenfeuchte"
 
-#: .\psufrontend\templates\psufrontend\add_watering_task.html:73
-#: .\psufrontend\templates\psufrontend\chart.html:76
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:74
+#: .\psufrontend\templates\psufrontend\chart.html:77
 #: .\psufrontend\templates\psufrontend\dashboard.html:47
 #: .\psufrontend\templates\psufrontend\dashboard.html:71
-#: .\psufrontend\templates\psufrontend\table.html:44
+#: .\psufrontend\templates\psufrontend\table.html:47
 msgid "Brightness"
 msgstr "Helligkeit"
 
-#: .\psufrontend\templates\psufrontend\add_watering_task.html:74
-#: .\psufrontend\templates\psufrontend\chart.html:37
-#: .\psufrontend\templates\psufrontend\chart.html:83
-#: .\psufrontend\templates\psufrontend\chart.html:133
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:75
+#: .\psufrontend\templates\psufrontend\chart.html:38
+#: .\psufrontend\templates\psufrontend\chart.html:84
+#: .\psufrontend\templates\psufrontend\chart.html:134
 #: .\psufrontend\templates\psufrontend\dashboard.html:51
 #: .\psufrontend\templates\psufrontend\dashboard.html:72
 #: .\psufrontend\templates\psufrontend\dashboard.html:153
-#: .\psufrontend\templates\psufrontend\table.html:45
+#: .\psufrontend\templates\psufrontend\table.html:48
 msgid "Fill Level"
 msgstr "Füllstand"
 
-#: .\psufrontend\templates\psufrontend\add_watering_task.html:93
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:94
 #: .\psufrontend\templates\psufrontend\dashboard.html:91
 msgid "View charts"
 msgstr "Diagramme ansehen"
 
-#: .\psufrontend\templates\psufrontend\add_watering_task.html:94
+#: .\psufrontend\templates\psufrontend\add_watering_task.html:95
 #: .\psufrontend\templates\psufrontend\dashboard.html:92
 msgid "View all measurements"
 msgstr "Alle Datenmessungen ansehen"
+
+#: .\psufrontend\templates\psufrontend\change_user_permissions.html:5
+#: .\website\templates\base.html:46
+msgid "Change User Permissions"
+msgstr "Benutzerberechtigungen ändern"
+
+#: .\psufrontend\templates\psufrontend\change_user_permissions.html:9
+msgid "Change Permissions for your Plant Supply Units"
+msgstr "Benutzerrechte deiner Pflanzenpflegestationen ändern"
+
+#: .\psufrontend\templates\psufrontend\change_user_permissions.html:24
+msgid "Currently Permitted Users:"
+msgstr "Aktuell berechtigte Benutzer"
+
+#: .\psufrontend\templates\psufrontend\change_user_permissions.html:30
+msgid "There are no users you gave permissions to access your PSU."
+msgstr ""
+"Aktuell haben keine Benutzer Berechtigungen um auf diese "
+"Pflanzenpflegestation zuzugreifen."
+
+#: .\psufrontend\templates\psufrontend\change_user_permissions.html:35
+msgid "Revoke Permission of a User"
+msgstr "Rechte einem Nutzer entziehen"
+
+#: .\psufrontend\templates\psufrontend\change_user_permissions.html:39
+msgid "Revoke Permission"
+msgstr "Rechte entziehen"
+
+#: .\psufrontend\templates\psufrontend\change_user_permissions.html:43
+msgid "Give Permission to another User"
+msgstr "Berechtigungen einem anderen Benutzer erteilen"
+
+#: .\psufrontend\templates\psufrontend\change_user_permissions.html:47
+msgid "Add user"
+msgstr "Benutzer hinzufügen"
 
 #: .\psufrontend\templates\psufrontend\chart.html:5
 #: .\psufrontend\templates\psufrontend\chart.html:14
@@ -676,11 +762,11 @@ msgstr "Alle Datenmessungen ansehen"
 msgid "Charts"
 msgstr "Diagramme"
 
-#: .\psufrontend\templates\psufrontend\chart.html:29
+#: .\psufrontend\templates\psufrontend\chart.html:30
 msgid "Select a time period"
 msgstr "Wähle eine Zeitperiode"
 
-#: .\psufrontend\templates\psufrontend\chart.html:125
+#: .\psufrontend\templates\psufrontend\chart.html:126
 #: .\psufrontend\templates\psufrontend\dashboard.html:140
 msgid "Water"
 msgstr "Wasser"
@@ -693,10 +779,6 @@ msgstr "Dashboard"
 #: .\psufrontend\templates\psufrontend\dashboard.html:17
 msgid "My Plant Supply Units"
 msgstr "Meine Pflanzenpflegestationen"
-
-#: .\psufrontend\templates\psufrontend\dashboard.html:22
-msgid "Add new PSU"
-msgstr "neue PSU hinzufügen"
 
 #: .\psufrontend\templates\psufrontend\dashboard.html:30
 msgid "Status"
@@ -735,44 +817,45 @@ msgstr ""
 
 #: .\psufrontend\templates\psufrontend\no_psu.html:11
 #: .\psufrontend\templates\psufrontend\register_psu.html:4
-#: .\website\templates\base.html:41
+#: .\website\templates\base.html:47
 msgid "Register PSU"
 msgstr "PSU Registrieren"
 
-#: .\psufrontend\templates\psufrontend\register_psu.html:9
+#: .\psufrontend\templates\psufrontend\register_psu.html:8
 msgid "Register Plant Supply Unit"
 msgstr "Registrierung einer neuen Pflanzenpflegestation"
 
 #: .\psufrontend\templates\psufrontend\table.html:5
+#: .\psufrontend\templates\psufrontend\table.html:9
 #: .\website\templates\base.html:37
 msgid "Measurements"
 msgstr "Datenmessungen"
 
-#: .\psufrontend\templates\psufrontend\table.html:24
+#: .\psufrontend\templates\psufrontend\table.html:27
 msgid "first"
 msgstr "Erste"
 
-#: .\psufrontend\templates\psufrontend\table.html:25
+#: .\psufrontend\templates\psufrontend\table.html:28
 msgid "previous"
 msgstr "Vorherige"
 
-#: .\psufrontend\templates\psufrontend\table.html:28
+#: .\psufrontend\templates\psufrontend\table.html:31
 msgid "Page"
 msgstr "Seite"
 
-#: .\psufrontend\templates\psufrontend\table.html:28
+#: .\psufrontend\templates\psufrontend\table.html:31
 msgid "of"
 msgstr "von"
 
-#: .\psufrontend\templates\psufrontend\table.html:31
+#: .\psufrontend\templates\psufrontend\table.html:34
 msgid "next"
 msgstr "Nächste"
 
-#: .\psufrontend\templates\psufrontend\table.html:32
+#: .\psufrontend\templates\psufrontend\table.html:35
 msgid "last"
 msgstr "Letzte"
 
-#: .\psufrontend\templates\psufrontend\table.html:66
+#: .\psufrontend\templates\psufrontend\table.html:69
 msgid ""
 "Sorry. It looks like this Plant Supply Unit did not send any measurements "
 "yet. Please try again later or consider a problem with the internet "
@@ -784,7 +867,7 @@ msgstr ""
 
 #: .\psufrontend\templates\psufrontend\watering_control.html:4
 #: .\psufrontend\templates\psufrontend\watering_control.html:8
-#: .\website\templates\base.html:40
+#: .\website\templates\base.html:45
 msgid "Watering Settings"
 msgstr "Bewässerungseinstellungen"
 
@@ -792,7 +875,15 @@ msgstr "Bewässerungseinstellungen"
 msgid "Successfully registered your new Plant Supply Unit."
 msgstr "Deine neue Pflanzenpflegestation wurde erfolgreich hinzugefügt."
 
-#: .\psufrontend\views.py:106
+#: .\psufrontend\views.py:57
+msgid "Successfully added a new permitted user."
+msgstr "Es wurde erfolgreich ein neuer berechtigter Benutzer hinzugefügt."
+
+#: .\psufrontend\views.py:63
+msgid "Successfully revoked permission of {}."
+msgstr "{} wurden die Berechtigungen erfolgreich entzogen."
+
+#: .\psufrontend\views.py:170
 msgid ""
 "Successfully added your watering request. It might take a few minutes to "
 "fullfill your request. Note: Only the lastest watering task will be "
@@ -802,23 +893,23 @@ msgstr ""
 "offene Bewässerungsauftrag durchgeführt wird und es ein paar Minuten dauern "
 "kann, bis die Pflegestation den Gießvorgang vornimmt."
 
-#: .\psufrontend\views.py:177
+#: .\psufrontend\views.py:243
 msgid "Successfully saved your watering settings."
 msgstr "Deine Einstellungen wurden erfolgreich gespeichert"
 
-#: .\psufrontend\views.py:232
+#: .\psufrontend\views.py:298
 msgid "last 24h"
 msgstr "letzten 24h"
 
-#: .\psufrontend\views.py:233
+#: .\psufrontend\views.py:299
 msgid "last 3 days"
 msgstr "letzten 3 Tage"
 
-#: .\psufrontend\views.py:234
+#: .\psufrontend\views.py:300
 msgid "last week"
 msgstr "letzte Woche"
 
-#: .\psufrontend\views.py:235
+#: .\psufrontend\views.py:301
 msgid "last 2 weeks"
 msgstr "letzten 2 Wochen"
 
@@ -873,10 +964,14 @@ msgstr ""
 "Eventuell nutzt du einen veralteten Link. Wenn du der Überzeugung bist, dass "
 "diese Seite existieren sollte, kontaktiere bitte einen Admin."
 
-#: .\website\templates\base.html:53
+#: .\website\templates\base.html:43
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: .\website\templates\base.html:59
 msgid "Administration"
 msgstr "Administration"
 
-#: .\website\templates\base.html:55
+#: .\website\templates\base.html:61
 msgid "Logout"
 msgstr "Ausloggen"

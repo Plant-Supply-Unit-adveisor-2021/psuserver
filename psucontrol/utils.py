@@ -1,6 +1,8 @@
 from datetime import timedelta
 import re
 from psucontrol.models import PSU
+from authentication.models import User
+
 
 def check_permissions(psu, user):
     """
@@ -34,9 +36,20 @@ def get_psus_with_permission(user, min_level):
     """
     psus = []
     for p in PSU.objects.all():
-        if check_permissions(p, user) > min_level:
+        if check_permissions(p, user) >= min_level:
             psus.append(p)
     return psus
+
+
+def get_users_with_permission(psu, min_level, max_level):
+    """
+    returns all users that have access to a given PSU
+    """
+    users = []
+    for u in User.objects.all():
+        if min_level <= check_permissions(psu, u) <= max_level:
+            users.append(u)
+    return users
 
 
 def get_timedelta(string):

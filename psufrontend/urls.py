@@ -6,6 +6,8 @@ app_name = 'psufrontend'
 
 urlpatterns = [
     path(r'register_psu', v.register_psu_view, name='register_psu'),
+    path(r'change_user_permissions/psu/<int:psu>', v.change_user_permissions_view, name='change_user_permissions'),
+    path(r'change_user_permissions/', v.change_user_permissions_view, name='change_user_permissions'),
     path(r'table/psu/<int:psu>', v.table_view, name='table'),
     path(r'table', v.table_view, name='table'),
     path(r'no_psu', v.no_psu_view, name='no_psu'),
