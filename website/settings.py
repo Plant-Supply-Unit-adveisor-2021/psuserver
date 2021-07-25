@@ -68,7 +68,39 @@ if env('DJANGO_DEBUG') == 'FALSE':
     SECURE_MEDIA_ROOT = env('SECURE_MEDIA_ROOT')
 
 
-elif env('DJANGO_DEBUG') == 'FALSE_HTTP':
+if env('DJANGO_DEBUG') == 'FALSE_HTTP':
+    # apply settings needed for the production server with http
+    DEBUG = False
+    ALLOWED_HOSTS = ['*']
+
+    CSRF_COOKIE_SECURE = False
+    SESSION_COOKIE_SECURE = False
+
+    SECURE_CONTENT_TYPE_NOSNIFF = False
+    SECURE_BROWSER_XSS_FILTER = False
+    # seems to generate a lot of trouble
+    # SECURE_SSL_REDIRECT = True
+
+    SECRET_KEY = env("SECRET_KEY")
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': env('DATABASE_NAME'),
+            'USER': env('DATABASE_USERNAME'),
+            'PASSWORD': env('DATABASE_PASSWORD'),
+            'HOST': env('DATABASE_HOST'),
+            'PORT': env('DATABASE_PORT'),
+        }
+    }
+
+    # paths for STATIC, MEDIA and SECURE_MEDIA
+    STATIC_ROOT = env('STATIC_ROOT')
+    MEDIA_ROOT = env('MEDIA_ROOT')
+    SECURE_MEDIA_ROOT = env('SECURE_MEDIA_ROOT')
+
+
+elif env('DJANGO_DEBUG') == 'FALSE_TESTSERVER':
     # apply settings needed for the testing server
     DEBUG = False
     ALLOWED_HOSTS = ['*']
